@@ -1,0 +1,76 @@
+<nz-layout class="app-layout app-admin-layout">
+    <!-- 侧边 -->
+    <nz-sider class="menu-sidebar"
+              nzCollapsible
+              nzWidth="256px"
+              nzBreakpoint="md"
+              [(nzCollapsed)]="isCollapsed"
+              [nzTrigger]="null">
+      <div class="sidebar-logo">
+        <h1>KISURE NG DEMO</h1>
+      </div>
+      <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+        <!-- 一级开始循环 -->
+        <ng-container *ngFor="let menuItem of layoutMenus">
+          <!-- 一级的展示 -->
+          <ng-container *ngIf="menuItem.children.length > 0">
+            <li nz-submenu nzTitle="{{ menuItem.name }}" nzIcon="{{ menuItem.icon }}">
+              <ul>
+                <!-- 二级开始循环 -->
+                <ng-container *ngFor="let child of menuItem.children">
+                  <!-- 二级的展示 -->
+                  <ng-container *ngIf="child.children.length > 0">
+                    <li nz-submenu nzTitle="{{ child.name }}" nzIcon="{{ child.icon }}">
+                      <ul>
+                        <!-- 三级的循环和展示 -->
+                          <ng-container *ngFor="let minchild of child.children">
+                            <li nz-menu-item nzMatchRouter>
+                              <a routerLink="minchild.url">{{ minchild.name }}</a>
+                            </li>
+                          </ng-container>
+                      </ul>
+                    </li>
+                  </ng-container>
+
+                  <ng-container *ngIf="child.children.length === 0">
+                    <li nz-menu-item nzMatchRouter>
+                      <a routerLink="child.url">{{ child.name }}</a>
+                    </li>
+                  </ng-container>
+                </ng-container>
+              </ul>
+            </li>
+          </ng-container>
+
+          <ng-container *ngIf="menuItem.children.length === 0">
+            <li nz-menu-item nzMatchRouter>
+              <a routerLink="menuItem.url">{{ menuItem.name }}</a>
+            </li>
+          </ng-container>
+        </ng-container>
+      </ul>
+    </nz-sider>
+    <nz-layout>
+        <!-- 头部 -->
+      <nz-header>
+        <div class="app-header">
+          <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+              <i class="trigger"
+                 nz-icon
+                 [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+              ></i>
+          </span>
+        </div>
+      </nz-header>
+      <!-- 内容 -->
+      <nz-content>
+        <div class="inner-content">
+          <router-outlet></router-outlet>
+        </div>
+      </nz-content>
+    </nz-layout>
+</nz-layout>
+<ng-template #trigger>
+    <i class="anticon anticon-up"></i>
+</ng-template>
+  
