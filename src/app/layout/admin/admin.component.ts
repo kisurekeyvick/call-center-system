@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { menus, IMenu } from 'src/app/shared/menu/menus';
+import { IUser } from './admin.config';
+import { defaultUserPic } from 'src/assets/img.collection';
 
 @Component({
     selector: 'app-admin-layout',
@@ -9,17 +11,17 @@ import { menus, IMenu } from 'src/app/shared/menu/menus';
 export class AppAdminLayoutComponent implements OnInit, OnDestroy {
     public isCollapsed: boolean;
     public layoutMenus: IMenu[] = [];
-    public items = [
-        { name: 'name' },
-        { age: 'age' },
-        { sex: 'sex' }
-    ];
+    public user: IUser;
 
     constructor(
     ) {
         this.isCollapsed = false;
         this.layoutMenus = menus.get('admin');
-        console.log('layoutMenus', this.layoutMenus);
+        this.user = {
+            name: 'kisure',
+            age: 27,
+            pic: defaultUserPic,
+        };
     }
 
     ngOnInit() {

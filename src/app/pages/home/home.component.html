@@ -1,0 +1,17 @@
+<div class="home-component-container" [@jackInTheBox] [@jackInTheBoxOnEnter]>
+    <nz-breadcrumb nz-page-header-breadcrumb>
+        <nz-breadcrumb-item>首页</nz-breadcrumb-item>
+    </nz-breadcrumb>
+    <div nz-row class="content">
+        <ng-container *ngFor="let item of list">
+            <div nz-col nzSpan="4" style="margin-bottom: 24px;">
+                <nz-card nzHoverable style="width:240px" [nzCover]="coverTemplate">
+                    <nz-card-meta nzTitle="Europe Street beat" nzDescription="www.instagram.com"></nz-card-meta>
+                  </nz-card>
+                  <ng-template #coverTemplate>
+                    <img alt="example" src="../../../assets/img/default-user.jpg" />
+                  </ng-template>
+            </div>
+        </ng-container>
+    </div>
+</div>

@@ -25,7 +25,7 @@
                         <!-- 三级的循环和展示 -->
                           <ng-container *ngFor="let minchild of child.children">
                             <li nz-menu-item nzMatchRouter>
-                              <a routerLink="minchild.url">{{ minchild.name }}</a>
+                              <a routerLink="{{ minchild.url }}"><i nz-icon nzType="{{ minchild.icon }}" nzTheme="outline"></i>{{ minchild.name }}</a>
                             </li>
                           </ng-container>
                       </ul>
@@ -34,7 +34,7 @@
 
                   <ng-container *ngIf="child.children.length === 0">
                     <li nz-menu-item nzMatchRouter>
-                      <a routerLink="child.url">{{ child.name }}</a>
+                      <a routerLink="{{ child.url }}"><i nz-icon nzType="{{ child.icon }}" nzTheme="outline"></i>{{ child.name }}</a>
                     </li>
                   </ng-container>
                 </ng-container>
@@ -44,7 +44,7 @@
 
           <ng-container *ngIf="menuItem.children.length === 0">
             <li nz-menu-item nzMatchRouter>
-              <a routerLink="menuItem.url">{{ menuItem.name }}</a>
+              <a routerLink="{{ menuItem.url }}"><i nz-icon nzType="{{ menuItem.icon }}" nzTheme="outline"></i><span *ngIf="!isCollapsed">{{ menuItem.name }}</span></a>
             </li>
           </ng-container>
         </ng-container>
@@ -60,6 +60,11 @@
                  [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
               ></i>
           </span>
+          <div class="head-menu">
+              <div class="user-info">
+                <img src="{{user.pic}}"/>
+              </div>
+          </div>
         </div>
       </nz-header>
       <!-- 内容 -->

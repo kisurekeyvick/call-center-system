@@ -16,14 +16,6 @@
             box-shadow: 2px 0 6px rgba(0,21,41,.35);
           }
           
-          .header-trigger {
-            height: 64px;
-            padding: 20px 24px;
-            font-size: 20px;
-            cursor: pointer;
-            transition: all .3s,padding 0s;
-          }
-          
           .trigger:hover {
             color: #1890ff;
           }
@@ -67,15 +59,41 @@
             padding: 0;
             background: #fff;
             box-shadow: 0 1px 4px rgba(0,21,41,.08);
+            display: flex;
+
+            .header-trigger {
+              height: 64px;
+              padding: 20px 24px;
+              font-size: 20px;
+              cursor: pointer;
+              transition: all .3s,padding 0s;
+              flex: 0 0 64px;
+
+              i.trigger {
+                float: left;
+              }
+            }
+
+            .head-menu {
+              flex: 1;
+
+              .user-info {
+                float: right;
+                
+                img {
+                  width: 30px;
+                  height: 30px;
+                  border-radius: 50%;
+                }
+              }
+            }
           }
-          
+
           nz-content {
             margin: 24px;
           }
           
           .inner-content {
-            padding: 24px;
-            background: #fff;
             height: 100%;
           }
     }
