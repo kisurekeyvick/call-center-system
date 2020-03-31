@@ -109,7 +109,9 @@
       "noUnusedParameters": false,
       "only-arrow-functions": false,
       "no-namespace": false,
-      "callable-types": false
+      "callable-types": false,
+      "no-bitwise": false,
+      "no-redundant-jsdoc": false
   },
   "rulesDirectory": [
     "codelyzer"

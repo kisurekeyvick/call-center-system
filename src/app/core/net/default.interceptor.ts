@@ -12,8 +12,8 @@ import {
 import { Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import LocalStorageService from 'src/app/core/cache/local-storage';
-import { UtilsService } from '@core/utils/utils.service';
-import { _HttpClient } from '@delon/theme';
+import { UtilsService } from 'src/app/core/utils/utils.service';
+import { _HttpClient } from 'src/app/core/utils/http.client';
 import { environment } from 'src/environments/environment';
 import { NzMessageService } from 'ng-zorro-antd';
 import { Observable, throwError, of } from 'rxjs';

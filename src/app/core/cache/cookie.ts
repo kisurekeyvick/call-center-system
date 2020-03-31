@@ -1,4 +1,7 @@
-class CookieService {
+import { Injectable } from '@angular/core';
+
+@Injectable()
+export class CookieService {
     /**
      * 获取cookie中的某个字段的值
      */
@@ -71,7 +74,3 @@ class CookieService {
         //     });
     }
 }
-
-export {
-    CookieService
-};
