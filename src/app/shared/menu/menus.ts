@@ -1,8 +1,11 @@
 export const menus = new Map([
     [
         'admin', [
+            { name: '组织结构', url: '/organization', icon: 'deployment-unit', children: [
+                { name: '人员列表', url: '/organization/employees', icon: '', children: [] },
+                { name: '角色权限', url: '/organization/role', icon: '', children: [] },
+            ] },
             { name: '今日汇总', url: '/home', icon: 'fund', children: [] },
-            { name: '名单查询', url: '/search', icon: 'file-search', children: [] },
             { name: '名单申请', url: '/applyFor', icon: 'form', children: [] },
             { name: '个人信息', url: '/user', icon: 'user', children: [] },
             { name: '我的通话', url: '/phone', icon: 'phone', children: [] },

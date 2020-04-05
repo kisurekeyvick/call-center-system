@@ -1,0 +1,38 @@
+@import '../../../core//common/common.style.scss';
+
+.organization-role-list {
+    @include listLayout;
+
+    .content {
+        .role-list-menu-grou {
+            text-align: left;
+
+            button {
+                margin-left: 12px;
+            }
+        }
+
+        .search-list-table {
+            tr.selected {
+                td {
+                    background: #e6f7ff;
+                }
+            }
+        }
+    }
+}
+
+.role-list-drawer-top {
+    margin-top: 36px;
+    background-color: #fafafa;
+    padding: 12px;
+
+    p {
+        line-height: 32px;
+        margin-bottom: 0;
+    }
+
+    p:last-child {
+        text-align: right;
+    }
+}

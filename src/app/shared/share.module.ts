@@ -1,24 +1,46 @@
 import { NgModule } from '@angular/core';
-import { InnerhtmlpipePipe } from './pipe/innerhtml.pipe';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
+/** 公共组件 */
+import { SearchListComponent } from 'src/app/shared/component/search-list/search-list.component';
+import { SearchListPaginationComponent } from 'src/app/shared/component/search-list-pagination/search-list-pagination.component';
+
+/** 管道 */
+import { InnerhtmlpipePipe } from './pipe/innerhtml.pipe';
 
 const PIPES = [
     InnerhtmlpipePipe
 ];
 
+const COMPONENT = [
+    SearchListComponent,
+    SearchListPaginationComponent
+];
+
+const SERVICE = [
+];
+
 @NgModule({
     imports: [
         NgZorroAntdModule,
-        FormsModule
+        FormsModule,
+        CommonModule
     ],
     exports: [
         ...PIPES,
         NgZorroAntdModule,
-        FormsModule
+        FormsModule,
+        ...COMPONENT,
+        CommonModule
     ],
     declarations: [
-        ...PIPES
+        ...PIPES,
+        ...COMPONENT
+    ],
+    providers: [
+        ...SERVICE
     ]
 })
 export class AppShareModule {}

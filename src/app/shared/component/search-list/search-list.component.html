@@ -1,0 +1,128 @@
+<form nz-form class="search-list-form">
+    <div nz-row>
+        <ng-container *ngFor="let item of searchListItem; let i = index;">
+            <ng-container *ngIf="!item.hidden">
+                <div nz-row nz-col [ngSwitch]="item.type" nzXs="24" nzMd="12" nzLg="8" nzXl="6" nzXXl="4" [style.display]="(!item.isCollapse || !isCollapse) ? 'block': 'none'" class="search-list-item">
+                    <!-- 简单的输入文本input -->
+                    <nz-form-item class="nzFormItem" *ngSwitchCase="'text'">
+                        <ng-container *ngIf="item.label">
+                            <nz-form-label class="nzFormLabel" nz-col [nzXs]="item?.grid?.label?.nzXs" [nzSm]="item?.grid?.label?.nzSm" [nzMd]="item?.grid?.label?.nzMd" [nzLg]="item?.grid?.label?.nzLg" [nzXl]="item?.grid?.label?.nzXl" [nzFor]="item.key">
+                                {{ item.label }}
+                            </nz-form-label>
+                        </ng-container>
+                        <nz-form-control class="nzFormControl" nz-col [nzXs]="item?.grid?.control?.nzXs" [nzSm]="item?.grid?.control?.nzSm" [nzMd]="item?.grid?.control?.nzMd" [nzLg]="item?.grid?.control?.nzLg" [nzXl]="item?.grid?.control?.nzXl">
+                            <input nz-input type="text" [placeholder]="item.placeholder" [id]="item.key" 
+                                [(ngModel)]="searchListModel[item.key]"
+                                (ngModelChange)="item?.config?.onChange(searchListModel, item.key)" [name]="item.key"
+                                [disabled]="item.disabled"/>
+                        </nz-form-control>
+                    </nz-form-item>
+
+                    <!-- 数字输入input -->
+                    <nz-form-item class="nzFormItem" *ngSwitchCase="'number'">
+                        <ng-container *ngIf="item.label">
+                            <nz-form-label class="nzFormLabel" nz-col [nzXs]="item?.grid?.label?.nzXs" [nzSm]="item?.grid?.label?.nzSm" [nzMd]="item?.grid?.label?.nzMd" [nzLg]="item?.grid?.label?.nzLg" [nzXl]="item?.grid?.label?.nzXl" [nzFor]="item.key">
+                                {{ item.label }}
+                            </nz-form-label>
+                        </ng-container>
+                        <nz-form-control class="nzFormControl" nz-col [nzXs]="item?.grid?.control?.nzXs" [nzSm]="item?.grid?.control?.nzSm" [nzMd]="item?.grid?.control?.nzMd" [nzLg]="item?.grid?.control?.nzLg" [nzXl]="item?.grid?.control?.nzXl">
+                            <nz-input-number [disabled]="item.disabled" [id]="item.key" style="width: 100%"
+                                [(ngModel)]="searchListModel[item.key]" 
+                                (ngModelChange)="item?.config?.onChange(searchListModel, item.key)" [name]="item.key"></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+
+                    <!-- checkbox -->
+                    <nz-form-item class="nzFormItem" *ngSwitchCase="'checkbox'">
+                        <ng-container *ngIf="item.label">
+                            <nz-form-label class="nzFormLabel" nz-col [nzXs]="item?.grid?.label?.nzXs" [nzSm]="item?.grid?.label?.nzSm" [nzMd]="item?.grid?.label?.nzMd" [nzLg]="item?.grid?.label?.nzLg" [nzXl]="item?.grid?.label?.nzXl" [nzFor]="item.key">
+                                {{ item.label }}
+                            </nz-form-label>
+                        </ng-container>
+                        <nz-form-control class="nzFormControl" nz-col [nzXs]="item?.grid?.control?.nzXs" [nzSm]="item?.grid?.control?.nzSm" [nzMd]="item?.grid?.control?.nzMd" [nzLg]="item?.grid?.control?.nzLg" [nzXl]="item?.grid?.control?.nzXl">
+                            <label nz-checkbox [disabled]="item.disabled" [id]="item.key" [name]="item.key"
+                                [(ngModel)]="searchListModel[item.key]" 
+                                (ngModelChange)="item?.config?.onChange(searchListModel, item.key)">{{item.config?.name}}</label>
+                        </nz-form-control>
+                    </nz-form-item>
+
+                    <!-- select 带查询功能-->
+                    <nz-form-item class="nzFormItem" *ngSwitchCase="'select'">
+                        <ng-container *ngIf="item.label">
+                            <nz-form-label class="nzFormLabel" nz-col [nzXs]="item?.grid?.label?.nzXs" [nzSm]="item?.grid?.label?.nzSm" [nzMd]="item?.grid?.label?.nzMd" [nzLg]="item?.grid?.label?.nzLg" [nzXl]="item?.grid?.label?.nzXl" [nzFor]="item.key">
+                                {{ item.label }}
+                            </nz-form-label>
+                        </ng-container>
+                        <nz-form-control class="nzFormControl" nz-col [nzXs]="item?.grid?.control?.nzXs" [nzSm]="item?.grid?.control?.nzSm" [nzMd]="item?.grid?.control?.nzMd" [nzLg]="item?.grid?.control?.nzLg" [nzXl]="item?.grid?.control?.nzXl">
+                            <nz-select [nzMode]="item.config.mode || 'default'" [nzDisabled]="item.disabled" [name]="item.key" nzShowSearch nzAllowClear 
+                                [nzPlaceHolder]="item.placeholder"
+                                [(ngModel)]="searchListModel[item.key]"
+                                [nzServerSearch]="item.config.serverSearch" 
+                                (nzOnSearch)="handleSelectSearch($event, i)">
+                                <ng-container *ngIf="!selectLoading">
+                                    <nz-option *ngFor="let option of item.config.options" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
+                                </ng-container>
+                                <nz-option *ngIf="item.config.serverSearch && selectLoading" nzDisabled nzCustomContent>
+                                    <i class="anticon anticon-loading anticon-spin loading-icon"></i> Loading ...
+                                </nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+    
+                    <!-- Cascader 级联选择 -->
+                    <nz-form-item class="nzFormItem" *ngSwitchCase="'cascader'">
+                        <ng-container *ngIf="item.label">
+                            <nz-form-label class="nzFormLabel" nz-col [nzXs]="item?.grid?.label?.nzXs" [nzSm]="item?.grid?.label?.nzSm" [nzMd]="item?.grid?.label?.nzMd" [nzLg]="item?.grid?.label?.nzLg" [nzXl]="item?.grid?.label?.nzXl" [nzFor]="item.key">
+                                {{ item.label }}
+                            </nz-form-label>
+                        </ng-container>
+                        <nz-form-control class="nzFormControl" nz-col [nzXs]="item?.grid?.control?.nzXs" [nzSm]="item?.grid?.control?.nzSm" [nzMd]="item?.grid?.control?.nzMd" [nzLg]="item?.grid?.control?.nzLg" [nzXl]="item?.grid?.control?.nzXl">
+                            <nz-cascader [name]="item.key" [nzPlaceHolder]="item.placeholder"
+                                [nzLoadData]="item.config.onSearch"  
+                                [(ngModel)]="searchListModel[item.key]" 
+                                (ngModelChange)="handleCascaderChanges($event, i)"></nz-cascader>
+                        </nz-form-control>
+                    </nz-form-item>
+
+                    <!-- data -->
+                    <nz-form-item class="nzFormItem" *ngSwitchCase="'date'">
+                        <ng-container *ngIf="item.label">
+                            <nz-form-label class="nzFormLabel" nz-col [nzXs]="item?.grid?.label?.nzXs" [nzSm]="item?.grid?.label?.nzSm" [nzMd]="item?.grid?.label?.nzMd" [nzLg]="item?.grid?.label?.nzLg" [nzXl]="item?.grid?.label?.nzXl" [nzFor]="item.key">
+                                {{ item.label }}
+                            </nz-form-label>
+                        </ng-container>
+                        <nz-form-control class="nzFormControl" nz-col [nzXs]="item?.grid?.control?.nzXs" [nzSm]="item?.grid?.control?.nzSm" [nzMd]="item?.grid?.control?.nzMd" [nzLg]="item?.grid?.control?.nzLg" [nzXl]="item?.grid?.control?.nzXl">
+                            <nz-date-picker [nzStyle]="{'width': '100%'}" [id]="item.key" nzShowTime
+                                [nzDisabled]="item.disabled" [nzFormat]=" item?.config?.format || 'yyyy-MM-dd'" [name]="item.key"
+                                [(ngModel)]="searchListModel[item.key]"></nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+
+                    <!-- dateRange -->
+                    <nz-form-item class="nzFormItem" *ngSwitchCase="'dateRange'">
+                        <ng-container *ngIf="item.label">
+                            <nz-form-label class="nzFormLabel" nz-col [nzXs]="item?.grid?.label?.nzXs" [nzSm]="item?.grid?.label?.nzSm" [nzMd]="item?.grid?.label?.nzMd" [nzLg]="item?.grid?.label?.nzLg" [nzXl]="item?.grid?.label?.nzXl" [nzFor]="item.key">
+                                {{ item.label }}
+                            </nz-form-label>
+                        </ng-container>
+                        <nz-form-control class="nzFormControl" nz-col [nzXs]="item?.grid?.control?.nzXs" [nzSm]="item?.grid?.control?.nzSm" [nzMd]="item?.grid?.control?.nzMd" [nzLg]="item?.grid?.control?.nzLg" [nzXl]="item?.grid?.control?.nzXl">
+                            <nz-range-picker [nzStyle]="{'width': '100%'}" [id]="item.key" nzShowTime 
+                                [nzDisabled]="item.disabled" [nzFormat]="item?.config?.format || 'yyyy-MM-dd'" [name]="item.key"
+                                [(ngModel)]="searchListModel[item.key]"></nz-range-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </ng-container>
+        </ng-container>
+    </div>
+
+    <div nz-row class="form-action">
+        <button class="form-btn" nz-button [nzType]="'primary'" (click)="emitSearch()"><i nz-icon class="search-icon" nzType="search" nzTheme="outline"></i>查询</button>
+        <button class="form-btn" nz-button (click)="emitReset()"><i nz-icon class="reload-icon" nzType="reload" nzTheme="outline"></i>重置</button>
+        <a style="margin-left:8px;font-size:12px;" (click)="toggleCollapse()" *ngIf="showAdvanceBtn()">
+            <span *ngIf="isCollapse">展开</span>
+            <span *ngIf="!isCollapse">收起</span>
+            <i class="anticon" [class.anticon-down]="isCollapse" [class.anticon-up]="!isCollapse"></i>
+        </a>
+    </div>
+</form>

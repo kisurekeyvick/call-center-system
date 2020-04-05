@@ -1,0 +1,14 @@
+<nz-pagination 
+    [nzPageIndex]="pageInfo.pageIndex" 
+    [nzTotal]="pageInfo.total"
+    [nzSize]="pageInfo.size"
+    [nzPageSizeOptions]="pageInfo.pageSizeOptions"
+    (nzPageIndexChange)="pageIndexChange($event)"
+    (nzPageSizeChange)="pageSizeChange($event)"
+    [nzShowTotal]="describe"
+    [nzShowSizeChanger]="pageInfo.showSizeChanger"
+    nzShowQuickJumper>
+</nz-pagination>
+<ng-template #describe>
+    【第{{ pageInfo.pageSize * (pageInfo.pageIndex - 1) + 1 }}-{{ pageInfo.pageSize * pageInfo.pageIndex }} 条】，共{{ pageInfo.total }}条
+</ng-template>

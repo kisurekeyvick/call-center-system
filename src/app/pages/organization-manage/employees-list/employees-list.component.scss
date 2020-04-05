@@ -1,0 +1,17 @@
+@import '../../../core/common/common.style.scss';
+
+.organization-employees-list {
+    @include listLayout;
+
+    .search-list-menu-group {
+        text-align: left;
+
+        button {
+            margin-right: 12px;
+        }
+    }
+
+    .ant-popover-message-title {
+        width: 150px;
+    }
+}

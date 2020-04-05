@@ -1,0 +1,85 @@
+<div class="organization-role-list" [@jackInTheBox] [@jackInTheBoxOnEnter]>
+    <div nz-row class="container-nav">
+        <nz-breadcrumb nz-page-header-breadcrumb>
+            <nz-breadcrumb-item><a class="route-link" routerLink="/home"><i nz-icon nzType="home" nzTheme="outline"></i>首页</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item>组织架构</nz-breadcrumb-item>
+            <nz-breadcrumb-item>角色权限</nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </div>
+    <div nz-row class="content">
+        <div class="role-list-menu-group">
+            <button nz-button [nzType]="'primary'" (click)="addRole()"><i nz-icon nzType="plus" nzTheme="outline"></i>新增角色</button>
+        </div>
+        <div class="search-list-table">
+            <ng-container *ngIf="!isLoading; else skeleton">
+                <nz-table #list [nzData]="roleList">
+                    <thead>
+                        <tr>
+                          <ng-container *ngFor="let th of tableCfg.thead">
+                              <th>{{ th.name }}</th>
+                          </ng-container>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of list.data" [ngClass]="{'selected': data.selected}">
+                            <td (click)="showDrawer(data)"><a>{{data.roleName}}</a></td>
+                            <td>{{data.createUserName || '系统创建'}}</td>
+                            <td>{{data.creatorTime || '--'}}</td>
+                            <td>
+                                <ng-container *ngIf="data.systemRole; else operateTepl">
+                                    --
+                                </ng-container>
+                                <ng-template #operateTepl>
+                                    <a nzPopconfirmTitle="删除后，该角色下的人员都将自动变成“业务员”角色，是否继续?"
+                                        nz-popconfirm
+                                        nzPopconfirmPlacement="left"
+                                        nzOkText="确认" nzCancelText="取消"
+                                        (nzOnConfirm)="deleteRole(data)"><i nz-icon nzTooltipTitle="删除" nzTooltipPlacement="bottom" nz-tooltip nzType="delete" nzTheme="outline"></i></a>
+                                </ng-template>
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </ng-container>
+            <ng-template #skeleton>
+                <nz-skeleton [nzActive]="true"></nz-skeleton>
+                <nz-skeleton [nzActive]="true"></nz-skeleton>
+                <nz-skeleton [nzActive]="true"></nz-skeleton>
+              </ng-template>
+        </div>
+        <div class="role-list-drawer">
+            <nz-drawer
+                [nzClosable]="true"
+                [nzMaskClosable]="true"
+                [nzVisible]="drawerVisible"
+                nzPlacement="right"
+                [nzWidth]="450"
+                (nzOnClose)="closeDrawer()">
+                <div nz-row class="role-list-drawer-top">
+                    <ng-container [ngSwitch]="operationStatus">
+                        <ng-container *ngSwitchCase="'add'">
+                            <p nz-col nzSpan="18">角色名称： <input style="width: 150px;" nz-input type="text" placeholder="请输入角色名称" [(ngModel)]="currentRole.roleName"/> </p>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'modify'">
+                            <p nz-col nzSpan="18">角色名称： {{ currentRole?.roleName }}</p>
+                        </ng-container>
+                    </ng-container>
+                    <p nz-col nzSpan="6"><button nz-button nzType="primary" (click)="saveRoleChange()">保存</button></p>
+                </div>
+                <div class="scroll-tree-box">
+                    <nz-tree
+                        #nzTreeComponent
+                        [nzData]="roleTreeNode"
+                        nzCheckable
+                        nzShowLine
+                        [nzCheckedKeys]="defaultCheckedKeys"
+                        [nzExpandedKeys]="defaultExpandedKeys"
+                        [nzSelectedKeys]="defaultSelectedKeys"
+                        (nzClick)="nzTreeClick($event)"
+                        (nzCheckBoxChange)="nzTreeCheck($event)"
+                        ></nz-tree>
+                </div>
+            </nz-drawer>
+        </div>
+    </div>
+</div>

@@ -35,10 +35,14 @@
       true,
       "ignore-params"
     ],
-    "no-redundant-jsdoc": true,
+    "align": [
+      false,
+      "parameters",
+      "statements"
+    ],
     "no-var-requires": false,
     "object-literal-key-quotes": [
-      true,
+      false,
       "as-needed"
     ],
     "quotemark": [
@@ -51,7 +55,7 @@
     "no-input-rename": true,
     "no-inputs-metadata-property": true,
     "no-output-native": true,
-    "no-output-on-prefix": true,
+    "no-output-on-prefix": false,
     "no-output-rename": true,
     "no-outputs-metadata-property": true,
     "template-banana-in-box": true,
