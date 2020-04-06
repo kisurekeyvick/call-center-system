@@ -1,0 +1,27 @@
+<div class="tracking-customer-modal-container">
+    <div nz-row class="model-content">
+        <div class="model-content-item">
+            <p class="title">请选择客户数据流转到投保跟踪的条件，可编辑和多选：</p>
+            <div class="setting-day">
+                <label nz-checkbox [(ngModel)]="params.expire">距离到期</label>
+                <nz-input-number [(ngModel)]="params.days"></nz-input-number>
+                天内的数据
+            </div>
+        </div>
+        <div class="model-content-item desc">
+            <div class="warn-desc">
+                <i nz-icon nzType="info-circle" nzTheme="outline"></i>
+                <p>1.续保查询成功，到期时间在0天之内的数据</p>
+                <p>2.只取到行驶本信息，注册日期对应的月份和日期在0天之内的数据</p>
+                <p>3.续保查询成功且脱保，到期时间对应的月份和日期在0天之内的数据</p>
+            </div>
+        </div>
+        <div class="model-content-item">
+            <label nz-checkbox [(ngModel)]="params.register">无注册日期和到期时间的数据</label>
+        </div>
+    </div>
+    <div class="modal-btn-group">
+        <button nz-button [nzType]="'default'" (click)="cancel()">取消</button>
+        <button nz-button [nzType]="'primary'" (click)="sure()">保存</button>
+    </div>
+</div>

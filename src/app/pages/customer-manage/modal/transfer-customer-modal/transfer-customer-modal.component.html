@@ -1,0 +1,45 @@
+<div class="transfer-customer-modal-container">
+    <div nz-row class="model-content">
+        <div class="model-content-item">
+            <p class="title">请选择接收数据的人员</p>
+            <div class="employees-list-table">
+                <ng-container *ngIf="!isLoading; else skeleton">
+                    <nz-table #list [nzData]="employeesList" nzShowPagination="false">
+                        <thead>
+                          <tr>
+                            <th nzShowCheckbox
+                                [nzIndeterminate]="isIndeterminate"
+                                [(nzChecked)]="isAllDisplayDataChecked"
+                                (nzCheckedChange)="checkAll($event)"></th>
+                            <ng-container *ngFor="let th of tableCfg.thead">
+                                <th>{{ th.name }}</th>
+                            </ng-container>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let data of list.data">
+                            <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[data.id]" (nzCheckedChange)="refreshStatus()"></td>
+                            <td>{{data.name}}</td>
+                            <td>{{data.phone}}</td>
+                            <td>{{data.departmentName}}</td>
+                            <td>{{data.roleName}}</td>
+                          </tr>
+                        </tbody>
+                      </nz-table>
+                </ng-container>
+                <ng-template #skeleton>
+                    <nz-skeleton [nzActive]="true"></nz-skeleton>
+                    <nz-skeleton [nzActive]="true"></nz-skeleton>
+                    <nz-skeleton [nzActive]="true"></nz-skeleton>
+                </ng-template>
+            </div>
+            <div class="employees-list-table-pagination">
+                <search-list-pagination [pageInfo]="pageInfo" (onPageChange)="onPageChange($event)"></search-list-pagination>
+            </div>
+        </div>
+    </div>
+    <div class="modal-btn-group">
+        <button nz-button [nzType]="'default'" (click)="cancel()">取消</button>
+        <button nz-button [nzType]="'primary'" (click)="sure()">保存</button>
+    </div>
+</div>

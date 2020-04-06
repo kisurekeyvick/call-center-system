@@ -8,6 +8,10 @@ const routes: Routes = [
   {
     path: 'organization', 
     loadChildren: () => import('src/app/pages/organization-manage/organization-manage.module').then(m => m.OrganizationModule)
+  },
+  {
+    path: 'customer',
+    loadChildren: () => import('src/app/pages/customer-manage/customer-manage.module').then(m => m.CustomerModule)
   }
 ];
 

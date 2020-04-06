@@ -1,0 +1,24 @@
+<div class="customer-import-modal-container">
+    <div nz-row class="model-content">
+        <p class="top-message">
+            <i nz-icon nzType="info-circle" nzTheme="outline"></i>
+            <a (click)="downloadTemplate()">下载模版</a>,不用模版上传无效哦
+        </p>
+        <div class="model-content-item">
+            <nz-upload
+                nzType="drag"
+                [nzMultiple]="true"
+                [nzLimit]="2"
+                [nzCustomRequest]="customReq"
+                (nzChange)="handleChange($event)">
+                <p class="ant-upload-drag-icon">
+                    <i nz-icon nzType="inbox"></i>
+                </p>
+                <p class="ant-upload-text">点击或拖动文件到此区域上传</p>
+            </nz-upload>
+        </div>
+    </div>
+    <div class="modal-btn-group">
+        <button nz-button [nzType]="'default'" (click)="cancel()">关闭</button>
+    </div>
+</div>

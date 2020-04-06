@@ -1,0 +1,64 @@
+<div class="customer-import" [@jackInTheBox] [@jackInTheBoxOnEnter]>
+    <div nz-row class="container-nav">
+        <nz-breadcrumb nz-page-header-breadcrumb>
+            <nz-breadcrumb-item><a class="route-link" routerLink="/home"><i nz-icon nzType="home" nzTheme="outline"></i>首页</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item>客户管理</nz-breadcrumb-item>
+            <nz-breadcrumb-item>数据导入</nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </div>
+    <div nz-row class="content">
+        <div class="content-msg">
+            <p><i nz-icon nzType="info-circle" nzTheme="outline"></i>每天最多可执行<span class="highlight">{{ importMessage.max }}</span>条，今日还可以执行<span class="highlight">{{ importMessage.remain }}</span>条,不限制上传数量，当天执行不完不计入次日额度中</p>
+        </div>
+        <div class="search-list-menu-group">
+            <button nz-button [nzType]="'primary'" (click)="importCustomer()"><i nz-icon nzType="import" nzTheme="outline"></i>导入数据</button>
+        </div>
+        <div class="search-list-table">
+            <ng-container *ngIf="!isLoading; else skeleton">
+                <nz-table #list [nzData]="customerList" nzShowPagination="false">
+                    <thead>
+                      <tr>
+                        <ng-container *ngFor="let th of tableCfg.thead">
+                            <th>{{ th.name }}</th>
+                        </ng-container>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let data of list.data">
+                        <td>{{data.uploadTime}}</td>
+                        <td>{{data.fileName}}</td>
+                        <!--上传成功/失败/总量-->
+                        <td>{{data.totalCount - data.uploadFailCount}}/{{data.uploadFailCount}}/{{data.totalCount}}</td>
+                        <!--查询成功-->
+                        <td>{{data.querySuccessCount}}</td>
+                        <!--行驶本-->
+                        <td>{{data.queryDrivingCount}}</td>
+                        <!--查询失败-->
+                        <td>{{data.queryFailCount}}</td>
+                        <!--待处理-->
+                        <td>{{data.processingCount}}</td>
+                        <!--查询进度-->
+                        <td>{{data.progressShow}}</td>
+                        <td><a (click)="requeryCustomer(data)">重新查询</a></td>
+                        <td class="icon-operation">
+                            <i nz-icon nz-tooltip nzTooltipPlacement="bottom" nzTooltipTitle="查看详情" nzType="link" nzTheme="outline" (click)="customerDetail(data)"></i>
+                            <nz-divider nzType="vertical"></nz-divider>
+                            <i nz-icon nz-tooltip nzTooltipPlacement="bottom" nzTooltipTitle="下载" nzType="download" nzTheme="outline" (click)="downloadCustomer(data)"></i>
+                            <nz-divider nzType="vertical"></nz-divider>
+                            <i nz-icon nz-tooltip nzTooltipPlacement="bottom" nzTooltipTitle="删除" nzType="delete" nzTheme="outline" (click)="deleteCustomer(data)"></i>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </nz-table>
+            </ng-container>
+            <ng-template #skeleton>
+                <nz-skeleton [nzActive]="true"></nz-skeleton>
+                <nz-skeleton [nzActive]="true"></nz-skeleton>
+                <nz-skeleton [nzActive]="true"></nz-skeleton>
+            </ng-template>
+        </div>
+        <div class="search-list-table-pagination">
+            <search-list-pagination [pageInfo]="pageInfo" (onPageChange)="onPageChange($event)"></search-list-pagination>
+        </div>
+    </div>
+</div>

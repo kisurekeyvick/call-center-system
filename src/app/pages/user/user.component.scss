@@ -1,0 +1,34 @@
+@import '../../core/common/common.style.scss';
+
+.user-setting-component-container {
+    @include listLayout;
+
+    .content {
+        .personal-tab-content {
+            .person-photo {
+                .pic-control-box {
+                    display: flex;
+
+                    .pic-show-box {
+                        flex-basis: 100px;
+                        margin-right: 24px;
+
+                        img {
+                            width: 100px;
+                            height: 100px;
+                        }
+                    }
+
+                    .pic-upload-box {
+                        flex: 1;
+                    }
+                }
+            }
+        }
+
+        .personal-tab-content,
+        .pwd-tab-content {
+            width: 800px;
+        }
+    }
+}

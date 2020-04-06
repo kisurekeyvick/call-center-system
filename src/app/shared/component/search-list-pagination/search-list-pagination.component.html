@@ -7,7 +7,7 @@
     (nzPageSizeChange)="pageSizeChange($event)"
     [nzShowTotal]="describe"
     [nzShowSizeChanger]="pageInfo.showSizeChanger"
-    nzShowQuickJumper>
+    [nzShowQuickJumper]="pageInfo.showQuickJumper">
 </nz-pagination>
 <ng-template #describe>
     【第{{ pageInfo.pageSize * (pageInfo.pageIndex - 1) + 1 }}-{{ pageInfo.pageSize * pageInfo.pageIndex }} 条】，共{{ pageInfo.total }}条

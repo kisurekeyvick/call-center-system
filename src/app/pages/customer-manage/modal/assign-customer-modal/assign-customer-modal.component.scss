@@ -1,0 +1,25 @@
+@import '../../../../core/common/common.style.scss';
+
+.assign-customer-modal-container {
+    .employees-list-table {
+        max-height: 400px;
+        overflow-y: scroll;
+    }
+
+    .model-content {
+        margin-bottom: 24px;
+
+        .model-content-item:nth-child(2) {
+            margin-top: 24px;
+        }
+
+        .employees-list-table-pagination {
+            margin-top: 12px;
+            text-align: right;
+        }
+    }
+
+    .modal-btn-group {
+        @include modal-btn-group;
+    }
+}

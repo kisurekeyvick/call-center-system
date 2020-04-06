@@ -1,0 +1,34 @@
+@import '../../../../core/common/common.style.scss';
+
+.tracking-customer-modal-container {
+    .model-content {
+        margin-bottom: 24px;
+    }
+
+    .model-content-item {
+        &.desc {
+            background-color: #fffbe6;
+            border-radius: 4px;
+            padding: 24px 24px 24px 48px;
+            position: relative;
+            margin: 12px 0;
+            font-size: 13px;
+
+            i {
+                color: #faad14;
+                position: absolute;
+                left: 24px;
+                top: 26px;
+                font-size: 14px;
+            }
+
+            p:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    .modal-btn-group {
+        @include modal-btn-group;
+    }
+}

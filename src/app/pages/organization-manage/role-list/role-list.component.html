@@ -12,7 +12,7 @@
         </div>
         <div class="search-list-table">
             <ng-container *ngIf="!isLoading; else skeleton">
-                <nz-table #list [nzData]="roleList">
+                <nz-table #list [nzData]="roleList" nzShowPagination="false">
                     <thead>
                         <tr>
                           <ng-container *ngFor="let th of tableCfg.thead">

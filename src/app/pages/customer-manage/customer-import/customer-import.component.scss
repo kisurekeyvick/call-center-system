@@ -1,0 +1,47 @@
+@import '../../../core/common/common.style.scss';
+
+.customer-import {
+    @include listLayout;
+
+    .content {
+        .content-msg {
+            p {
+                background-color: #fffbe6;
+                padding: 5px 24px;
+                border-radius: 15px;
+                display: inline-block;
+                position: relative;
+                text-indent: 18px;
+                font-size: 13px;
+
+                span.highlight {
+                    color: #f5222d;
+                }
+
+                i {
+                    color: #faad14;
+                    position: absolute;
+                    left: 5px;
+                    top: 7px;
+                    font-size: 14px;
+                }
+            }
+        }
+
+        .search-list-table {
+            td.icon-operation {
+                i {
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    .search-list-menu-group {
+        text-align: left;
+
+        button {
+            margin-right: 12px;
+        }
+    }
+}

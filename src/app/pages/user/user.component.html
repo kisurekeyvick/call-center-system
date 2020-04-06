@@ -1,8 +1,118 @@
-<div class="user-component-container">
-    <nz-breadcrumb nz-page-header-breadcrumb>
-        <nz-breadcrumb-item>个人信息</nz-breadcrumb-item>
-    </nz-breadcrumb>
-    <div nz-row>
-        <p>hello this is a test demo</p>
+<div class="user-setting-component-container">
+    <div nz-row class="container-nav">
+        <nz-breadcrumb nz-page-header-breadcrumb>
+            <nz-breadcrumb-item><a class="route-link" routerLink="/home"><i nz-icon nzType="home" nzTheme="outline"></i>首页</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item>个人设置</nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </div>
+    <div nz-row class="content">
+        <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
+            <nz-tab nzTitle="个人资料">
+                <form class="personal-tab-content" nz-form [formGroup]="personalInfoValidateForm" (ngSubmit)="submitPersonalInfoForm()">
+                    <nz-form-item class="person-photo">
+                        <nz-form-label nz-col nzXs="3" nzFor="photo">头像</nz-form-label>
+                        <nz-form-control nz-col nzXs="21">
+                            <div class="pic-control-box">
+                                <div class="pic-show-box">
+                                    <img src="{{ defaultUserPic }}"/>
+                                </div>
+                                <div class="pic-upload-box">
+                                    <p>支持 jpg、png 格式大小 5M 以内的图片</p>
+                                    <nz-upload [nzCustomRequest]="customReq">
+                                        <button nz-button><i nz-icon nzType="upload"></i><span>点击上传</span></button>
+                                    </nz-upload>
+                                </div>
+                            </div>
+                        </nz-form-control>
+                    </nz-form-item>
+
+                    <nz-form-item>
+                        <nz-form-label nzRequired nz-col nzXs="3" nzFor="name">用户名</nz-form-label>
+                        <nz-form-control nz-col nzXs="21" nzHasFeedback nzErrorTip="nameErrorTpl">
+                            <input nz-input formControlName="name" id="name" />
+                            <ng-template #nameErrorTpl let-control>
+                                <ng-container *ngIf="control.hasError('required')">
+                                  请输入用户名
+                                </ng-container>
+                            </ng-template>
+                        </nz-form-control>
+                    </nz-form-item>
+                </form>
+            </nz-tab>
+            <nz-tab nzTitle="修改密码">
+                <form class="pwd-tab-content" nz-form [formGroup]="modfiyPWDValidateForm" (ngSubmit)="submitModfiyPWDForm()">
+                    <nz-form-item>
+                        <nz-form-label nzRequired nz-col nzXs="3" nzFor="oldPwd">旧密码</nz-form-label>
+                        <nz-form-control nz-col nzXs="21" nzHasFeedback nzErrorTip="oldPasswordErrorTpl">
+                            <nz-input-group [nzSuffix]="oldPwdsuffixTemplate">
+                                <input
+                                  [type]="oldPasswordVisible ? 'text' : 'password'"
+                                  nz-input
+                                  placeholder="请输入密码"
+                                  formControlName="oldPwd"
+                                  id="oldPwd"
+                                />
+                            </nz-input-group>
+                            <ng-template #oldPwdsuffixTemplate>
+                                <i nz-icon [nzType]="oldPasswordVisible ? 'eye-invisible' : 'eye'" (click)="oldPasswordVisible = !oldPasswordVisible"></i>
+                            </ng-template>
+                            <ng-template #oldPasswordErrorTpl let-control>
+                                <ng-container *ngIf="control.hasError('required')">
+                                  请输入旧密码
+                                </ng-container>
+                            </ng-template>
+                        </nz-form-control>
+                    </nz-form-item>
+
+                    <nz-form-item>
+                        <nz-form-label nzRequired nz-col nzXs="3" nzFor="newPwd">新密码</nz-form-label>
+                        <nz-form-control nz-col nzXs="21" nzHasFeedback nzErrorTip="newPwdErrorTpl">
+                            <!-- <input nz-input formControlName="newPwd" id="newPwd" /> -->
+                            <nz-input-group [nzSuffix]="newPwdsuffixTemplate">
+                                <input
+                                  [type]="newPasswordVisible ? 'text' : 'password'"
+                                  nz-input
+                                  placeholder="请输入密码"
+                                  formControlName="newPwd"
+                                  id="newPwd"
+                                />
+                            </nz-input-group>
+                            <ng-template #newPwdsuffixTemplate>
+                                <i nz-icon [nzType]="newPasswordVisible ? 'eye-invisible' : 'eye'" (click)="newPasswordVisible = !newPasswordVisible"></i>
+                            </ng-template>
+                            <ng-template #newPwdErrorTpl let-control>
+                                <ng-container *ngIf="control.hasError('required')">
+                                  请输入旧密码
+                                </ng-container>
+                            </ng-template>
+                        </nz-form-control>
+                    </nz-form-item>
+
+                    <nz-form-item>
+                        <nz-form-label nzRequired nz-col nzXs="3" nzFor="reNewPwd">确认新密码</nz-form-label>
+                        <nz-form-control nz-col nzXs="21" nzHasFeedback nzErrorTip="reNewPwdErrorTpl">
+                            <!-- <input nz-input formControlName="reNewPwd" id="reNewPwd" /> -->
+                            <nz-input-group [nzSuffix]="reNewPwdsuffixTemplate">
+                                <input
+                                  [type]="reNewPasswordVisible ? 'text' : 'password'"
+                                  nz-input
+                                  placeholder="请输入密码"
+                                  formControlName="newPwd"
+                                  id="newPwd"
+                                />
+                            </nz-input-group>
+                            <ng-template #reNewPwdsuffixTemplate>
+                                <i nz-icon [nzType]="reNewPasswordVisible ? 'eye-invisible' : 'eye'" (click)="reNewPasswordVisible = !reNewPasswordVisible"></i>
+                            </ng-template>
+                            <ng-template #reNewPwdErrorTpl let-control>
+                                <ng-container *ngIf="control.hasError('required')">
+                                  请输入旧密码
+                                </ng-container>
+                            </ng-template>
+                        </nz-form-control>
+                    </nz-form-item>
+                </form>
+            </nz-tab>
+        </nz-tabset>
     </div>
 </div>

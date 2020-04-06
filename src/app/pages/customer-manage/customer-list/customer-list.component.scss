@@ -1,0 +1,13 @@
+@import '../../../core/common/common.style.scss';
+
+.customer-list {
+    @include listLayout;
+
+    .search-list-menu-group {
+        text-align: left;
+
+        button {
+            margin-right: 12px;
+        }
+    }
+}

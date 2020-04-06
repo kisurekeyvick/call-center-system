@@ -6,6 +6,7 @@ export interface IPageInfo {
     size?: string;
     pageSizeOptions?: number[];
     showSizeChanger?: boolean;
+    showQuickJumper?: boolean;
     [key: string]: any;
 }
 
@@ -23,6 +24,7 @@ export class PaginationService {
     size = 'default';
     pageSizeOptions: number[] = [10, 20, 30, 40];
     showSizeChanger = true;
+    showQuickJumper = true;
 
     constructor(pageInfo: IPageInfo) {
         Object.keys(pageInfo).forEach((key: string) => {
