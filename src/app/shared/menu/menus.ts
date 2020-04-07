@@ -6,7 +6,8 @@ export const menus = new Map([
                 { name: '角色权限', url: '/organization/role', icon: '', children: [] },
             ] },
             { name: '今日汇总', url: '/home', icon: 'fund', children: [] },
-            { name: '名单申请', url: '/applyFor', icon: 'form', children: [] },
+            { name: '赠品管理', url: '/gift', icon: 'gift', children: [] },
+            { name: '名单分配', url: '/listAssignment', icon: 'enter', children: [] },
             { name: '个人信息', url: '/user', icon: 'user', children: [] },
             { name: '我的通话', url: '/phone', icon: 'phone', children: [] },
             { name: '第一层级', url: '/first', icon: 'menu', children: [

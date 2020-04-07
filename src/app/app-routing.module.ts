@@ -8,6 +8,14 @@ const routes: Routes = [
   {
     path: 'organization', 
     loadChildren: () => import('src/app/pages/organization-manage/organization-manage.module').then(m => m.OrganizationModule)
+  },
+  {
+    path: 'gift',
+    loadChildren: () => import('src/app/pages/gift-manage/gift-manage.module').then(m => m.GiftModule)
+  },
+  {
+    path: 'listAssignment',
+    loadChildren: () => import('src/app/pages/list-assignment/list-assignment.module').then(m => m.ListAssignMentModule)
   }
 ];
 

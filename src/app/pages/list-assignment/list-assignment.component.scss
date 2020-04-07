@@ -1,0 +1,63 @@
+@import '../../core/common/common.style.scss';
+
+.list-assignment-list {
+    @include listLayout;
+
+    .content {
+        .message-container {
+            margin-bottom: 24px;
+
+            .message-content {
+                background-color: rgb(255, 251, 230);
+                position: relative;
+                border-radius: 4px;
+                padding: 12px 15px 12px 48px;
+                display: inline-block;
+                cursor: pointer;
+
+                &:hover {
+                    box-shadow: #f0ecd3 0px 2px 8px
+                }
+    
+                i {
+                    color: #faad14;
+                    position: absolute;
+                    top: 15px;
+                    left: 15px;
+                    font-size: 16px;
+                }
+
+                p {
+                    span.highLight {
+                        color: rgb(245, 34, 45);
+                    }
+                }
+    
+                p:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+
+        .rule-list-box {
+            .rule-box {
+                background-color: rgba(240, 242, 245, 0.5);
+                padding: 24px;
+                margin: 12px 0 24px 0;
+                border-radius: 4px;
+
+                .rule-tag-item {
+                    margin-bottom: 12px;
+                }
+            }
+        }
+    }
+
+    .search-list-menu-group {
+        text-align: left;
+
+        button {
+            margin-right: 12px;
+        }
+    }
+}
