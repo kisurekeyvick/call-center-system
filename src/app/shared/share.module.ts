@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 /** 公共组件 */
@@ -26,12 +26,14 @@ const SERVICE = [
     imports: [
         NgZorroAntdModule,
         FormsModule,
+        ReactiveFormsModule,
         CommonModule
     ],
     exports: [
         ...PIPES,
         NgZorroAntdModule,
         FormsModule,
+        ReactiveFormsModule,
         ...COMPONENT,
         CommonModule
     ],

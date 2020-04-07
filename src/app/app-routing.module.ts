@@ -12,6 +12,14 @@ const routes: Routes = [
   {
     path: 'customer',
     loadChildren: () => import('src/app/pages/customer-manage/customer-manage.module').then(m => m.CustomerModule)
+  },
+  {
+    path: 'gift',
+    loadChildren: () => import('src/app/pages/gift-manage/gift-manage.module').then(m => m.GiftModule)
+  },
+  {
+    path: 'listAssignment',
+    loadChildren: () => import('src/app/pages/list-assignment/list-assignment.module').then(m => m.ListAssignMentModule)
   }
 ];
 

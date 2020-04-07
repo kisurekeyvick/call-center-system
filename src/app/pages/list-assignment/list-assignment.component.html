@@ -1,0 +1,81 @@
+<div class="list-assignment-list" [@jackInTheBox] [@jackInTheBoxOnEnter]>
+    <div nz-row class="container-nav">
+        <nz-breadcrumb nz-page-header-breadcrumb>
+            <nz-breadcrumb-item><a class="route-link" routerLink="/home"><i nz-icon nzType="home" nzTheme="outline"></i>首页</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item>名单分配</nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </div>
+
+    <div nz-row class="content">
+        <div class="message-container">
+            <div class="message-content">
+                <i nz-icon nzType="info-circle" nzTheme="outline"></i>
+                <p>当月名单总数：<nz-tag [nzColor]="'orange'">{{ currentMounthTotalAccount }}</nz-tag></p>
+                <p>提取名单数: <nz-tag [nzColor]="'orange'">{{ extractionListAccount }}</nz-tag></p>
+            </div>
+        </div>
+        <div class="search-list-menu-group">
+            <button nz-button [nzType]="'primary'" (click)="editRule()"><i nz-icon nzType="form" nzTheme="outline"></i>编辑规则</button>
+        </div>
+        <div class="rule-list-box">
+            <ng-container *ngIf="ruleList.length> 0; else noRuleTpl">
+                <div class="rule-box">
+                    <ng-container *ngFor="let rule of ruleList; let i = index">
+                        <nz-tag class="rule-tag-item" nzMode="closeable" [nzColor]="'blue'" (nzOnClose)="deleteRuleItem(i)">{{ rule.name }}: {{ rule.formatValue }}</nz-tag>
+                    </ng-container>
+                </div>
+            </ng-container>
+            <ng-template #noRuleTpl>
+                <div class="rule-box no-data">
+                    <nz-empty nzNotFoundContent="暂无规则"></nz-empty>
+                </div>
+            </ng-template>
+        </div>
+        <div class="search-list-menu-group">
+            <ng-container *ngIf="!isEditing; else idEditTpl">
+                <button nz-button [nzType]="'primary'" (click)="isEditing = true"><i nz-icon nzType="form" nzTheme="outline"></i>编辑分配数量</button>
+            </ng-container>
+            <ng-template #idEditTpl>
+                <button nz-button [nzType]="'primary'" (click)="saveAssigmentAmount()"><i nz-icon nzType="save" nzTheme="outline"></i>保存分配数量</button>
+                <button nz-button (click)="isEditing = false"><i nz-icon nzType="undo" nzTheme="outline"></i>取消修改</button>
+            </ng-template>
+        </div>
+        <div class="search-list-table">
+            <ng-container *ngIf="!isLoading; else skeleton">
+              <nz-table #list [nzData]="assignMemberList" [nzShowPagination]="false" [nzFrontPagination]="false" [nzTotal]="assignMemberList.length">
+                <thead>
+                  <tr>
+                    <ng-container *ngFor="let th of tableCfg.thead">
+                        <th>{{ th.name }}</th>
+                    </ng-container>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of list.data">
+                    <td>{{data.name}}</td>
+                    <td>{{data.untreatedTask}}</td>
+                    <td>{{data.treatedTask}}</td>
+                    <td>{{data.untreatedAppointment}}</td>
+                    <td>{{data.treatedAppointment}}</td>
+                    <td>{{data.followToday}}</td>
+                    <td>{{data.distributedToday}}</td>
+                    <td>
+                        <ng-container *ngIf="isEditing">
+                            <nz-input-number [(ngModel)]="data.amount" [nzMin]="0" [nzStep]="1"></nz-input-number>
+                        </ng-container>
+                        <ng-container *ngIf="!isEditing">
+                            {{data.amount}}
+                        </ng-container>
+                    </td>
+                  </tr>
+                </tbody>
+            </nz-table>
+            </ng-container>
+            <ng-template #skeleton>
+              <nz-skeleton [nzActive]="true"></nz-skeleton>
+              <nz-skeleton [nzActive]="true"></nz-skeleton>
+              <nz-skeleton [nzActive]="true"></nz-skeleton>
+            </ng-template>
+        </div>
+    </div>
+</div>
