@@ -63,5 +63,15 @@ export const dictionary = new Map([
             { name: '中华', value: '12004' },
             { name: '其他', value: '12099' }
         ]
+    ],
+    [
+        /** 返利申请 状态搜索条件 */
+        'rebateApplicationStatusList', [
+            { name: '请选择', value: '' },
+            { name: '上级申请中', value: '37004' },
+            { name: '未处理', value: '37001' },
+            { name: '同意', value: '37002' },
+            { name: '驳回', value: '37003' }
+        ]
     ]
 ]);
