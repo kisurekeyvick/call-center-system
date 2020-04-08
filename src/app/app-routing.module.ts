@@ -28,6 +28,10 @@ const routes: Routes = [
   {
     path: 'system',
     loadChildren: () => import('src/app/pages/system-manage/system-manage.module').then(m => m.SystemManageModule)
+  },
+  {
+    path: 'listQuery',
+    loadChildren: () => import('src/app/pages/list-query/list-query.module').then(m => m.ListQueryModule)
   }
 ];
 

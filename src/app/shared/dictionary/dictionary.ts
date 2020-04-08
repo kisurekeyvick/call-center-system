@@ -95,5 +95,22 @@ export const dictionary = new Map([
             { name: '返利申请中', value: '6' },
             { name: '返利申请被拒绝', value: '7' },
         ]
+    ],
+    [
+        /** 战败原因设置 是否删除 */
+        'isDeleteStatus', [
+            { name: '已经删除', value: '1' },
+            { name: '未删除', value: '2' },
+        ]
+    ],
+    [
+        /** 名单查询 预约级别 */
+        'appointmentLevel', [
+            { name: 'A', value: '10001' },
+            { name: 'B', value: '10002' },
+            { name: 'C', value: '10003' },
+            { name: 'D', value: '10004' },
+            { name: 'E', value: '10005' }
+        ]
     ]
 ]);

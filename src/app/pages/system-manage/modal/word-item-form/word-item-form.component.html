@@ -14,7 +14,7 @@
                     <nz-form-item class="nzFormItem">
                         <nz-form-label nz-col nzXs="3" nzFor="content" nzRequired class="nzFormLabel">内容</nz-form-label>
                         <nz-form-control nz-col nzXs="21" class="nzFormControl" nzErrorTip="请输入内容">
-                            <textarea rows="15" nz-input placeholder="请输入内容" id="name" formControlName="content"></textarea>
+                            <textarea [nzAutosize]="{ minRows: 6, maxRows: 12 }" nz-input placeholder="请输入内容" id="name" formControlName="content"></textarea>
                         </nz-form-control>
                     </nz-form-item>
                 </div>

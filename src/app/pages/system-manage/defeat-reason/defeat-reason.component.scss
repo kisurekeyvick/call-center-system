@@ -1,0 +1,5 @@
+@import '../../../core/common/common.style.scss';
+
+.defeat-reason-list {
+    @include listLayout;
+}

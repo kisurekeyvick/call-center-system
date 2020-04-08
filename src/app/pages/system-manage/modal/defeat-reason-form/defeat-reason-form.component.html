@@ -1,0 +1,21 @@
+<div class="defeat-reason-modal-container">
+    <div nz-row class="model-content">
+        <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+            <div nz-row>
+                <div nz-row nz-col>
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label nz-col nzXs="4" nzFor="defeatReason" nzRequired class="nzFormLabel">战败原因</nz-form-label>
+                        <nz-form-control nz-col nzXs="20" class="nzFormControl" nzErrorTip="请输入内容">
+                            <textarea nz-input [nzAutosize]="{ minRows: 6, maxRows: 12 }" placeholder="请输入内容" id="defeatReason" formControlName="defeatReason"></textarea>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+
+            <div class="modal-btn-group">
+                <button nz-button [nzType]="'default'" (click)="cancel()">取消</button>
+                <button nz-button [nzType]="'primary'">保存</button>
+            </div>
+        </form>
+    </div>
+</div>
