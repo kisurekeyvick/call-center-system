@@ -1,0 +1,45 @@
+<div class="ratio-setting-list" [@jackInTheBox] [@jackInTheBoxOnEnter]>
+    <div nz-row class="container-nav">
+        <nz-breadcrumb nz-page-header-breadcrumb>
+            <nz-breadcrumb-item><a class="route-link" routerLink="/home"><i nz-icon nzType="home" nzTheme="outline"></i>首页</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item>系统设置</nz-breadcrumb-item>
+            <nz-breadcrumb-item>返利比率</nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </div>
+
+    <div nz-row class="content">
+        <div class="search-list-menu-group">
+            <button nz-button [nzType]="'primary'" (click)="addRatio()"><i nz-icon nzType="plus" nzTheme="outline"></i>添加返点比率</button>
+        </div>
+        <div class="search-list-table">
+            <ng-container *ngIf="!isLoading; else skeleton">
+                <nz-table #list [nzData]="ratioSettingList" [nzShowPagination]="false">
+                    <thead>
+                        <tr>
+                            <ng-container *ngFor="let th of tableCfg.thead">
+                                <th>{{ th.name }}</th>
+                            </ng-container>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of list.data">
+                            <td>{{data.companyName}}</td>
+                            <td>{{data.discountUpperLimit}}</td>
+                            <!-- <td>{{data.createTime}}</td> -->
+                            <td>
+                                <a (click)="modfiyRatio(data)"><i nz-icon nzTooltipTitle="编辑" nzTooltipPlacement="bottom" nz-tooltip nzType="edit" nzTheme="outline"></i></a>
+                                <nz-divider nzType="vertical"></nz-divider>
+                                <a (click)="deleteRatio(data)"><i nz-icon nzTooltipTitle="删除" nzTooltipPlacement="bottom" nz-tooltip nzType="delete" nzTheme="outline"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </ng-container>
+            <ng-template #skeleton>
+                <nz-skeleton [nzActive]="true"></nz-skeleton>
+                <nz-skeleton [nzActive]="true"></nz-skeleton>
+                <nz-skeleton [nzActive]="true"></nz-skeleton>
+              </ng-template>
+        </div>
+    </div>
+</div>

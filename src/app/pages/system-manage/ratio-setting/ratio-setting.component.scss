@@ -1,0 +1,5 @@
+@import '../../../core/common/common.style.scss';
+
+.ratio-setting-list {
+    @include listLayout;
+}

@@ -1,0 +1,7 @@
+@import '../../../../core/common/common.style.scss';
+
+.word-item-modal-container {
+    .modal-btn-group {
+        @include modal-btn-group;
+    }
+}

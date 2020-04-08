@@ -1,6 +1,7 @@
 import { dictionary } from 'src/app/shared/dictionary/dictionary';
 
 const rebateApplicationStatusList = dictionary.get('rebateApplicationStatusList');
+const insuranceCompanysList = dictionary.get('insuranceCompanys');
 
 export interface ISearchListItem {
     id: number;
@@ -63,11 +64,16 @@ export const searchListItem: ISearchListItem[] = [
     },
     {
         id: 6,
-        label: '状态',
-        key: 'company',
-        type: 'text',
-        placeholder: '请输入',
-        grid: commonGrid
+        label: '保险公司',
+        key: 'companyCode',
+        type: 'select',
+        placeholder: '请选择保险公司',
+        grid: commonGrid,
+        config: {
+            options: [
+                ...insuranceCompanysList
+            ]
+        }
     }
 ];
 
@@ -113,3 +119,59 @@ export const tableConifg = {
     ]
 };
 
+export interface IRebateApplicationItem {
+    applyName: string;
+    createDate: string;
+    name: string;
+    plateNumber: string;
+    /** 保险公司 */
+    companyCode: string;
+    companyAreaCode: string;
+    /** 类别 */
+    cateName: string;
+    /** 商业险金额 */
+    viPrice: string;
+    /** 超出金额 */
+    rebatePrice: string;
+    /** 最高返现比率 */
+    myRebateRatio: number;
+    /** 申请种类 */
+
+    /** 状态 */
+    status: string;
+    [key: string]:any;
+}
+
+export const listValue = (): IRebateApplicationItem[] => {
+    return Array.apply(null, Array(20)).map((item, index: number) => {
+        return {
+            id: index + 1,
+            applyAmount: null,
+            applyName: '王小利',
+            applyUserId: 85,
+            carProvince: '冀',
+            cateName: '平安1',
+            changePrice: null,
+            companyAreaCode: '13002',
+            companyCode: '12001',
+            companyName: '平安',
+            createDate: '2018-10-14 17:18:42',
+            createDateBegin: null,
+            createDateEnd: null,
+            docCateCode: '00003',
+            isChangeSale: null,
+            myRebateRatio: 0,
+            name: '郝振兴',
+            plate: null,
+            plateNumber: 'A0E8D0',
+            rebatePrice: 839.99,
+            remark: '123',
+            salesmanRebateRatio: 0,
+            status: '37004',
+            statusName: '上级申请中',
+            taskId: 26188,
+            userId: null,
+            viPrice: 1938.36
+        };
+    });
+}

@@ -12,7 +12,11 @@ export const menus = new Map([
             { name: '个人设置', url: '/user', icon: 'user', children: [] },
             { name: '赠品管理', url: '/gift', icon: 'gift', children: [] },
             { name: '名单分配', url: '/listAssignment', icon: 'enter', children: [] },
-            { name: '返利申请', url: '/rebateApplication', icon: 'enter', children: [] }
+            { name: '返利申请', url: '/rebateApplication', icon: 'highlight', children: [] },
+            { name: '系统设置', url: '/system', icon: 'setting', children: [
+                { name: '话术管理', url: '/system/wordManagement', icon: '', children: [] },
+                { name: '返利比率', url: '/system/ratioSetting', icon: '', children: [] },
+            ] },
         ]
     ]
 ]);

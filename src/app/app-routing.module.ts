@@ -20,6 +20,14 @@ const routes: Routes = [
   {
     path: 'listAssignment',
     loadChildren: () => import('src/app/pages/list-assignment/list-assignment.module').then(m => m.ListAssignMentModule)
+  },
+  {
+    path: 'rebateApplication',
+    loadChildren: () => import('src/app/pages/rebate-application/rebate-application.module').then(m => m.RebateApplicationModule)
+  },
+  {
+    path: 'system',
+    loadChildren: () => import('src/app/pages/system-manage/system-manage.module').then(m => m.SystemManageModule)
   }
 ];
 

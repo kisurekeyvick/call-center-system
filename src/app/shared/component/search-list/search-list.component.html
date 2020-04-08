@@ -57,7 +57,8 @@
                             <nz-select [nzMode]="item.config.mode || 'default'" [nzDisabled]="item.disabled" [name]="item.key" nzShowSearch nzAllowClear 
                                 [nzPlaceHolder]="item.placeholder"
                                 [(ngModel)]="searchListModel[item.key]"
-                                [nzServerSearch]="item.config.serverSearch" 
+                                (ngModelChange)="item?.config?.onChange(searchListModel, item.key)"
+                                [nzServerSearch]="item?.config?.serverSearch" 
                                 (nzOnSearch)="handleSelectSearch($event, i)">
                                 <ng-container *ngIf="!selectLoading">
                                     <nz-option *ngFor="let option of item.config.options" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>

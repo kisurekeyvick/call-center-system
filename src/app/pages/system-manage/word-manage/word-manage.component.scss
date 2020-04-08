@@ -1,0 +1,22 @@
+@import '../../../core/common/common.style.scss';
+
+.word-manage-list {
+    @include listLayout;
+
+    .content {
+        .word-manage-nzcard {
+            width: 200px;
+            display: inline-block;
+            margin: 0 24px 24px 0;
+            cursor: pointer;
+        }
+
+        .add-word-box {
+            text-align: center;
+
+            i {
+                font-size: 20px;
+            }
+        }
+    }
+}

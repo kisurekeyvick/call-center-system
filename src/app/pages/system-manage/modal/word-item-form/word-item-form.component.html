@@ -1,0 +1,29 @@
+<div class="word-item-modal-container">
+    <div nz-row class="model-content">
+        <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+            <div nz-row>
+                <div nz-row nz-col>
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label nz-col nzXs="3" nzFor="name" nzRequired class="nzFormLabel">名称</nz-form-label>
+                        <nz-form-control nz-col nzXs="21" class="nzFormControl" nzErrorTip="请输入名称">
+                            <input nz-input placeholder="请输入名称" id="name" formControlName="name"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-row nz-col>
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label nz-col nzXs="3" nzFor="content" nzRequired class="nzFormLabel">内容</nz-form-label>
+                        <nz-form-control nz-col nzXs="21" class="nzFormControl" nzErrorTip="请输入内容">
+                            <textarea rows="15" nz-input placeholder="请输入内容" id="name" formControlName="content"></textarea>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+
+            <div class="modal-btn-group">
+                <button nz-button [nzType]="'default'" (click)="cancel()">取消</button>
+                <button nz-button [nzType]="'primary'">保存</button>
+            </div>
+        </form>
+    </div>
+</div>

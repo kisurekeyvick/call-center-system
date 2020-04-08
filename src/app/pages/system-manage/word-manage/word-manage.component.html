@@ -1,0 +1,49 @@
+<div class="word-manage-list" [@jackInTheBox] [@jackInTheBoxOnEnter]>
+    <div nz-row class="container-nav">
+        <nz-breadcrumb nz-page-header-breadcrumb>
+            <nz-breadcrumb-item><a class="route-link" routerLink="/home"><i nz-icon nzType="home" nzTheme="outline"></i>首页</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item>系统设置</nz-breadcrumb-item>
+            <nz-breadcrumb-item>话术设置</nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </div>
+
+    <div nz-row class="content">
+        <ng-container *ngIf="!isLoading; else isLoadingTpl">
+            <ng-container *ngIf="wordList.length > 0; else noWordListTpl">
+                <div class="word-list">
+                    <ng-container *ngFor="let rule of wordList; let i = index">
+                        <nz-card class="word-manage-nzcard" nzHoverable [nzActions]="[actionEdit, actionDelete]">
+                            <nz-card-meta [nzTitle]="rule.name" [nzDescription]="rule.contentDesc"></nz-card-meta>
+                        </nz-card>
+                        <ng-template #actionEdit>
+                            <i nz-icon nzTooltipTitle="编辑" nzTooltipPlacement="bottom" nz-tooltip nzType="edit" (click)="editWord(rule)"></i>
+                        </ng-template>
+                        <ng-template #actionDelete>
+                            <i nz-icon nzTooltipTitle="删除" nzTooltipPlacement="bottom" nz-tooltip nzType="delete" nzTheme="outline" (click)="deleteWord(rule)"></i>
+                        </ng-template>
+                    </ng-container>
+                    <nz-card class="word-manage-nzcard add-word-box" nzHoverable>
+                        <div (click)="addWord()">
+                            <p>添加话术</p>
+                            <i nz-icon nzType="plus" nzTheme="outline"></i>
+                        </div>
+                    </nz-card>
+                </div>
+            </ng-container>
+            <ng-template #noWordListTpl>
+                <div class="no-data-canAdd" >
+                    <nz-card class="word-manage-nzcard add-word-box" nzHoverable>
+                        <div class="word-list no-data" (click)="addWord()">
+                            <nz-empty nzNotFoundContent="暂无话术，点击添加"></nz-empty>
+                            <i nz-icon nzType="plus" nzTheme="outline"></i>
+                        </div>
+                    </nz-card>
+                </div>
+            </ng-template>
+        </ng-container>
+        <ng-template #isLoadingTpl>
+            <nz-card class="word-manage-nzcard" [nzLoading]="true"></nz-card>
+            <nz-card class="word-manage-nzcard" [nzLoading]="true"></nz-card>
+        </ng-template>
+    </div>
+</div>

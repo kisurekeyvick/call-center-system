@@ -7,6 +7,9 @@
     </div>
 
     <div nz-row class="content">
+        <div class="search-list-box">
+            <search-list [searchListModel]="searchListModel" [searchListItem]="searchListItem" (onSearch)="search()" (onReseat)="reseat()"></search-list>
+        </div>
         <div class="search-list-table">
             <ng-container *ngIf="!isLoading; else skeleton">
                 <nz-table #list [nzData]="rebateApplicationList" [nzShowPagination]="false">
@@ -19,20 +22,24 @@
                   </thead>
                   <tbody>
                     <tr *ngFor="let data of list.data">
+                        <td>{{data.applyName}}</td>
+                        <td>{{data.createDate}}</td>
+                        <td>{{data.name}}</td>
+                        <td>{{data.plateNumber}}</td>
+                        <td>{{data.companyName}}</td>
+                        <td>{{data.cateName}}</td>
+                        <td>{{data.viPrice}}</td>
                         <td>{{data}}</td>
-                        <td>{{data}}</td>
-                        <td>{{data}}</td>
-                        <td>{{data}}</td>
-                        <td>{{data}}</td>
-                        <td>{{data}}</td>
-                        <td>{{data}}</td>
-                        <td>{{data}}</td>
-                        <td>{{data}}</td>
-                        <td>{{data}}</td>
-                        <td>{{data}}</td>
-                        <td>{{data}}</td>
+                        <td>{{data.rebatePrice}}</td>
+                        <td>0</td>
+                        <td>保单申请</td>
+                        <td>{{data.statusName}}</td>
                         <td>
-                            <a (click)="editGift(data)"><i nz-icon nzTooltipTitle="编辑" nzTooltipPlacement="bottom" nz-tooltip nzType="delete" nzType="edit" nzTheme="outline"></i></a>
+                            <a><i class="remark-icon" nz-icon nz-popover nzPopoverTitle="备注" [nzPopoverContent]="data.remark" nzPopoverPlacement="left" nzType="eye" nzTheme="outline"></i></a>
+                            <nz-divider nzType="vertical"></nz-divider>
+                            <a (click)="agreeApplication(data)"><i nz-icon nzTooltipTitle="同意" nzTooltipPlacement="bottom" nz-tooltip nzType="check" nzTheme="outline"></i></a>
+                            <nz-divider nzType="vertical"></nz-divider>
+                            <a (click)="undoApplication(data)"><i nz-icon nzTooltipTitle="撤回" nzTooltipPlacement="bottom" nz-tooltip nzType="rollback" nzTheme="outline"></i></a>
                         </td>
                     </tr>
                   </tbody>

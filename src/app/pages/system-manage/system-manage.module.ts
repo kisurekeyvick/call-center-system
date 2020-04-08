@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { RebateApplicationRoutingModule, routedComponents, entriedComponents } from './rebate-application-routing.module';
+import { SystemRoutingModule, routedComponents, entriedComponents } from './system-manage-routing.module';
 import { AppShareModule } from 'src/app/shared/share.module';
+import { SystemManageService } from './system-manage.service';
 import { CommonModule } from '@angular/common';
-import { RebateApplicationService } from './rebate-application.service';
 
 @NgModule({
     imports: [
-        RebateApplicationRoutingModule,
+        SystemRoutingModule,
         AppShareModule,
         CommonModule
     ],
@@ -14,13 +14,12 @@ import { RebateApplicationService } from './rebate-application.service';
         ...routedComponents
     ],
     exports: [
-
     ],
     entryComponents: [
         ...entriedComponents
     ],
     providers: [
-        RebateApplicationService
+        SystemManageService
     ]
 })
-export class RebateApplicationModule {}
+export class SystemManageModule {}
