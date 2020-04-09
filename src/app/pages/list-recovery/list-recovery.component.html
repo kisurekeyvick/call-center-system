@@ -1,0 +1,41 @@
+<div class="list-recovery-list" [@jackInTheBox] [@jackInTheBoxOnEnter]>
+    <div nz-row class="container-nav">
+        <nz-breadcrumb nz-page-header-breadcrumb>
+            <nz-breadcrumb-item><a class="route-link" routerLink="/home"><i nz-icon nzType="home" nzTheme="outline"></i>首页</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item>名单回收</nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </div>
+
+    <div nz-row class="content">
+        <div class="search-list-box">
+            <div nz-row nz-col nzXs="24">
+                <nz-form-item class="nzFormItem">
+                    <nz-form-label class="nzFormLabel" nz-col nzXs="3">业务员</nz-form-label>
+                    <nz-form-control class="nzFormControl" nz-col nzXs="21">
+                        <nz-select style="width: 100%;" nzShowSearch nzAllowClear nzPlaceHolder="请选择业务员" [(ngModel)]="salesmen" (ngModelChange)="salesmamChange(salesmen)">
+                            <nz-option *ngFor="let option of salesmanList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div nz-row nz-col nzXs="24">
+                <nz-form-item class="nzFormItem">
+                    <nz-form-label class="nzFormLabel" nz-col nzXs="3">回收规则</nz-form-label>
+                    <nz-form-control class="nzFormControl" nz-col nzXs="21">
+                        <div class="rule-box">
+                            <button nz-button [nzType]="'primary'" (click)="editRule()"><i nz-icon nzType="form" nzTheme="outline"></i>编辑规则</button>
+                        </div>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div nz-row nz-col nzXs="24">
+                <nz-form-item class="nzFormItem">
+                    <p>回收名单数：<nz-tag [nzColor]="'orange'">{{listCount}}</nz-tag></p>
+                </nz-form-item>
+            </div>
+        </div>
+    </div>
+    <div class="operation-box">
+
+    </div>
+</div>

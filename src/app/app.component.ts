@@ -16,14 +16,17 @@ export class AppComponent implements OnInit{
         private router: Router,
         private appService: AppService
     ) {
-          const token = this.localCache.get('token');
-          this.needLogin = !token ? true : false;
+        const token = this.localCache.get('token');
+        this.needLogin = !token ? true : false;
 
-          if (!this.needLogin) {
-              this.router.navigate(['/home']);
-          } else {
-              this.router.navigate(['/login']);
-          }
+        if (this.needLogin) {
+            this.router.navigate(['/login']);
+        }
+
+        /** 如果处于login页面，但是不需要登录，则直接跳转到首页 */
+        if (location.pathname === '/login' && !this.needLogin) {
+            this.router.navigate(['/home']);
+        }
     }
 
     ngOnInit() {

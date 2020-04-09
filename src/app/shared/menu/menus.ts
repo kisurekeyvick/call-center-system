@@ -12,6 +12,7 @@ export const menus = new Map([
             { name: '个人设置', url: '/user', icon: 'user', children: [] },
             { name: '赠品管理', url: '/gift', icon: 'gift', children: [] },
             { name: '名单分配', url: '/listAssignment', icon: 'enter', children: [] },
+            { name: '名回收', url: '/listRecovery', icon: 'reload', children: [] },
             { name: '名单查询', url: '/listQuery', icon: 'search', children: [] },
             { name: '返利申请', url: '/rebateApplication', icon: 'highlight', children: [] },
             { name: '系统设置', url: '/system', icon: 'setting', children: [

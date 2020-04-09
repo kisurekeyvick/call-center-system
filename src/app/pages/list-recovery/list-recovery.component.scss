@@ -1,0 +1,21 @@
+@import '../../core/common/common.style.scss';
+
+.list-recovery-list {
+    @include listLayout;
+
+    .search-list-box {
+        & > div:not(:last-child) {
+            .nzFormItem {
+                border-bottom: 1px dotted #ddd;
+                padding-bottom: 12px;
+                margin-bottom: 12px;
+            }
+        }
+        
+        & > div:last-child {
+            .nzFormItem {
+                margin-bottom: 0;
+            }
+        }
+    }
+}

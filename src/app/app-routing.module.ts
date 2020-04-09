@@ -33,6 +33,10 @@ const routes: Routes = [
   {
     path: 'listQuery',
     loadChildren: () => import('src/app/pages/list-query/list-query.module').then(m => m.ListQueryModule)
+  },
+  {
+    path: 'listRecovery',
+    loadChildren: () => import('src/app/pages/list-recovery/list-recovery.module').then(m => m.ListRecoveryModule)
   }
 ];
 
