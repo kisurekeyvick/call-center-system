@@ -17,5 +17,28 @@
                 margin-bottom: 0;
             }
         }
+
+        .nzFormItem {
+            &.rule-box {
+                .rule-list-box {
+                    .rule-box {
+                        background-color: rgba(240, 242, 245, 0.5);
+                        padding: 24px;
+                        margin: 12px 0;
+                        border-radius: 4px;
+        
+                        .rule-tag-item {
+                            margin-bottom: 12px;
+                        }
+                    }
+                }
+            }
+
+            &.recovery-operation-btn-group {
+                button {
+                    margin-right: 12px;
+                }
+            }
+        }
     }
 }

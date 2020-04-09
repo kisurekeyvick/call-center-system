@@ -1,0 +1,16 @@
+@import '../../../../core/common/common.style.scss';
+
+.assign-form-modal-container {
+    .salesman-list-table {
+        max-height: 500px;
+        overflow-y: scroll;
+    }
+
+    .highlight {
+        color: #f5222d;
+    }
+
+    .modal-btn-group {
+        @include modal-btn-group;
+    }
+}

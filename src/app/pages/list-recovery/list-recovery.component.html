@@ -10,20 +10,33 @@
         <div class="search-list-box">
             <div nz-row nz-col nzXs="24">
                 <nz-form-item class="nzFormItem">
-                    <nz-form-label class="nzFormLabel" nz-col nzXs="3">业务员</nz-form-label>
-                    <nz-form-control class="nzFormControl" nz-col nzXs="21">
-                        <nz-select style="width: 100%;" nzShowSearch nzAllowClear nzPlaceHolder="请选择业务员" [(ngModel)]="salesmen" (ngModelChange)="salesmamChange(salesmen)">
+                    <nz-form-control class="nzFormControl" nz-col>
+                        <span>业务员：</span>
+                        <nz-select style="width: 200px" nzShowSearch nzAllowClear nzPlaceHolder="请选择业务员" [(ngModel)]="salesmen" (ngModelChange)="salesmamChange(salesmen)">
                             <nz-option *ngFor="let option of salesmanList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
                         </nz-select>
                     </nz-form-control>
                 </nz-form-item>
             </div>
             <div nz-row nz-col nzXs="24">
-                <nz-form-item class="nzFormItem">
-                    <nz-form-label class="nzFormLabel" nz-col nzXs="3">回收规则</nz-form-label>
-                    <nz-form-control class="nzFormControl" nz-col nzXs="21">
-                        <div class="rule-box">
-                            <button nz-button [nzType]="'primary'" (click)="editRule()"><i nz-icon nzType="form" nzTheme="outline"></i>编辑规则</button>
+                <nz-form-item class="nzFormItem rule-box">
+                    <nz-form-control class="nzFormControl">
+                        <div nz-col nzXs="24">
+                            <span>回收规则：<button nz-button [nzType]="'primary'" (click)="editRule()"><i nz-icon nzType="form" nzTheme="outline"></i>编辑规则</button></span>
+                        </div>
+                        <div class="rule-list-box" nz-col nzXs="24" nzSm="12">
+                            <ng-container *ngIf="ruleList.length> 0; else noRuleTpl">
+                                <div class="rule-box">
+                                    <ng-container *ngFor="let rule of ruleList; let i = index">
+                                        <nz-tag class="rule-tag-item" nzMode="closeable" [nzColor]="'blue'" (nzOnClose)="deleteRuleItem(i)">{{ rule.name }}: {{ rule.formatValue }}</nz-tag>
+                                    </ng-container>
+                                </div>
+                            </ng-container>
+                            <ng-template #noRuleTpl>
+                                <div class="rule-box no-data">
+                                    <nz-empty nzNotFoundContent="暂无规则"></nz-empty>
+                                </div>
+                            </ng-template>
                         </div>
                     </nz-form-control>
                 </nz-form-item>
@@ -33,9 +46,14 @@
                     <p>回收名单数：<nz-tag [nzColor]="'orange'">{{listCount}}</nz-tag></p>
                 </nz-form-item>
             </div>
+            <div nz-row nz-col nzXs="24">
+                <nz-form-item class="nzFormItem recovery-operation-btn-group">
+                    <p>回收名单操作：
+                        <button nz-button [nzType]="'primary'" (click)="recoveryToOriginDB()"><i nz-icon nzType="reload" nzTheme="outline"></i>回收到原始库</button>
+                        <button nz-button [nzType]="'primary'" (click)="assignToSaleman()"><i nz-icon nzType="enter" nzTheme="outline"></i>分配给业务员</button>
+                    </p>
+                </nz-form-item>
+            </div>
         </div>
-    </div>
-    <div class="operation-box">
-
     </div>
 </div>

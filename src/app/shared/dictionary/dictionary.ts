@@ -112,5 +112,28 @@ export const dictionary = new Map([
             { name: 'D', value: '10004' },
             { name: 'E', value: '10005' }
         ]
+    ],
+    [
+        /** 成功提交保单 是否出单 */
+        'outDocTypeList', [
+            { name: '是', value: '1' },
+            { name: '否', value: '0' },
+        ]
+    ],
+    [
+        /** 成功提交保单 审核状态 */
+        'auditStatus', [
+            { name: '待审核', value: '38001' },
+            { name: '审核通过', value: '38002' },
+            { name: '审核失败', value: '38003' },
+            { name: '审核中', value: '38004' }
+        ]
+    ],
+    [
+        /** 成功提交保单 收单状态 */
+        'receiptStatus', [
+            { name: '未收单', value: '39001' },
+            { name: '已收单', value: '39002' },
+        ]
     ]
 ]);

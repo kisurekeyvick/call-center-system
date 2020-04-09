@@ -3,6 +3,7 @@ import { jackInTheBoxAnimation, jackInTheBoxOnEnterAnimation } from 'src/app/sha
 import { tableConifg, IAssignMember, listValue } from './list-assignment.component.config';
 import { NzModalService, NzMessageService } from 'ng-zorro-antd';
 import { RuleFormModalComponent, IRuleFormCbVal, IDefaultRuleFormValueSourceItem } from './modal/rule-form/rule-form-modal.component';
+import { defaultRuleForm, IRuleForm } from './modal/rule-form/rule-form-modal.component.config';
 
 type ITableCfg = typeof tableConifg;
 
@@ -53,7 +54,7 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
         this.isLoading = true;
 
         setTimeout(() => {
-            this.assignMemberList =listValue();
+            this.assignMemberList = listValue();
             this.isLoading = false;
         }, 2000);
     }
@@ -67,7 +68,7 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
             nzTitle: '编辑提取规则',
             nzContent: RuleFormModalComponent,
             nzComponentParams: {
-                // ruleForm: this.ruleList
+                ruleForm: this.formatRuleFormValue()
             },
             nzWidth: 700,
             nzMaskClosable: false,
@@ -82,6 +83,35 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
                 this.loadAssignmentList();
             }
         });
+    }
+
+    /**
+     * @func
+     * @desc format规则表单数据
+     */
+    formatRuleFormValue(): IRuleForm {
+        const ruleForm: IRuleForm = defaultRuleForm();
+
+        if (this.ruleList.length === 0) {
+            return ruleForm;
+        }
+
+        this.ruleList.forEach((rule: IDefaultRuleFormValueSourceItem) => {
+            if (rule.key === 'firstRegisterDate') {
+                ruleForm.firstRegisterDateBegin = rule.value[0];
+                ruleForm.firstRegisterDateEnd = rule.value[1];
+            } else if (rule.key === 'insuranceDueDate') {
+                ruleForm.insuranceDueDateBegin = rule.value[0];
+                ruleForm.insuranceDueDateEnd = rule.value[1];
+            } else if (rule.key === 'price') {
+                ruleForm.priceBegin = String(rule.value[0]);
+                ruleForm.priceEnd = String(rule.value[1]);
+            } {
+                ruleForm[rule.key] = rule.value;
+            }
+        });
+
+        return ruleForm;
     }
 
     /**

@@ -37,6 +37,10 @@ const routes: Routes = [
   {
     path: 'listRecovery',
     loadChildren: () => import('src/app/pages/list-recovery/list-recovery.module').then(m => m.ListRecoveryModule)
+  },
+  {
+    path: 'successSubmit',
+    loadChildren: () => import('src/app/pages/success-submit/success-submit.module').then(m => m.SuccessSubmitModule)
   }
 ];
 

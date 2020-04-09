@@ -1,0 +1,43 @@
+<div class="assign-form-modal-container">
+    <div nz-row class="model-content">
+        <div class="model-content-item">
+            <p class="title">回收名单数：<span class="highlight">{{ listCount }}</span></p>
+            <div class="salesman-list-table">
+                <ng-container *ngIf="!isLoading; else skeleton">
+                    <nz-table #list [nzData]="salesmanList" [nzShowPagination]="false" [nzFrontPagination]="false" [nzTotal]="salesmanList.length">
+                        <thead>
+                          <tr>
+                            <ng-container *ngFor="let th of tableCfg.thead">
+                                <th>{{ th.name }}</th>
+                            </ng-container>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let data of list.data">
+                            <td>{{data.name}}</td>
+                            <td>{{data.untreatedTask}}</td>
+                            <td>{{data.treatedTask}}</td>
+                            <td>{{data.untreatedAppointment}}</td>
+                            <td>{{data.treatedAppointment}}</td>
+                            <td>{{data.followToday}}</td>
+                            <td>{{data.distributedToday}}</td>
+                            <td>
+                                <nz-input-number [(ngModel)]="data.amount" [nzMin]="0" [nzStep]="1"></nz-input-number>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </nz-table>
+                </ng-container>
+                <ng-template #skeleton>
+                    <nz-skeleton [nzActive]="true"></nz-skeleton>
+                    <nz-skeleton [nzActive]="true"></nz-skeleton>
+                    <nz-skeleton [nzActive]="true"></nz-skeleton>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+    <div class="modal-btn-group">
+        <button nz-button [nzType]="'default'" (click)="cancel()">取消</button>
+        <button nz-button [nzType]="'primary'" (click)="sure()">保存</button>
+    </div>
+</div>

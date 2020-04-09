@@ -80,7 +80,7 @@ export class RuleFormModalComponent implements OnInit, OnDestroy {
 
         if (this.validateForm.valid) {
             this.modal.destroy({
-                type:'success',
+                type: 'success',
                 value: this.formatValidateFormValue()
             });
         }
@@ -96,11 +96,11 @@ export class RuleFormModalComponent implements OnInit, OnDestroy {
         
         const formatVal = (target: IDefaultRuleFormValueSourceItem, value): string => {
             if (target.key === 'firstRegisterDate' || target.key === 'insuranceDueDate') {
-                return `${dayjs(value[0]).format('YYYY-MM-DD')}至${dayjs(value[1]).format('YYYY-MM-DD')}`
+                return `${dayjs(value[0]).format('YYYY-MM-DD')}至${dayjs(value[1]).format('YYYY-MM-DD')}`;
             }
 
             if (target.key === 'price') {
-                return `${value[0]}至${value[1]}`
+                return `${value[0]}至${value[1]}`;
             }
 
             if (target.key === 'category') {

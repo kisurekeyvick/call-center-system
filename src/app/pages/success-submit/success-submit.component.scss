@@ -1,0 +1,5 @@
+@import '../../core/common/common.style.scss';
+
+.success-submit-list {
+    @include listLayout;
+}
