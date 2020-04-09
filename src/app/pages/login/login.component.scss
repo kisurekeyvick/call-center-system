@@ -1,0 +1,36 @@
+@import '../../core/common/common.style.scss';
+
+.login-container {
+    background-image: url(https://gw.alipayobjects.com/zos/rmsportal/TVYTbAXWheQpRcWDaDMu.svg);
+    height: 100%;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center 110px;
+    background-size: 100%;
+    padding-top: 300px;
+    background-color: rgb(0, 0, 0, 0.05);
+
+    .login-content {
+        width: 300px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 24px;
+        border-radius: 5px;
+        animation: slideInDown 0.7s;
+    }
+
+    .login-form-button-box {
+        button {
+            width: 100%;
+        }
+    }
+
+    .login-form .nzFormItem:last-child,
+    .regist-form .nzFormItem:last-child {
+        margin-bottom: 0;
+    }
+}
+
+:host ::ng-deep .ant-tabs-nav-scroll {
+    text-align: center;
+}

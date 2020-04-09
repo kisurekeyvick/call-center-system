@@ -1,1 +1,6 @@
-<app-admin-layout></app-admin-layout>
+<ng-container *ngIf="needLogin">
+    <app-admin-login></app-admin-login>
+</ng-container>
+<ng-container *ngIf="!needLogin">
+    <app-admin-layout></app-admin-layout>
+</ng-container>

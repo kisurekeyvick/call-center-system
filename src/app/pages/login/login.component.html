@@ -1,0 +1,69 @@
+<div class="login-container">
+    <div class="login-content">
+        <nz-tabset [nzSelectedIndex]="selectedIndex" (nzSelectChange)="tabSelectChange($event)">
+            <nz-tab nzTitle="登录">
+                <ng-container *ngIf="selectedIndex === 0">
+                    <form nz-form [formGroup]="loginValidateForm" class="login-form" (ngSubmit)="loginSubmitForm()">
+                        <nz-form-item class="nzFormItem">
+                            <nz-form-control nzHasFeedback nzErrorTip="请输入用户名">
+                                <nz-input-group nzPrefixIcon="user">
+                                    <input type="text" nz-input formControlName="username" placeholder="请输入用户名" />
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item class="nzFormItem">
+                            <nz-form-control nzHasFeedback nzErrorTip="请输入密码">
+                                <nz-input-group nzPrefixIcon="lock">
+                                    <input type="password" nz-input formControlName="password" placeholder="请输入密码" />
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item class="nzFormItem">
+                            <nz-form-control>
+                                <label nz-checkbox formControlName="remember">
+                                    <span>记住账号密码</span>
+                                </label>
+                                <a (click)="selectedIndex = 1">注册</a>
+                                <div class="login-form-button-box">
+                                    <button nz-button [nzType]="'primary'">点击登录</button>
+                                </div>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </form>
+                </ng-container>
+            </nz-tab>
+            <nz-tab nzTitle="注册">
+                <ng-container *ngIf="selectedIndex === 1">
+                    <form nz-form [formGroup]="registValidateForm" class="regist-form" (ngSubmit)="registSubmitForm()">
+                        <nz-form-item class="nzFormItem">
+                            <nz-form-control nzHasFeedback nzErrorTip="请输入用户名">
+                                <nz-input-group nzPrefixIcon="user">
+                                    <input type="text" nz-input formControlName="r_username" placeholder="请输入用户名" />
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item class="nzFormItem">
+                            <nz-form-control nzHasFeedback nzErrorTip="请输入密码">
+                                <nz-input-group nzPrefixIcon="lock">
+                                    <input type="password" nz-input formControlName="r_password" placeholder="请输入密码" />
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item class="nzFormItem">
+                            <nz-form-control nzHasFeedback nzErrorTip="请选择角色">
+                                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="请选择角色" formControlName="r_roleCode">
+                                    <nz-option *ngFor="let option of roleList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                        <nz-form-item class="nzFormItem">
+                            <div class="login-form-button-box">
+                                <button nz-button [nzType]="'primary'">注册</button>
+                            </div>
+                        </nz-form-item>
+                    </form>
+                </ng-container>
+            </nz-tab>
+        </nz-tabset>
+    </div>
+</div>
