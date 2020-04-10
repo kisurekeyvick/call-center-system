@@ -45,6 +45,10 @@ const routes: Routes = [
   {
     path: 'dataReport',
     loadChildren: () => import('src/app/pages/data-report/data-report.module').then(m => m.DataReportModule)
+  },
+  {
+    path: 'summary',
+    loadChildren: () => import('src/app/pages/summary/summary.module').then(m => m.SummaryModule)
   }
 ];
 

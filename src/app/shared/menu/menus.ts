@@ -16,6 +16,7 @@ export const menus = new Map([
             { name: '保单查询', url: '/successSubmit', icon: 'search', children: [] },
             { name: '名单查询', url: '/listQuery', icon: 'search', children: [] },
             { name: '返利申请', url: '/rebateApplication', icon: 'highlight', children: [] },
+            { name: '今日汇总', url: '/summary', icon: 'carry-out', children: [] },
             { name: '数据报表', url: '/dataReport', icon: 'bar-chart', children: [
                 { name: '工作统计', url: '/dataReport/workStatistic', icon: '', children: [] },
                 { name: '战败分析', url: '/dataReport/defeat', icon: '', children: [] },

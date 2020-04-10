@@ -1,0 +1,31 @@
+@import '../../core/common/common.style.scss';
+
+.summary-list {
+    @include listLayout;
+
+    .content {
+        .search-list-box {
+            & > div:not(:last-child) {
+                .nzFormItem {
+                    border-bottom: 1px dotted #ddd;
+                    padding-bottom: 12px;
+                    margin-bottom: 12px;
+                }
+            }
+
+            .nzFormItem {
+                span.title {
+                    margin-right: 50px;
+                }
+
+                span.summary-item {
+                    margin-right: 24px;
+
+                    .nzTag {
+                        margin-left: 12px;
+                    }
+                }
+            }   
+        }
+    }
+}

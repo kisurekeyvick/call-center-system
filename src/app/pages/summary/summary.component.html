@@ -1,0 +1,30 @@
+<div class="summary-list" [@jackInTheBox] [@jackInTheBoxOnEnter]>
+    <div nz-row class="container-nav">
+        <nz-breadcrumb nz-page-header-breadcrumb>
+            <nz-breadcrumb-item><a class="route-link" routerLink="/home"><i nz-icon nzType="home" nzTheme="outline"></i>首页</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item>今日汇总</nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </div>
+    <div nz-row class="content">
+        <div class="search-list-box">
+            <div nz-row nz-col nzXs="24">
+                <nz-form-item class="nzFormItem">
+                    <nz-form-control class="nzFormControl" nz-col>
+                        <span class="title">预约：</span>
+                        <span class="summary-item">已跟踪<nz-tag class="nzTag" [nzColor]="'green'">{{ trackedNum }}</nz-tag></span>
+                        <span class="summary-item">未跟踪<nz-tag class="nzTag" [nzColor]="'red'">{{ untrackedNum }}</nz-tag></span>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div nz-row nz-col nzXs="24">
+                <nz-form-item class="nzFormItem">
+                    <nz-form-control class="nzFormControl" nz-col>
+                        <span class="title">首播：</span>
+                        <span class="summary-item">已处理<nz-tag class="nzTag" [nzColor]="'green'">{{ todayHandleNum }}</nz-tag></span>
+                        <span class="summary-item">未处理<nz-tag class="nzTag" [nzColor]="'red'">{{ notHandleNum }}</nz-tag></span>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+    </div>
+</div>
