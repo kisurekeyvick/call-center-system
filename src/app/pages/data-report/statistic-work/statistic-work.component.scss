@@ -1,0 +1,5 @@
+@import '../../../core/common/common.style.scss';
+
+.statistic-work-report {
+    @include listLayout;
+}

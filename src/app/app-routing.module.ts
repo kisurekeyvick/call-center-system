@@ -41,6 +41,10 @@ const routes: Routes = [
   {
     path: 'successSubmit',
     loadChildren: () => import('src/app/pages/success-submit/success-submit.module').then(m => m.SuccessSubmitModule)
+  },
+  {
+    path: 'dataReport',
+    loadChildren: () => import('src/app/pages/data-report/data-report.module').then(m => m.DataReportModule)
   }
 ];
 

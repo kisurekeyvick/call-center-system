@@ -1,0 +1,20 @@
+<div class="change-belong-modal-container">
+    <div nz-row class="model-content">
+        <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+            <div nz-row>
+                <nz-form-item class="nzFormItem">
+                    <nz-form-label nz-col nzXs="4" nzFor="salesman" class="nzFormLabel">业务员</nz-form-label>
+                    <nz-form-control nz-col nzXs="20" class="nzFormControl" nzErrorTip="请选择业务员">
+                        <nz-select nzShowSearch nzAllowClear id="salesman" nzPlaceHolder="请选择业务员" formControlName="salesman">
+                            <nz-option *ngFor="let option of salesmenList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div class="modal-btn-group">
+                <button nz-button [nzType]="'default'" (click)="cancel()">取消</button>
+                <button nz-button [nzType]="'primary'">保存</button>
+            </div>
+        </form>
+    </div>
+</div>

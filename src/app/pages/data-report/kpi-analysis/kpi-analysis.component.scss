@@ -1,0 +1,5 @@
+@import '../../../core/common/common.style.scss';
+
+.kpi-analysis-report {
+    @include listLayout;
+}

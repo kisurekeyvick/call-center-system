@@ -21,8 +21,20 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let data of list.data">
-                      </tr>
+                        <tr *ngFor="let data of list.data">
+                            <td>{{ data.insured }}</td>
+                            <td>{{ data.plate }}</td>
+                            <td>{{ data.outDocTypeName }}</td>
+                            <td>{{ data.companyName }}</td>
+                            <td>{{ data.salesmanName }}</td>
+                            <td>{{ data.submitTime }}</td>
+                            <td>{{ data.outAuditStatusName }}</td>
+                            <td>{{ data.receiptStatusName }}</td>
+                            <td>{{ data.receiptTime }}</td>
+                            <td>
+                                <a (click)="changeBelongs(data)">更改所属</a>
+                            </td>
+                        </tr>
                     </tbody>
                   </nz-table>
             </ng-container>

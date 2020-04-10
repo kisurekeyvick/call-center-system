@@ -158,3 +158,58 @@ export const tableConfig = {
         { name: '操作' }
     ]
 };
+
+export interface ISuccessSubmitListItem {
+    insured: string;
+    plate: string;
+    outDocTypeName: string;
+    companyName: string;
+    salesmanName: string;
+    submitTime: string;
+    outAuditStatusName: string;
+    receiptStatusName: string;
+    receiptTime: string;
+    [key: string]: any;
+}
+
+export const listValue = (): ISuccessSubmitListItem[] => {
+    return Array.apply(null, Array(20)).map((item, index: number) => {
+        return {
+            id: index,
+            insured: '厉富',
+            plate: '冀A629D1',
+            outDocTypeName: '未出单',
+            companyName: '平安-石家庄-平安1',
+            salesmanName: '王小利',
+            submitTime: '2020-04-09',
+            outAuditStatusName: '待审核',
+            receiptStatusName: '未收单',
+            receiptTime: '2020-04-09'
+        };
+    });
+};
+
+export interface ISalesman {
+    memberId: number;
+    regionId: number;
+    regionName: string;
+    salesmanName: string;
+    teamId: number;
+    teamName: string;
+    [key: string]: any;
+}
+
+export const salemenListValue = (): ISalesman[] => {
+    return Array.apply(null, Array(20)).map((item, index: number) => {
+        return {
+            memberId: index,
+            regionId: null,
+            regionName: null,
+            salesmanName: "王小利",
+            teamId: 10,
+            teamName: "石家庄团队",
+            name: `王小利${index}`,
+            value: index
+        };
+    });
+}

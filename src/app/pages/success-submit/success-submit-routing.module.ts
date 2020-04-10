@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { SuccessSubmitComponent } from './success-submit.component';
+import { ChangeBelongModalComponent } from './modal/change-belong/change-belong-modal.component';
 
 export const routedComponents = [
-    SuccessSubmitComponent
+    SuccessSubmitComponent,
+    ChangeBelongModalComponent
 ];
 
 export const entriedComponents = [
-    
+    ChangeBelongModalComponent
 ];
 
 const routes: Routes = [
@@ -19,3 +21,4 @@ const routes: Routes = [
     exports: [RouterModule]
 })
 export class SuccessSubmitRoutingModule {}
+

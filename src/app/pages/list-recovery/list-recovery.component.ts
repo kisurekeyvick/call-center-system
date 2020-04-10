@@ -113,11 +113,11 @@ export class ListRecoveryComponent implements OnInit, OnDestroy {
 
         this.ruleList.forEach((rule: IDefaultRuleFormValueSourceItem) => {
             if (rule.key === 'firstRegisterDate') {
-                ruleForm.firstRegisterDateBegin = rule.value[0];
-                ruleForm.firstRegisterDateEnd = rule.value[1];
+                ruleForm.firstRegisterDateBegin = String(rule.value[0]);
+                ruleForm.firstRegisterDateEnd = String(rule.value[1]);
             } else if (rule.key === 'insuranceDueDate') {
-                ruleForm.insuranceDueDateBegin = rule.value[0];
-                ruleForm.insuranceDueDateEnd = rule.value[1];
+                ruleForm.insuranceDueDateBegin = String(rule.value[0]);
+                ruleForm.insuranceDueDateEnd = String(rule.value[1]);
             } else if (rule.key === 'price') {
                 ruleForm.priceBegin = String(rule.value[0]);
                 ruleForm.priceEnd = String(rule.value[1]);
