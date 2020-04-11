@@ -82,7 +82,11 @@ export class DefaultInterceptor implements HttpInterceptor {
                 // 则以下代码片断可直接适用
                 if (event instanceof HttpResponse) {
                     const body: IResponseBody = event.body;
-                    if (body && Number(body.statusCode) === 200) {
+                    const token = event.headers.get('Authorization');
+
+                    if (token) {
+                        return of(Object.assign(event, { body: { 'Authorization': token } }));
+                    } else if (body && Number(body.statusCode) === 200) {
                         // 重新修改 `body` 内容为 `response` 内容，对于绝大多数场景已经无须再关心业务状态码
                         return of(Object.assign(event, { body: body.result }));
                         // 或者依然保持完整的格式

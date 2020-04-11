@@ -6,8 +6,8 @@ import LocalStorageService from 'src/app/core/cache/local-storage';
 import { Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
 import { LoginService } from './login.service';
-import { of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { of, fromEvent, Subscription } from 'rxjs';
+import { catchError, debounceTime } from 'rxjs/operators';
 
 interface ICommon {
     [key: string]: any;
@@ -27,8 +27,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     selectedIndex: number;
     /** 角色list */
     roleList: IRoleItem[] = [];
-    /**  */
+    /** 登录缓存 */
     loginUserCache: ILoginUserCache;
+    /** 键盘enter事件 */
+    documentKeydownEvent$: Subscription;
 
     constructor(
         private message: NzMessageService,
@@ -45,6 +47,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.initLoginValidateForm();
         this.initRegistValidateForm();
+        this.documentKeydownEvent$ = fromEvent(window, 'keyup').pipe(
+            debounceTime(500)
+        ).subscribe((res: KeyboardEvent) => {
+            if (res.keyCode === 13) {
+                this.loginSubmitForm();
+            }
+        });
     }
 
     /**
@@ -92,16 +101,14 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.loginService.userSignIn(params).pipe(
                 catchError(err => of(err))
             ).subscribe(res => {
-                console.log('请求的结果是：', res);
+                this.saveUserLoginCache();
+                /** 缓存token */
+                this.localCache.set('token', res.Authorization);
+                this.appService.loginSubject.next({
+                    needLogin: false,
+                    url: '/home'
+                });
             });
-
-            // this.saveUserLoginCache();
-            // /** 缓存token */
-            // this.localCache.set('token', 'ERGSTRRXRXGTRRTSS');
-            // this.appService.loginSubject.next({
-            //     needLogin: false,
-            //     url: '/home'
-            // });
         }
     }
 
@@ -165,5 +172,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
     }
 
-    ngOnDestroy() {}
+    ngOnDestroy() {
+        this.documentKeydownEvent$.unsubscribe();
+    }
 }

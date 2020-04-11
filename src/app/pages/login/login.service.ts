@@ -13,11 +13,6 @@ export class LoginService {
         private http: HttpClient) {
     }
 
-    /** 这边写入一些ajax */
-    // public queryRenewalTaskList(params: any): Observable<any> {
-    //     return this.http.post(environment.gateway.SAAS + '/insurance/task/queryIRenewalTaskList', params);
-    // }
-
     userSignIn(params: ICommon): Observable<any> {
         return this.http.post(`api/user/sign-in`, params);
     }
