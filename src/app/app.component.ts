@@ -8,7 +8,7 @@ import { AppService, ILoginSubject } from 'src/app/app.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
     needLogin: boolean;
   
     constructor(
@@ -30,12 +30,10 @@ export class AppComponent implements OnInit{
     }
 
     ngOnInit() {
-        this.appService.loginSubject.subscribe((res:ILoginSubject) => {
+        this.appService.loginSubject.subscribe((res: ILoginSubject) => {
             const { needLogin, url } = res;
-            if (!needLogin) {
-                this.needLogin = needLogin;
-                this.router.navigate([url]);
-            }
+            this.needLogin = needLogin;
+            this.router.navigate([url]);
         });
     }
 }

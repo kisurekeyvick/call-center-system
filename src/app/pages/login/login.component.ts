@@ -5,6 +5,9 @@ import { IRoleItem, ILoginUserCache, defaultLoginUserCache } from './login.compo
 import LocalStorageService from 'src/app/core/cache/local-storage';
 import { Router } from '@angular/router';
 import { AppService } from 'src/app/app.service';
+import { LoginService } from './login.service';
+import { of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 interface ICommon {
     [key: string]: any;
@@ -21,7 +24,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     /** 注册表单 */
     registValidateForm: FormGroup;
     /** 当前处于选中的tanIndex */
-    selectedIndex:number;
+    selectedIndex: number;
     /** 角色list */
     roleList: IRoleItem[] = [];
     /**  */
@@ -32,7 +35,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         private fb: FormBuilder,
         private localCache: LocalStorageService,
         private router: Router,
-        private appService: AppService
+        private appService: AppService,
+        private loginService: LoginService
     ) {
         this.selectedIndex = 0;
         this.loginUserCache = this.readUserLoginCache();
@@ -80,13 +84,24 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
 
         if (this.loginValidateForm.valid) {
-            this.saveUserLoginCache();
-            /** 缓存token */
-            this.localCache.set('token', 'ERGSTRRXRXGTRRTSS');
-            this.appService.loginSubject.next({
-                needLogin: false,
-                url: '/home'
+            const { username, password } = this.loginValidateForm.value;
+            const params = {
+                username,
+                password
+            };
+            this.loginService.userSignIn(params).pipe(
+                catchError(err => of(err))
+            ).subscribe(res => {
+                console.log('请求的结果是：', res);
             });
+
+            // this.saveUserLoginCache();
+            // /** 缓存token */
+            // this.localCache.set('token', 'ERGSTRRXRXGTRRTSS');
+            // this.appService.loginSubject.next({
+            //     needLogin: false,
+            //     url: '/home'
+            // });
         }
     }
 

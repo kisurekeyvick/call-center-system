@@ -3,9 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 /** 环境地址列表 */
 export const environment = {
-  SERVER_URL: '',
+  SERVER_URL: 'http://281e42459f.zicp.vip/',
   appCode: '',
-  production: false
+  production: false,
+  envType: 'dev'
 };
 
 /*

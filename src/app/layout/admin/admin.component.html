@@ -62,8 +62,18 @@
           </span>
           <div class="head-menu">
               <div class="user-info">
-                <img src="{{user.pic}}"/>
+                <img 
+                  nz-popover 
+                  nzPopoverPlacement="bottomRight"
+                  nzPopoverTrigger="click"
+                  [nzPopoverContent]="contentTemplate"  
+                  src="{{user.pic}}"/>
               </div>
+              <ng-template #contentTemplate>
+                <div class="app-user-menu">
+                  <p (click)="userLogout()">退出登录</p>
+                </div>
+              </ng-template>
           </div>
         </div>
       </nz-header>

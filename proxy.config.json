@@ -1,0 +1,9 @@
+{
+    "/api":{
+      "target":"http://281e42459f.zicp.vip/",
+      "secure":false,
+      "pathRewrite": {
+        "^/api": ""
+      }
+    }
+  }

@@ -79,7 +79,9 @@
 
               .user-info {
                 float: right;
-                
+                padding-right: 24px;
+                cursor: pointer;
+
                 img {
                   width: 30px;
                   height: 30px;
@@ -98,4 +100,14 @@
           }
     }
 } 
+
+.app-user-menu {
+  p {
+    cursor: pointer;
+  }
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+}
   

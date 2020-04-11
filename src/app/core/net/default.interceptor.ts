@@ -144,20 +144,21 @@ export class DefaultInterceptor implements HttpInterceptor {
 
         const header = new HttpHeaders()
             .set('Accept', '*/*') // application/json, text/javascript, */*; q=0.01
-            .set('Content-type', 'application/json, text/plain, */*; charset=UTF-8');
+            .set('Content-type', 'application/json; charset=UTF-8');
+            // .set('Access-Control-Allow-Origin', '*');
 
         const body = req.body;
-        const groupInfo = Object.assign({ groupId: null, groupType: null }, this.session.get('currentGroupInfo'));
+        // const groupInfo = Object.assign({ groupId: null, groupType: null }, this.session.get('currentGroupInfo'));
 
         const newReq = req.clone({
             url: url,
-            withCredentials: true,
+            // withCredentials: true,
             headers: header,
             body: Object.assign({
-                lcb_request_id: this.utils.guid(),
-                appCode: environment.appCode,
-                groupId: groupInfo.groupId,
-                groupType: groupInfo.groupType
+                // lcb_request_id: this.utils.guid(),
+                // appCode: environment.appCode,
+                // groupId: groupInfo.groupId,
+                // groupType: groupInfo.groupType
             }, body)
         });
         // const timeout = parseInt(req.params.get('timeout'), 0) || 10000;
