@@ -1,0 +1,63 @@
+.salesman-operation {
+    position: fixed;
+    right: 100px;
+    top:100px;
+    z-index: 999;
+
+    .small-operation-show {
+
+    }
+
+    .highlight {
+        color: #f5222d;
+    }
+
+    .salesman-operation-detail {
+        border-radius: 5px;
+        background-color: #fff;
+        padding: 12px 24px;
+        width: 500px;
+        box-shadow: 0 2px 8px rgba(0,0,0,.09);
+
+        p.title {
+            background: #fafafa;
+            padding: 0 16px;
+            height: 30px;
+            line-height: 28px;
+        }
+
+        .tracking-premiere-box {
+            .trackingList-box {
+                height: 150px;
+                overflow-y: scroll;
+            }
+        }
+
+        .calendar-box {
+            margin: 12px 0;
+
+            .calendar-list-box {
+                height: 150px;
+                overflow-y: scroll;
+
+                p {
+                    margin-bottom: 8px;
+                }
+            }
+        }
+
+        .remind-box {
+            p {
+                i {
+                    margin-right: 12px;
+                }
+
+                margin-bottom: 8px;
+            }
+
+            p:nth-last-child(2) {
+                margin-bottom: 0;
+            }
+        }
+    }
+}

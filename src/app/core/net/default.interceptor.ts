@@ -84,6 +84,9 @@ export class DefaultInterceptor implements HttpInterceptor {
                     const body: IResponseBody = event.body;
                     const token = event.headers.get('Authorization');
 
+                    this.requestUrlJudge(event);
+
+                    /** 如果存在token，说明是登录接口 */
                     if (token) {
                         return of(Object.assign(event, { body: { 'Authorization': token } }));
                     } else if (body && Number(body.statusCode) === 200) {
@@ -132,6 +135,19 @@ export class DefaultInterceptor implements HttpInterceptor {
         return of(event);
     }
 
+    /**
+     * @func
+     * @desc 针对特殊的接口返回，做出特殊处理
+     */
+    requestUrlJudge(event: HttpResponse<any> | HttpErrorResponse) {
+        const url: string = event.url;
+
+        /** 用户登出，做特殊处理 */
+        if (url.indexOf('api/user/logout')) {
+            return of(Object.assign(event));
+        }
+    }
+
     intercept(
         req: HttpRequest<any>, 
         next: HttpHandler): Observable<HttpSentEvent | HttpHeaderResponse | HttpProgressEvent | HttpResponse<any> | HttpUserEvent<any>> {
@@ -146,10 +162,12 @@ export class DefaultInterceptor implements HttpInterceptor {
             return next.handle(req.clone({ url: url }));
         }
 
+        const tokenValue = this.local.get('token');
+        const token = tokenValue && tokenValue['value'] || '';
         const header = new HttpHeaders()
             .set('Accept', '*/*') // application/json, text/javascript, */*; q=0.01
-            .set('Content-type', 'application/json; charset=UTF-8');
-            // .set('Access-Control-Allow-Origin', '*');
+            .set('Content-type', 'application/json; charset=UTF-8')
+            .set('Authorization', token);
 
         const body = req.body;
         // const groupInfo = Object.assign({ groupId: null, groupType: null }, this.session.get('currentGroupInfo'));

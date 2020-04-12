@@ -93,11 +93,19 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
 
         if (this.loginValidateForm.valid) {
+            // this.saveUserLoginCache();
+            // /** 缓存token */
+            // this.localCache.set('token', '$%^#%^%');
+            // this.appService.loginSubject.next({
+            //     needLogin: false,
+            //     url: '/home'
+            // });
             const { username, password } = this.loginValidateForm.value;
             const params = {
                 username,
                 password
             };
+            
             this.loginService.userSignIn(params).pipe(
                 catchError(err => of(err))
             ).subscribe(res => {

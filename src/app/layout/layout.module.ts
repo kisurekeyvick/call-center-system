@@ -5,9 +5,11 @@ import { AppShareModule } from 'src/app/shared/share.module';
 import { CommonModule } from '@angular/common';
 /** layout */
 import { AppAdminLayoutComponent } from 'src/app/layout/admin/admin.component';
+import { SalesmanOperationComponent } from 'src/app/layout/salesman-operation/salesman-operation.component';
 
 const COMPONENTS = [
-    AppAdminLayoutComponent
+    AppAdminLayoutComponent,
+    SalesmanOperationComponent
 ];
 
 @NgModule({

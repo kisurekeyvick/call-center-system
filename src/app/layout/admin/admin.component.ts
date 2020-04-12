@@ -4,6 +4,10 @@ import { IUser } from './admin.config';
 import { defaultUserPic } from 'src/assets/img.collection';
 import LocalStorageService from 'src/app/core/cache/local-storage';
 import { AppService } from 'src/app/app.service';
+import { LoginService } from 'src/app/pages/login/login.service';
+import { ILoginUserCache } from 'src/app/pages/login/login.component.config';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
     selector: 'app-admin-layout',
@@ -17,7 +21,8 @@ export class AppAdminLayoutComponent implements OnInit, OnDestroy {
 
     constructor(
         private localCache: LocalStorageService,
-        private appService: AppService
+        private appService: AppService,
+        private loginService: LoginService
     ) {
         this.isCollapsed = false;
         this.layoutMenus = menus.get('admin');
@@ -36,10 +41,14 @@ export class AppAdminLayoutComponent implements OnInit, OnDestroy {
      * @desc 用户退出
      */
     userLogout() {
-        this.localCache.remove('token');
-        this.appService.loginSubject.next({
-            needLogin: true,
-            url: '/login'
+        this.loginService.userLogout({}).pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            this.localCache.remove('token');
+            this.appService.loginSubject.next({
+                needLogin: true,
+                url: '/login'
+            });
         });
     }
 

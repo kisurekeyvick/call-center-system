@@ -13,7 +13,18 @@ export class LoginService {
         private http: HttpClient) {
     }
 
+    /** 用户登录 */
     userSignIn(params: ICommon): Observable<any> {
         return this.http.post(`api/user/sign-in`, params);
+    }
+
+    /** 新建用户 */
+    userSignUp(params: ICommon): Observable<any> {
+        return this.http.post(`api/user/sign-up`, params);
+    }
+
+    /** 用户退出 */
+    userLogout(params: ICommon): Observable<any> {
+        return this.http.post(`api/user/logout`, params);
     }
 }

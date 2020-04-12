@@ -1,0 +1,47 @@
+<div class="salesman-operation">
+    <div class="small-operation-show" *ngIf="!showDetail">
+
+    </div>
+    <div class="salesman-operation-detail" *ngIf="showDetail">
+        <div class="tracking-premiere-box">
+            <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'" [nzAnimated]="true">
+                <nz-tab nzTitle="预约跟踪">
+                    <div class="trackingList-box">
+                        <nz-table #list [nzSize]="'small'" [nzData]="trackingList" [nzShowPagination]="false" [nzFrontPagination]="false" [nzTotal]="trackingList.length">
+                            <tbody>
+                              <tr *ngFor="let data of list.data">
+                                <td>{{data.index}}</td>
+                                <td>{{data.name}}</td>
+                                <td>{{data.plate}}</td>
+                                <td>{{data.lastModifyDate}}</td>
+                                <td>{{data.level}}</td>
+                              </tr>
+                            </tbody>
+                        </nz-table>
+                    </div>
+                </nz-tab>
+                <nz-tab nzTitle="首播">
+                    <p>hello 这个是首播</p>
+                </nz-tab>
+            </nz-tabset>
+        </div>
+        <div class="calendar-box">
+            <p class="title">预约日历</p>
+            <div class="calendar-list-box">
+                <ng-container *ngFor="let data of calendarList">
+                    <p><nz-tag [nzColor]="'blue'">{{data.date}}</nz-tag>已预约<span class="highlight">{{data.alreadyDo}}</span>单，还可约<span class="highlight">{{data.todo}}</span>单</p>
+                </ng-container>
+            </div>
+        </div>
+        <div class="remind-box">
+            <p class="title">提醒</p>
+            <p><i nz-icon nzType="info-circle" nzTheme="outline"></i>还剩<span class="highlight">{{remind.unhandleTask}}</span>条首播未处理</p>
+            <p><i nz-icon nzType="info-circle" nzTheme="outline"></i>还剩<span class="highlight">{{remind.unhandleAppoint}}</span>条预约未处理</p>
+            <p>已处理<span class="highlight">{{remind.handled}}</span>条</p>
+            <p>成功<span class="highlight">{{remind.success}}</span>条</p>
+            <p>失败<span class="highlight">{{remind.fail}}</span>条</p>
+            <p>无效<span class="highlight">{{remind.invalid}}</span>条</p>
+            <nz-progress [nzPercent]="remind.percent"></nz-progress>
+        </div>
+    </div>
+</div>
