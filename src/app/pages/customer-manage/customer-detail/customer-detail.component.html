@@ -1,0 +1,34 @@
+<div class="customer-detail">
+    <div nz-row class="container-nav">
+        <nz-breadcrumb nz-page-header-breadcrumb>
+            <nz-breadcrumb-item><a class="route-link" routerLink="/home"><i nz-icon nzType="home" nzTheme="outline"></i>首页</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item>客户管理</nz-breadcrumb-item>
+            <nz-breadcrumb-item><a class="route-link" routerLink="/customer/list">客户列表</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item>详情</nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </div>
+    <div nz-row class="content">
+        <div class="slide-customer-list">
+            <div class="customer-list-count">
+                <nz-tag [nzColor]="'blue'">共计{{ sourceCache ? sourceCache.customerListCache.length : '0' }}条数据</nz-tag>
+            </div>
+            <ng-container *ngIf="sourceCache; else nocacheTpl">
+                <div class="slide-customer-list-scroll">
+                    <ng-container *ngFor="let customer of sourceCache.customerListCache">
+                        <div [ngClass]="{'customer-simple-show': true, 'selected': customer.selected}" (click)="showDetailForm(customer)">
+                            <p class="customer-simple-show-top"><i nz-icon nzType="car" nzTheme="outline"></i><span class="plateNo">{{ customer.plateNo}}</span>-<span class="customerName">{{ customer.customerName }}</span></p>
+                            <p class="customer-simple-show-center">预计距离到期<span class="highlight">222</span>天</p>
+                            <p class="customer-simple-show-bottom">{{ customer.brandName }}</p>
+                        </div>
+                    </ng-container>
+                </div>
+            </ng-container>
+            <ng-template #nocacheTpl>
+                <nz-empty nzNotFoundContent="无客户"></nz-empty>
+            </ng-template>
+        </div>
+        <div class="customer-detail-form">
+            hello kisure
+        </div>
+    </div>
+</div>

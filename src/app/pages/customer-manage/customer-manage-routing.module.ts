@@ -6,6 +6,7 @@ import { AssignCustomerModalComponent } from './modal/assign-customer-modal/assi
 import { TransferCustomerModalComponent } from './modal/transfer-customer-modal/transfer-customer-modal.component';
 import { TrackingCustomerModalComponent } from './modal/tracking-customer-modal/tracking-customer-modal.component';
 import { CustomerImportModalComponent } from './modal/customer-import-modal/customer-import-modal.component';
+import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
 
 export const routedComponents = [
     CustomerListComponent,
@@ -13,7 +14,8 @@ export const routedComponents = [
     TransferCustomerModalComponent,
     TrackingCustomerModalComponent,
     CustomerImportComponent,
-    CustomerImportModalComponent
+    CustomerImportModalComponent,
+    CustomerDetailComponent
 ];
 
 export const entriedComponents = [
@@ -31,11 +33,24 @@ const routes: Routes = [
     },
     {
         path: 'list',
-        component: CustomerListComponent
+        component: CustomerListComponent,
+        data: {
+            title: '客户列表'
+        }
     },
     {
         path: 'dataimport',
-        component: CustomerImportComponent
+        component: CustomerImportComponent,
+        data: {
+            title: '数据导入'
+        }
+    },
+    {
+        path: 'list/detail',
+        component: CustomerDetailComponent,
+        data: {
+            title: '客户详情'
+        }
     }
 ];
 

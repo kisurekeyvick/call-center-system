@@ -5,9 +5,12 @@ import { ISearchListItem, searchListItem, ISearchListModel, ICustomerItem,
 import { IPageChangeInfo, PaginationService } from 'src/app/shared/component/search-list-pagination/pagination';
 import { NzModalService, NzMessageService, NzModalRef } from 'ng-zorro-antd';
 // import { NzModalRef } from 'ng-zorro-antd/modal';
+import { Router } from '@angular/router';
 import { AssignCustomerModalComponent } from '../modal/assign-customer-modal/assign-customer-modal.component';
 import { TransferCustomerModalComponent } from '../modal/transfer-customer-modal/transfer-customer-modal.component';
 import { TrackingCustomerModalComponent } from '../modal/tracking-customer-modal/tracking-customer-modal.component';
+import LocalStorageService from 'src/app/core/cache/local-storage';
+import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
 
 type ITableCfg = typeof tableConfig;
 type pageChangeType = 'pageIndex' | 'pageSize';
@@ -50,7 +53,9 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
     constructor(
         private modalService: NzModalService,
-        private message: NzMessageService
+        private message: NzMessageService,
+        private router: Router,
+        private localCache: LocalStorageService
     ) {
         this.searchListItem = [...searchListItem];
         this.searchListModel = {...searchListModel};
@@ -241,7 +246,14 @@ export class CustomerListComponent implements OnInit, OnDestroy {
      * @param customer 
      */
     customerDetail(customer: ICustomerItem) {
+        const cache = {
+            originPage: 'customer/list',
+            customerListCache: this.customerList,
+            currentCustomer: customer
+        };
 
+        this.localCache.set(LocalStorageItemName.CUSTOMERDETAIL, cache);
+        this.router.navigate(['/customer/list/detail']);
     }
 
     /**
