@@ -18,6 +18,8 @@ export class AppAdminLayoutComponent implements OnInit, OnDestroy {
     public isCollapsed: boolean;
     public layoutMenus: IMenu[] = [];
     public user: IUser;
+    /** 是否展示业务员操作界面 */
+    canShowSalesmanOperation: boolean;
 
     constructor(
         private localCache: LocalStorageService,
@@ -31,9 +33,13 @@ export class AppAdminLayoutComponent implements OnInit, OnDestroy {
             age: 27,
             pic: defaultUserPic,
         };
+        this.canShowSalesmanOperation = true;
     }
 
     ngOnInit() {
+        this.appService.showSalesmanOperation.subscribe((res: boolean) => {
+            this.canShowSalesmanOperation = res;
+        });
     }
 
     /**

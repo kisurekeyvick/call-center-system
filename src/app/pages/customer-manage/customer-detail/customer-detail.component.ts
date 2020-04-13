@@ -5,6 +5,7 @@ import LocalStorageService from 'src/app/core/cache/local-storage';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
 import { ISourceCache, ICustomerItem } from './customer-detail.component.config';
+import { dictionary } from 'src/app/shared/dictionary/dictionary';
 
 @Component({
     selector: 'customer-detail',
@@ -20,6 +21,12 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
     sourceCache: ISourceCache | null;
     /** 表单 */
     validateForm: FormGroup;
+    /** 表单选项列表 */
+    formList = {
+        insuranceCompanysList: dictionary.get('insuranceCompanys'),
+        useNatureList: [],
+        categoryList: [],
+    };
 
     constructor(
         private modalService: NzModalService,
@@ -35,12 +42,26 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         this.sourceCache && this.showDetailForm(this.sourceCache.currentCustomer);
 
         this.validateForm = this.fb.group({
+            /** 客户信息 */
             name: [null, [Validators.required]],
             idCard: [null, [Validators.required]],
             callPhone: [null, [Validators.required]],
             otherLink: [null],
             address: [null],
             customerInfoRemark: [null],
+            /** 车辆信息 */
+            plate: [null],
+            brandModel: [null],
+            vinCode: [null],
+            engineNumber: [null],
+            seating: [null],
+            firstRegisterDate: [null],
+            insuranceDueDate: [null],
+            inspectPeriodDate: [null],
+            preInsuranceCompany: [null],
+            useNature: [null],
+            category: [null],
+            price: [null]
         });
     }
 

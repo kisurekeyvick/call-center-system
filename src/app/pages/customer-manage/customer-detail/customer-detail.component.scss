@@ -82,5 +82,15 @@
 
     .customer-detail-form {
         padding-left: 224px;
+
+        p.title {
+            background: #f0f2f5;
+            line-height: 40px;
+            padding: 0 12px;
+
+            i {
+                margin-right: 12px;
+            }
+        }
     }
 }

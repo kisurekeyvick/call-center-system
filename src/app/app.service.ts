@@ -14,6 +14,7 @@ export interface ILoginSubject {
 @Injectable()
 export class AppService {
     loginSubject: Subject<ILoginSubject> = new Subject<ILoginSubject>();
+    showSalesmanOperation: Subject<boolean> = new Subject<boolean>();
 
     constructor(
         private http: HttpClient) {
