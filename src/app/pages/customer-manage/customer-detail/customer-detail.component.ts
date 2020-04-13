@@ -18,6 +18,8 @@ import { ISourceCache, ICustomerItem } from './customer-detail.component.config'
 export class CustomerDetailComponent implements OnInit, OnDestroy {
     /** 资源缓存 */
     sourceCache: ISourceCache | null;
+    /** 表单 */
+    validateForm: FormGroup;
 
     constructor(
         private modalService: NzModalService,
@@ -31,6 +33,15 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.sourceCache && this.showDetailForm(this.sourceCache.currentCustomer);
+
+        this.validateForm = this.fb.group({
+            name: [null, [Validators.required]],
+            idCard: [null, [Validators.required]],
+            callPhone: [null, [Validators.required]],
+            otherLink: [null],
+            address: [null],
+            customerInfoRemark: [null],
+        });
     }
 
     /**
@@ -52,6 +63,20 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
      */
     loadDetailCustomerForm(customer: ICustomerItem) {
         
+    }
+
+    /**
+     * @callback
+     * @desc 保存信息
+     */
+    submitForm() {
+        for (const i in this.validateForm.controls) {
+            this.validateForm.controls[i].markAsDirty();
+            this.validateForm.controls[i].updateValueAndValidity();
+          }
+  
+          if (this.validateForm.valid) {
+          }
     }
 
     ngOnDestroy() {}

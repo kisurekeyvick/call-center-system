@@ -28,7 +28,78 @@
             </ng-template>
         </div>
         <div class="customer-detail-form">
-            hello kisure
+            <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+                <div nz-row>
+                    <p class="title"><i nz-icon nzType="user" nzTheme="outline"></i>客户信息</p>
+                    <div nz-row nz-col nzXs="24" nzSm="12" nzMd="8" nzGutter="24">
+                        <nz-form-item class="nzFormItem">
+                            <nz-form-label nz-col nzXs="6" nzRequired  nzFor="name" class="nzFormLabel">姓名</nz-form-label>
+                            <nz-form-control nz-col nzXs="18" class="nzFormControl">
+                                <input nz-input placeholder="请输入姓名" id="name" formControlName="name"/>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-row nz-col nzXs="24" nzSm="12" nzMd="8" nzGutter="24">
+                        <nz-form-item class="nzFormItem">
+                            <nz-form-label nz-col nzXs="6" nzRequired  nzFor="idCard" class="nzFormLabel">身份证</nz-form-label>
+                            <nz-form-control nz-col nzXs="18" class="nzFormControl">
+                                <input nz-input placeholder="请输入身份证" id="idCard" formControlName="idCard"/>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-row nz-col nzXs="24" nzSm="12" nzMd="8" nzGutter="24">
+                        <nz-form-item class="nzFormItem">
+                            <nz-form-label nz-col nzXs="6" nzRequired nzFor="callPhone" class="nzFormLabel">联系电话</nz-form-label>
+                            <nz-form-control nz-col nzXs="18" class="nzFormControl">
+                                <input nz-input placeholder="请输入姓名" id="callPhone" formControlName="callPhone"/>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-row nz-col nzXs="24" nzSm="12" nzMd="8" nzGutter="24">
+                        <nz-form-item class="nzFormItem">
+                            <nz-form-label nz-col nzXs="6" nzFor="otherLink" class="nzFormLabel">其他联系方式</nz-form-label>
+                            <nz-form-control nz-col nzXs="18" class="nzFormControl">
+                                <input nz-input placeholder="请输入姓名" id="otherLink" formControlName="otherLink"/>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-row nz-col nzXs="24" nzGutter="24">
+                        <nz-form-item class="nzFormItem">
+                            <nz-form-label nz-col nzXs="6" nzFor="address" class="nzFormLabel">联系地址</nz-form-label>
+                            <nz-form-control nz-col nzXs="18" class="nzFormControl">
+                                <input nz-input placeholder="请输入姓名" id="address" formControlName="address"/>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-row nz-col nzXs="24" nzGutter="24">
+                        <nz-form-item class="nzFormItem">
+                            <nz-form-label nz-col nzXs="6" nzFor="customerInfoRemark" class="nzFormLabel">备注</nz-form-label>
+                            <nz-form-control nz-col nzXs="18" class="nzFormControl">
+                                <textarea nz-input [nzAutosize]="{ minRows: 6, maxRows: 12 }" placeholder="请输入备注" id="customerInfoRemark" formControlName="customerInfoRemark"></textarea>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+                <div>
+                    <p class="title"><i nz-icon nzType="info-circle" nzTheme="outline"></i>车辆信息</p>
+                </div>
+                <div>
+                    <p class="title"><i nz-icon nzType="transaction" nzTheme="outline"></i>最终报价</p>
+                </div>
+                <div>
+                    <p class="title"><i nz-icon nzType="clock-circle" nzTheme="outline"></i>时间信息</p>
+                </div>
+                <div>
+                    <p class="title"><i nz-icon nzType="car" nzTheme="outline"></i>保单派送信息</p>
+                </div>
+                <div class="modal-btn-group">
+                    <button nz-button [nzType]="'primary'">保存信息</button>
+                    <button nz-button [nzType]="'primary'">跟踪提交</button>
+                    <button nz-button [nzType]="'primary'">成功提交</button>
+                    <button nz-button [nzType]="'primary'">失败提交</button>
+                    <button nz-button [nzType]="'primary'">其他业务</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
