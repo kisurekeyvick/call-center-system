@@ -1,6 +1,12 @@
 <div class="salesman-operation">
-    <div class="small-operation-show" *ngIf="!showDetail">
-
+    <div class="small-operation-show" [hidden]="showDetail">
+        <div class="container">
+			<div class="water1"></div>
+			<div class="water2"></div>
+			<div class="water3"></div>
+			<div class="water4"></div>
+		</div>
+        <i class="notification-icon" nz-icon nzType="notification" nzTheme="outline"></i>
     </div>
     <div class="salesman-operation-detail" *ngIf="showDetail">
         <div class="tracking-premiere-box">
@@ -9,7 +15,7 @@
                     <div class="trackingList-box">
                         <nz-table #list [nzSize]="'small'" [nzData]="trackingList" [nzShowPagination]="false" [nzFrontPagination]="false" [nzTotal]="trackingList.length">
                             <tbody>
-                              <tr *ngFor="let data of list.data">
+                              <tr *ngFor="let data of list.data" class="follow-item" (click)="customerDetail(data)">
                                 <td>{{data.index}}</td>
                                 <td>{{data.name}}</td>
                                 <td>{{data.plate}}</td>

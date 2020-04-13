@@ -1,0 +1,45 @@
+@import '../../core/common/common.style.scss';
+
+.error-component-container {
+    @include listLayout;
+    background-color: #fff;
+
+    .error-box {
+        display: flex;
+
+        img {
+            width: 30%;
+            min-width: 300px;
+        }
+
+        .error-content {
+            flex-basis: 40%;
+            margin-top: 200px;
+        }
+    }
+
+    .error-content {
+        h1 {
+            font-family: brandon-grotesque;
+            text-align: center;
+            white-space: pre-wrap;
+            font-weight: 900;
+            font-style: normal;
+            font-size: 30px;
+            letter-spacing: .29em;
+            line-height: 1em;
+            text-transform: uppercase;
+        }
+
+        p {
+            font-family: futura-pt;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 15px;
+            letter-spacing: 0em;
+            line-height: 1.7em;
+            text-transform: none;
+            color: rgba(29,29,29,.7);
+        }
+    }
+}
