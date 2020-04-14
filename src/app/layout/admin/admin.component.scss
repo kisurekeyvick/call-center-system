@@ -6,6 +6,8 @@
   }
   
   .app-layout {
+    overflow-y: hidden;
+
     &.app-admin-layout {
         height: 100vh;
 

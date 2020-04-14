@@ -7,6 +7,10 @@ import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
 import { ISourceCache, ICustomerItem } from './customer-detail.component.config';
 import { dictionary } from 'src/app/shared/dictionary/dictionary';
 
+interface ICommon {
+    [key: string]: any;
+}
+
 @Component({
     selector: 'customer-detail',
     templateUrl: './customer-detail.component.html',
@@ -27,6 +31,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         useNatureList: [],
         categoryList: [],
     };
+    /** 需要保存的参数 */
+    otherFormParams: ICommon;
 
     constructor(
         private modalService: NzModalService,
@@ -36,6 +42,9 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
     ) {
         const cache = this.localCache.get(LocalStorageItemName.CUSTOMERDETAIL);
         this.sourceCache = cache && cache.value || null;
+        this.otherFormParams = {
+            giftList: []
+        };
     }
 
     ngOnInit() {
@@ -61,7 +70,27 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             preInsuranceCompany: [null],
             useNature: [null],
             category: [null],
-            price: [null]
+            price: [null],
+            /** 最终报价 */
+            viPrice: [null],
+            viDiscount: [null],
+            isDiscount: [null],
+            cashBack: [null],
+            clivtaFlag: [null],
+            clivtaPrice: [null],
+            travelTaxFlag: [null],
+            travelTax: [null],
+            billedPremium: [null],
+            paidInAmount: [null],
+            /** 时间信息 */
+            clivtaDate: [null],
+            viDate: [null],
+            /** 保单派送信息 */
+            deliveryTime: [null],
+            recipient: [null],
+            phone: [null],
+            salesman: [null],
+            remark: [null]
         });
     }
 
@@ -84,6 +113,23 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
      */
     loadDetailCustomerForm(customer: ICustomerItem) {
         
+    }
+
+    /**
+     * @callback
+     * @desc 添加赠品
+     */
+    chooseGift() {
+
+    }
+
+    /**
+     * @callback
+     * @desc 删除礼物
+     * @param index 
+     */
+    deleteGift(index: number) {
+        this.otherFormParams.giftList.splice(index, 1);
     }
 
     /**

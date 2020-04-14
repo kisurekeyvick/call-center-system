@@ -56,7 +56,7 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
      */
     initToggleShowDetailEventListener() {
         const dom = this.el.nativeElement.querySelector('.small-operation-show');
-        this.mouseHover$ = fromEvent(dom, 'mouseover').subscribe(() => {
+        this.mouseHover$ = fromEvent(dom, 'click').subscribe(() => {
             this.showDetail = true;
         });
 
