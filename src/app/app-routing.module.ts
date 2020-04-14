@@ -52,6 +52,10 @@ const routes: Routes = [
     loadChildren: () => import('src/app/pages/summary/summary.module').then(m => m.SummaryModule)
   },
   {
+    path: 'policyReview',
+    loadChildren: () => import('src/app/pages/policy-review/policy-review.module').then(m => m.PolicyReviewModule)
+  },
+  {
     path: '**',
     component: PageNotFoundComponent
   }

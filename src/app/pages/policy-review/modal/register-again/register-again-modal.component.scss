@@ -1,0 +1,7 @@
+@import '../../../../core/common/common.style.scss';
+
+.register-again-modal-container{
+    .modal-btn-group {
+        @include modal-btn-group;
+    }
+}

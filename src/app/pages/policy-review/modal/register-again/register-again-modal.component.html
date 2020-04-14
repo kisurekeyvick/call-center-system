@@ -1,0 +1,70 @@
+<div class="register-again-modal-container">
+    <div nz-row class="model-content">
+        <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+            <div nz-row>
+                <div nz-row nz-col nzXs="24"nzGutter="24">
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label nz-col nzXs="6" nzFor="filialeCode" class="nzFormLabel">投保机构</nz-form-label>
+                        <nz-form-control nz-col nzXs="18" class="nzFormControl">
+                            <nz-select nzShowSearch nzAllowClear id="filialeCode" nzPlaceHolder="请选择投保机构" formControlName="filialeCode">
+                                <nz-option *ngFor="let option of formList.filialeList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-row nz-col nzXs="24"nzGutter="24">
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label nz-col nzXs="6" nzFor="viPriceFinal" class="nzFormLabel">商业险金额(元)</nz-form-label>
+                        <nz-form-control nz-col nzXs="18" class="nzFormControl">
+                            <nz-input-number style="width: 100%;" [nzMin]="0" id="viPriceFinal" formControlName="viPriceFinal" [nzStep]="0.0001"></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-row nz-col nzXs="24"nzGutter="24">
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label nz-col nzXs="6" nzFor="clivtaPriceFinal" class="nzFormLabel">交强险金额(元)</nz-form-label>
+                        <nz-form-control nz-col nzXs="18" class="nzFormControl">
+                            <nz-input-number style="width: 100%;" [nzMin]="0" id="clivtaPriceFinal" formControlName="clivtaPriceFinal" [nzStep]="0.0001"></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-row nz-col nzXs="24"nzGutter="24">
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label nz-col nzXs="6" nzFor="travelTaxFinal" class="nzFormLabel">车船税(元)</nz-form-label>
+                        <nz-form-control nz-col nzXs="18" class="nzFormControl">
+                            <nz-input-number style="width: 100%;" [nzMin]="0" id="travelTaxFinal" formControlName="travelTaxFinal" [nzStep]="0.0001"></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-row nz-col nzXs="24"nzGutter="24">
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label nz-col nzXs="6" nzFor="drivingPremium" class="nzFormLabel">驾意险价格(元)</nz-form-label>
+                        <nz-form-control nz-col nzXs="18" class="nzFormControl">
+                            <nz-input-number style="width: 100%;" [nzMin]="0" id="drivingPremium" formControlName="drivingPremium" [nzStep]="0.0001"></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-row nz-col nzXs="24"nzGutter="24">
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label nz-col nzXs="6" nzFor="allowancePremium" class="nzFormLabel">津贴保价格(元)</nz-form-label>
+                        <nz-form-control nz-col nzXs="18" class="nzFormControl">
+                            <nz-input-number style="width: 100%;" [nzMin]="0" id="allowancePremium" formControlName="allowancePremium" [nzStep]="0.0001"></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-row nz-col nzXs="24"nzGutter="24">
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label nz-col nzXs="6" nzFor="glassPremium" class="nzFormLabel">玻璃膜价格(元)</nz-form-label>
+                        <nz-form-control nz-col nzXs="18" class="nzFormControl">
+                            <nz-input-number style="width: 100%;" [nzMin]="0" id="glassPremium" formControlName="glassPremium" [nzStep]="0.0001"></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <div class="modal-btn-group">
+                <button nz-button [nzType]="'default'" (click)="cancel()">取消</button>
+                <button nz-button [nzType]="'primary'">保存</button>
+            </div>
+        </form>
+    </div>
+</div>

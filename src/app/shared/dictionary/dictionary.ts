@@ -135,5 +135,12 @@ export const dictionary = new Map([
             { name: '未收单', value: '39001' },
             { name: '已收单', value: '39002' },
         ]
+    ],
+    [
+        /** 保单审核 是否出单 */
+        'outDocTypeList', [
+            { name: '未出单', value: '1' },
+            { name: '已出单', value: '2' },
+        ]
     ]
 ]);

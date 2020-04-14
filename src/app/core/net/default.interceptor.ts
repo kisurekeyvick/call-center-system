@@ -166,8 +166,8 @@ export class DefaultInterceptor implements HttpInterceptor {
         const token = tokenValue && tokenValue['value'] || '';
         const header = new HttpHeaders()
             .set('Accept', '*/*') // application/json, text/javascript, */*; q=0.01
-            .set('Content-type', 'application/json; charset=UTF-8')
-            .set('Authorization', token);
+            .set('Content-type', 'application/json; charset=UTF-8');
+            // .set('Authorization', token);
 
         const body = req.body;
         // const groupInfo = Object.assign({ groupId: null, groupType: null }, this.session.get('currentGroupInfo'));
