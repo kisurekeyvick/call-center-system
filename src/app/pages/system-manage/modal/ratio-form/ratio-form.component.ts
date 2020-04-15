@@ -3,6 +3,9 @@ import { NzModalRef } from 'ng-zorro-antd';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IRatioSettingListItem, defaultRatioItem } from '../../ratio-setting/ratio-setting.component.config';
 import { dictionary } from 'src/app/shared/dictionary/dictionary';
+import { SystemManageService } from '../../system-manage.service';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
     selector: '/ratio-form-modal',
@@ -16,10 +19,12 @@ export class RatioFormModalComponent implements OnInit, OnDestroy {
     companyList = dictionary.get('insuranceCompanys');
 
     @Input() ratioItem: IRatioSettingListItem = {...defaultRatioItem};
+    @Input() type: string = 'add';
 
     constructor(
         private modal: NzModalRef,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private systemManageService: SystemManageService
     ) {
     }
 
@@ -43,8 +48,44 @@ export class RatioFormModalComponent implements OnInit, OnDestroy {
         }
 
         if (this.validateForm.valid) {
+            this.type === 'add' && this.addRebate();
+            this.type === 'update' && this.updateRebate();
             this.modal.destroy('success');
         }
+    }
+
+    /**
+     * @func
+     * @desc 添加返利
+     */
+    addRebate() {
+        const params = {
+            ...this.validateForm.value
+        };
+
+        this.systemManageService.addRebate(params).pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            this.modal.destroy('success');
+        });
+    }
+
+    /**
+     * @func
+     * @desc 修改返利
+     */
+    updateRebate() {
+        const { id } = this.ratioItem;
+        const params = {
+            id,
+            ...this.validateForm.value
+        };
+
+        this.systemManageService.updateRebate(params).pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            this.modal.destroy('success');
+        });
     }
 
     ngOnDestroy() {}

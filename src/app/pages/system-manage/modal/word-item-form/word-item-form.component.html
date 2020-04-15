@@ -4,17 +4,17 @@
             <div nz-row>
                 <div nz-row nz-col>
                     <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="3" nzFor="name" nzRequired class="nzFormLabel">名称</nz-form-label>
-                        <nz-form-control nz-col nzXs="21" class="nzFormControl" nzErrorTip="请输入名称">
-                            <input nz-input placeholder="请输入名称" id="name" formControlName="name"/>
+                        <nz-form-label nz-col nzXs="3" nzFor="brief" nzRequired class="nzFormLabel">名称</nz-form-label>
+                        <nz-form-control nz-col nzXs="21" class="nzFormControl" nzHasFeedback nzErrorTip="请输入名称">
+                            <input nz-input placeholder="请输入名称" id="brief" formControlName="brief"/>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div nz-row nz-col>
                     <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="3" nzFor="content" nzRequired class="nzFormLabel">内容</nz-form-label>
-                        <nz-form-control nz-col nzXs="21" class="nzFormControl" nzErrorTip="请输入内容">
-                            <textarea [nzAutosize]="{ minRows: 6, maxRows: 12 }" nz-input placeholder="请输入内容" id="name" formControlName="content"></textarea>
+                        <nz-form-label nz-col nzXs="3" nzFor="details" nzRequired class="nzFormLabel">内容</nz-form-label>
+                        <nz-form-control nz-col nzXs="21" class="nzFormControl" nzHasFeedback nzErrorTip="请输入内容">
+                            <textarea [nzAutosize]="{ minRows: 6, maxRows: 12 }" nz-input placeholder="请输入内容" id="details" formControlName="details"></textarea>
                         </nz-form-control>
                     </nz-form-item>
                 </div>

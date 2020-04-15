@@ -1,7 +1,11 @@
 import { Component, OnInit, Input, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { defaultFormModal } from './gift-form-modal.component.config';
 import { IGiftItem } from '../../gift-manage.component.config';
+import { GiftService } from '../../gift-manage.service';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
     selector: 'gift-form-modal',
@@ -9,79 +13,85 @@ import { IGiftItem } from '../../gift-manage.component.config';
     styleUrls: ['./gift-form-modal.component.scss']
 })
 export class GIftFormModalComponent implements OnInit, OnDestroy {
+    /** 表单 */
+    validateForm: FormGroup;
     /** 是否不可以编辑 */
     disable = false;
-    /** 默认表单值 */
-    private _formModel:IGiftItem = { ...defaultFormModal };
 
-    @ViewChild('inputCountElement', { static: false }) inputCountElement: ElementRef;
+    // @ViewChild('inputCountElement', { static: false }) inputCountElement: ElementRef;
     
-    @Input() 
-    set formModel(value) {
-        this._formModel = value;
-    }
-
-    get formModel() {
-        return this._formModel;
-    }
+    @Input() formModel: IGiftItem = {...defaultFormModal};
+    @Input() type: string = 'add';
 
     constructor(
-        private modal: NzModalRef
+        private modal: NzModalRef,
+        private fb: FormBuilder,
+        private giftService: GiftService
     ) {
 
     }
 
-    ngOnInit() {}
+    ngOnInit() {
+        const { giftName, giftPrice } = this.formModel;
 
-    /**
-     * @callback
-     * @desc count发生变化
-     */
-    onCountChange(value: string) {
-        this.updateValue(value);
-    }
-
-    /**
-     * @callback
-     * @desc 失去焦点触发
-     */
-    onBlurCount() {
-        if (this.formModel.count.charAt(this.formModel.count.length - 1) === '.' || this.formModel.count === '-') {
-            this.updateValue(this.formModel.count.slice(0, -1));
-        }
+        this.validateForm = this.fb.group({
+            giftName: [giftName, [Validators.required]],
+            giftPrice: [giftPrice, [Validators.required]],
+        });
     }
 
     cancel() {
         this.modal.destroy('error');
     }
 
-    sure() {
-        this.modal.destroy('success');
+    submitForm() {
+        for (const i in this.validateForm.controls) {
+            this.validateForm.controls[i].markAsDirty();
+            this.validateForm.controls[i].updateValueAndValidity();
+        }
+  
+        if (this.validateForm.valid) {
+            this.type === 'add' && this.addGift();
+            this.type === 'update' && this.updateGift();
+        }
     }
 
-    updateValue(value: string): void {
-        const reg = /^-?(0|[1-9][0-9]*)(\.[0-9]*)?$/;
-        if ((!isNaN(+value) && reg.test(value)) || value === '' || value === '-') {
-            this.formModel.count = value;
-        }
+    /**
+     * @func
+     * @desc 添加礼品
+     */
+    addGift() {
+        const { tenantCode } = this.formModel;
+        const params = {
+            ...this.validateForm.value,
+            tenantCode,
+            isDelete: '2'
+        };
 
-        this.inputCountElement.nativeElement.value = this.formModel.count;
+        this.giftService.addGift(params).pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            this.modal.destroy('success');
+        });
     }
 
-    formatNumber(value: string): string {
-        const string = `${value}`;
-        const list = string.split('.');
-        const prefix = list[0].charAt(0) === '-' ? '-' : '';
-        let num = prefix ? list[0].slice(1) : list[0];
-        let result = '';
-        while (num.length > 3) {
-          result = `,${num.slice(-3)}${result}`;
-          num = num.slice(0, num.length - 3);
-        }
-        if (num) {
-          result = num + result;
-        }
-        return `${prefix}${result}${list[1] ? `.${list[1]}` : ''}`;
+    /**
+     * @func
+     * @desc 修改礼品
+     */
+    updateGift() {
+        const { id, tenantCode } = this.formModel;
+        const params = {
+            ...this.validateForm.value,
+            id,
+            tenantCode
+        };
+
+        this.giftService.updateGift(params).pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            this.modal.destroy('success');
+        });
     }
 
     ngOnDestroy() {}

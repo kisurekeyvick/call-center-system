@@ -10,10 +10,11 @@ export interface IDefeatReasonItem {
     defeatReason: string;
     isDelete?: string;
     [key: string]: any;
-};
+}
 
 export const defaultDefeatReason: IDefeatReasonItem = {
-    defeatReason: ''
+    defeatReason: '',
+    isDelete: '1'
 };
 
 export const listValue = (): IDefeatReasonItem[] => {
@@ -23,6 +24,6 @@ export const listValue = (): IDefeatReasonItem[] => {
             defeatReason: '太菜了',
             isDelete: '1',
             isDeleteName: '已经删除'
-        }
+        };
     });
 };

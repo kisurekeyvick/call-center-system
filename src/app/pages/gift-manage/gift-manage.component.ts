@@ -3,11 +3,12 @@ import { jackInTheBoxAnimation, jackInTheBoxOnEnterAnimation } from 'src/app/sha
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { IGiftItem, ISearchListItem, searchListItem, ISearchListModel, searchListModel,
     tableConifg, listValue } from './gift-manage.component.config';
-// import { IPageChangeInfo, PaginationService } from 'src/app/shared/component/search-list-pagination/pagination';
 import { GIftFormModalComponent } from './modal/gift-form/gift-form-modal.component';
+import { GiftService } from './gift-manage.service';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 type ITableCfg = typeof tableConifg;
-type pageChangeType = 'pageIndex' | 'pageSize';
 
 interface ICommon {
     [key: string]: any;
@@ -44,16 +45,12 @@ export class GiftManageListComponent implements OnInit, OnDestroy {
 
     constructor(
         private message: NzMessageService,
-        private modalService: NzModalService
+        private modalService: NzModalService,
+        private giftService: GiftService
     ) {
         this.searchListItem = [...searchListItem];
         this.searchListModel = {...searchListModel};
         this.giftList = [];
-        // this.pageInfo = new PaginationService({
-        //     total: 200,
-        //     pageSize: 10,
-        //     pageIndex: 1
-        // });
         this.isLoading = true;
     }
 
@@ -66,7 +63,7 @@ export class GiftManageListComponent implements OnInit, OnDestroy {
      * @desc 搜索
      */
     search() {
-        this.loadGiftList({});
+        this.loadGiftList();
     }
 
     /**
@@ -83,17 +80,17 @@ export class GiftManageListComponent implements OnInit, OnDestroy {
      * @param params 
      * @param pageChangeType 
      */
-    loadGiftList(params: ICommon, pageChangeType?: pageChangeType) {
+    loadGiftList() {
         this.isLoading = true;
-        
-        setTimeout(() => {
-            this.giftList = listValue();
-            this.isLoading = false;
 
-            // if (pageChangeType === 'pageSize') {
-            //     this.pageInfo.pageIndex = 1;
-            // }
-        }, 2000);
+        this.giftService.queryGiftList().pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            setTimeout(() => {
+                this.giftList = listValue();
+                this.isLoading = false;
+            }, 2000);
+        });
     }
 
     /**
@@ -105,7 +102,8 @@ export class GiftManageListComponent implements OnInit, OnDestroy {
             nzTitle: '编辑赠品',
             nzContent: GIftFormModalComponent,
             nzComponentParams: {
-                formModel: gift
+                formModel: gift,
+                type: 'update'
             },
             nzMaskClosable: false,
             nzFooter: null
@@ -128,7 +126,7 @@ export class GiftManageListComponent implements OnInit, OnDestroy {
             nzTitle: '添加赠品',
             nzContent: GIftFormModalComponent,
             nzComponentParams: {
-                formModel: {name: '', count: null}
+                type: 'add'
             },
             nzMaskClosable: false,
             nzFooter: null
@@ -147,15 +145,22 @@ export class GiftManageListComponent implements OnInit, OnDestroy {
      * @desc 删除礼品
      */
     deleteGift() {
-        const deleteGiftArr:IGiftItem[]  = this.giftList.filter((item: IGiftItem) => this.mapOfCheckedId[item.id]);
-        console.log('deleteGiftArr', deleteGiftArr);
+        const deleteGiftArr: IGiftItem[]  = this.giftList.filter((item: IGiftItem) => this.mapOfCheckedId[item.id]);
+        const idArr = deleteGiftArr.map((item: IGiftItem) => item.id);
+        const params = {
+            idArr
+        };
         this.modalService.confirm({
             nzTitle: '警告',
             nzContent: '请再次确认是否删除',
             nzOkText: '删除',
             nzCancelText: '取消',
             nzOnOk: () => {
-                this.message.create('success', `删除成功`);
+                this.giftService.deleteGift(params).pipe(
+                    catchError(err => of(err))
+                ).subscribe(res => {
+                    this.message.create('success', `删除成功`);
+                });
             }
         });
     }
@@ -183,17 +188,6 @@ export class GiftManageListComponent implements OnInit, OnDestroy {
     computedCanDeleteGiftVal() {
         this.canDeleteGift = this.giftList.some(item => this.mapOfCheckedId[item.id]);
     }
-
-    /**
-     * @func
-     * @desc 分页发生变化
-     */
-    // onPageChange(changeInfo: IPageChangeInfo) {
-    //     const property = changeInfo.type;
-    //     this.pageInfo[property] = changeInfo.value;
-
-    //     this.loadGiftList({}, property);
-    // }
 
     ngOnDestroy() {}
 }

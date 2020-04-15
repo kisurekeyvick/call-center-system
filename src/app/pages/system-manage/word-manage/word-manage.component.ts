@@ -1,8 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { jackInTheBoxAnimation, jackInTheBoxOnEnterAnimation } from 'src/app/shared/animate/index';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
-import { wordItem, listValue } from './word-manage.component.config';
+import { IWordItem, listValue } from './word-manage.component.config';
 import { WordItemModalComponent } from '../modal/word-item-form/word-item-form.component';
+import { SystemManageService } from '../system-manage.service';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
     selector: 'word-manage-list',
@@ -15,13 +18,14 @@ import { WordItemModalComponent } from '../modal/word-item-form/word-item-form.c
 })
 export class WordManageComponent implements OnInit, OnDestroy {
     /** 话术列表展示 */
-    wordList: wordItem[];
+    wordList: IWordItem[];
     /** 是否正在加载 */
     isLoading: boolean;
 
     constructor(
         private message: NzMessageService,
-        private modalService: NzModalService
+        private modalService: NzModalService,
+        private systemManageService: SystemManageService
     ) {
         this.wordList = [];
     }
@@ -37,10 +41,17 @@ export class WordManageComponent implements OnInit, OnDestroy {
     loadWordList() {
         this.isLoading = true;
 
-        setTimeout(() => {
-            this.wordList = listValue();
-            this.isLoading = false;
-        }, 2000);
+        this.systemManageService.querySpeechList().pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            setTimeout(() => {
+                this.wordList = (listValue()).map(item => ({
+                    ...item,
+                    contentDesc: item.details.slice(0, 20) + '...'
+                }));
+                this.isLoading = false;
+            }, 2000);
+        });
     }
 
     /**
@@ -51,7 +62,9 @@ export class WordManageComponent implements OnInit, OnDestroy {
         const modal = this.modalService.create({
             nzTitle: '添加话术',
             nzContent: WordItemModalComponent,
-            nzComponentParams: {},
+            nzComponentParams: {
+                type: 'add'
+            },
             nzMaskClosable: false,
             nzFooter: null
         });
@@ -69,13 +82,21 @@ export class WordManageComponent implements OnInit, OnDestroy {
      * @desc 删除话术
      * @param index 
      */
-    deleteWord(word: wordItem) {
+    deleteWord(word: IWordItem) {
         this.modalService.confirm({
             nzTitle: '提示',
             nzContent: `您确定删除话术"${word.name}"吗?`,
             nzOnOk: () => {
-                this.message.success('删除成功');
-                this.loadWordList();
+                const params = {
+                    id: word.id
+                };
+                
+                this.systemManageService.deleteSpeech(params).pipe(
+                    catchError(err => of(err))
+                ).subscribe(res => {
+                    this.message.success('删除成功');
+                    this.loadWordList();
+                });
             },
             nzOnCancel: () => {
                 this.message.info('您已取消删除操作');
@@ -88,12 +109,13 @@ export class WordManageComponent implements OnInit, OnDestroy {
      * @desc 编辑话术
      * @param word 
      */
-    editWord(word: wordItem) {
+    editWord(word: IWordItem) {
         const modal = this.modalService.create({
             nzTitle: '修改话术',
             nzContent: WordItemModalComponent,
             nzComponentParams: {
-                wordItem: word
+                wordItem: word,
+                type: 'update'
             },
             nzMaskClosable: false,
             nzFooter: null

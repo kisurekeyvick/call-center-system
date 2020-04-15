@@ -3,6 +3,9 @@ import { jackInTheBoxAnimation, jackInTheBoxOnEnterAnimation } from 'src/app/sha
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { tableConifg, IDefeatReasonItem, listValue } from './defeat-reason.component.config';
 import { DefeatReasonFormModalComponent } from '../modal/defeat-reason-form/defeat-reason-form.component';
+import { SystemManageService } from '../system-manage.service';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 type ITableCfg = typeof tableConifg;
 
@@ -25,7 +28,8 @@ export class DefeatReasonComponent implements OnInit, OnDestroy {
 
     constructor(
         private message: NzMessageService,
-        private modalService: NzModalService
+        private modalService: NzModalService,
+        private systemManageService: SystemManageService
     ) {
         this.defeatReasonList = [];
     }
@@ -41,10 +45,14 @@ export class DefeatReasonComponent implements OnInit, OnDestroy {
     loadDefeatReasonList() {
         this.isLoading = true;
 
-        setTimeout(() => {
-            this.defeatReasonList = listValue();
-            this.isLoading = false;
-        }, 2000);
+        this.systemManageService.queryDefeatreasonList().pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            setTimeout(() => {
+                this.defeatReasonList = listValue();
+                this.isLoading = false;
+            }, 2000);
+        });
     }
 
     /**
@@ -55,7 +63,9 @@ export class DefeatReasonComponent implements OnInit, OnDestroy {
         const modal = this.modalService.create({
             nzTitle: '添加战败原因',
             nzContent: DefeatReasonFormModalComponent,
-            nzComponentParams: {},
+            nzComponentParams: {
+                type: 'add'
+            },
             nzMaskClosable: false,
             nzFooter: null
         });
@@ -73,12 +83,13 @@ export class DefeatReasonComponent implements OnInit, OnDestroy {
      * @desc 修改战败原因
      * @param defeatReason 
      */
-    modifyDefeatReason(defeatReason:IDefeatReasonItem) {
+    modifyDefeatReason(defeatReason: IDefeatReasonItem) {
         const modal = this.modalService.create({
             nzTitle: '修改战败原因',
             nzContent: DefeatReasonFormModalComponent,
             nzComponentParams: {
-                defeatReason
+                defeatReason,
+                type: 'update'
             },
             nzMaskClosable: false,
             nzFooter: null
@@ -97,13 +108,21 @@ export class DefeatReasonComponent implements OnInit, OnDestroy {
      * @desc 删除战败原因
      * @param defeatReason 
      */
-    deleteDefeatReason(defeatReason:IDefeatReasonItem) {
+    deleteDefeatReason(defeatReason: IDefeatReasonItem) {
         this.modalService.confirm({
             nzTitle: '提示',
             nzContent: `您确定删除该条数据吗?`,
             nzOnOk: () => {
-                this.message.success('删除成功');
-                this.loadDefeatReasonList();
+                const params = {
+                    id: defeatReason.id
+                };
+
+                this.systemManageService.deleteDefeatreason(params).pipe(
+                    catchError(err => of(err))
+                ).subscribe(res => {
+                    this.message.success('删除成功');
+                    this.loadDefeatReasonList();
+                });
             },
             nzOnCancel: () => {
                 this.message.info('您已取消删除操作');

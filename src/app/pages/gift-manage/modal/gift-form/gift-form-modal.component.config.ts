@@ -1,4 +1,8 @@
 export const defaultFormModal = {
-    name: '',
-    count: null
+    giftName: '',
+    giftPrice: null,
+    tenantCode: 'sbh',
+    isDelete: 2,
+    id: null
 };
+

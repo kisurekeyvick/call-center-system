@@ -37,9 +37,8 @@
                             [(nzChecked)]="mapOfCheckedId[data.id]"
                             (nzCheckedChange)="refreshStatus()"
                         ></td>
-                        <td>{{data.name}}</td>
-                        <td>{{data.count}}</td>
-                        <td>{{data.desc}}</td>
+                        <td>{{data.giftName}}</td>
+                        <td>{{data.giftPrice}}</td>
                         <td>
                             <a (click)="editGift(data)"><i nz-icon nzTooltipTitle="编辑" nzTooltipPlacement="bottom" nz-tooltip nzType="delete" nzType="edit" nzTheme="outline"></i></a>
                         </td>

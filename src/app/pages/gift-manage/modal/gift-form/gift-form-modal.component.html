@@ -1,29 +1,28 @@
 <div class="gift-form-modal-container">
     <div nz-row class="model-content">
-        <nz-form-item class="nzFormItem">
-            <nz-form-label class="nzFormLabel" nz-col nzXs="4" nzFor="name">赠品名称</nz-form-label>
-            <nz-form-control class="nzFormControl" nz-col nzXs="20">
-                <input nz-input type="text" placeholder="请输入赠品名称" id="name" 
-                                [(ngModel)]="formModel.name"
-                                [disabled]="disable"/>
-            </nz-form-control>
-        </nz-form-item>
-
-        <nz-form-item class="nzFormItem">
-            <nz-form-label class="nzFormLabel" nz-col nzXs="4" nzFor="count">赠品数量</nz-form-label>
-            <nz-form-control class="nzFormControl" nz-col nzXs="20">
-                <input nz-input
-                        #inputCountElement 
-                        placeholder="请输入赠品数量" id="count" 
-                        [ngModel]="formModel.count"
-                        (ngModelChange)="onCountChange($event)"
-                        (blur)="onBlurCount()"
-                        [disabled]="disable"/>
-            </nz-form-control>
-        </nz-form-item>
-    </div>
-    <div class="modal-btn-group">
-        <button nz-button [nzType]="'default'" (click)="cancel()">取消</button>
-        <button nz-button [nzType]="'primary'" (click)="sure()">保存</button>
+        <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+            <div nz-row>
+                <div nz-row nz-col nzXs="24" nzGutter="24">
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label nz-col nzXs="6" nzRequired nzFor="giftName" class="nzFormLabel">赠品名称</nz-form-label>
+                        <nz-form-control nz-col nzXs="18" class="nzFormControl" nzHasFeedback nzErrorTip="请输入赠品名称">
+                            <input nz-input placeholder="请输入赠品名称" id="giftName" formControlName="giftName"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-row nz-col nzXs="24" nzGutter="24">
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label nz-col nzXs="6" nzRequired nzFor="giftPrice" class="nzFormLabel">赠品价格(元)</nz-form-label>
+                        <nz-form-control nz-col nzXs="18" class="nzFormControl" nzHasFeedback nzErrorTip="请输入赠品价格">
+                            <nz-input-number style="width: 100%;" placeholder="请输入赠品价格" id="giftPrice" formControlName="giftPrice" [nzStep]="0.0000000001"></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <div class="modal-btn-group">
+                <button nz-button [nzType]="'default'" (click)="cancel()">取消</button>
+                <button nz-button [nzType]="'primary'">保存</button>
+            </div>
+        </form>
     </div>
 </div>

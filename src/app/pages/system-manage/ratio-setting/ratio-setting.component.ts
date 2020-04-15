@@ -3,6 +3,9 @@ import { jackInTheBoxAnimation, jackInTheBoxOnEnterAnimation } from 'src/app/sha
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { tableConifg, IRatioSettingListItem, listValue } from './ratio-setting.component.config';
 import { RatioFormModalComponent } from '../modal/ratio-form/ratio-form.component';
+import { SystemManageService } from '../system-manage.service';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 type ITableCfg = typeof tableConifg;
 
@@ -29,7 +32,8 @@ export class RatioSettingListComponent implements OnInit, OnDestroy {
 
     constructor(
         private message: NzMessageService,
-        private modalService: NzModalService
+        private modalService: NzModalService,
+        private systemManageService: SystemManageService
     ) {
         this.ratioSettingList = [];
     }
@@ -45,10 +49,14 @@ export class RatioSettingListComponent implements OnInit, OnDestroy {
     loadRatioSettingList() {
         this.isLoading = true;
 
-        setTimeout(() => {
-            this.ratioSettingList = listValue();
-            this.isLoading = false;
-        }, 2000);
+        this.systemManageService.queryRebateList().pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            setTimeout(() => {
+                this.ratioSettingList = listValue();
+                this.isLoading = false;
+            }, 2000);
+        });
     }
 
     /**
@@ -59,7 +67,9 @@ export class RatioSettingListComponent implements OnInit, OnDestroy {
         const modal = this.modalService.create({
             nzTitle: '添加返点比率',
             nzContent: RatioFormModalComponent,
-            nzComponentParams: {},
+            nzComponentParams: {
+                type: 'add'
+            },
             nzMaskClosable: false,
             nzFooter: null
         });
@@ -82,8 +92,16 @@ export class RatioSettingListComponent implements OnInit, OnDestroy {
             nzTitle: '提示',
             nzContent: `您确定删除该条数据吗?`,
             nzOnOk: () => {
-                this.message.success('删除成功');
-                this.loadRatioSettingList();
+                const params = {
+                    id: ratio.id
+                };
+
+                this.systemManageService.deleteRebate(params).pipe(
+                    catchError(err => of(err))
+                ).subscribe(res => {
+                    this.message.success('删除成功');
+                    this.loadRatioSettingList();
+                });
             },
             nzOnCancel: () => {
                 this.message.info('您已取消删除操作');
@@ -101,7 +119,8 @@ export class RatioSettingListComponent implements OnInit, OnDestroy {
             nzTitle: '修改返点比率',
             nzContent: RatioFormModalComponent,
             nzComponentParams: {
-                ratioItem: ratio
+                ratioItem: ratio,
+                type: 'update'
             },
             nzMaskClosable: false,
             nzFooter: null

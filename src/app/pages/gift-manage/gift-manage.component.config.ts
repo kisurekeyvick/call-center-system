@@ -1,7 +1,8 @@
 export interface IGiftItem {
-    name: string;
-    count: string;
-    desc?: string;
+    id: number;
+    tenantCode: string;
+    giftName: string;
+    giftPrice: string;
     [key: string]: any;
 }
 
@@ -23,7 +24,7 @@ export const searchListItem: ISearchListItem[] = [
     {
         id: 1,
         label: '赠品',
-        key: 'name',
+        key: 'giftName',
         placeholder: '请输入赠品名称',
         type: 'text',
         grid: commonGrid
@@ -31,18 +32,17 @@ export const searchListItem: ISearchListItem[] = [
 ];
 
 export interface ISearchListModel {
-    name: string;
+    giftName: string;
 }
 
 export const searchListModel: ISearchListModel = {
-    name: ''
+    giftName: ''
 };
 
 export const tableConifg = {
     thead: [
         { name: '赠品名称' },
-        { name: '数量' },
-        { name: '功能描述' },
+        { name: '价格(元)' },
         { name: '操作' }
     ]
 };
@@ -51,9 +51,9 @@ export const listValue = (): IGiftItem[] => {
     return Array.apply(null, Array(20)).map((item, index: number) => {
         return {
             id: index + 1,
-            name: `赠品 ${index + 1}`,
-            count: Math.random()*100,
-            desc: `功能描述-${Math.random()}`,
+            tenantCode: String(Math.random()),
+            giftName: `赠品 ${index + 1}`,
+            giftPrice: String(Math.random() * 100).split('.')[0],
         };
     });
 };

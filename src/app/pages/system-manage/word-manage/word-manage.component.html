@@ -13,7 +13,7 @@
                 <div class="word-list">
                     <ng-container *ngFor="let rule of wordList; let i = index">
                         <nz-card class="word-manage-nzcard" nzHoverable [nzActions]="[actionEdit, actionDelete]">
-                            <nz-card-meta [nzTitle]="rule.name" [nzDescription]="rule.contentDesc"></nz-card-meta>
+                            <nz-card-meta [nzTitle]="rule.brief" [nzDescription]="rule.contentDesc"></nz-card-meta>
                         </nz-card>
                         <ng-template #actionEdit>
                             <i nz-icon nzTooltipTitle="编辑" nzTooltipPlacement="bottom" nz-tooltip nzType="edit" (click)="editWord(rule)"></i>
