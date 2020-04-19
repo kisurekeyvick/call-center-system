@@ -1,5 +1,6 @@
 import * as dayjs from 'dayjs';
 import { dictionary } from 'src/app/shared/dictionary/dictionary';
+export { IRoleItem } from 'src/app/core/common/common.interface';
 
 const accountStatusList = dictionary.get('accountStatus');
 
@@ -71,9 +72,12 @@ export interface IEmployeeItem {
     name: string;
     phone: string;
     username: string;
+    password: string;
+    roleCode: string;
     roleName: string;
     accountStatus: string;
     creatorTime: string;
+    departmentCode: string;
     [key: string]: any;
 }
 
@@ -107,9 +111,17 @@ export const listValue = (): IEmployeeItem[] => {
             name: `kisure ${index + 1}`,
             phone: '13787878909',
             username: 'nice fish k',
+            password: 'password',
+            roleCode: '123',
             roleName: 'administrator',
             accountStatus: Math.random() > 0.5 ? '启用' : '禁用',
+            departmentCode: '',
             creatorTime: dayjs().format('YYYY-MM-DD HH:MM:ss')
         };
     });
 };
+
+export interface ISearchListParams {
+    type?: string;
+    [key: string]: any;
+}

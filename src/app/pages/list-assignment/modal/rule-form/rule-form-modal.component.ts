@@ -80,7 +80,7 @@ export class RuleFormModalComponent implements OnInit, OnDestroy {
 
         if (this.validateForm.valid) {
             this.modal.destroy({
-                type:'success',
+                type: 'success',
                 value: this.formatValidateFormValue()
             });
         }

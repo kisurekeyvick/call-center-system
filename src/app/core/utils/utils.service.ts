@@ -1,13 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import * as dayjs from 'dayjs';
+import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
+import LocalStorageService from 'src/app/core/cache/local-storage';
+
+interface ICommon {
+    [key: string]: any;
+}
 
 @Injectable()
 export class UtilsService {
     constructor(
-        private _http: HttpClient
-    ) { }
+        private http: HttpClient,
+        private localCache: LocalStorageService
+    ) {
+
+    }
 
     /**
      * @description 获取Guid
@@ -73,7 +82,7 @@ export class UtilsService {
     }
 
     getUploadToken(url: string): Observable<any> {
-        return this._http.post(url, {});
+        return this.http.post(url, {});
     }
 
     /**

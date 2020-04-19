@@ -1,10 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { jackInTheBoxAnimation, jackInTheBoxOnEnterAnimation } from 'src/app/shared/animate/index';
 import { searchListItem, ISearchListItem, ISearchListModel, searchListModel, IEmployeeItem, 
-    tableConifg, listValue } from './employees-list.component.config';
+    tableConifg, listValue, ISearchListParams, IRoleItem } from './employees-list.component.config';
 import { IPageChangeInfo, PaginationService } from 'src/app/shared/component/search-list-pagination/pagination';
 import { NzModalService, NzMessageService } from 'ng-zorro-antd';
 import { EmployeeFormComponent, defaultFormModel } from '../modal/employee-form/employee-form-modal.component';
+import { OrganizationService } from '../organization-manage.service';
+import { AppService } from 'src/app/app.service';
+import { ApiService } from 'src/app/api/api.service';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 type ITableCfg = typeof tableConifg;
 type pageChangeType = 'pageIndex' | 'pageSize';
@@ -34,33 +39,67 @@ export class EmployeesListComponent implements OnInit, OnDestroy {
     pageInfo: PaginationService;
     /** 是否正在加载 */
     isLoading: boolean;
+    /** 角色列表 */
+    roleList: IRoleItem[];
 
     constructor(
         private modalService: NzModalService,
-        private message: NzMessageService
+        private message: NzMessageService,
+        private organizationService: OrganizationService,
+        private appService: AppService,
+        private apiService: ApiService
     ) {
         this.searchListItem = [...searchListItem];
         this.searchListModel = {...searchListModel};
         this.employeesList = [];
+        this.roleList = [];
         this.pageInfo = new PaginationService({
             total: 200,
             pageSize: 10,
             pageIndex: 1
         });
-        this.isLoading = true;
     }
 
     ngOnInit() {
-        this.search();
+        this.search({
+            roleCode: null,
+            accountStatus: null,
+            nameOrPhone: null
+        });
+        this.loadRoleList();
+    }
+
+    /**
+     * @func
+     * @desc 加载角色
+     */
+    loadRoleList() {
+        this.apiService.queryRole().subscribe(res => {
+            let roleList: IRoleItem[] = res;
+            roleList = roleList.map((role: IRoleItem) => ({
+                ...role,
+                name: role.roleName,
+                value: role.roleCode
+            }));
+
+            this.roleList = roleList;
+            const roleCodeSearchItem = this.searchListItem.find(item => item.key === 'roleCode');
+            roleCodeSearchItem.config.options = roleList;
+        });
     }
 
     /**
      * @callback
      * @desc 搜索
      */
-    search() {
-        console.log(this.searchListModel);
-        this.loadEmployeesList({});
+    search(params?: ISearchListParams) {
+        const searchParams = {};
+        Object.assign(searchParams, {
+            ...this.searchListModel,
+            ...params
+        });
+
+        this.loadEmployeesList(searchParams);
     }
 
     /**
@@ -68,7 +107,11 @@ export class EmployeesListComponent implements OnInit, OnDestroy {
      * @desc 重置搜索内容
      */
     reseat() {
-
+        this.searchListModel = Object.assign(this.searchListModel, {
+            roleCode: null,
+            accountStatus: null,
+            nameOrPhone: null
+        });
     }
 
     /**
@@ -77,15 +120,22 @@ export class EmployeesListComponent implements OnInit, OnDestroy {
      */
     loadEmployeesList(params: ICommon, pageChangeType?: pageChangeType) {
         this.isLoading = true;
-        
-        setTimeout(() => {
+
+        const { pageSize, pageIndex } = this.pageInfo;
+
+        params = {
+            pagesize: pageSize,
+            pageindex: pageChangeType === 'pageSize' ? 1 : pageIndex,
+            ...params,
+        };
+
+        this.organizationService.queryUserList(params).pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            pageChangeType === 'pageSize' && (this.pageInfo.pageIndex = 1);
             this.employeesList = listValue();
             this.isLoading = false;
-
-            if (pageChangeType === 'pageSize') {
-                this.pageInfo.pageIndex = 1;
-            }
-        }, 2000);
+        });
     }
 
     /**
@@ -98,7 +148,8 @@ export class EmployeesListComponent implements OnInit, OnDestroy {
             nzContent: EmployeeFormComponent,
             nzComponentParams: {
                 formModel: {...defaultFormModel},
-                formModalType: 'add'
+                formModalType: 'add',
+                roleList: this.roleList
             },
             nzMaskClosable: false,
             nzFooter: null
@@ -107,7 +158,9 @@ export class EmployeesListComponent implements OnInit, OnDestroy {
         modal.afterClose.subscribe((res) => {
             if (res === 'success') {
                 this.message.create('success', `添加成功`);
-                this.search();
+                this.search({
+                    pageIndex: 1
+                });
             }
         });
     }
@@ -121,8 +174,9 @@ export class EmployeesListComponent implements OnInit, OnDestroy {
             nzTitle: '编辑员工',
             nzContent: EmployeeFormComponent,
             nzComponentParams: {
-                formModel: {...defaultFormModel},
-                formModalType: 'edit'
+                formModel: employee,
+                formModalType: 'edit',
+                roleList: this.roleList
             },
             nzMaskClosable: false,
             nzFooter: null
@@ -130,8 +184,8 @@ export class EmployeesListComponent implements OnInit, OnDestroy {
 
         modal.afterClose.subscribe((res) => {
             if (res === 'success') {
-                this.message.create('success', `添加成功`);
-                this.search();
+                this.message.create('success', `编辑成功`);
+                this.search({});
             }
         });
     }
@@ -141,7 +195,15 @@ export class EmployeesListComponent implements OnInit, OnDestroy {
      * @desc 删除员工
      */
     deleteEmployee(employee: IEmployeeItem) {
-        this.message.create('success', `删除成功`);
+        const params = {
+            id: employee.id
+        };
+
+        this.organizationService.deleteUserInfo(params).pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            this.message.create('success', `删除成功`);
+        });
     }
 
     /**
@@ -152,7 +214,7 @@ export class EmployeesListComponent implements OnInit, OnDestroy {
         const property = changeInfo.type;
         this.pageInfo[property] = changeInfo.value;
 
-        this.loadEmployeesList({}, property);
+        this.loadEmployeesList(this.searchListModel, property);
     }
 
     ngOnDestroy() {}

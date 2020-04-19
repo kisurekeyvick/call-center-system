@@ -1,8 +1,14 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { jackInTheBoxAnimation, jackInTheBoxOnEnterAnimation } from 'src/app/shared/animate/index';
-import { tableConfig, roleList, IRoleItem, IAllmenu, allmenu, ITreeNode, defaultRoleItem } from './role-list.component.config';
+import { tableConfig, IRoleItem, defaultRoleItem, IFormatPermissionItem } from './role-list.component.config';
+import { IPermission } from 'src/app/api/api.interface';
 import { NzMessageService } from 'ng-zorro-antd';
 import { NzTreeComponent } from 'ng-zorro-antd/tree';
+import { OrganizationService } from '../organization-manage.service';
+import { catchError } from 'rxjs/operators';
+import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
+import LocalStorageService from 'src/app/core/cache/local-storage';
+import { of } from 'rxjs';
 
 type ITableCfg = typeof tableConfig;
 type IOperationStatus = 'add' | 'modify' | 'detail' | '';
@@ -32,12 +38,14 @@ export class RoleListComponent implements OnInit, OnDestroy {
     defaultCheckedKeys = [];
     defaultExpandedKeys = [];
     defaultSelectedKeys = [];
-    roleTreeNode: ITreeNode[] = [];
+    roleTreeNode: IPermission[] = [];
     /** 角色的操作状态 */
     operationStatus: IOperationStatus = 'detail';
 
     constructor(
-        private message: NzMessageService
+        private message: NzMessageService,
+        private organizationService: OrganizationService,
+        private localCache: LocalStorageService
     ) {
         this.isLoading = true;
         this.roleList = [];
@@ -54,7 +62,13 @@ export class RoleListComponent implements OnInit, OnDestroy {
      * @desc 加载角色菜单权限功能
      */
     loadRoleMenu() {
-        this.roleTreeNode = this.rebuildRoleTreeNode([...allmenu]);
+        this.organizationService.loadAllRolePermission().pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            if (res instanceof Array) {
+                this.roleTreeNode = this.rebuildRoleTreeNode(res);
+            }
+        });
     }
 
     /**
@@ -64,17 +78,22 @@ export class RoleListComponent implements OnInit, OnDestroy {
     loadRoleList() {
         this.isLoading = true;
 
-        setTimeout(() => {
+        this.organizationService.queryRole().pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
             this.isLoading = false;
-            this.roleList = [...roleList];
-        }, 2000);
+            if (res instanceof Array) {
+                this.roleList = res;
+                this.localCache.set(LocalStorageItemName.ROLEINFO, res);
+            }
+        });
     }
 
     /**
      * @func
      * @desc 重新构建节点树的结构
      */
-    rebuildRoleTreeNode(tree: IAllmenu): ITreeNode[] {
+    rebuildRoleTreeNode(tree: IPermission[]): IPermission[] {
         const formatTree = node => {
             const children = () => {
                 if (node.childrens && node.childrens.length > 0) {
@@ -139,7 +158,47 @@ export class RoleListComponent implements OnInit, OnDestroy {
      * @desc 保存角色变更
      */
     saveRoleChange() {
-        this.operationStatus = 'modify';
+        const params = {
+            roleName: this.currentRole.roleName,
+            permissions: this.formatCheckedPermissions()
+        };
+
+        this.organizationService.addRole(params).pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            this.operationStatus = 'modify';
+            this.drawerVisible = false;
+            this.message.create('success', `保存成功`);
+
+            this.loadRoleList();
+        });
+    }
+
+    /**
+     * @func
+     * @desc 获取已经选中的权限
+     */
+    formatCheckedPermissions(): IFormatPermissionItem[] {
+        const result = [];
+
+        const readCheckedNode = (nodes: IPermission[]) => {
+            nodes.forEach((node: IPermission) => {
+                if (node.checked) {
+                    result.push({
+                        code: node.code,
+                        type: node.type
+                    });
+                }
+
+                if (node.children && node.children.length > 0) {
+                    readCheckedNode(node.children);
+                }
+            });
+        };
+
+        readCheckedNode(this.roleTreeNode);
+
+        return result;
     }
 
     /**

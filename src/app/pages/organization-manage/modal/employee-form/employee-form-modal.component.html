@@ -1,81 +1,100 @@
 <div class="employee-form-modal-container">
     <div nz-row class="model-content">
-        <nz-form-item class="nzFormItem">
-            <nz-form-label class="nzFormLabel" nz-col nzXs="4" nzFor="name">姓名</nz-form-label>
-            <nz-form-control class="nzFormControl" nz-col nzXs="20">
-                <input nz-input type="text" placeholder="请输入姓名" id="name" 
-                                [(ngModel)]="formModel.name"
-                                [disabled]="disable"/>
-            </nz-form-control>
-        </nz-form-item>
+        <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+            <div nz-row>
+                <div nz-row nz-col nzXs="24" nzGutter="24">
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label class="nzFormLabel" nzRequired nz-col nzXs="5" nzFor="name">姓名</nz-form-label>
+                        <nz-form-control class="nzFormControl" nz-col nzXs="19" nzHasFeedback nzErrorTip="请输入姓名">
+                            <input nz-input placeholder="请输入姓名" id="name" formControlName="name"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
 
-        <nz-form-item class="nzFormItem">
-            <nz-form-label class="nzFormLabel" nz-col nzXs="4" nzFor="accountStatus">账号状态</nz-form-label>
-            <nz-form-control class="nzFormControl" nz-col nzXs="20" id="accountStatus">
-                <nz-select [nzDisabled]="disable" nzShowSearch nzAllowClear
-                    [(ngModel)]="formModel.accountStatus"
-                    nzPlaceHolder="请选择子账号状态" style="width: 100%;">
-                    <nz-option *ngFor="let option of accountStatusList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
-                </nz-select>
-            </nz-form-control>
-        </nz-form-item>
+                <div nz-row nz-col nzXs="24" nzGutter="24">
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label class="nzFormLabel" nzRequired nz-col nzXs="5" nzFor="accountStatus">账号状态</nz-form-label>
+                        <nz-form-control class="nzFormControl" nz-col nzXs="19" nzHasFeedback nzErrorTip="请选择账号状态">
+                            <nz-select nzShowSearch nzAllowClear
+                                formControlName="accountStatus"
+                                nzPlaceHolder="请选择账号状态" style="width: 100%;">
+                                <nz-option *ngFor="let option of accountStatusList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
 
-        <nz-form-item class="nzFormItem">
-            <nz-form-label class="nzFormLabel" nz-col nzXs="4" nzFor="phone">手机号</nz-form-label>
-            <nz-form-control class="nzFormControl" nz-col nzXs="20">
-                <input nz-input type="text" placeholder="请输入手机号" id="phone" 
-                                [(ngModel)]="formModel.phone"
-                                [disabled]="disable"/>
-            </nz-form-control>
-        </nz-form-item>
+                <div nz-row nz-col nzXs="24" nzGutter="24">
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label class="nzFormLabel" nzRequired nz-col nzXs="5" nzFor="phone">手机号</nz-form-label>
+                        <nz-form-control class="nzFormControl" nz-col nzXs="19" nzHasFeedback [nzErrorTip]="phoneErrorTpl">
+                            <input nz-input type="text" placeholder="请输入手机号" id="phone" formControlName="phone" />
+                            <ng-template #phoneErrorTpl let-control>
+                                <ng-container *ngIf="control.hasError('confirm')">
+                                    请输入正确的手机号
+                                </ng-container>
+                                <ng-container *ngIf="control.hasError('nullvalue')">
+                                    请输入手机号
+                                </ng-container>
+                            </ng-template>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
 
-        <nz-form-item class="nzFormItem">
-            <nz-form-label class="nzFormLabel" nz-col nzXs="4" nzFor="username">用户名</nz-form-label>
-            <nz-form-control class="nzFormControl" nz-col nzXs="20">
-                <input nz-input type="text" placeholder="请输入用户名" id="username" 
-                                [(ngModel)]="formModel.username"
-                                [disabled]="disable"/>
-            </nz-form-control>
-        </nz-form-item>
+                <div nz-row nz-col nzXs="24" nzGutter="24">
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label class="nzFormLabel" nzRequired nz-col nzXs="5" nzFor="username">用户名</nz-form-label>
+                        <nz-form-control class="nzFormControl" nz-col nzXs="19" nzHasFeedback nzErrorTip="请输入用户名">
+                            <input nz-input  placeholder="请输入用户名" id="username" formControlName="username"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
 
-        <nz-form-item class="nzFormItem">
-            <nz-form-label class="nzFormLabel" nz-col nzXs="4" nzFor="password">密码</nz-form-label>
-            <nz-form-control class="nzFormControl" nz-col nzXs="20">
-                <nz-input-group [nzSuffix]="suffixTemplate">
-                    <input nz-input [type]="passwordVisible ? 'text' : 'password'" placeholder="请输入密码" id="password" 
-                                [(ngModel)]="formModel.password"
-                                [disabled]="disable"/>
-                </nz-input-group>
-                <ng-template #suffixTemplate>
-                    <i nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'" (click)="passwordVisible = !passwordVisible"></i>
-                </ng-template>
-            </nz-form-control>
-        </nz-form-item>
+                <div nz-row nz-col nzXs="24" nzGutter="24">
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label class="nzFormLabel" nzRequired nz-col nzXs="5" nzFor="password">密码</nz-form-label>
+                        <nz-form-control class="nzFormControl" nz-col nzXs="19" nzHasFeedback nzErrorTip="请输入密码">
+                            <nz-input-group [nzSuffix]="suffixTemplate">
+                                <input nz-input [type]="passwordVisible ? 'text' : 'password'" placeholder="请输入密码" id="password" 
+                                            formControlName="password"
+                                            />
+                            </nz-input-group>
+                            <ng-template #suffixTemplate>
+                                <i nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'" (click)="passwordVisible = !passwordVisible"></i>
+                            </ng-template>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                
+                <div nz-row nz-col nzXs="24" nzGutter="24">
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label class="nzFormLabel" nz-col nzXs="5" nzFor="departmentCode">所属部门</nz-form-label>
+                        <nz-form-control class="nzFormControl" nz-col nzXs="19">
+                            <nz-select nzShowSearch nzAllowClear id="departmentCode"
+                                formControlName="departmentCode" nzErrorTip="请选择所属部门"
+                                nzPlaceHolder="请选择所属部门" style="width: 100%;">
+                                <nz-option *ngFor="let option of departmentList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
 
-        <nz-form-item class="nzFormItem">
-            <nz-form-label class="nzFormLabel" nz-col nzXs="4" nzFor="departmentCode">所属部门</nz-form-label>
-            <nz-form-control class="nzFormControl" nz-col nzXs="20">
-                <nz-select [nzDisabled]="disable" nzShowSearch nzAllowClear id="departmentCode"
-                    [(ngModel)]="formModel.departmentCode"
-                    nzPlaceHolder="请选择所属部门" style="width: 100%;">
-                    <nz-option *ngFor="let option of departmentList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
-                </nz-select>
-            </nz-form-control>
-        </nz-form-item>
-
-        <nz-form-item class="nzFormItem">
-            <nz-form-label class="nzFormLabel" nz-col nzXs="4" nzFor="roleCode">角色</nz-form-label>
-            <nz-form-control class="nzFormControl" nz-col nzXs="20">
-                <nz-select [nzDisabled]="disable" nzShowSearch nzAllowClear id="roleCode"
-                    [(ngModel)]="formModel.roleCode"
-                    nzPlaceHolder="请选择角色" style="width: 100%;">
-                    <nz-option *ngFor="let option of roleList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
-                </nz-select>
-            </nz-form-control>
-        </nz-form-item>
-    </div>
-    <div class="modal-btn-group">
-        <button nz-button [nzType]="'default'" (click)="cancel()">取消</button>
-        <button nz-button [nzType]="'primary'" (click)="sure()">保存</button>
+                <div nz-row nz-col nzXs="24" nzGutter="24">
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label class="nzFormLabel" nzRequired nz-col nzXs="5" nzFor="roleCode">角色</nz-form-label>
+                        <nz-form-control class="nzFormControl" nz-col nzXs="19" nzErrorTip="请选择角色">
+                            <nz-select nzShowSearch nzAllowClear id="roleCode"
+                                formControlName="roleCode" nzPlaceHolder="请选择角色" style="width: 100%;">
+                                <nz-option *ngFor="let option of roleList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <div class="modal-btn-group">
+                <button nz-button [nzType]="'default'" (click)="cancel()">取消</button>
+                <button nz-button [nzType]="'primary'">保存</button>
+            </div>
+        </form>
     </div>
 </div>

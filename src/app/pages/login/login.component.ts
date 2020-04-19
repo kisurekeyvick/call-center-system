@@ -116,6 +116,11 @@ export class LoginComponent implements OnInit, OnDestroy {
                     needLogin: false,
                     url: '/home'
                 });
+                /** 允许加载用户信息 */
+                this.appService.canLoadUserProfile.next({
+                    canLoad: true,
+                    userID: 1
+                });
             });
         }
     }

@@ -1,8 +1,8 @@
 export const dictionary = new Map([
     [
         'accountStatus', [
-            { name: '启用', value: '1' },
-            { name: '禁用', value: '0' },
+            { name: '启用', value: 'Using' },
+            { name: '禁用', value: 'Forbidden' },
         ]
     ],
     [
@@ -141,6 +141,37 @@ export const dictionary = new Map([
         'outDocTypeList', [
             { name: '未出单', value: '1' },
             { name: '已出单', value: '2' },
+        ]
+    ],
+    [
+        /** 险种的枚举值 对应的value是险种的字段 */
+        'planDetail', [
+            { name: '车辆损失险', value: 'CarDamageRisk' },
+            { name: '第三者责任保险', value: 'ThirdPartyRisk' },
+            { name: '车上人员责任险（司机）', value: 'DriverRisk' },
+            { name: '车上人员责任险（乘客）', value: 'PassengerRisk' },
+            { name: '盗抢险', value: 'TheftProtectionRisk' },
+            { name: '车身划痕损失险', value: 'ScratchRisk' },
+            { name: '玻璃单独破碎险', value: 'GlassRisk' },
+            { name: '指定修理厂险', value: 'RepairShopRisk' },
+            { name: '自燃损失险', value: 'BurningRisk' },
+            { name: '机动车损失保险无法找到第三方特约险', value: 'NoThirdRisk' },
+            { name: '机动车第三者责任保险附加法定节假日限额翻倍险', value: 'NoHolidayRisk' },
+            { name: '发动机涉水损失险', value: 'EngineWaterRisk' },
+            { name: '不计免赔险（车损险）', value: 'CarDamageRiskRegardless' },
+            { name: '不计免赔险（盗抢险）', value: 'TheftProtectionRiskRegardless' },
+            { name: '不计免赔险（三者险）', value: 'ThirdPartyRiskRegardless' },
+            { name: '不计免赔险（车上人员（司机））', value: 'DriverRiskRegardless' },
+            { name: '不计免赔险（车上人员（乘客））', value: 'PassengerRiskRegardless' },
+            { name: '不计免赔险（车身划痕损失险）', value: 'ScratchRiskRegardless' },
+            { name: '不计免赔险（自燃损失险）', value: 'BurningRiskRegardless' },
+            { name: '不计免赔险（发动机涉水损失险）', value: 'EngineWaterRiskRegardless' },
+            { name: '新增设备险', value: 'NewEquipmentCoverage' },
+            { name: '不计免赔险（新增设备险）', value: 'NewEquipmentCoverageRegardless' },
+            { name: '不计免赔险', value: 'ExcludingDeductibleRiskRegardless' },
+            { name: '驾意险', value: 'driverAccidentRisk' },
+            { name: '津贴保', value: 'allowanceInsuranceRisk' },
+            { name: '玻璃膜价格', value: 'glassFilmPriceRisk' }
         ]
     ]
 ]);
