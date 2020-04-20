@@ -7,7 +7,7 @@ import { OrganizationService } from '../../organization-manage.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { IRoleItem } from 'src/app/core/common/common.interface';
+import { IRoleItem } from 'src/app/api/api.interface';
 
 @Component({
     selector: 'employee-form-modal',

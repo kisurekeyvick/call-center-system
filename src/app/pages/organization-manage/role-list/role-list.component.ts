@@ -136,7 +136,16 @@ export class RoleListComponent implements OnInit, OnDestroy {
      * @param role 
      */
     deleteRole(role: IRoleItem) {
-        this.message.create('success', `删除成功`);
+        const params = {
+            roleCode: role.roleCode
+        };
+
+        this.organizationService.deleteRole(params).pipe(
+            catchError(err => of(err))
+        ).subscribe(() => {
+            this.message.create('success', `删除成功`);
+            this.loadRoleList();
+        });
     }
 
     /**
@@ -158,20 +167,44 @@ export class RoleListComponent implements OnInit, OnDestroy {
      * @desc 保存角色变更
      */
     saveRoleChange() {
-        const params = {
-            roleName: this.currentRole.roleName,
-            permissions: this.formatCheckedPermissions()
-        };
+        const permissions = this.formatCheckedPermissions();
+        const { roleCode, roleName } = this.currentRole;
+        /** 如果存在roleCode，则为更新角色 */
+        if (roleCode) {
+            const params = {
+                roleCode,
+                otherParams: {
+                    roleName,
+                    permissions
+                }
+            };
 
-        this.organizationService.addRole(params).pipe(
-            catchError(err => of(err))
-        ).subscribe(res => {
-            this.operationStatus = 'modify';
-            this.drawerVisible = false;
-            this.message.create('success', `保存成功`);
-
-            this.loadRoleList();
-        });
+            this.organizationService.updateRole(params).pipe(
+                catchError(err => of(err))
+            ).subscribe(res => {
+                this.operationStatus = 'modify';
+                this.drawerVisible = false;
+                this.message.create('success', `保存成功`);
+    
+                this.loadRoleList();
+            });
+        } {
+            /** 否则为添加角色 */
+            const params = {
+                roleName,
+                permissions
+            };
+    
+            this.organizationService.addRole(params).pipe(
+                catchError(err => of(err))
+            ).subscribe(res => {
+                this.operationStatus = 'modify';
+                this.drawerVisible = false;
+                this.message.create('success', `保存成功`);
+    
+                this.loadRoleList();
+            });
+        }
     }
 
     /**

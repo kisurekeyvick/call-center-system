@@ -60,5 +60,15 @@ export class OrganizationService {
         return this.http.post(`api/permission/all`, params);
     }
 
-    
+    /** 删除角色 */
+    deleteRole(params: ICommon): Observable<any> {
+        const { roleCode } = params;
+        return this.http.delete(`api/role/${roleCode}`);
+    }
+
+    /** 更新角色 */
+    updateRole(params: ICommon): Observable<any> {
+        const { roleCode, otherParams } = params;
+        return this.http.post(`api/role/${roleCode}`, otherParams);
+    }
 }

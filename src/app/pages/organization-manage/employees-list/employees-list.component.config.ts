@@ -1,6 +1,6 @@
 import * as dayjs from 'dayjs';
 import { dictionary } from 'src/app/shared/dictionary/dictionary';
-export { IRoleItem } from 'src/app/core/common/common.interface';
+export { IRoleItem } from 'src/app/api/api.interface';
 
 const accountStatusList = dictionary.get('accountStatus');
 
