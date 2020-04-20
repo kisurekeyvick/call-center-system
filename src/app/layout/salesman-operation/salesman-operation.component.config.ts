@@ -1,25 +1,11 @@
 export interface ITrackingListItem {
-    index: number;
     id: number;
-    lastModifyDate: string;
-    name: string;
-    plate: string;
-    level: string;
+    updateTime: string;
+    customerName: string;
+    carNo: string;
+    appointmentLevel: string;
     [key: string]: any;
 }
-
-export const trackingListValue = (): ITrackingListItem[] => {
-    return Array.apply(null, Array(20)).map((item, index: number) => {
-        return {
-            index: index + 1,
-            id: 660002,
-            lastModifyDate: '2020-4-12',
-            plate: '冀A839E4',
-            name: '张贵录',
-            level: 'E'
-        };
-    });
-};
 
 export interface IRemind {
     fail: number;
@@ -55,19 +41,8 @@ export const remindValue = (): IRemind => {
 };
 
 export interface ICalendarItem {
-    alreadyDo: number;
+    hadAppointmentNumber: number;
     date: string;
-    todo: number;
+    canAppointmentNumber: number;
     [key: string]: any;
 }
-
-export const calendarValue = (): ICalendarItem[] => {
-    return Array.apply(null, Array(20)).map((item, index: number) => {
-        return {
-            alreadyDo: 0,
-            date: `2020/04/1${index}`,
-            todo: 200
-        };
-    });
-};
-

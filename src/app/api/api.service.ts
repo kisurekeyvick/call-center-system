@@ -4,7 +4,8 @@ import { Observable, of } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
 import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
 import LocalStorageService from 'src/app/core/cache/local-storage';
-import { IRoleItem, roleValue, userProfile } from 'src/app/api/api.mock';
+import { IRoleItem, roleValue, userProfile, appointmentCalendarData,
+    queryFirstCallAndAppointmentTrackData } from 'src/app/api/api.mock';
 
 interface ICommon {
     [key: string]: any;
@@ -52,5 +53,55 @@ export class ApiService {
                 return userInfo;
             })
         );
+    }
+
+    /**
+     * @func
+     * @desc 业务员接口 查询首播
+     * @param params 
+     */
+    queryFirstCall(params: ICommon): Observable<any> {
+        return this.http.post(`api/customer/queryFirstCall`, params).pipe(
+            catchError(err => of(err)),
+            map(() => {
+                return queryFirstCallAndAppointmentTrackData();
+            })
+        );
+    }
+
+    /**
+     * @func
+     * @desc 业务员接口 预约跟踪接口
+     * @param params 
+     */
+    appointmentTrack(params: ICommon): Observable<any> {
+        return this.http.post(`api/customer/appointmentTrack`, params).pipe(
+            catchError(err => of(err)),
+            map(() => {
+                return queryFirstCallAndAppointmentTrackData();
+            })
+        );
+    }
+
+    /**
+     * @func
+     * @desc 业务员接口 预约日历
+     * @param params 
+     */
+    appointmentCalendar(): Observable<any> {
+        return this.http.post(`api/customer/appointmentCalendar`, {}).pipe(
+            catchError(err => of(err)),
+            map(() => {
+                return appointmentCalendarData();
+            })
+        );
+    }
+
+    /**
+     * @func
+     * @desc 业务员接口 查询符合条件的总数量
+     */
+    queryTotalNumber(): Observable<any> {
+        return this.http.post(`api/customer/queryTotalNumber`, {});
     }
 }

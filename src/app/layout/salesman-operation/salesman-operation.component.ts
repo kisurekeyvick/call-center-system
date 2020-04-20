@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { ITrackingListItem, trackingListValue, IRemind, remindValue, 
-    defaultRemidVal, ICalendarItem, calendarValue } from './salesman-operation.component.config';
-import { Observable, interval, Subscription, fromEvent } from 'rxjs';
+import { ITrackingListItem, IRemind, remindValue, 
+    defaultRemidVal, ICalendarItem } from './salesman-operation.component.config';
+import { Observable, interval, Subscription, fromEvent, of } from 'rxjs';
 import { Router } from '@angular/router';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, catchError } from 'rxjs/operators';
+import { ApiService } from 'src/app/api/api.service';
 
 @Component({
     selector: 'salesman-operation',
@@ -14,8 +15,10 @@ import { debounceTime } from 'rxjs/operators';
 export class SalesmanOperationComponent implements OnInit, OnDestroy {
     /** 展示细节 */
     showDetail: boolean;
-    /** tracking暂时列表 */
+    /** tracking展示列表 */
     trackingList: ITrackingListItem[];
+    /** 首播展示列表 */
+    firstCallList: ITrackingListItem[];
     /** 提醒 */
     remind: IRemind;
     /** 预约日历 */
@@ -29,14 +32,17 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
     constructor(
         private appService: AppService,
         private router: Router,
-        private el:ElementRef
+        private el:ElementRef,
+        private apiService: ApiService
     ) {
         this.showDetail = false;
         this.trackingList = [];
+        this.firstCallList = [];
         this.remind = {...defaultRemidVal};
         this.calendarList = [];
         this.intervalSource.subscribe(() => {
             this.loadTrackingList();
+            this.loadFirstCallList();
             this.loadRemindData();
             this.loadCalendarList();
         });
@@ -44,6 +50,7 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.loadTrackingList();
+        this.loadFirstCallList();
         this.loadRemindData();
         this.loadCalendarList();
         this.initToggleShowDetailEventListener();
@@ -59,7 +66,6 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
         this.mouseHover$ = fromEvent(dom, 'click').subscribe(() => {
             this.showDetail = true;
         });
-
         
         this.mouseClick$ = fromEvent(window, 'click').pipe(
             debounceTime(100)
@@ -99,7 +105,27 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
      * @desc 加载预约跟踪数据
      */
     loadTrackingList() {
-        this.trackingList = trackingListValue();
+        this.apiService.appointmentTrack({}).pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            if (res instanceof Array) {
+                this.trackingList = res;
+            }
+        });
+    }
+
+    /**
+     * @func
+     * @desc 加载首播
+     */
+    loadFirstCallList() {
+        this.apiService.queryFirstCall({}).pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            if (res instanceof Array) {
+                this.firstCallList = res;
+            }
+        });
     }
 
     /**
@@ -115,7 +141,13 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
      * @desc 加载预约日历
      */
     loadCalendarList() {
-        this.calendarList = calendarValue();
+        this.apiService.appointmentCalendar().pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            if (res instanceof Array) {
+                this.calendarList = res;
+            }
+        });
     }
 
     /**
