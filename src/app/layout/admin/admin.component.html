@@ -81,7 +81,7 @@
       <nz-content>
         <div class="inner-content">
           <router-outlet></router-outlet>
-          <div class="fix-box">
+          <div class="fix-box" *ngIf="canShowSalesmanOperation">
             <salesman-operation></salesman-operation>
           </div>
           <nz-back-top></nz-back-top>

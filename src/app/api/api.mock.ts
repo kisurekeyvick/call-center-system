@@ -263,20 +263,414 @@ export const roleValue = (): IRoleItem[] => {
 
 export const userProfile = () => {
     return {
-        'id': 11,
-        'name': '赛思',
-        'username': '17319328862',
-        'password': '$2a$10$tHKhkRFJwJrXjqw68BU3LOmj9TBBO0Ozp1.NEBFmO4EBSdbAVrCUC',
-        'phone': '17319328861',
-        'tenantCode': 'sbh',
-        'departmentCode': '',
-        'departmentName': null,
-        'accountStatus': 'Using',
-        'roleCode': null,
-        'roleName': '超级管理员',
-        'creatorTime': null,
-        'deleteFlag': false,
-        'menus': []
+        "id": 11,
+        "name": "赛思",
+        "username": "17319328862",
+        "password": "$2a$10$tHKhkRFJwJrXjqw68BU3LOmj9TBBO0Ozp1.NEBFmO4EBSdbAVrCUC",
+        "phone": "17319328861",
+        "tenantCode": "sbh",
+        "departmentCode": "",
+        "departmentName": null,
+        "accountStatus": "Using",
+        "roleCode": 'role_salesman',
+        "roleName": "超级管理员",
+        "creatorTime": null,
+        "deleteFlag": false,
+        "menus": [
+            {
+                "code": "url_user_manager",
+                "name": "组织结构",
+                "url": "/organization",
+                "icon": "&#xe622;",
+                "type": "Menu",
+                "index": 31,
+                "childrens": [
+                    {
+                        "code": "url_agentlist",
+                        "name": "人员列表",
+                        "url": "/organization/agentlist",
+                        "icon": null,
+                        "type": "Menu",
+                        "index": 0,
+                        "permissions": [
+                            "button_agentlist_add",
+                            "button_agentlist_edit",
+                            "button_agentlist_delete"
+                        ]
+                    },
+                    {
+                        "code": "url_rolepermission",
+                        "name": "角色权限",
+                        "url": "/organization/rolepermission",
+                        "icon": null,
+                        "type": "Menu",
+                        "index": 1,
+                        "permissions": [
+                            "button_rolepermission_add",
+                            "button_rolepermission_edit",
+                            "button_rolepermission_delete"
+                        ]
+                    }
+                ]
+            },
+            {
+                "code": "url_marketing",
+                "name": "营销管理",
+                "url": "/marketing",
+                "icon": "&#xe643;",
+                "type": "Menu",
+                "index": 51,
+                "childrens": [
+                    {
+                        "code": "url_marketing_smslist",
+                        "name": "短信营销",
+                        "url": "/marketing/list",
+                        "icon": null,
+                        "type": "Menu",
+                        "index": 0,
+                        "permissions": [
+                            "button_smslist_sendsmsrecords",
+                            "button_smslist_smsrecharge"
+                        ]
+                    }
+                ]
+            },
+            {
+                "code": "url_camera",
+                "name": "摄像头",
+                "url": "/cameras",
+                "icon": "&#xe67e;",
+                "type": "Menu",
+                "index": 21,
+                "childrens": [
+                    {
+                        "code": "url_camera_list",
+                        "name": "进店列表",
+                        "url": "/cameras/cameralist",
+                        "icon": null,
+                        "type": "Menu",
+                        "index": 0,
+                        "permissions": [
+                            "button_cameralist_assigncustomers",
+                            "button_cameralist_automaticassignsetting",
+                            "button_cameralist_export",
+                            "button_cameralist_carvehicle_filter"
+                        ]
+                    },
+                    {
+                        "code": "url_camera_entrystore",
+                        "name": "进店统计",
+                        "url": "/cameras/entrystore",
+                        "icon": null,
+                        "type": "Menu",
+                        "index": 11,
+                        "permissions": [
+                            "button_cameraentrystore_export"
+                        ]
+                    }
+                ]
+            },
+            {
+                "code": "url_system_setup",
+                "name": "系统设置",
+                "url": "/systemsetup",
+                "icon": "&#xe61b;",
+                "type": "Menu",
+                "index": 61,
+                "childrens": [
+                    {
+                        "code": "url_quote_channel",
+                        "name": "报价渠道",
+                        "url": "/systemsetup/quotechannel",
+                        "icon": null,
+                        "type": "Menu",
+                        "index": 0,
+                        "permissions": [
+                            "button_quotechannel_enabledisabled"
+                        ]
+                    },
+                    {
+                        "code": "url_customer_setting",
+                        "name": "客户设置",
+                        "url": "/systemsetup/customersetting",
+                        "icon": null,
+                        "type": "Menu",
+                        "index": 1
+                    },
+                    {
+                        "code": "url_defeat_reason_setting",
+                        "name": "战败原因设置",
+                        "url": "/systemsetup/defeatreasonsetting",
+                        "icon": null,
+                        "type": "Menu",
+                        "index": 2,
+                        "permissions": [
+                            "button_add_reason",
+                            "button_edit_reason",
+                            "button_del_reason"
+                        ]
+                    }
+                ]
+            },
+            {
+                "code": "url_customer_manager",
+                "name": "客户管理",
+                "url": "/customer",
+                "icon": "&#xe618;",
+                "type": "Menu",
+                "index": 1,
+                "childrens": [
+                    {
+                        "code": "url_customers",
+                        "name": "客户列表",
+                        "url": "/customer/list",
+                        "icon": null,
+                        "type": "Menu",
+                        "index": 0,
+                        "permissions": [
+                            "button_customers_assign",
+                            "button_customers_insuretracksetting",
+                            "button_customers_export",
+                            "button_customers_delete",
+                            "button_customers_transfer",
+                            "button_customers_retrieve"
+                        ]
+                    },
+                    {
+                        "code": "url_dataimport",
+                        "name": "数据导入",
+                        "url": "/customer/dataimport",
+                        "icon": null,
+                        "type": "Menu",
+                        "index": 1,
+                        "permissions": [
+                            "button_dataimport_import"
+                        ]
+                    },
+                    {
+                        "code": "url_recyclebin",
+                        "name": "回收站",
+                        "url": "/customer/recyclebin",
+                        "icon": null,
+                        "type": "Menu",
+                        "index": 2,
+                        "permissions": [
+                            "button_recyclebin_emptytrash",
+                            "button_recyclebin_revoke"
+                        ]
+                    }
+                ]
+            },
+            {
+                "code": "url_extensionins",
+                "name": "汽车延保",
+                "url": null,
+                "icon": "&#xe646;",
+                "type": "Menu",
+                "index": 16,
+                "childrens": [
+                    {
+                        "code": "url_extensionins_contract",
+                        "name": "合同录入",
+                        "url": "/extensionins/contract",
+                        "icon": null,
+                        "type": "Menu",
+                        "index": 11
+                    },
+                    {
+                        "code": "url_extensionins_contract_list",
+                        "name": "合同列表",
+                        "url": "/extensionins/contractlist",
+                        "icon": null,
+                        "type": "Menu",
+                        "index": 21,
+                        "permissions": [
+                            "button_extensioninscontract_export",
+                            "button_extensioninscontract_edit",
+                            "button_extensioninscontract_print",
+                            "button_extensioninscontract_del",
+                            "button_extensioninscontract_detail",
+                            "button_extensioninscontract_tuibao"
+                        ]
+                    },
+                    {
+                        "code": "url_extensionins_memberpayment_list",
+                        "name": "会员缴费",
+                        "url": "/extensionins/memberpaymentlist",
+                        "icon": null,
+                        "type": "Menu",
+                        "index": 31,
+                        "permissions": [
+                            "button_extensioninsmemberpayment_confirmpayment",
+                            "button_extensioninsmemberpayment_print"
+                        ]
+                    },
+                    {
+                        "code": "url_extensionins_surrender_list",
+                        "name": "退保退款",
+                        "url": "/extensionins/surrenderList",
+                        "icon": null,
+                        "type": "Menu",
+                        "index": 41,
+                        "permissions": [
+                            "button_sure_surrender"
+                        ]
+                    }
+                ]
+            },
+            {
+                "code": "url_statisticalreport",
+                "name": "统计报表",
+                "url": null,
+                "icon": "&#xe63f;",
+                "type": "Menu",
+                "index": 41,
+                "childrens": [
+                    {
+                        "code": "url_statisticalreport_workload",
+                        "name": "工作统计",
+                        "url": "/statisticalreport/workload",
+                        "icon": null,
+                        "type": "Menu",
+                        "index": 1,
+                        "permissions": [
+                            "button_workload_export"
+                        ]
+                    },
+                    {
+                        "code": "url_statisticalreport_analysisofdefeat",
+                        "name": "战败分析",
+                        "url": "/statisticalreport/analysisofdefeat",
+                        "icon": null,
+                        "type": "Menu",
+                        "index": 11
+                    },
+                    {
+                        "code": "url_statisticalreport_outputanalysis",
+                        "name": "出单分析",
+                        "url": "/statisticalreport/outputanalysys",
+                        "icon": null,
+                        "type": "Menu",
+                        "index": 21
+                    },
+                    {
+                        "code": "url_statisticalreport_customer",
+                        "name": "客户统计",
+                        "url": "/statisticalreport/customer",
+                        "icon": null,
+                        "type": "Menu",
+                        "index": 5,
+                        "permissions": [
+                            "button_salesmandetail_export"
+                        ]
+                    }
+                ]
+            },
+            {
+                "code": "url_car_insurance",
+                "name": "车险投保",
+                "url": "/addquote",
+                "icon": "&#xe617;",
+                "type": "Menu",
+                "index": 11,
+                "childrens": [
+                    {
+                        "code": "url_renewal",
+                        "name": "新增报价",
+                        "url": "/addquote/renewal",
+                        "icon": null,
+                        "type": "Menu",
+                        "index": 0,
+                        "permissions": [
+                            "replace_quote"
+                        ]
+                    },
+                    {
+                        "code": "url_insuretrack",
+                        "name": "投保跟踪",
+                        "url": "/addquote/insuretrack",
+                        "icon": null,
+                        "type": "Menu",
+                        "index": 1,
+                        "permissions": [
+                            "button_insuretrack_transfercustomers",
+                            "button_insuretrack_export"
+                        ]
+                    },
+                    {
+                        "code": "url_defeatlist",
+                        "name": "战败列表",
+                        "url": "/addquote/defeatlist",
+                        "icon": null,
+                        "type": "Menu",
+                        "index": 4
+                    },
+                    {
+                        "code": "url_issuelist",
+                        "name": "出单列表",
+                        "url": "/addquote/issueList",
+                        "icon": null,
+                        "type": "Menu",
+                        "index": 3,
+                        "permissions": [
+                            "button_issurelist_export"
+                        ]
+                    },
+                    {
+                        "code": "url_orderlist",
+                        "name": "订单列表",
+                        "url": "/addquote/orderlist",
+                        "icon": null,
+                        "type": "Menu",
+                        "index": 2
+                    }
+                ]
+            }
+        ],
+        "permissions": [
+            "button_agentlist_add",
+            "button_agentlist_edit",
+            "button_agentlist_delete",
+            "button_rolepermission_add",
+            "button_rolepermission_edit",
+            "button_rolepermission_delete",
+            "button_smslist_sendsmsrecords",
+            "button_smslist_smsrecharge",
+            "button_cameralist_assigncustomers",
+            "button_cameralist_automaticassignsetting",
+            "button_cameralist_export",
+            "button_cameralist_carvehicle_filter",
+            "button_cameraentrystore_export",
+            "button_quotechannel_enabledisabled",
+            "button_add_reason",
+            "button_edit_reason",
+            "button_del_reason",
+            "button_customers_assign",
+            "button_customers_insuretracksetting",
+            "button_customers_export",
+            "button_customers_delete",
+            "button_customers_transfer",
+            "button_customers_retrieve",
+            "button_dataimport_import",
+            "button_recyclebin_emptytrash",
+            "button_recyclebin_revoke",
+            "button_extensioninscontract_export",
+            "button_extensioninscontract_edit",
+            "button_extensioninscontract_print",
+            "button_extensioninscontract_del",
+            "button_extensioninscontract_detail",
+            "button_extensioninscontract_tuibao",
+            "button_extensioninsmemberpayment_confirmpayment",
+            "button_extensioninsmemberpayment_print",
+            "button_sure_surrender",
+            "button_workload_export",
+            "button_salesmandetail_export",
+            "replace_quote",
+            "button_insuretrack_transfercustomers",
+            "button_insuretrack_export",
+            "button_issurelist_export"
+        ],
+        "admin": true
     };
 };
 
@@ -1066,5 +1460,5 @@ export const queryFirstCallAndAppointmentTrackData = () => {
 };
 
 export const queryTotalNumberData = () => {
-    
+
 };

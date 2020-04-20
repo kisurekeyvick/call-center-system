@@ -20,9 +20,12 @@ export interface IUserProfileSubject {
 export class AppService {
     /** 用于判断是否能够登录和跳转 */
     loginSubject: Subject<ILoginSubject> = new Subject<ILoginSubject>();
+    /** 展示业务员便捷操作界面 */
     showSalesmanOperation: Subject<boolean> = new Subject<boolean>();
     /** 允许加载用户信息 */
     canLoadUserProfile: Subject<IUserProfileSubject> = new Subject<IUserProfileSubject>();
+    /** 业务员的roleCode */
+    SALESMAN_ROLE_CODE: string = 'role_salesman';
 
     constructor(
         private http: HttpClient) {

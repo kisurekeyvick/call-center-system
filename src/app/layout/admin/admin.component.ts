@@ -6,6 +6,7 @@ import LocalStorageService from 'src/app/core/cache/local-storage';
 import { AppService } from 'src/app/app.service';
 import { LoginService } from 'src/app/pages/login/login.service';
 import { ILoginUserCache } from 'src/app/pages/login/login.component.config';
+import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
@@ -33,13 +34,15 @@ export class AppAdminLayoutComponent implements OnInit, OnDestroy {
             age: 27,
             pic: defaultUserPic,
         };
-        this.canShowSalesmanOperation = true;
+        this.canShowSalesmanOperation = false;
     }
 
     ngOnInit() {
         this.appService.showSalesmanOperation.subscribe((res: boolean) => {
             this.canShowSalesmanOperation = res;
         });
+
+        this.showSalesmanOperation();
     }
 
     /**
@@ -56,6 +59,23 @@ export class AppAdminLayoutComponent implements OnInit, OnDestroy {
                 url: '/login'
             });
         });
+    }
+
+    /**
+     * @func
+     * @desc 判断是否需要展示业务员操作界面
+     * @param userInfo 
+     */
+    showSalesmanOperation() {
+        const cacheValue = this.localCache.get(LocalStorageItemName.USERPROFILE);
+        const userInfo = cacheValue && cacheValue.value || null;
+
+        /** 如果存在用户信息 */
+        if (userInfo) {
+            const { roleCode } = userInfo;
+            /** 如果roleCode匹配,则推送为true，展示便捷操作界面 */
+            this.appService.SALESMAN_ROLE_CODE === roleCode && (this.canShowSalesmanOperation = true);
+        }
     }
 
     ngOnDestroy() {}
