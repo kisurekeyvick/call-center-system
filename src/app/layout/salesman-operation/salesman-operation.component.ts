@@ -7,6 +7,10 @@ import { Router } from '@angular/router';
 import { debounceTime, catchError } from 'rxjs/operators';
 import { ApiService } from 'src/app/api/api.service';
 
+interface ICommon {
+    [key: string]: any;
+}
+
 @Component({
     selector: 'salesman-operation',
     templateUrl: './salesman-operation.component.html',
@@ -28,6 +32,10 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
     /** 鼠标hover subscription */
     mouseHover$: Subscription;
     mouseClick$: Subscription;
+    /** interval subscription */
+    intervalSubscription$: Subscription;
+    /** 当前处于选中的tanIndex */
+    selectedIndex: number;
 
     constructor(
         private appService: AppService,
@@ -40,7 +48,8 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
         this.firstCallList = [];
         this.remind = {...defaultRemidVal};
         this.calendarList = [];
-        this.intervalSource.subscribe(() => {
+        this.selectedIndex = 0;
+        this.intervalSubscription$ = this.intervalSource.subscribe(() => {
             this.loadTrackingList();
             this.loadFirstCallList();
             this.loadRemindData();
@@ -105,7 +114,7 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
      * @desc 加载预约跟踪数据
      */
     loadTrackingList() {
-        this.apiService.appointmentTrack({}).pipe(
+        this.apiService.appointmentTrack().pipe(
             catchError(err => of(err))
         ).subscribe(res => {
             if (res instanceof Array) {
@@ -119,7 +128,7 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
      * @desc 加载首播
      */
     loadFirstCallList() {
-        this.apiService.queryFirstCall({}).pipe(
+        this.apiService.queryFirstCall().pipe(
             catchError(err => of(err))
         ).subscribe(res => {
             if (res instanceof Array) {
@@ -152,6 +161,15 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
 
     /**
      * @callback
+     * @desc tab选中回调
+     * @param e 
+     */
+    tabSelectChange({ index }: ICommon) {
+        this.selectedIndex = index;
+    }
+
+    /**
+     * @callback
      * @desc 客户详情
      * @param trackItem 
      */
@@ -162,5 +180,6 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.mouseHover$.unsubscribe();
         this.mouseClick$.unsubscribe();
+        this.intervalSubscription$.unsubscribe();
     }
 }

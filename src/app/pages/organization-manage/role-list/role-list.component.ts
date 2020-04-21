@@ -9,6 +9,7 @@ import { catchError } from 'rxjs/operators';
 import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
 import LocalStorageService from 'src/app/core/cache/local-storage';
 import { of } from 'rxjs';
+import { cloneDeep } from 'lodash'
 
 type ITableCfg = typeof tableConfig;
 type IOperationStatus = 'add' | 'modify' | 'detail' | '';
@@ -38,6 +39,8 @@ export class RoleListComponent implements OnInit, OnDestroy {
     defaultCheckedKeys = [];
     defaultExpandedKeys = [];
     defaultSelectedKeys = [];
+    /** 角色权限树节点 */
+    storeRoleTreeNode: IPermission[] = [];
     roleTreeNode: IPermission[] = [];
     /** 角色的操作状态 */
     operationStatus: IOperationStatus = 'detail';
@@ -67,6 +70,7 @@ export class RoleListComponent implements OnInit, OnDestroy {
         ).subscribe(res => {
             if (res instanceof Array) {
                 this.roleTreeNode = this.rebuildRoleTreeNode(res);
+                this.storeRoleTreeNode = cloneDeep(this.roleTreeNode);
             }
         });
     }
@@ -128,6 +132,7 @@ export class RoleListComponent implements OnInit, OnDestroy {
         this.drawerVisible = true;
         this.operationStatus = 'add';
         this.currentRole = {...defaultRoleItem};
+        this.roleTreeNode = cloneDeep(this.storeRoleTreeNode);
     }
 
     /**
@@ -156,10 +161,34 @@ export class RoleListComponent implements OnInit, OnDestroy {
         this.roleList.forEach((list: IRoleItem) => {
             list['selected'] = list.roleCode === role.roleCode;
         });
-
+        this.roleTreeNode = this.checkedRoleTreeNode(role.permissions);
         this.currentRole = role;
         this.operationStatus = 'modify';
         this.drawerVisible = true;
+    }
+
+    /**
+     * @func
+     * @desc 选中tree节点的内容
+     */
+    checkedRoleTreeNode(permissions: string[]) {
+        const treeNode = cloneDeep(this.storeRoleTreeNode);
+
+        const setNodeChecked = (nodes: IPermission[]) => {
+            nodes.forEach((node: IPermission) => {
+                if (permissions.includes(node.code)) {
+                    node.checked = true;
+                }
+
+                if (node.children && node.children.length > 0) {
+                    setNodeChecked(node.children);
+                }
+            });
+        };
+
+        setNodeChecked(treeNode);
+
+        return treeNode;
     }
 
     /**
@@ -173,7 +202,7 @@ export class RoleListComponent implements OnInit, OnDestroy {
         if (roleCode) {
             const params = {
                 roleCode,
-                otherParams: {
+                otherparams: {
                     roleName,
                     permissions
                 }
@@ -188,7 +217,7 @@ export class RoleListComponent implements OnInit, OnDestroy {
     
                 this.loadRoleList();
             });
-        } {
+        } else {
             /** 否则为添加角色 */
             const params = {
                 roleName,

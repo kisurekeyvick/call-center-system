@@ -10,6 +10,16 @@ import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
+interface IUserProfileMenu {
+    code?: string;
+    name: string;
+    icon: string;
+    type?: string;
+    index?: number;
+    childrens: IUserProfileMenu[];
+    [key: string]: any;
+}
+
 @Component({
     selector: 'app-admin-layout',
     templateUrl: './admin.component.html',
@@ -17,7 +27,7 @@ import { of } from 'rxjs';
 })
 export class AppAdminLayoutComponent implements OnInit, OnDestroy {
     public isCollapsed: boolean;
-    public layoutMenus: IMenu[] = [];
+    public layoutMenus: IUserProfileMenu[] = [];
     public user: IUser;
     /** 是否展示业务员操作界面 */
     canShowSalesmanOperation: boolean;
@@ -28,7 +38,6 @@ export class AppAdminLayoutComponent implements OnInit, OnDestroy {
         private loginService: LoginService
     ) {
         this.isCollapsed = false;
-        this.layoutMenus = menus.get('admin');
         this.user = {
             name: 'kisure',
             age: 27,
@@ -42,7 +51,7 @@ export class AppAdminLayoutComponent implements OnInit, OnDestroy {
             this.canShowSalesmanOperation = res;
         });
 
-        this.showSalesmanOperation();
+        this.readUserInfoCache();
     }
 
     /**
@@ -63,13 +72,24 @@ export class AppAdminLayoutComponent implements OnInit, OnDestroy {
 
     /**
      * @func
-     * @desc 判断是否需要展示业务员操作界面
-     * @param userInfo 
+     * @desc 读取用户缓存信息 进行是否展示业务操作界面 以及生成左侧快捷菜单
      */
-    showSalesmanOperation() {
+    readUserInfoCache() {
         const cacheValue = this.localCache.get(LocalStorageItemName.USERPROFILE);
         const userInfo = cacheValue && cacheValue.value || null;
 
+        this.showSalesmanOperation(userInfo);
+        /** 这边暂时用mock数据 */
+        this.layoutMenus = menus.get('admin');
+        // this.layoutMenus = this.buildMenu(userInfo);
+    }
+
+    /**
+     * @func
+     * @desc 判断是否需要展示业务员操作界面
+     * @param userInfo 
+     */
+    showSalesmanOperation(userInfo) {
         /** 如果存在用户信息 */
         if (userInfo) {
             const { roleCode } = userInfo;
@@ -78,7 +98,18 @@ export class AppAdminLayoutComponent implements OnInit, OnDestroy {
         }
     }
 
+    /**
+     * @func
+     * @desc 加载菜单
+     */
+    buildMenu(userInfo):IUserProfileMenu[] {
+        if (userInfo) {
+            const menus: any[] = userInfo['menus'];
+            return menus;
+        }
+
+        return [];
+    }
+
     ngOnDestroy() {}
 }
-
-

@@ -20,3 +20,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ``` txt
 管理员权限：组织架构 客户管理 礼品模块
 ```
+### 待联调的
+``` txt
+1.组织架构，返回的菜单数据，权限  需要作处理
+2.业务员操作界面 提醒 这一栏的数据没有联调 没有接口
+``` 

@@ -13,17 +13,17 @@
         <!-- 一级开始循环 -->
         <ng-container *ngFor="let menuItem of layoutMenus">
           <!-- 一级的展示 -->
-          <ng-container *ngIf="menuItem.children.length > 0">
+          <ng-container *ngIf="menuItem.childrens.length > 0">
             <li nz-submenu nzTitle="{{ menuItem.name }}" nzIcon="{{ menuItem.icon }}">
               <ul>
                 <!-- 二级开始循环 -->
-                <ng-container *ngFor="let child of menuItem.children">
+                <ng-container *ngFor="let child of menuItem.childrens">
                   <!-- 二级的展示 -->
-                  <ng-container *ngIf="child.children.length > 0">
+                  <ng-container *ngIf="child.childrens.length > 0">
                     <li nz-submenu nzTitle="{{ child.name }}" nzIcon="{{ child.icon }}">
                       <ul>
                         <!-- 三级的循环和展示 -->
-                          <ng-container *ngFor="let minchild of child.children">
+                          <ng-container *ngFor="let minchild of child.childrens">
                             <li nz-menu-item nzMatchRouter>
                               <a routerLink="{{ minchild.url }}"><i nz-icon nzType="{{ minchild.icon }}" nzTheme="outline"></i>{{ minchild.name }}</a>
                             </li>
@@ -32,7 +32,7 @@
                     </li>
                   </ng-container>
 
-                  <ng-container *ngIf="child.children.length === 0">
+                  <ng-container *ngIf="child.childrens.length === 0">
                     <li nz-menu-item nzMatchRouter>
                       <a routerLink="{{ child.url }}"><i nz-icon nzType="{{ child.icon }}" nzTheme="outline"></i>{{ child.name }}</a>
                     </li>
@@ -42,7 +42,7 @@
             </li>
           </ng-container>
 
-          <ng-container *ngIf="menuItem.children.length === 0">
+          <ng-container *ngIf="menuItem.childrens.length === 0">
             <li nz-menu-item nzMatchRouter>
               <a routerLink="{{ menuItem.url }}"><i nz-icon nzType="{{ menuItem.icon }}" nzTheme="outline"></i><span *ngIf="!isCollapsed">{{ menuItem.name }}</span></a>
             </li>

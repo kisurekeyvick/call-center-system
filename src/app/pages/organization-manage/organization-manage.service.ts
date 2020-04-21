@@ -2,7 +2,6 @@ import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
-import { IRoleItem, roleValue, permissionAll } from 'src/app/api/api.mock';
 
 interface ICommon {
     [key: string]: any;
@@ -16,7 +15,7 @@ export class OrganizationService {
 
     /** 获取用户列表 */
     queryUserList(params: ICommon): Observable<any> {
-        return this.http.get(`api/user/user-list`, params);
+        return this.http.get(`api/user/user-list`, { params });
     }
 
     /** 删除用户 */
@@ -36,28 +35,17 @@ export class OrganizationService {
 
     /** 加载所有角色的权限 */
     loadAllRolePermission(): Observable<any> {
-        return this.http.get(`api/permission/all`).pipe(
-            catchError(err => of(err)),
-            map(() => {
-                return permissionAll();
-            })
-        );
+        return this.http.get(`api/permission/all`);
     }
 
     /** 获取角色列表 */
     queryRole(): Observable<any> {
-        return this.http.get(`api/role`, {}).pipe(
-            catchError(err => of(err)),
-            map(val => {
-                const roleList: IRoleItem[] = roleValue();
-                return roleList;
-            })
-        );
+        return this.http.get(`api/role`);
     }
 
     /** 新建角色 */
     addRole(params: ICommon): Observable<any> {
-        return this.http.post(`api/permission/all`, params);
+        return this.http.post(`api/role`, params);
     }
 
     /** 删除角色 */
@@ -68,7 +56,7 @@ export class OrganizationService {
 
     /** 更新角色 */
     updateRole(params: ICommon): Observable<any> {
-        const { roleCode, otherParams } = params;
-        return this.http.post(`api/role/${roleCode}`, otherParams);
+        const { roleCode, otherparams } = params;
+        return this.http.put(`api/role/${roleCode}`, otherparams);
     }
 }

@@ -1,8 +1,7 @@
-import * as dayjs from 'dayjs';
 import { dictionary } from 'src/app/shared/dictionary/dictionary';
 export { IRoleItem } from 'src/app/api/api.interface';
 
-const accountStatusList = dictionary.get('accountStatus');
+export const accountStatusList = dictionary.get('accountStatus');
 
 export interface ISearchListItem {
     id: number;
@@ -102,23 +101,6 @@ export const tableConifg = {
         { key: 'creatorTime' },
         { key: 'action' }
     ]
-};
-
-export const listValue = (): IEmployeeItem[] => {
-    return Array.apply(null, Array(20)).map((item, index: number) => {
-        return {
-            id: index + 1,
-            name: `kisure ${index + 1}`,
-            phone: '13787878909',
-            username: 'nice fish k',
-            password: 'password',
-            roleCode: '123',
-            roleName: 'administrator',
-            accountStatus: Math.random() > 0.5 ? '启用' : '禁用',
-            departmentCode: '',
-            creatorTime: dayjs().format('YYYY-MM-DD HH:MM:ss')
-        };
-    });
 };
 
 export interface ISearchListParams {

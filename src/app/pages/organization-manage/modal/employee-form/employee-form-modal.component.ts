@@ -106,7 +106,7 @@ export class EmployeeFormComponent implements OnInit, OnDestroy {
         this.organizationService.createUser(params).pipe(
             catchError(err => of(err))
         ).subscribe(res => {
-            this.modal.destroy('success');
+            res === null && this.modal.destroy('success');
         });
     }
 
@@ -124,7 +124,7 @@ export class EmployeeFormComponent implements OnInit, OnDestroy {
         this.organizationService.updateUserInfo(params).pipe(
             catchError(err => of(err))
         ).subscribe(res => {
-            this.modal.destroy('success');
+            res === null && this.modal.destroy('success');
         });
     }
 

@@ -8,6 +8,8 @@ import { AppService } from 'src/app/app.service';
 import { LoginService } from './login.service';
 import { of, fromEvent, Subscription } from 'rxjs';
 import { catchError, debounceTime } from 'rxjs/operators';
+import { ApiService } from 'src/app/api/api.service';
+import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
 
 interface ICommon {
     [key: string]: any;
@@ -26,7 +28,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     /** 当前处于选中的tanIndex */
     selectedIndex: number;
     /** 角色list */
-    roleList: IRoleItem[] = [];
+    // roleList: IRoleItem[] = [];
     /** 登录缓存 */
     loginUserCache: ILoginUserCache;
     /** 键盘enter事件 */
@@ -38,7 +40,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         private localCache: LocalStorageService,
         private router: Router,
         private appService: AppService,
-        private loginService: LoginService
+        private loginService: LoginService,
+        private apiService: ApiService
     ) {
         this.selectedIndex = 0;
         this.loginUserCache = this.readUserLoginCache();
@@ -93,13 +96,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
 
         if (this.loginValidateForm.valid) {
-            // this.saveUserLoginCache();
-            // /** 缓存token */
-            // this.localCache.set('token', '$%^#%^%');
-            // this.appService.loginSubject.next({
-            //     needLogin: false,
-            //     url: '/home'
-            // });
             const { username, password } = this.loginValidateForm.value;
             const params = {
                 username,
@@ -112,14 +108,20 @@ export class LoginComponent implements OnInit, OnDestroy {
                 this.saveUserLoginCache();
                 /** 缓存token */
                 this.localCache.set('token', res.Authorization);
-                this.appService.loginSubject.next({
-                    needLogin: false,
-                    url: '/home'
-                });
-                /** 允许加载用户信息 */
-                this.appService.canLoadUserProfile.next({
-                    canLoad: true,
-                    userID: 1
+
+                this.apiService.getUserProfile().pipe(
+                    catchError(err => of(err))
+                ).subscribe(res => {
+                    const userInfo = res;
+                    /** TODO 暂时写死！！ */
+                    userInfo['roleCode'] = 'role_salesman';
+                    /** 缓存用户信息 */
+                    this.localCache.set(LocalStorageItemName.USERPROFILE, userInfo);
+                    
+                    this.appService.loginSubject.next({
+                        needLogin: false,
+                        url: '/home'
+                    });
                 });
             });
         }
@@ -129,16 +131,18 @@ export class LoginComponent implements OnInit, OnDestroy {
      * @callback
      * @desc 点击注册
      */
-    registSubmitForm() {
-        for (const i in this.registValidateForm.controls) {
-            this.registValidateForm.controls[i].markAsDirty();
-            this.registValidateForm.controls[i].updateValueAndValidity();
-        }
+    // registSubmitForm() {
+    //     for (const i in this.registValidateForm.controls) {
+    //         this.registValidateForm.controls[i].markAsDirty();
+    //         this.registValidateForm.controls[i].updateValueAndValidity();
+    //     }
   
-        if (this.registValidateForm.valid) {
-            this.tabSelectChange({index: 0});
-        }
-    }
+    //     if (this.registValidateForm.valid) {
+
+
+    //         this.tabSelectChange({index: 0});
+    //     }
+    // }
 
     /**
      * @func

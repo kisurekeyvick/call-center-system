@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { jackInTheBoxAnimation, jackInTheBoxOnEnterAnimation } from 'src/app/shared/animate/index';
 import { searchListItem, ISearchListItem, ISearchListModel, searchListModel, IEmployeeItem, 
-    tableConifg, listValue, ISearchListParams, IRoleItem } from './employees-list.component.config';
+    tableConifg, ISearchListParams, IRoleItem, accountStatusList } from './employees-list.component.config';
 import { IPageChangeInfo, PaginationService } from 'src/app/shared/component/search-list-pagination/pagination';
 import { NzModalService, NzMessageService } from 'ng-zorro-antd';
 import { EmployeeFormComponent, defaultFormModel } from '../modal/employee-form/employee-form-modal.component';
@@ -9,7 +9,9 @@ import { OrganizationService } from '../organization-manage.service';
 import { AppService } from 'src/app/app.service';
 import { ApiService } from 'src/app/api/api.service';
 import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { of, from } from 'rxjs';
+import { findValueName } from 'src/app/core/utils/function';
+import * as dayjs from 'dayjs';
 
 type ITableCfg = typeof tableConifg;
 type pageChangeType = 'pageIndex' | 'pageSize';
@@ -54,7 +56,7 @@ export class EmployeesListComponent implements OnInit, OnDestroy {
         this.employeesList = [];
         this.roleList = [];
         this.pageInfo = new PaginationService({
-            total: 200,
+            total: 0,
             pageSize: 10,
             pageIndex: 1
         });
@@ -83,6 +85,7 @@ export class EmployeesListComponent implements OnInit, OnDestroy {
             }));
 
             this.roleList = roleList;
+            /** 重新配置搜索项的角色选择options的值 */
             const roleCodeSearchItem = this.searchListItem.find(item => item.key === 'roleCode');
             roleCodeSearchItem.config.options = roleList;
         });
@@ -122,18 +125,27 @@ export class EmployeesListComponent implements OnInit, OnDestroy {
         this.isLoading = true;
 
         const { pageSize, pageIndex } = this.pageInfo;
+        const { roleCode, accountStatus, nameOrPhone } = params;
 
         params = {
             pagesize: pageSize,
             pageindex: pageChangeType === 'pageSize' ? 1 : pageIndex,
-            ...params,
+            ...roleCode && { roleCode },
+            ...accountStatus && { accountStatus },
+            ...nameOrPhone && { nameOrPhone }
         };
 
         this.organizationService.queryUserList(params).pipe(
             catchError(err => of(err))
         ).subscribe(res => {
             pageChangeType === 'pageSize' && (this.pageInfo.pageIndex = 1);
-            this.employeesList = listValue();
+            const { total, list = [] } = res;
+            this.pageInfo.total = total;
+            this.employeesList = list.map(item => {
+                item['accountStatusName'] = findValueName(accountStatusList, item.accountStatus);
+                item['creatorTimeFormat'] = item.creatorTime && dayjs(item.creatorTime).format('YYYY-MM-DD HH:MM:ss') || '--';
+                return item;
+            });
             this.isLoading = false;
         });
     }
@@ -185,7 +197,9 @@ export class EmployeesListComponent implements OnInit, OnDestroy {
         modal.afterClose.subscribe((res) => {
             if (res === 'success') {
                 this.message.create('success', `编辑成功`);
-                this.search({});
+                this.search({
+                    pageIndex: 1
+                });
             }
         });
     }

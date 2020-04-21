@@ -82,18 +82,25 @@ export class DefaultInterceptor implements HttpInterceptor {
                 // 则以下代码片断可直接适用
                 if (event instanceof HttpResponse) {
                     const body: IResponseBody = event.body;
-                    const token = event.headers.get('Authorization');
 
-                    this.requestUrlJudge(event);
+                    const url: string = event.url;
 
-                    /** 如果存在token，说明是登录接口 */
-                    if (token) {
+                    /** 用户登出，做特殊处理 */
+                    if (url.indexOf('api/user/logout') > -1) {
+                        return of(Object.assign(event));
+                    }
+                    
+                    /** 用户登录，做特殊处理 */
+                    if (url.indexOf('api/user/sign-in') > -1) {
+                        const token = event.headers.get('Authorization');
                         return of(Object.assign(event, { body: { 'Authorization': token } }));
-                    } else if (body && Number(body.statusCode) === 200) {
-                        // 重新修改 `body` 内容为 `response` 内容，对于绝大多数场景已经无须再关心业务状态码
-                        return of(Object.assign(event, { body: body.result }));
-                        // 或者依然保持完整的格式
-                        // return of(event);
+                    }
+
+                    if (body) {
+                        return of(event);
+                    } else if(!body && event.statusText === 'OK') {
+                        /** 此处用于处理一些添加，删除操作时候的处理 */
+                        return of(event);
                     } else if (body && Number(body.statusCode) === 904 || Number(body.statusCode) === 8800111) {
                         this.session.clear();
                         this.local.clear();
@@ -135,19 +142,6 @@ export class DefaultInterceptor implements HttpInterceptor {
         return of(event);
     }
 
-    /**
-     * @func
-     * @desc 针对特殊的接口返回，做出特殊处理
-     */
-    requestUrlJudge(event: HttpResponse<any> | HttpErrorResponse) {
-        const url: string = event.url;
-
-        /** 用户登出，做特殊处理 */
-        if (url.indexOf('api/user/logout')) {
-            return of(Object.assign(event));
-        }
-    }
-
     intercept(
         req: HttpRequest<any>, 
         next: HttpHandler): Observable<HttpSentEvent | HttpHeaderResponse | HttpProgressEvent | HttpResponse<any> | HttpUserEvent<any>> {
@@ -166,8 +160,8 @@ export class DefaultInterceptor implements HttpInterceptor {
         const token = tokenValue && tokenValue['value'] || '';
         const header = new HttpHeaders()
             .set('Accept', '*/*') // application/json, text/javascript, */*; q=0.01
-            .set('Content-type', 'application/json; charset=UTF-8');
-            // .set('Authorization', token);
+            .set('Content-type', 'application/json; charset=UTF-8')
+            .set('Authorization', token);
 
         const body = req.body;
         // const groupInfo = Object.assign({ groupId: null, groupType: null }, this.session.get('currentGroupInfo'));
