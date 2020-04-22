@@ -34,6 +34,15 @@ export interface ICustomerExportParams {
     tenantCode: string;
 };
 
+export interface IQueryCustomerParams {
+    brandName: string;
+    carNo: string;
+    endRegisterTime: number;
+    inJob: string;
+    isHigh: string;
+    isTransfer: boolean;
+};
+
 @Injectable()
 export class CustomerService {
     constructor(
@@ -48,5 +57,10 @@ export class CustomerService {
     /** 客户导出 */
     customerExport(params: ICustomerExportParams): Observable<any> {
         return this.http.post(`api/customer/export`, params);
+    }
+
+    /** 查询客户列表 */
+    queryCustomer(params): Observable<any> {
+        return this.http.post(`api/customer/distributionCustomer`, params);
     }
 }
