@@ -1,11 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { jackInTheBoxAnimation, jackInTheBoxOnEnterAnimation } from 'src/app/shared/animate/index';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
-import { tableConifg, IRatioSettingListItem, listValue } from './ratio-setting.component.config';
+import { tableConifg, IRatioSettingListItem } from './ratio-setting.component.config';
 import { RatioFormModalComponent } from '../modal/ratio-form/ratio-form.component';
 import { SystemManageService } from '../system-manage.service';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { dictionary } from 'src/app/shared/dictionary/dictionary';
+import { findValueName } from 'src/app/core/utils/function';
 
 type ITableCfg = typeof tableConifg;
 
@@ -29,6 +31,8 @@ export class RatioSettingListComponent implements OnInit, OnDestroy {
     tableCfg: ITableCfg = tableConifg;
     /** 是否正在加载 */
     isLoading: boolean;
+    /** 保险公司 */
+    companyList: Array<{ name: string; value: string }>;
 
     constructor(
         private message: NzMessageService,
@@ -36,6 +40,7 @@ export class RatioSettingListComponent implements OnInit, OnDestroy {
         private systemManageService: SystemManageService
     ) {
         this.ratioSettingList = [];
+        this.companyList = dictionary.get('insuranceCompanys');
     }
 
     ngOnInit() {
@@ -52,10 +57,14 @@ export class RatioSettingListComponent implements OnInit, OnDestroy {
         this.systemManageService.queryRebateList().pipe(
             catchError(err => of(err))
         ).subscribe(res => {
-            setTimeout(() => {
-                this.ratioSettingList = listValue();
-                this.isLoading = false;
-            }, 2000);
+            if (res instanceof Array) {
+                this.ratioSettingList = res.map(item => {
+                    item['companyName'] = findValueName(this.companyList, item.companyCode);
+                    return item;
+                });
+            }
+            
+            this.isLoading = false;
         });
     }
 
@@ -93,14 +102,18 @@ export class RatioSettingListComponent implements OnInit, OnDestroy {
             nzContent: `您确定删除该条数据吗?`,
             nzOnOk: () => {
                 const params = {
-                    id: ratio.id
+                    idList: [ratio.id]
                 };
 
                 this.systemManageService.deleteRebate(params).pipe(
                     catchError(err => of(err))
                 ).subscribe(res => {
-                    this.message.success('删除成功');
-                    this.loadRatioSettingList();
+                    if (res === true) {
+                        this.message.success('删除成功');
+                        this.loadRatioSettingList();
+                    } else {
+                        this.message.error('删除失败');
+                    }
                 });
             },
             nzOnCancel: () => {

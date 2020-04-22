@@ -55,23 +55,7 @@ export class GiftManageListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.search();
-    }
-
-    /**
-     * @callback
-     * @desc 搜索
-     */
-    search() {
         this.loadGiftList();
-    }
-
-    /**
-     * @callback
-     * @desc 重置搜索内容
-     */
-    reseat() {
-
     }
 
     /**
@@ -86,10 +70,11 @@ export class GiftManageListComponent implements OnInit, OnDestroy {
         this.giftService.queryGiftList().pipe(
             catchError(err => of(err))
         ).subscribe(res => {
-            setTimeout(() => {
-                this.giftList = listValue();
-                this.isLoading = false;
-            }, 2000);
+            if (res instanceof Array) {
+                this.giftList = res;
+            }
+            
+            this.isLoading = false;
         });
     }
 
@@ -112,7 +97,7 @@ export class GiftManageListComponent implements OnInit, OnDestroy {
         modal.afterClose.subscribe((res) => {
             if (res === 'success') {
                 this.message.create('success', `编辑成功`);
-                this.search();
+                this.loadGiftList();
             }
         });
     }
@@ -135,7 +120,7 @@ export class GiftManageListComponent implements OnInit, OnDestroy {
         modal.afterClose.subscribe((res) => {
             if (res === 'success') {
                 this.message.create('success', `添加成功`);
-                this.search();
+                this.loadGiftList();
             }
         });
     }
@@ -148,7 +133,7 @@ export class GiftManageListComponent implements OnInit, OnDestroy {
         const deleteGiftArr: IGiftItem[]  = this.giftList.filter((item: IGiftItem) => this.mapOfCheckedId[item.id]);
         const idArr = deleteGiftArr.map((item: IGiftItem) => item.id);
         const params = {
-            idArr
+            idList: idArr
         };
         this.modalService.confirm({
             nzTitle: '警告',
@@ -159,7 +144,12 @@ export class GiftManageListComponent implements OnInit, OnDestroy {
                 this.giftService.deleteGift(params).pipe(
                     catchError(err => of(err))
                 ).subscribe(res => {
-                    this.message.create('success', `删除成功`);
+                    if (res === true) {
+                        this.message.create('success', `删除成功`);
+                        this.loadGiftList();
+                    } else {
+                        this.message.create('error', `删除失败`);
+                    }
                 });
             }
         });

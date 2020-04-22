@@ -48,10 +48,11 @@ export class DefeatReasonComponent implements OnInit, OnDestroy {
         this.systemManageService.queryDefeatreasonList().pipe(
             catchError(err => of(err))
         ).subscribe(res => {
-            setTimeout(() => {
-                this.defeatReasonList = listValue();
-                this.isLoading = false;
-            }, 2000);
+            if (res instanceof Array) {
+                this.defeatReasonList = res;
+            }
+
+            this.isLoading = false;
         });
     }
 
@@ -114,7 +115,7 @@ export class DefeatReasonComponent implements OnInit, OnDestroy {
             nzContent: `您确定删除该条数据吗?`,
             nzOnOk: () => {
                 const params = {
-                    id: defeatReason.id
+                    idList: [defeatReason.id]
                 };
 
                 this.systemManageService.deleteDefeatreason(params).pipe(

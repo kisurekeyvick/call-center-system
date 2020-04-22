@@ -19,15 +19,3 @@ export const defaultRatioItem: IRatioSettingListItem = {
     companyCode: null,
     discountUpperLimit: null
 };
-
-export const listValue = (): IRatioSettingListItem[] => {
-    return Array.apply(null, Array(20)).map((item, index: number) => {
-        return {
-            id: index + 1,
-            companyCode: '',
-            companyName: '平安',
-            discountUpperLimit: 90,
-            createTime: '2020-4-8 16:15'
-        }
-    });
-};

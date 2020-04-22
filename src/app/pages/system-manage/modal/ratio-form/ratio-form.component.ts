@@ -66,7 +66,7 @@ export class RatioFormModalComponent implements OnInit, OnDestroy {
         this.systemManageService.addRebate(params).pipe(
             catchError(err => of(err))
         ).subscribe(res => {
-            this.modal.destroy('success');
+            res === true && this.modal.destroy('success');
         });
     }
 
@@ -84,7 +84,7 @@ export class RatioFormModalComponent implements OnInit, OnDestroy {
         this.systemManageService.updateRebate(params).pipe(
             catchError(err => of(err))
         ).subscribe(res => {
-            this.modal.destroy('success');
+            res === true && this.modal.destroy('success');
         });
     }
 

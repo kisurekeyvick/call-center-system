@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { jackInTheBoxAnimation, jackInTheBoxOnEnterAnimation } from 'src/app/shared/animate/index';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
-import { IWordItem, listValue } from './word-manage.component.config';
+import { IWordItem } from './word-manage.component.config';
 import { WordItemModalComponent } from '../modal/word-item-form/word-item-form.component';
 import { SystemManageService } from '../system-manage.service';
 import { catchError } from 'rxjs/operators';
@@ -44,13 +44,14 @@ export class WordManageComponent implements OnInit, OnDestroy {
         this.systemManageService.querySpeechList().pipe(
             catchError(err => of(err))
         ).subscribe(res => {
-            setTimeout(() => {
-                this.wordList = (listValue()).map(item => ({
+            if (res instanceof Array) {
+                this.wordList = res.map(item => ({
                     ...item,
-                    contentDesc: item.details.slice(0, 20) + '...'
+                    contentDesc: item.details ? item.details.slice(0, 20) + '...' : ''
                 }));
-                this.isLoading = false;
-            }, 2000);
+            }
+
+            this.isLoading = false;
         });
     }
 
@@ -88,7 +89,7 @@ export class WordManageComponent implements OnInit, OnDestroy {
             nzContent: `您确定删除话术"${word.name}"吗?`,
             nzOnOk: () => {
                 const params = {
-                    id: word.id
+                    idList: [word.id]
                 };
                 
                 this.systemManageService.deleteSpeech(params).pipe(

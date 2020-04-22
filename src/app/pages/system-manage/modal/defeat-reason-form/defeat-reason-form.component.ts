@@ -63,7 +63,7 @@ export class DefeatReasonFormModalComponent implements OnInit, OnDestroy {
         this.systemManageService.addDefeatreason(params).pipe(
             catchError(err => of(err))
         ).subscribe(res => {
-            this.modal.destroy('success');
+            res === true && this.modal.destroy('success');
         });
     }
 
@@ -81,7 +81,7 @@ export class DefeatReasonFormModalComponent implements OnInit, OnDestroy {
         this.systemManageService.updateDefeatreason(params).pipe(
             catchError(err => of(err))
         ).subscribe(res => {
-            this.modal.destroy('success');
+            res === true && this.modal.destroy('success');
         });
     }
 

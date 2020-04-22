@@ -14,7 +14,7 @@ export class GiftService {
 
     /** 礼品列表查询 */
     queryGiftList(params: ICommon = {}): Observable<any> {
-        return this.http.post(`api/gift/insert`, params);
+        return this.http.post(`api/gift/queryAll`, params);
     }
 
     /** 礼品新增 */

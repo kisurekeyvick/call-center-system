@@ -71,7 +71,7 @@ export class GIftFormModalComponent implements OnInit, OnDestroy {
         this.giftService.addGift(params).pipe(
             catchError(err => of(err))
         ).subscribe(res => {
-            this.modal.destroy('success');
+            res === true && this.modal.destroy('success');
         });
     }
 
@@ -90,7 +90,7 @@ export class GIftFormModalComponent implements OnInit, OnDestroy {
         this.giftService.updateGift(params).pipe(
             catchError(err => of(err))
         ).subscribe(res => {
-            this.modal.destroy('success');
+            res === true && this.modal.destroy('success');
         });
     }
 

@@ -64,7 +64,7 @@ export class WordItemModalComponent implements OnInit, OnDestroy {
         this.systemManageService.addSpeech(params).pipe(
             catchError(err => of(err))
         ).subscribe(res => {
-            this.modal.destroy('success');
+            res === true && this.modal.destroy('success');
         });
     }
 
@@ -83,7 +83,7 @@ export class WordItemModalComponent implements OnInit, OnDestroy {
         this.systemManageService.updateSpeech(params).pipe(
             catchError(err => of(err))
         ).subscribe(res => {
-            this.modal.destroy('success');
+            res === true && this.modal.destroy('success');
         });
     }
 

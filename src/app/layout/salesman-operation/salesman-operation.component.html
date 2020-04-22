@@ -46,9 +46,14 @@
         <div class="calendar-box">
             <p class="title">预约日历</p>
             <div class="calendar-list-box">
-                <ng-container *ngFor="let data of calendarList">
-                    <p><nz-tag [nzColor]="'blue'">{{data.date}}</nz-tag>已预约<span class="highlight">{{data.hadAppointmentNumber}}</span>单，还可约<span class="highlight">{{data.canAppointmentNumber}}</span>单</p>
+                <ng-container *ngIf="calendarList.length > 0; else noCalendarListTpl">
+                    <ng-container *ngFor="let data of calendarList">
+                        <p><nz-tag [nzColor]="'blue'">{{data.date}}</nz-tag>已预约<span class="highlight">{{data.hadAppointmentNumber}}</span>单，还可约<span class="highlight">{{data.canAppointmentNumber}}</span>单</p>
+                    </ng-container>
                 </ng-container>
+                <ng-template #noCalendarListTpl>
+                    <nz-empty nzNotFoundContent="暂无预约日历数据"></nz-empty>
+                </ng-template>
             </div>
         </div>
         <div class="remind-box">
