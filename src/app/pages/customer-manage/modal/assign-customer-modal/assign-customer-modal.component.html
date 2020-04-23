@@ -1,16 +1,19 @@
 <div class="assign-customer-modal-container">
     <div nz-row class="model-content">
         <div class="model-content-item">
-            <p class="title">1.请选择需要分配的人员</p>
+            <p class="title">当前可以被分配的数额为：<nz-tag [nzColor]="'blue'">{{lastAssignNumber}}</nz-tag></p>
+        </div>
+        <div class="model-content-item">
+            <p class="title">1.请选择需要分配的业务员</p>
             <div class="employees-list-table">
                 <ng-container *ngIf="!isLoading; else skeleton">
-                    <nz-table #list [nzData]="employeesList" nzShowPagination="false">
+                    <nz-table #list [nzData]="employeesList" nzShowPagination="false" nzFrontPagination="false" [nzTotal]="employeesList.length">
                         <thead>
                           <tr>
-                            <th nzShowCheckbox
+                            <!-- <th nzShowCheckbox
                                 [nzIndeterminate]="isIndeterminate"
                                 [(nzChecked)]="isAllDisplayDataChecked"
-                                (nzCheckedChange)="checkAll($event)"></th>
+                                (nzCheckedChange)="checkAll($event)"></th> -->
                             <ng-container *ngFor="let th of tableCfg.thead">
                                 <th>{{ th.name }}</th>
                             </ng-container>
@@ -18,11 +21,12 @@
                         </thead>
                         <tbody>
                           <tr *ngFor="let data of list.data">
-                            <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[data.id]" (nzCheckedChange)="refreshStatus()"></td>
+                            <!-- <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[data.id]" (nzCheckedChange)="refreshStatus()"></td> -->
                             <td>{{data.name}}</td>
                             <td>{{data.phone}}</td>
-                            <td>{{data.departmentName}}</td>
-                            <td>{{data.roleName}}</td>
+                            <td>
+                                <nz-input-number [(ngModel)]="data.number" (ngModelChange)="assignNumberChange(data)" [nzMin]="0" [nzStep]="1"></nz-input-number>
+                            </td>
                           </tr>
                         </tbody>
                       </nz-table>
@@ -32,17 +36,6 @@
                     <nz-skeleton [nzActive]="true"></nz-skeleton>
                     <nz-skeleton [nzActive]="true"></nz-skeleton>
                 </ng-template>
-            </div>
-            <div class="employees-list-table-pagination">
-                <search-list-pagination [pageInfo]="pageInfo" (onPageChange)="onPageChange($event)"></search-list-pagination>
-            </div>
-        </div>
-        <div class="model-content-item">
-            <p class="title">2.选择分配方式</p>
-            <div >
-                <nz-radio-group [(ngModel)]="radioValue">
-                    <label nz-radio nzValue="all">全部平均分配</label>
-                </nz-radio-group>
             </div>
         </div>
     </div>

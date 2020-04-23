@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { jackInTheBoxAnimation, jackInTheBoxOnEnterAnimation } from 'src/app/shared/animate/index';
 import { NzMessageService, NzModalService, NzModalRef } from 'ng-zorro-antd';
 import { ISalesman, salesmanlistValue } from './list-recovery.component.config';
-import { RuleFormModalComponent, IRuleFormCbVal, IDefaultRuleFormValueSourceItem } from './modal/rule-form/rule-form-modal.component';
-import { defaultRuleForm, IRuleForm } from './modal/rule-form/rule-form-modal.component.config';
-import { AssignFormModalComponent } from './modal/assign-form/assign-form-modal.component';
+import { RuleFormModalComponent, IRuleFormCbVal, IDefaultRuleFormValueSourceItem } from '../modal/rule-form/rule-form-modal.component';
+import { defaultRuleForm, IRuleForm } from '../modal/rule-form/rule-form-modal.component.config';
+import { AssignFormModalComponent } from '../modal/assign-form/assign-form-modal.component';
 
 @Component({
     selector: 'list-recovery-list',

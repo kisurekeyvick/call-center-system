@@ -2,7 +2,7 @@
     <div nz-row>
         <ng-container *ngFor="let item of searchListItem; let i = index;">
             <ng-container *ngIf="!item.hidden">
-                <div nz-row nz-col [ngSwitch]="item.type" nzXs="24" nzMd="12" nzLg="8" nzXl="6" nzXXl="4" [style.display]="(!item.isCollapse || !isCollapse) ? 'block': 'none'" class="search-list-item">
+                <div nz-row nz-col [ngSwitch]="item.type" [nzXs]="searchListLayout.nzXs" [nzMd]="searchListLayout.nzMd" [nzLg]="searchListLayout.nzLg" [nzXl]="searchListLayout.nzXl" [nzXXl]="searchListLayout.nzXXl" [style.display]="(!item.isCollapse || !isCollapse) ? 'block': 'none'" class="search-list-item">
                     <!-- 简单的输入文本input -->
                     <nz-form-item class="nzFormItem" *ngSwitchCase="'text'">
                         <ng-container *ngIf="item.label">
@@ -67,6 +67,26 @@
                                     <i class="anticon anticon-loading anticon-spin loading-icon"></i> Loading ...
                                 </nz-option>
                             </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+
+                    <!-- numberRange 数字范围 -->
+                    <nz-form-item class="nzFormItem" *ngSwitchCase="'numberRange'">
+                        <ng-container *ngIf="item.label">
+                            <nz-form-label class="nzFormLabel" nz-col [nzXs]="item?.grid?.label?.nzXs" [nzSm]="item?.grid?.label?.nzSm" [nzMd]="item?.grid?.label?.nzMd" [nzLg]="item?.grid?.label?.nzLg" [nzXl]="item?.grid?.label?.nzXl" [nzFor]="item.key">
+                                {{ item.label }}
+                            </nz-form-label>
+                        </ng-container>
+                        <nz-form-control class="nzFormControl" nz-col [nzXs]="item?.grid?.control?.nzXs" [nzSm]="item?.grid?.control?.nzSm" [nzMd]="item?.grid?.control?.nzMd" [nzLg]="item?.grid?.control?.nzLg" [nzXl]="item?.grid?.control?.nzXl">
+                            <div nz-row class="numberRange-control">
+                                <div class="input-number" nz-col nzSpan="11" >
+                                    <nz-input-number style="width: 100%" [(ngModel)]="searchListModel[item.config.start.key]" [name]="item.config.start.key"></nz-input-number>
+                                </div>
+                                <div class="input-number-center" nz-col nzSpan="2" >-</div>
+                                <div class="input-number" nz-col nzSpan="11" >
+                                    <nz-input-number style="width: 100%" [(ngModel)]="searchListModel[item.config.end.key]" [name]="item.config.end.key"></nz-input-number>
+                                </div>
+                            </div>
                         </nz-form-control>
                     </nz-form-item>
     

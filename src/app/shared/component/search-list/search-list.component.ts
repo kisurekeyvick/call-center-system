@@ -14,6 +14,13 @@ export class SearchListComponent implements OnInit, OnDestroy {
     search$: Subject<{ inputVal: string, index: number }> = new Subject();
     private _searchListModel: any;
     private _searchListItem: any;
+    private _searchListLayout = {
+        nzXs: '24',  
+        nzMd: '12', 
+        nzLg: '8', 
+        nzXl: '6',
+        nzXXl: '4'
+    };
     private _differ: KeyValueDiffer<any, any>;
     selectLoading: boolean;
 
@@ -36,6 +43,15 @@ export class SearchListComponent implements OnInit, OnDestroy {
 
     get searchListItem() {
         return this._searchListItem;
+    }
+
+    @Input()
+    set searchListLayout(value) {
+        this._searchListLayout = value;
+    }
+
+    get searchListLayout() {
+        return this._searchListLayout;
     }
 
     @Output() onSearch: EventEmitter<any> = new EventEmitter<any>();

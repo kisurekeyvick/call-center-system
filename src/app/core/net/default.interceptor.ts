@@ -42,19 +42,6 @@ export class DefaultInterceptor implements HttpInterceptor {
 
     /** 白名单 */
     private static WHITE_LIST = [
-        'http://up.qiniu.com',
-        'https://up.qiniu.com',
-        'http://upload.qiniup.com',
-        'https://upload.qiniup.com',
-        'http://up-z1.qiniu.com',
-        'https://up-z1.qiniu.com',
-        'http://upload-z1.qiniup.com',
-        'https://upload-z1.qiniup.com',
-        'http://up-z2.qiniu.com',
-        'https://up-z2.qiniu.com',
-        'http://upload-z2.qiniup.com',
-        'https://upload-z2.qiniup.com',
-        'gateway/saas/ext/order/download/get'
     ];
 
     get msg(): NzMessageService {

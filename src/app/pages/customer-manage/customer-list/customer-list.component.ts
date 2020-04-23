@@ -1,16 +1,22 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { jackInTheBoxAnimation, jackInTheBoxOnEnterAnimation } from 'src/app/shared/animate/index';
 import { ISearchListItem, searchListItem, ISearchListModel, ICustomerItem,
-    searchListModel, tableConfig, listValue } from './customer-list.component.config';
+    searchListModel, tableConfig, searchListLayout, companyList, renewalStateList } from './customer-list.component.config';
 import { IPageChangeInfo, PaginationService } from 'src/app/shared/component/search-list-pagination/pagination';
 import { NzModalService, NzMessageService, NzModalRef } from 'ng-zorro-antd';
 // import { NzModalRef } from 'ng-zorro-antd/modal';
 import { Router } from '@angular/router';
-import { AssignCustomerModalComponent } from '../modal/assign-customer-modal/assign-customer-modal.component';
-import { TransferCustomerModalComponent } from '../modal/transfer-customer-modal/transfer-customer-modal.component';
-import { TrackingCustomerModalComponent } from '../modal/tracking-customer-modal/tracking-customer-modal.component';
+// import { AssignCustomerModalComponent } from '../modal/assign-customer-modal/assign-customer-modal.component';
+// import { TransferCustomerModalComponent } from '../modal/transfer-customer-modal/transfer-customer-modal.component';
+// import { TrackingCustomerModalComponent } from '../modal/tracking-customer-modal/tracking-customer-modal.component';
 import LocalStorageService from 'src/app/core/cache/local-storage';
 import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
+import { CustomerService, IQueryCustomerParams } from '../customer-manage.service';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { findValueName } from 'src/app/core/utils/function';
+import * as dayjs from 'dayjs';
+import { UtilsService } from 'src/app/core/utils/utils.service';
 
 type ITableCfg = typeof tableConfig;
 type pageChangeType = 'pageIndex' | 'pageSize';
@@ -32,6 +38,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     /** 搜索配置 */
     searchListItem: ISearchListItem[];
     searchListModel: ISearchListModel;
+    searchListLayout: ICommon;
     /** 客户列表table展示数据 */
     customerList: ICustomerItem[];
     /** table列表配置 */
@@ -50,15 +57,21 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     canDeleteCustomer: boolean;
     /** 删除弹窗 */
     confirmModal: NzModalRef;
+    /** 当前用户信息 */
+    currentUser: ICommon;
+    /** 保险公司 */
 
     constructor(
         private modalService: NzModalService,
         private message: NzMessageService,
         private router: Router,
-        private localCache: LocalStorageService
+        private localCache: LocalStorageService,
+        private customerService: CustomerService,
+        private utilsService: UtilsService
     ) {
         this.searchListItem = [...searchListItem];
         this.searchListModel = {...searchListModel};
+        this.searchListLayout = {...searchListLayout};
         this.customerList = [];
         this.pageInfo = new PaginationService({
             total: 200,
@@ -70,6 +83,8 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        const userCacheInfo = this.localCache.get(LocalStorageItemName.USERPROFILE);
+        this.currentUser = userCacheInfo && userCacheInfo['value'] || {};
         this.search();
     }
 
@@ -78,8 +93,9 @@ export class CustomerListComponent implements OnInit, OnDestroy {
      * @desc 搜索
      */
     search() {
-        console.log(this.searchListModel);
-        this.loadCustomerList({});
+        const params = this.formatSearchParams();
+
+        this.loadCustomerList(params);
     }
 
     /**
@@ -87,109 +103,155 @@ export class CustomerListComponent implements OnInit, OnDestroy {
      * @desc 重置搜索内容
      */
     reseat() {
+        this.searchListModel = {...searchListModel};
+    }
 
+    /**
+     * @func
+     * @desc format请求的参数
+     */
+    formatSearchParams(): IQueryCustomerParams {
+        const { registerTime } = this.searchListModel;
+        const params = {
+            ...this.searchListModel,
+            startRegisterTime: registerTime[0] && new Date(registerTime[0]).getTime() || null,
+            endRegisterTime: registerTime[1] && new Date(registerTime[1]).getTime() || null,
+        };
+
+        return params;
     }
 
     /**
      * @func
      * @desc 加载员工列表
      */
-    loadCustomerList(params: ICommon, pageChangeType?: pageChangeType) {
+    loadCustomerList(params: IQueryCustomerParams, pageChangeType?: pageChangeType) {
         this.isLoading = true;
-        
-        setTimeout(() => {
-            this.customerList = listValue();
+        const { pageIndex, pageSize } = this.pageInfo;
+        const requestParam: ICommon = {
+            ...params,
+            basePageInfo: {
+                pageNum: pageIndex,
+                pageSize
+            }
+        };
+
+        delete requestParam.registerTime;
+
+        this.customerService.queryCustomer(requestParam).pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
             this.isLoading = false;
 
-            if (pageChangeType === 'pageSize') {
-                this.pageInfo.pageIndex = 1;
+            if (res.list) {
+                const { list, total } = res;
+                this.customerList = list.map(item => {
+                    const { commercialEndTime, compulsoryEndTime, registerTime, updateTime } = item;
+                    item['renewalStateName'] = findValueName(renewalStateList, item['renewalState']);
+                    item['lastCompanyName'] = findValueName(companyList, item['lastCompanyCode'])
+                    item['commercialEndTimeFormat'] = commercialEndTime && dayjs(commercialEndTime).format('YYYY-MM-DD HH:mm:ss') || '--';
+                    item['compulsoryEndTimeFormat'] = compulsoryEndTime && dayjs(compulsoryEndTime).format('YYYY-MM-DD HH:mm:ss') || '--';
+                    item['registerTimeFormat'] = registerTime && dayjs(registerTime).format('YYYY-MM-DD HH:mm:ss') || '--';
+                    item['updateTimeFormat'] = updateTime && dayjs(updateTime).format('YYYY-MM-DD HH:mm:ss') || '--';
+                    return item;
+                });
+                this.pageInfo.total = total;
+                pageChangeType === 'pageSize' && (this.pageInfo.pageIndex = 1);
             }
-        }, 2000);
+        });
     }
 
     /**
      * @callback
      * @desc 分配客户
      */
-    assignCustomer() {
-        const customerList = this.customerList.filter(customer => this.mapOfCheckedId[customer.carId]);
+    // assignCustomer() {
+    //     const customerList = this.customerList.filter(customer => this.mapOfCheckedId[customer.id]);
 
-        const modal = this.modalService.create({
-            nzTitle: '分配客户',
-            nzContent: AssignCustomerModalComponent,
-            nzComponentParams: {
-                customerList
-            },
-            nzWidth: 600,
-            nzMaskClosable: false,
-            nzFooter: null
-        });
+    //     const modal = this.modalService.create({
+    //         nzTitle: '分配客户',
+    //         nzContent: AssignCustomerModalComponent,
+    //         nzComponentParams: {
+    //             customerList,
+    //             queryParams: this.searchListModel
+    //         },
+    //         nzWidth: 600,
+    //         nzMaskClosable: false,
+    //         nzFooter: null
+    //     });
 
-        modal.afterClose.subscribe((res) => {
-            if (res === 'success') {
-                this.message.create('success', `分配成功`);
-                this.search();
-            }
-        });
-    }
+    //     modal.afterClose.subscribe((res) => {
+    //         if (res === 'success') {
+    //             this.message.create('success', `分配成功`);
+    //             this.search();
+    //         }
+    //     });
+    // }
 
     /**
      * @callback
      * @desc 转移客户
      */
-    transferCustomer() {
-        const customerList = this.customerList.filter(customer => this.mapOfCheckedId[customer.carId]);
+    // transferCustomer() {
+    //     const customerList = this.customerList.filter(customer => this.mapOfCheckedId[customer.id]);
 
-        const modal = this.modalService.create({
-            nzTitle: '转移客户',
-            nzContent: TransferCustomerModalComponent,
-            nzComponentParams: {
-                customerList
-            },
-            nzWidth: 600,
-            nzMaskClosable: false,
-            nzFooter: null
-        });
+    //     const modal = this.modalService.create({
+    //         nzTitle: '转移客户',
+    //         nzContent: TransferCustomerModalComponent,
+    //         nzComponentParams: {
+    //             customerList
+    //         },
+    //         nzWidth: 600,
+    //         nzMaskClosable: false,
+    //         nzFooter: null
+    //     });
 
-        modal.afterClose.subscribe((res) => {
-            if (res === 'success') {
-                this.message.create('success', `转移成功`);
-                this.search();
-            }
-        });
-    }
+    //     modal.afterClose.subscribe((res) => {
+    //         if (res === 'success') {
+    //             this.message.create('success', `转移成功`);
+    //             this.search();
+    //         }
+    //     });
+    // }
 
     /**
      * @callback
      * @desc 投保跟踪设置
      */
-    trackingCustomer() {
-        const customerList = this.customerList.filter(customer => this.mapOfCheckedId[customer.carId]);
+    // trackingCustomer() {
+    //     const customerList = this.customerList.filter(customer => this.mapOfCheckedId[customer.id]);
 
-        const modal = this.modalService.create({
-            nzTitle: '投保跟踪设置',
-            nzContent: TrackingCustomerModalComponent,
-            nzComponentParams: {
-                customerList
-            },
-            nzMaskClosable: false,
-            nzFooter: null
-        });
+    //     const modal = this.modalService.create({
+    //         nzTitle: '投保跟踪设置',
+    //         nzContent: TrackingCustomerModalComponent,
+    //         nzComponentParams: {
+    //             customerList
+    //         },
+    //         nzMaskClosable: false,
+    //         nzFooter: null
+    //     });
 
-        modal.afterClose.subscribe((res) => {
-            if (res === 'success') {
-                this.message.create('success', `跟踪设置成功`);
-                this.search();
-            }
-        });
-    }
+    //     modal.afterClose.subscribe((res) => {
+    //         if (res === 'success') {
+    //             this.message.create('success', `跟踪设置成功`);
+    //             this.search();
+    //         }
+    //     });
+    // }
 
     /**
      * @callback
      * @desc 导出客户
      */
     exportCustomer() {
+        const params = {
+            httpMethod: 'POST',
+            httpUrl: 'api/customer/export',
+            fileName: '客户列表',
+            requestParams: this.formatSearchParams()
+        };
 
+        this.utilsService.downloadFile(params);
     }
 
     /**
@@ -217,7 +279,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
      */
     checkAll(value: boolean) {
         this.customerList.forEach(item => {
-            this.mapOfCheckedId[item.carId] = value;
+            this.mapOfCheckedId[item.id] = value;
         });
         this.refreshStatus();
     }
@@ -227,8 +289,8 @@ export class CustomerListComponent implements OnInit, OnDestroy {
      * @desc 选中刷新状态
      */
     refreshStatus() {
-        this.isAllDisplayDataChecked = this.customerList.every(item => this.mapOfCheckedId[item.carId]);
-        this.isIndeterminate = this.customerList.some(item => this.mapOfCheckedId[item.carId]) && !this.isAllDisplayDataChecked;
+        this.isAllDisplayDataChecked = this.customerList.every(item => this.mapOfCheckedId[item.id]);
+        this.isIndeterminate = this.customerList.some(item => this.mapOfCheckedId[item.id]) && !this.isAllDisplayDataChecked;
         this.computedCanDeleteCustomerVal();
     }
 
@@ -237,7 +299,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
      * @desc 计算是否能够使用删除按钮
      */
     computedCanDeleteCustomerVal() {
-        this.canDeleteCustomer = this.customerList.some(item => this.mapOfCheckedId[item.carId]);
+        this.canDeleteCustomer = this.customerList.some(item => this.mapOfCheckedId[item.id]);
     }
 
     /**
@@ -264,7 +326,8 @@ export class CustomerListComponent implements OnInit, OnDestroy {
         const property = changeInfo.type;
         this.pageInfo[property] = changeInfo.value;
 
-        this.loadCustomerList({}, property);
+        const params = this.formatSearchParams();
+        this.loadCustomerList(params, property);
     }
 
     ngOnDestroy() {}

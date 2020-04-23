@@ -2,8 +2,7 @@ export const tableConfig = {
     thead: [
         { name: '姓名' },
         { name: '手机号' },
-        { name: '所属部门' },
-        { name: '角色' }
+        { name: '配额数' }
     ]
 };
 

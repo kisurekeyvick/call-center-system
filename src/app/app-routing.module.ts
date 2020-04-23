@@ -20,10 +20,6 @@ const routes: Routes = [
     loadChildren: () => import('src/app/pages/gift-manage/gift-manage.module').then(m => m.GiftModule)
   },
   {
-    path: 'listAssignment',
-    loadChildren: () => import('src/app/pages/list-assignment/list-assignment.module').then(m => m.ListAssignMentModule)
-  },
-  {
     path: 'rebateApplication',
     loadChildren: () => import('src/app/pages/rebate-application/rebate-application.module').then(m => m.RebateApplicationModule)
   },
@@ -32,12 +28,8 @@ const routes: Routes = [
     loadChildren: () => import('src/app/pages/system-manage/system-manage.module').then(m => m.SystemManageModule)
   },
   {
-    path: 'listQuery',
-    loadChildren: () => import('src/app/pages/list-query/list-query.module').then(m => m.ListQueryModule)
-  },
-  {
-    path: 'listRecovery',
-    loadChildren: () => import('src/app/pages/list-recovery/list-recovery.module').then(m => m.ListRecoveryModule)
+    path: 'listManage',
+    loadChildren: () => import('src/app/pages/list-manage/list-manage.module').then(m => m.ListManageModule)
   },
   {
     path: 'successSubmit',

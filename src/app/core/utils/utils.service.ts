@@ -1,21 +1,62 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import * as dayjs from 'dayjs';
 import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
 import LocalStorageService from 'src/app/core/cache/local-storage';
+import { saveAs } from 'file-saver';
+import { NzMessageService } from 'ng-zorro-antd';
 
 interface ICommon {
     [key: string]: any;
+}
+
+interface IDownloadFileParams {
+    httpMethod: string;
+    httpUrl: string;
+    fileName: string;
+    requestParams: ICommon;
 }
 
 @Injectable()
 export class UtilsService {
     constructor(
         private http: HttpClient,
-        private localCache: LocalStorageService
+        private localCache: LocalStorageService,
+        private message: NzMessageService
     ) {
 
+    }
+
+    /**
+     * @func
+     * @desc 下载文件
+     */
+    downloadFile(parmas: IDownloadFileParams) {
+        const { httpMethod, httpUrl, fileName, requestParams } = parmas;
+        const tokenValue = this.localCache.get('token');
+        const token = tokenValue && tokenValue['value'] || '';
+
+        const header = new HttpHeaders()
+            .set('Accept', '*/*')
+            .set('Content-type', 'application/json; charset=UTF-8')
+            .set('Authorization', token);
+
+        this.http.request(httpMethod, httpUrl, {
+            headers: header,
+            body: {
+                ...requestParams
+            },
+            responseType: 'blob',
+            observe: 'response',
+        }).subscribe((res: HttpResponse<Blob>) => {
+            if (res.status !== 200 || res.body.size <= 0 || res.body.type === 'application/json') {
+                this.message.error(res.statusText);
+                return;
+            }
+
+            saveAs(res.body, decodeURI(fileName));
+        });
     }
 
     /**

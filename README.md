@@ -26,4 +26,5 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 2.业务员操作界面 提醒 这一栏的数据没有联调 没有接口
 3.话术管理列表返回的字段"details"为null
 4.礼品设置无法删除
+5.客户列表 归属人字段未知
 ``` 

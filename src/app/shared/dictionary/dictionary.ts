@@ -173,5 +173,12 @@ export const dictionary = new Map([
             { name: '津贴保', value: 'allowanceInsuranceRisk' },
             { name: '玻璃膜价格', value: 'glassFilmPriceRisk' }
         ]
+    ],
+    [
+        /** 客户管理列表 是否续保 */
+        'renewalState', [
+            { name: '续保', value: '1' },
+            { name: '非续保', value: '2' }
+        ]
     ]
 ]);

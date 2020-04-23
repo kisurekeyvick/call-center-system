@@ -8,24 +8,21 @@
     </div>
     <div nz-row class="content">
         <div class="search-list-box">
-            <search-list [searchListModel]="searchListModel" [searchListItem]="searchListItem" (onSearch)="search()" (onReseat)="reseat()"></search-list>
+            <search-list [searchListLayout]="searchListLayout" [searchListModel]="searchListModel" [searchListItem]="searchListItem" (onSearch)="search()" (onReseat)="reseat()"></search-list>
         </div>
         <div class="search-list-menu-group">
-            <button nz-button [nzType]="'primary'" (click)="assignCustomer()"><i nz-icon nzType="enter" nzTheme="outline"></i>分配客户</button>
-            <button nz-button [nzType]="'primary'" (click)="transferCustomer()"><i nz-icon nzType="swap" nzTheme="outline"></i>转移客户</button>
-            <button nz-button [nzType]="'primary'" (click)="trackingCustomer()"><i nz-icon nzType="setting" nzTheme="outline"></i>投保跟踪设置</button>
             <button nz-button [nzType]="'primary'" (click)="exportCustomer()"><i nz-icon nzType="download" nzTheme="outline"></i>导出</button>
-            <button nz-button [nzType]="'danger'" [disabled]="!canDeleteCustomer" (click)="deleteCustomer()"><i nz-icon nzType="delete" nzTheme="outline"></i>删除</button>
+            <!-- <button nz-button [nzType]="'danger'" [disabled]="!canDeleteCustomer" (click)="deleteCustomer()"><i nz-icon nzType="delete" nzTheme="outline"></i>删除</button> -->
         </div>
         <div class="search-list-table">
             <ng-container *ngIf="!isLoading; else skeleton">
                 <nz-table #list [nzData]="customerList" nzShowPagination="false">
                     <thead>
                       <tr>
-                        <th nzShowCheckbox
+                        <!-- <th nzShowCheckbox
                             [nzIndeterminate]="isIndeterminate"
                             [(nzChecked)]="isAllDisplayDataChecked"
-                            (nzCheckedChange)="checkAll($event)"></th>
+                            (nzCheckedChange)="checkAll($event)"></th> -->
                         <ng-container *ngFor="let th of tableCfg.thead">
                             <th>{{ th.name }}</th>
                         </ng-container>
@@ -33,18 +30,18 @@
                     </thead>
                     <tbody>
                       <tr *ngFor="let data of list.data">
-                        <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[data.carId]" (nzCheckedChange)="refreshStatus()"></td>
-                        <td><a (click)="customerDetail(data)">{{data.plateNo || '--'}}</a></td>
+                        <!-- <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[data.id]" (nzCheckedChange)="refreshStatus()"></td> -->
+                        <td><a (click)="customerDetail(data)">{{data.carNo || '--'}}</a></td>
                         <td>{{data.customerName || '--'}}</td>
                         <td>{{data.vinNo || '--'}}</td>
                         <td>{{data.brandName || '--'}}</td>
-                        <td>{{data.enrollDate || '--'}}</td>
-                        <td>{{data.commercialEndTime || '--'}}</td>
-                        <td>{{data.compulsoryEndTime || '--'}}</td>
-                        <td>{{data.comCode || '--'}}</td>
-                        <td>{{data.customerType || '--'}}</td>
+                        <td>{{data.registerTimeFormat}}</td>
+                        <td>{{data.commercialEndTimeFormat}}</td>
+                        <td>{{data.compulsoryEndTimeFormat}}</td>
+                        <td>{{data.lastCompanyName || '--'}}</td>
+                        <td>{{data.renewalStateName || '--'}}</td>
                         <td>{{data.assigneeName || '--'}}</td>
-                        <td>{{data.modifierTime || '--'}}</td>
+                        <td>{{data.updateTimeFormat}}</td>
                       </tr>
                     </tbody>
                   </nz-table>

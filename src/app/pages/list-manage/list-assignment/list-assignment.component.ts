@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { jackInTheBoxAnimation, jackInTheBoxOnEnterAnimation } from 'src/app/shared/animate/index';
 import { tableConifg, IAssignMember, listValue } from './list-assignment.component.config';
 import { NzModalService, NzMessageService } from 'ng-zorro-antd';
-import { RuleFormModalComponent, IRuleFormCbVal, IDefaultRuleFormValueSourceItem } from './modal/rule-form/rule-form-modal.component';
-import { defaultRuleForm, IRuleForm } from './modal/rule-form/rule-form-modal.component.config';
+import { RuleFormModalComponent, IRuleFormCbVal, IDefaultRuleFormValueSourceItem } from '../modal/rule-form/rule-form-modal.component';
+import { defaultRuleForm, IRuleForm } from '../modal/rule-form/rule-form-modal.component.config';
 
 type ITableCfg = typeof tableConifg;
 

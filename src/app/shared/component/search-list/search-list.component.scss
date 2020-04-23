@@ -16,4 +16,14 @@
             }
         }
     }
+
+    .numberRange-control {
+        .input-number, .input-number-center {
+            float: left;
+        }
+
+        .input-number-center {
+            text-align: center;
+        }
+    }
 }
