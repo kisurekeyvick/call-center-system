@@ -82,4 +82,12 @@ export class ApiService {
     queryTotalNumber(): Observable<any> {
         return this.http.post(`api/customer/queryTotalNumber`, {});
     }
+
+    /**
+     * @func
+     * @desc 获取业务员
+     */
+    querySaleman(): Observable<any> {
+        return this.http.get(`api/user/sale-man`, {});
+    }
 }

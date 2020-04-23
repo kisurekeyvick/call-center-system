@@ -4,6 +4,9 @@ import { tableConifg, IAssignMember, listValue } from './list-assignment.compone
 import { NzModalService, NzMessageService } from 'ng-zorro-antd';
 import { RuleFormModalComponent, IRuleFormCbVal, IDefaultRuleFormValueSourceItem } from '../modal/rule-form/rule-form-modal.component';
 import { defaultRuleForm, IRuleForm } from '../modal/rule-form/rule-form-modal.component.config';
+import { ApiService } from 'src/app/api/api.service';
+import { of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 type ITableCfg = typeof tableConifg;
 
@@ -38,7 +41,8 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
 
     constructor(
         private modalService: NzModalService,
-        private message: NzMessageService
+        private message: NzMessageService,
+        private apiService: ApiService
     ) {
         this.isEditing = false;
         this.currentMounthTotalAccount = 81576;
@@ -53,10 +57,14 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
     loadAssignmentList() {
         this.isLoading = true;
 
-        setTimeout(() => {
-            this.assignMemberList = listValue();
+        this.apiService.querySaleman().pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            if (res instanceof Array) {
+                this.assignMemberList = res; // listValue();
+            }
             this.isLoading = false;
-        }, 2000);
+        });
     }
 
     /**

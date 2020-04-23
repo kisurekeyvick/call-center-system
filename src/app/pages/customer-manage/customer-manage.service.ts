@@ -32,7 +32,7 @@ export interface ICustomerExportParams {
     isHigh: string;
     /** 店铺编号 */
     tenantCode: string;
-};
+}
 
 export interface IQueryCustomerParams {
     /** 品牌 */
@@ -58,7 +58,7 @@ export interface IQueryCustomerParams {
     startRegisterTime: number;
     endRegisterTime: number;
     [key: string]: any;
-};
+}
 
 @Injectable()
 export class CustomerService {
