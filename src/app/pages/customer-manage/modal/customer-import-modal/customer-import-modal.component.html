@@ -7,8 +7,8 @@
         <div class="model-content-item">
             <nz-upload
                 nzType="drag"
-                [nzMultiple]="true"
-                [nzLimit]="2"
+                [nzMultiple]="false"
+                [nzFileList]="fileList"
                 [nzCustomRequest]="customReq"
                 (nzChange)="handleChange($event)">
                 <p class="ant-upload-drag-icon">
@@ -20,5 +20,6 @@
     </div>
     <div class="modal-btn-group">
         <button nz-button [nzType]="'default'" (click)="cancel()">关闭</button>
+        <button nz-button [nzType]="'primary'" (click)="uploadFile()">上传</button>
     </div>
 </div>

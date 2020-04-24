@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { UploadChangeParam, UploadXHRArgs } from 'ng-zorro-antd/upload';
+import { UploadChangeParam, UploadXHRArgs, UploadFile } from 'ng-zorro-antd/upload';
+import { of } from 'rxjs';
 
 @Component({
     selector: 'customer-import-modal',
@@ -9,6 +10,9 @@ import { UploadChangeParam, UploadXHRArgs } from 'ng-zorro-antd/upload';
     styleUrls: ['./customer-import-modal.component.scss']
 })
 export class CustomerImportModalComponent implements OnInit, OnDestroy {
+    /** 上传的文件 */
+    fileList: UploadFile[];
+
     constructor(
         private modal: NzModalRef,
         private message: NzMessageService,
@@ -16,7 +20,9 @@ export class CustomerImportModalComponent implements OnInit, OnDestroy {
 
     }
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.fileList = [];
+    }
 
     /**
      * @callback
@@ -32,16 +38,15 @@ export class CustomerImportModalComponent implements OnInit, OnDestroy {
      * @param param0 
      */
     handleChange({ file, fileList }: UploadChangeParam): void {
-        const status = file.status;
+        // const status = file.status;
 
-        if (status !== 'uploading') {
-            console.log(file, fileList);
-        }
-        if (status === 'done') {
-            this.message.success(`${file.name} file uploaded successfully.`);
-        } else if (status === 'error') {
-            this.message.error(`${file.name} file upload failed.`);
-        }
+        // if (status !== 'uploading') {
+        // }
+        // if (status === 'done') {
+        //     this.message.success(`${file.name} file uploaded successfully.`);
+        // } else if (status === 'error') {
+        //     this.message.error(`${file.name} file upload failed.`);
+        // }
     }
 
     /**
@@ -50,10 +55,26 @@ export class CustomerImportModalComponent implements OnInit, OnDestroy {
      * https://ng.ant.design/components/upload/zh  上传查看自定义的demo
      */
     customReq = (item: UploadXHRArgs) => {
-        const formData = new FormData();
-        formData.append('file', item.file as any);
-        formData.append('id', '1000');
-        item.onSuccess({}, item.file, {});
+        of('1').subscribe(() => {
+            item.onSuccess('success', item.file, {});
+        });
+    }
+
+    /**
+     * @func
+     * @desc 上传附件
+     */
+    uploadFile() {
+        this.fileList.forEach((file: UploadFile) => {
+            const reader: FileReader = new FileReader();
+            reader.onload = e => {
+
+            };
+
+            console.log('ok',file);
+
+            reader.readAsBinaryString(file.originFileObj);
+        });
     }
 
     cancel() {

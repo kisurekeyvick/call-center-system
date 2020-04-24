@@ -71,6 +71,11 @@ export class CustomerService {
         return this.http.post(`api/customer/import`, params);
     }
 
+    /** 客户导出 */
+    customerExport(params: ICommon): Observable<any> {
+        return this.http.post(`api/customer/export`, params);
+    }
+
     /** 查询符合条件的总数量 */
     queryTotalNumber(params: IQueryCustomerParams): Observable<any> {
         return this.http.post(`api/customer/queryTotalNumber`, params);

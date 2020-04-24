@@ -187,15 +187,7 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
     deleteRuleItem(index: number) {
         this.ruleList.splice(index, 1);
     }
-
-    /**
-     * @func
-     * @desc format弹窗传递回来的表单值
-     * @param ruleFormValue 
-     */
-    dealWidthCbFormValue(ruleFormValue: IDefaultRuleFormValueSourceItem[]) {
-    }
-
+    
     /**
      * @callback
      * @desc 编辑配额数量
