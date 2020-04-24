@@ -12,7 +12,7 @@ export const tableConifg = {
 };
 
 export interface IAssignMember {
-    userId: number;
+    id: number;
     name: string;
     untreatedTask: number;
     treatedTask: number;
@@ -27,7 +27,7 @@ export interface IAssignMember {
 export const listValue = (): IAssignMember[] => {
     return Array.apply(null, Array(20)).map((item, index: number) => {
         return {
-            userId: index + 1,
+            id: index + 1,
             name: `kisure ${index + 1}`,
             untreatedTask: 84,
             treatedTask: 0,

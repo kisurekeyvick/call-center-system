@@ -43,6 +43,8 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
     totalNumber: number;
     /** 剩余可分配的总数 */
     lastAssignNumber: number;
+    /** 规则设置缓存 */
+    customerQueryReqDto: ICommon;
 
     constructor(
         private modalService: NzModalService,
@@ -116,6 +118,8 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
             startRegisterTime: registerTime[0] && new Date(registerTime[0]).getTime() || null,
             endRegisterTime: registerTime[1] && new Date(registerTime[1]).getTime() || null,
         };
+
+        this.customerQueryReqDto = params;
 
         this.listManageService.queryTotalNumber(params).pipe(
             catchError(err => of(err))
@@ -197,8 +201,12 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
      * @desc 编辑配额数量
      * @param member 
      */
-    editAssigmentAmount(member: IAssignMember) {
-        this.isEditing = true;
+    editAssigmentAmount() {
+        if (this.customerQueryReqDto) {
+            this.isEditing = true;
+        } else {
+            this.message.warning('只有先选择规则，查询当前可分配总额，才能对业务员进行分配数额');
+        }
     }
 
     /**
@@ -206,7 +214,22 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
      * @desc 保存编辑配额
      */
     saveAssigmentAmount() {
+        const distributionCustomerDtoList = this.assignMemberList.map(member => {
+            return {
+                number: member.amount,
+                userId: member.id
+            };
+        });
+        const params = {
+            ...this.customerQueryReqDto,
+            distributionCustomerDtoList
+        };
 
+        this.listManageService.distributionCustomer(params).pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            this.message.success('分配成功');
+        });
     }
 
     ngOnDestroy() {}

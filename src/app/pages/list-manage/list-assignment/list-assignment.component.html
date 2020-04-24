@@ -33,7 +33,7 @@
         </div>
         <div class="search-list-menu-group">
             <ng-container *ngIf="!isEditing; else idEditTpl">
-                <button nz-button [nzType]="'primary'" (click)="isEditing = true"><i nz-icon nzType="form" nzTheme="outline"></i>编辑分配数量</button>
+                <button nz-button [nzType]="'primary'" (click)="editAssigmentAmount()"><i nz-icon nzType="form" nzTheme="outline"></i>编辑分配数量</button>
             </ng-container>
             <ng-template #idEditTpl>
                 <button nz-button [nzType]="'primary'" (click)="saveAssigmentAmount()"><i nz-icon nzType="save" nzTheme="outline"></i>保存分配数量</button>
