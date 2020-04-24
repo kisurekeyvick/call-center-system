@@ -40,6 +40,9 @@
                 <button nz-button (click)="isEditing = false"><i nz-icon nzType="undo" nzTheme="outline"></i>取消修改</button>
             </ng-template>
         </div>
+        <div class="assign-number-mesg">
+            <p>当前可分配的总数额为<span class="highlight">{{totalNumber}}</span>,剩余可分配数额为<span class="highlight">{{lastAssignNumber}}</span></p>
+        </div>
         <div class="search-list-table">
             <ng-container *ngIf="!isLoading; else skeleton">
               <nz-table #list [nzData]="assignMemberList" [nzShowPagination]="false" [nzFrontPagination]="false" [nzTotal]="assignMemberList.length">
@@ -61,7 +64,7 @@
                     <td>{{data.distributedToday}}</td>
                     <td>
                         <ng-container *ngIf="isEditing">
-                            <nz-input-number [(ngModel)]="data.amount" [nzMin]="0" [nzStep]="1"></nz-input-number>
+                            <nz-input-number [(ngModel)]="data.amount" (ngModelChange)="amountChange(data)" [nzMin]="0" [nzStep]="1"></nz-input-number>
                         </ng-container>
                         <ng-container *ngIf="!isEditing">
                             {{data.amount}}

@@ -7,6 +7,7 @@ import { defaultRuleForm, IRuleForm } from '../modal/rule-form/rule-form-modal.c
 import { ApiService } from 'src/app/api/api.service';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { ListManageService } from '../list-manage.service';
 
 type ITableCfg = typeof tableConifg;
 
@@ -38,16 +39,23 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
     extractionListAccount: number;
     /** 提取规则展示 */
     ruleList: Array<IDefaultRuleFormValueSourceItem>;
+    /** 可分配总数 */
+    totalNumber: number;
+    /** 剩余可分配的总数 */
+    lastAssignNumber: number;
 
     constructor(
         private modalService: NzModalService,
         private message: NzMessageService,
-        private apiService: ApiService
+        private apiService: ApiService,
+        private listManageService: ListManageService
     ) {
         this.isEditing = false;
         this.currentMounthTotalAccount = 81576;
         this.extractionListAccount = 0;
         this.ruleList = [];
+        this.totalNumber = 0;
+        this.lastAssignNumber = 0;
     }
 
     ngOnInit() {
@@ -61,7 +69,10 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
             catchError(err => of(err))
         ).subscribe(res => {
             if (res instanceof Array) {
-                this.assignMemberList = res; // listValue();
+                this.assignMemberList = res.map(item => ({
+                    ...item,
+                    amount: 0
+                }));
             }
             this.isLoading = false;
         });
@@ -84,13 +95,56 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
         });
 
         modal.afterClose.subscribe((res: IRuleFormCbVal) => {
-            const { type, value } = res;
+            const { type, value, originValue } = res;
             if (type === 'success') {
                 this.message.create('success', `编辑成功`);
                 this.ruleList = value;
-                this.loadAssignmentList();
+
+                this.loadTotalNumber(originValue);
             }
         });
+    }
+
+    /**
+     * @func
+     * @desc 加载符合条件的总数量
+     */
+    loadTotalNumber(originValue) {
+        const { firstRegisterDate: registerTime } = originValue;
+        const params = {
+            ...originValue,
+            startRegisterTime: registerTime[0] && new Date(registerTime[0]).getTime() || null,
+            endRegisterTime: registerTime[1] && new Date(registerTime[1]).getTime() || null,
+        };
+
+        this.listManageService.queryTotalNumber(params).pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            if (typeof res === 'number') {
+                this.totalNumber = res;
+                this.lastAssignNumber = res;
+            }
+        });
+    }
+
+    /**
+     * @callback
+     * @desc 分配发生改变
+     * @param assignMember 
+     */
+    amountChange(assignMember: IAssignMember) {
+        const totalNumber = this.assignMemberList.reduce((pre: number, next: IAssignMember) => {
+            pre = pre + (next.amount || 0);
+            return pre;
+        }, 0);
+
+        if (totalNumber > this.totalNumber) {
+            this.message.error('已超过可配置数额').onClose.subscribe(() => {
+                assignMember.amount = 0;
+            });
+        } else if (totalNumber <= this.totalNumber) {
+            this.lastAssignNumber = this.totalNumber - totalNumber;
+        }
     }
 
     /**
@@ -112,8 +166,8 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
                 ruleForm.insuranceDueDateBegin = String(rule.value[0]);
                 ruleForm.insuranceDueDateEnd = String(rule.value[1]);
             } else if (rule.key === 'price') {
-                ruleForm.priceBegin = String(rule.value[0]);
-                ruleForm.priceEnd = String(rule.value[1]);
+                ruleForm.minPurchasePrice = String(rule.value[0]);
+                ruleForm.maxPurchasePrice = String(rule.value[1]);
             } {
                 ruleForm[rule.key] = rule.value;
             }

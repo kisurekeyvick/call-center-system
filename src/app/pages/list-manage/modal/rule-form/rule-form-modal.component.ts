@@ -16,13 +16,13 @@ export class RuleFormModalComponent implements OnInit, OnDestroy {
     validateForm: FormGroup;
     /** 表单选项列表 */
     formList = {
-        categoryList: dictionary.get('category'),
-        isChangeOwnerList: dictionary.get('isChangeOwner'),
-        isRenewalList: dictionary.get('isRenewal'),
-        isOnJobRenewalList: dictionary.get('isOnJobRenewal'),
-        isLuxuryCarList: dictionary.get('isLuxuryCar'),
-        isOnlyCompulsoryList: dictionary.get('isOnlyCompulsory'),
-        insuranceCompanysList: dictionary.get('insuranceCompanys')
+        isTransferList: [{ name: '是', value: true }, { name:'否', value: false }],
+        isRenewalList: [{ name: '是', value: '1' },{ name: '否', value: '2' }],
+        inJobList: [{ name: '是', value: true }, { name:'否', value: false }],
+        isHighList: [{ name: '是', value: true }, { name:'否', value: false }],
+        // isOnlyCompulsoryList: dictionary.get('isOnlyCompulsory'),
+        insuranceCompanysList: dictionary.get('insuranceCompanys'),
+        ownerShipList: dictionary.get('category')
     };
 
     @Input() ruleForm: IRuleForm = {...defaultRuleForm()};
@@ -35,7 +35,9 @@ export class RuleFormModalComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         const ruleForm = this.ruleForm;
-        const { firstRegisterDateBegin, firstRegisterDateEnd, insuranceDueDateBegin, insuranceDueDateEnd } = ruleForm;
+        const { firstRegisterDateBegin, firstRegisterDateEnd, 
+            // insuranceDueDateBegin, insuranceDueDateEnd 
+        } = ruleForm;
 
         this.validateForm = this.fb.group({
             /** 初登日期 */
@@ -43,30 +45,30 @@ export class RuleFormModalComponent implements OnInit, OnDestroy {
             /** 车龄 */
             // ageInterval: [ruleForm.ageInterval || null],
             /** 厂牌型号 */
-            brandModel: [ruleForm.brandModel || null],
+            brandName: [ruleForm.brandName || null],
             /** 车辆所属 */
-            category: [ruleForm.category || null],
+            ownerShip: [ruleForm.ownerShip || null],
             /** 是否过户车 */
-            isChangeOwner: [ruleForm.isChangeOwner || null],
+            isTransfer: [ruleForm.isTransfer || null],
             /** 是否续保 */
-            isRenewal: [ruleForm.isRenewal || null],
+            renewalState: [ruleForm.renewalState || null],
             /** 否单交强 */
-            isOnlyCompulsory: [ruleForm.isOnlyCompulsory || null],
+            // isOnlyCompulsory: [ruleForm.isOnlyCompulsory || null],
             /** 是否在职续保 */
-            isOnJobRenewal: [ruleForm.isOnJobRenewal || null],
+            inJob: [ruleForm.inJob || null],
             /** 是否高端车 */
-            isLuxuryCar: [ruleForm.isLuxuryCar || null],
+            isHigh: [ruleForm.isHigh || null],
             /** 保险到期 */
-            insuranceDueDate: [insuranceDueDateBegin ? [insuranceDueDateBegin, insuranceDueDateEnd] : []],
+            // insuranceDueDate: [insuranceDueDateBegin ? [insuranceDueDateBegin, insuranceDueDateEnd] : []],
             /** 上年保险公司 */
-            preInsuranceCompanys: [ruleForm.preInsuranceCompanys || null],
+            lastCompanyCode: [ruleForm.lastCompanyCode || null],
             /** 车价 */
-            priceBegin: [ruleForm.priceBegin || null],
-            priceEnd: [ruleForm.priceEnd || null],
+            minPurchasePrice: [ruleForm.minPurchasePrice || null],
+            maxPurchasePrice: [ruleForm.maxPurchasePrice || null],
             /** 市场 */
             // market: [ruleForm.market || null],
             /** 车牌 */
-            plate: [ruleForm.plate || null, [this.validPlate]],
+            carNo: [ruleForm.carNo || null, [this.validPlate]],
             /** 批次 */
             // remark: [ruleForm.remark || null],
         });
@@ -81,7 +83,8 @@ export class RuleFormModalComponent implements OnInit, OnDestroy {
         if (this.validateForm.valid) {
             this.modal.destroy({
                 type: 'success',
-                value: this.formatValidateFormValue()
+                value: this.formatValidateFormValue(),
+                originValue: this.validateForm.value
             });
         }
     }
@@ -103,32 +106,32 @@ export class RuleFormModalComponent implements OnInit, OnDestroy {
                 return `${value[0]}至${value[1]}`;
             }
 
-            if (target.key === 'category') {
-                return this.formList.categoryList.find(list => list.value === value).name;
+            if (target.key === 'ownerShip') {
+                return this.formList.ownerShipList.find(list => list.value === value).name;
             }
 
-            if (target.key === 'isChangeOwner') {
-                return this.formList.isChangeOwnerList.find(list => list.value === value).name;
+            if (target.key === 'isTransfer') {
+                return this.formList.isTransferList.find(list => list.value === value).name;
             }
 
-            if (target.key === 'isRenewal') {
+            if (target.key === 'renewalState') {
                 return this.formList.isRenewalList.find(list => list.value === value).name;
             }
 
-            if (target.key === 'isOnlyCompulsory') {
-                return this.formList.isOnJobRenewalList.find(list => list.value === value).name;
-            }
+            // if (target.key === 'isOnlyCompulsory') {
+            //     return this.formList.isOnJobRenewalList.find(list => list.value === value).name;
+            // }
 
-            if (target.key === 'preInsuranceCompanys') {
+            if (target.key === 'lastCompanyCode') {
                 return this.formList.insuranceCompanysList.find(list => list.value === value).name;
             }
 
-            if (target.key === 'isOnJobRenewal') {
-                return this.formList.isOnJobRenewalList.find(list => list.value === value).name;
+            if (target.key === 'inJob') {
+                return this.formList.inJobList.find(list => list.value === value).name;
             }
 
-            if (target.key === 'isLuxuryCar') {
-                return this.formList.isLuxuryCarList.find(list => list.value === value).name;
+            if (target.key === 'isHigh') {
+                return this.formList.isHighList.find(list => list.value === value).name;
             }
 
             return value;
@@ -139,13 +142,13 @@ export class RuleFormModalComponent implements OnInit, OnDestroy {
             let key = keysArr[i];
             let value = form[key];
 
-            if (key === 'priceEnd') {
+            if (key === 'maxPurchasePrice') {
                 continue;
             }
 
-            if (key === 'priceBegin') {
+            if (key === 'minPurchasePrice') {
                 key = 'price';
-                value = form['priceBegin'] ? [form['priceBegin'], form['priceEnd']] : [];
+                value = form['minPurchasePrice'] ? [form['minPurchasePrice'], form['maxPurchasePrice']] : [];
             }
 
             if ((value !== null && !(value instanceof Array)) || (value instanceof Array && value.length > 0)) {

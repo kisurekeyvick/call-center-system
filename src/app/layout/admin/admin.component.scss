@@ -16,7 +16,12 @@
             z-index: 10;
             min-height: 100vh;
             box-shadow: 2px 0 6px rgba(0,21,41,.35);
-          }
+
+            .app-admin-slide-menu {
+                overflow-x: hidden;
+                max-height: calc(100% - 64px);
+            }
+        }
           
           .trigger:hover {
             color: #1890ff;

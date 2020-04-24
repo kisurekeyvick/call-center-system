@@ -13,8 +13,6 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
         ├── app
             ├── pages
                 ├── organization      组织架构
-                ├── team-leader
-                ├── salesman
 ```
 ### 权限说明
 ``` txt
@@ -27,4 +25,5 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 3.话术管理列表返回的字段"details"为null
 4.礼品设置无法删除
 5.客户列表 归属人字段未知
+6.个人设置模块，目前暂不支持修改账号密码，用户名称等，需要后端接口配合
 ``` 
