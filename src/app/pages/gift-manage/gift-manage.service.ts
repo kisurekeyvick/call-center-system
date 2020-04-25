@@ -32,6 +32,6 @@ export class GiftService {
      * 传id值
      */
     deleteGift(params: ICommon): Observable<any> {
-        return this.http.post(`api/speech/delete`, params);
+        return this.http.post(`api/gift/delete`, params);
     }
 }

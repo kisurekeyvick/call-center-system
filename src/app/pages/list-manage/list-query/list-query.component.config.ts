@@ -1,9 +1,9 @@
 import { dictionary } from 'src/app/shared/dictionary/dictionary';
 
-const appointmentLevelList = dictionary.get('appointmentLevel');
-const preInsuranceCompanyList = dictionary.get('insuranceCompanys');
-const processingStateList = dictionary.get('processingState');
-const isRenewalList = dictionary.get('isRenewal');
+const tableStateList = dictionary.get('customerLlistTableState');
+export const companyList = dictionary.get('insuranceCompanys');
+const ownerShipList = dictionary.get('category');
+export const renewalStateList = dictionary.get('renewalState');
 
 export interface ISearchListItem {
     id: number;
@@ -14,6 +14,14 @@ export interface ISearchListItem {
     [key: string]: any;
 }
 
+export const searchListLayout = {
+    nzXs: '24',  
+    nzMd: '12', 
+    nzLg: '12', 
+    nzXl: '8',
+    nzXXl: '6'
+};
+
 const commonGrid = {
     label: { nzXs: '24', nzSm: '9', nzMd: '', nzLg: '', nzXl: '' },
     control: { nzXs: '24', nzSm: '15', nzMd: '', nzLg: '', nzXl: '' }
@@ -22,191 +30,162 @@ const commonGrid = {
 export const searchListItem: ISearchListItem[] = [
     {
         id: 1,
-        label: '姓名',
-        key: 'name',
-        placeholder: '请输入姓名',
+        label: '品牌',
+        key: 'brandName',
+        placeholder: '输入品牌',
         type: 'text',
-        grid: commonGrid
+        grid: commonGrid,
     },
     {
         id: 2,
-        label: '手机号',
-        key: 'phone',
-        placeholder: '请输入手机号',
+        label: '车牌号',
+        key: 'carNo',
+        placeholder: '输入车牌号',
         type: 'text',
-        grid: commonGrid
+        grid: commonGrid,
     },
     {
         id: 3,
-        label: '车牌',
-        key: 'plate',
-        placeholder: '请输入车牌',
-        type: 'text',
-        grid: commonGrid
-    },
-    {
-        id: 4,
-        label: '保险到期日',
-        key: 'insuranceDueDate',
-        type: 'dateRange',
-        grid: commonGrid
-    },
-    {
-        id: 5,
-        label: '预约级别',
-        key: 'appointmentLevel',
+        label: '是否在职',
+        key: 'inJob',
+        placeholder: '请选择是否在职',
         type: 'select',
         grid: commonGrid,
         config: {
-            options: [
-                ...appointmentLevelList
-            ]
+            options: [{ name: '是', value: true }, { name: '否', value: false }]
+        }
+    },
+    {
+        id: 4,
+        label: '是否高端车',
+        key: 'isHigh',
+        placeholder: '请选择是否高端车',
+        type: 'select',
+        grid: commonGrid,
+        config: {
+            options: [{ name: '是', value: true }, { name: '否', value: false }]
+        }
+    },
+    {
+        id: 5,
+        label: '是否过户',
+        key: 'isTransfer',
+        placeholder: '请选择是是否过户',
+        type: 'select',
+        grid: commonGrid,
+        config: {
+            options: [{ name: '是', value: true }, { name: '否', value: false }]
         }
     },
     {
         id: 6,
-        label: '预约时间',
-        key: 'appointmentTime',
-        type: 'dateRange',
-        grid: commonGrid
-    },
-    {
-        id: 7,
-        label: '上年投保公司',
-        key: 'preInsuranceCompany',
+        label: '去年保险公司',
+        key: 'lastCompanyCode',
+        placeholder: '请选择去年保险公司',
         type: 'select',
         grid: commonGrid,
         config: {
             options: [
-                ...preInsuranceCompanyList
+                ...companyList
             ]
         }
     },
     {
+        id: 7,
+        label: '指导价',
+        placeholder: '',
+        type: 'numberRange',
+        grid: commonGrid,
+        config: {
+            start: {
+                key: 'minPurchasePrice',
+                min: 0,
+                max: Infinity,
+                step: 1
+            },
+            end: {
+                key: 'maxPurchasePrice',
+                min: 0,
+                max: Infinity,
+                step: 1
+            }
+        }
+    },
+    {
         id: 8,
-        label: '本次投保公司',
-        key: 'thisInsuranceCompany',
+        label: '车辆所属',
+        placeholder: '请选择车辆所属',
+        key: 'ownerShip',
         type: 'select',
         grid: commonGrid,
         config: {
             options: [
-                ...preInsuranceCompanyList
+                ...ownerShipList
             ]
         }
     },
     {
         id: 9,
-        label: '名单发放日',
-        key: 'distributionDate',
-        type: 'dateRange',
-        grid: commonGrid
+        label: '是否续保车',
+        placeholder: '请选择是否续保车',
+        key: 'renewalState',
+        type: 'select',
+        grid: commonGrid,
+        config: {
+            options: [{ name: '是', value: '1' }, { name: '否', value: '2' }]
+        }
     },
     {
         id: 10,
-        label: '团队',
-        key: 'teamId',
-        type: 'select',
-        grid: commonGrid,
-        config: {
-            options: [
-            ]
-        }
-    },
-    {
-        id: 11,
-        label: '业务员',
-        key: 'salesmanId',
-        type: 'select',
-        grid: commonGrid,
-        config: {
-            options: [
-            ]
-        }
-    },
-    {
-        id: 12,
-        label: '名单处理状态',
-        key: 'dialStatus',
-        type: 'select',
-        grid: commonGrid,
-        config: {
-            options: [
-                ...processingStateList
-            ]
-        }
-    },
-    {
-        id: 13,
-        label: '是否续保',
-        key: 'isRenewal',
-        type: 'select',
-        grid: commonGrid,
-        config: {
-            options: [
-                ...isRenewalList
-            ]
-        }
+        label: '初登日期',
+        key: 'registerTime',
+        type: 'dateRange',
+        grid: commonGrid
     }
 ];
 
 export interface ISearchListModel {
-    name: string;
-    phone: string;
-    plate: string;
-    insuranceDueDate: string;
-    insuranceDueDateBegin: string;
-    insuranceDueDateEnd: string;
-    appointmentLevel: string;
-    appointmentTime: string;
-    appointmentTimeBegin: string;
-    appointmentTimeEnd: string;
-    preInsuranceCompany: string;
-    thisInsuranceCompany: string;
-    distributionDate: string;
-    distributionDateBegin: string;
-    distributionDateEnd: string;
-    teamId: string;
-    salesmanId: string;
-    dialStatus: string;
-    isRenewal: string;
+    brandName: string;
+    carNo: string;
+    inJob: boolean;
+    isHigh: boolean;
+    isTransfer: boolean;
+    lastCompanyCode: string;
+    minPurchasePrice: number;
+    maxPurchasePrice: number;
+    ownerShip: string;
+    renewalState: string;
+    registerTime: string[];
+    [key: string]: any;
 }
 
 export const searchListModel: ISearchListModel = {
-    name: '',
-    phone: '',
-    plate: '',
-    insuranceDueDate: '',
-    insuranceDueDateBegin: '',
-    insuranceDueDateEnd: '',
-    appointmentLevel: '',
-    appointmentTime:'',
-    appointmentTimeBegin: '',
-    appointmentTimeEnd: '',
-    preInsuranceCompany: '',
-    thisInsuranceCompany: '',
-    distributionDate: '',
-    distributionDateBegin: '',
-    distributionDateEnd: '',
-    teamId: '',
-    salesmanId: '',
-    dialStatus: '',
-    isRenewal: ''
+    brandName: null,
+    carNo: null,
+    inJob: null,
+    isHigh: null,
+    isTransfer: null,
+    lastCompanyCode: null,
+    minPurchasePrice: null,
+    maxPurchasePrice: null,
+    ownerShip: null,
+    renewalState: null,
+    registerTime: []
 };
 
 export const tableConifg = {
     thead: [
-        { name: '姓名' },
-        { name: '手机号' },
-        { name: '车牌' },
-        { name: '上年保险公司' },
-        { name: '保险到期日' },
-        { name: '名单发放日' },
-        { name: '预约时间' },
-        { name: '团队' },
-        { name: '业务员' },
-        { name: '类型' },
-        { name: '处理状态' },
-        { name: '操作' }
+        { name: '车牌号' },
+        { name: '客户名称' },
+        { name: '车架号' },
+        { name: '品牌型号' },
+        { name: '注册日期' },
+        { name: '商业险到期时间' },
+        { name: '交强险到期时间' },
+        { name: '去年投保公司' },
+        { name: '客户类型' },
+        { name: '归属人' },
+        { name: '更新时间' }
     ]
 };
 

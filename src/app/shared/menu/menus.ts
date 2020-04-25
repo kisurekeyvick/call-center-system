@@ -18,7 +18,6 @@ export const menus = new Map([
             ] },
             { name: '保单查询', url: '/successSubmit', icon: 'search', childrens: [] },
             { name: '返利申请', url: '/rebateApplication', icon: 'highlight', childrens: [] },
-            { name: '今日汇总', url: '/summary', icon: 'carry-out', childrens: [] },
             { name: '保单审核', url: '/policyReview', icon: 'reconciliation', childrens: []},
             { name: '数据报表', url: '/dataReport', icon: 'bar-chart', childrens: [
                 { name: '工作统计', url: '/dataReport/workStatistic', icon: '', childrens: [] },

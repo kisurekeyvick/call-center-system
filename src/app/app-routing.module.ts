@@ -40,10 +40,6 @@ const routes: Routes = [
     loadChildren: () => import('src/app/pages/data-report/data-report.module').then(m => m.DataReportModule)
   },
   {
-    path: 'summary',
-    loadChildren: () => import('src/app/pages/summary/summary.module').then(m => m.SummaryModule)
-  },
-  {
     path: 'policyReview',
     loadChildren: () => import('src/app/pages/policy-review/policy-review.module').then(m => m.PolicyReviewModule)
   },

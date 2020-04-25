@@ -8,7 +8,7 @@
 
     <div nz-row class="content">
         <div class="search-list-box">
-            <search-list [searchListModel]="searchListModel" [searchListItem]="searchListItem" (onSearch)="search()" (onReseat)="reseat()"></search-list>
+            <search-list [searchListLayout]="searchListLayout" [searchListModel]="searchListModel" [searchListItem]="searchListItem" (onSearch)="search()" (onReseat)="reseat()"></search-list>
         </div>
         <div class="search-list-table">
             <ng-container *ngIf="!isLoading; else skeleton">
@@ -22,20 +22,20 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let data of list.data">
-                    <td>{{data.name}}</td>
-                    <td>{{data.phone}}</td>
-                    <td>{{data.plate}}</td>
-                    <td>{{data.preInsuranceCompanyName}}</td>
-                    <td>{{data.insuranceDueDate}}</td>
-                    <td>{{data.handleDate}}</td>
-                    <td>{{data.distributeDate}}</td>
-                    <td>{{data.teamName}}</td>
-                    <td>{{data.salesmanName}}</td>
-                    <td>{{data.isRenewalName}}</td>
-                    <td>{{data.dialStatusName}}</td>
-                    <td>
-                        <a (click)="showQuoteInfo(data)">报价信息</a>
-                    </td>
+                    <td>{{data.carNo || '--'}}</td>
+                    <td>{{data.customerName || '--'}}</td>
+                    <td>{{data.vinNo || '--'}}</td>
+                    <td>{{data.brandName || '--'}}</td>
+                    <td>{{data.registerTimeFormat}}</td>
+                    <td>{{data.commercialEndTimeFormat}}</td>
+                    <td>{{data.compulsoryEndTimeFormat}}</td>
+                    <td>{{data.lastCompanyName || '--'}}</td>
+                    <td>{{data.renewalStateName || '--'}}</td>
+                    <td>{{data.userName || '--'}}</td>
+                    <td>{{data.updateTimeFormat}}</td>
+                    <!-- <td>
+                        <a (click)="showQuoteInfo(data)">查看详情</a>
+                    </td> -->
                   </tr>
                 </tbody>
             </nz-table>

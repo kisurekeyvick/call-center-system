@@ -2,7 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { UploadChangeParam, UploadXHRArgs, UploadFile } from 'ng-zorro-antd/upload';
-import { of } from 'rxjs';
+import { of, interval } from 'rxjs';
+import { delay, catchError } from 'rxjs/operators';
+import { CustomerService } from '../../customer-manage.service';
 
 @Component({
     selector: 'customer-import-modal',
@@ -16,6 +18,7 @@ export class CustomerImportModalComponent implements OnInit, OnDestroy {
     constructor(
         private modal: NzModalRef,
         private message: NzMessageService,
+        private customerService: CustomerService
     ) {
 
     }
@@ -39,7 +42,8 @@ export class CustomerImportModalComponent implements OnInit, OnDestroy {
      */
     handleChange({ file, fileList }: UploadChangeParam): void {
         // const status = file.status;
-
+        this.fileList = fileList;
+        
         // if (status !== 'uploading') {
         // }
         // if (status === 'done') {
@@ -55,7 +59,9 @@ export class CustomerImportModalComponent implements OnInit, OnDestroy {
      * https://ng.ant.design/components/upload/zh  上传查看自定义的demo
      */
     customReq = (item: UploadXHRArgs) => {
-        of('1').subscribe(() => {
+        return of('1').pipe(
+            delay(2000)
+        ).subscribe(() => {
             item.onSuccess('success', item.file, {});
         });
     }
@@ -66,14 +72,21 @@ export class CustomerImportModalComponent implements OnInit, OnDestroy {
      */
     uploadFile() {
         this.fileList.forEach((file: UploadFile) => {
-            const reader: FileReader = new FileReader();
-            reader.onload = e => {
+            const formData = new FormData();
+            formData.append('file', file.originFileObj, file.name);
 
-            };
+            this.customerService.customerImport(formData).pipe(
+                catchError(err => of(err))
+            ).subscribe(res => {
+                this.message.success('附件上传成功');
+            });
 
-            console.log('ok',file);
+            // const reader: FileReader = new FileReader();
+            // reader.onload = e => {
+            //     console.log('上传的附件', e);
+            // };
 
-            reader.readAsBinaryString(file.originFileObj);
+            // reader.readAsBinaryString(file.originFileObj);
         });
     }
 

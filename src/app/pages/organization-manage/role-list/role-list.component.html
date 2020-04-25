@@ -7,9 +7,9 @@
         </nz-breadcrumb>
     </div>
     <div nz-row class="content">
-        <div class="role-list-menu-group">
+        <!-- <div class="role-list-menu-group">
             <button nz-button [nzType]="'primary'" (click)="addRole()"><i nz-icon nzType="plus" nzTheme="outline"></i>新增角色</button>
-        </div>
+        </div> -->
         <div class="search-list-table">
             <ng-container *ngIf="!isLoading; else skeleton">
                 <nz-table #list [nzData]="roleList" nzShowPagination="false">
@@ -26,7 +26,7 @@
                             <td>{{data.createUserName || '系统创建'}}</td>
                             <td>{{data.creatorTime || '--'}}</td>
                             <td>
-                                <ng-container *ngIf="data.systemRole; else operateTepl">
+                                <!-- <ng-container *ngIf="data.systemRole; else operateTepl">
                                     --
                                 </ng-container>
                                 <ng-template #operateTepl>
@@ -35,7 +35,7 @@
                                         nzPopconfirmPlacement="left"
                                         nzOkText="确认" nzCancelText="取消"
                                         (nzOnConfirm)="deleteRole(data)"><i nz-icon nzTooltipTitle="删除" nzTooltipPlacement="bottom" nz-tooltip nzType="delete" nzTheme="outline"></i></a>
-                                </ng-template>
+                                </ng-template> -->
                             </td>
                         </tr>
                     </tbody>

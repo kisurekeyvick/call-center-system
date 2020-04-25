@@ -32,6 +32,7 @@ export interface IQueryCustomerParams {
     [key: string]: any;
 }
 
+
 @Injectable()
 export class ListManageService {
     constructor(
@@ -46,5 +47,10 @@ export class ListManageService {
     /** 分配客户 */
     distributionCustomer(params): Observable<any> {
         return this.http.post(`api/customer/distributionCustomer`, params);
+    }
+
+    /** 查询客户列表 */
+    queryCustomer(params): Observable<any> {
+        return this.http.post(`api/customer/customerList`, params);
     }
 }

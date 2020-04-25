@@ -17,6 +17,7 @@ import { of } from 'rxjs';
 import { findValueName } from 'src/app/core/utils/function';
 import * as dayjs from 'dayjs';
 import { UtilsService } from 'src/app/core/utils/utils.service';
+import { CustomerImportModalComponent } from '../modal/customer-import-modal/customer-import-modal.component';
 
 type ITableCfg = typeof tableConfig;
 type pageChangeType = 'pageIndex' | 'pageSize';
@@ -253,6 +254,27 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
         this.utilsService.downloadFile(params);
     }
+
+    /**
+     * @callback
+     * @desc 导入数据
+     */
+    // importCustomer() {
+    //     const modal = this.modalService.create({
+    //         nzTitle: '导入数据',
+    //         nzContent: CustomerImportModalComponent,
+    //         nzComponentParams: {},
+    //         nzMaskClosable: false,
+    //         nzFooter: null
+    //     });
+
+    //     modal.afterClose.subscribe((res) => {
+    //         // if (res === 'success') {
+    //         //     this.message.create('success', `导入成功`);
+    //         //     this.search();
+    //         // }
+    //     });
+    // }
 
     /**
      * @callback

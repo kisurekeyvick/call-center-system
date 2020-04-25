@@ -9,7 +9,7 @@ import { catchError } from 'rxjs/operators';
 import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
 import LocalStorageService from 'src/app/core/cache/local-storage';
 import { of } from 'rxjs';
-import { cloneDeep } from 'lodash'
+import { cloneDeep } from 'lodash';
 
 type ITableCfg = typeof tableConfig;
 type IOperationStatus = 'add' | 'modify' | 'detail' | '';
@@ -161,7 +161,7 @@ export class RoleListComponent implements OnInit, OnDestroy {
         this.roleList.forEach((list: IRoleItem) => {
             list['selected'] = list.roleCode === role.roleCode;
         });
-        this.roleTreeNode = this.checkedRoleTreeNode(role.permissions);
+        this.roleTreeNode = this.checkedRoleTreeNode(role.permissions || []);
         this.currentRole = role;
         this.operationStatus = 'modify';
         this.drawerVisible = true;
