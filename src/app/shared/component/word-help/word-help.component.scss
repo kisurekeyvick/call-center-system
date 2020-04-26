@@ -1,0 +1,19 @@
+@import '../../../core//common/common.style.scss';
+
+.app-word-help-container {
+    .word-list {
+        margin-bottom: 24px;
+
+        .nzTagItem {
+            cursor: pointer;
+        }
+    }
+
+    .word-item-detail-show {
+        margin-bottom: 24px;
+    }
+
+    .modal-btn-group {
+        @include modal-btn-group;
+    }
+}

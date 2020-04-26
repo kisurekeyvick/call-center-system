@@ -24,4 +24,6 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 2.业务员操作界面 提醒 这一栏的数据没有联调 没有接口
 3.话术管理列表返回的字段"details"为null
 6.个人设置模块，目前暂不支持修改账号密码，用户名称等，需要后端接口配合
+7.login页面 118行，写死了角色：userInfo['roleCode'] = 'role_salesman';
+8.客户详情 -> 点击战败弹框(未经过验证保存成功)
 ``` 

@@ -7,5 +7,7 @@ export enum LocalStorageItemName {
     /** 角色信息 */
     ROLEINFO = 'ROLEINFO',
     /** 根据用户Id获取的用户信息缓存 */
-    USERPROFILE = 'USERPROFILE'
+    USERPROFILE = 'USERPROFILE',
+    /** token */
+    TOKRN = 'TOKRN'
 }

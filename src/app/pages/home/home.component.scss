@@ -1,8 +1,11 @@
+@import '../../core/common/common.style.scss';
+
 .home-component-container {
-    background-color: #fff;
-    padding: 24px;
+    @include listLayout;
 
     .content {
-        margin-top: 24px;
+        img {
+            width: 100%;
+        }
     }
 }

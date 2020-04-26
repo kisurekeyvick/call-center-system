@@ -7,3 +7,10 @@ export interface ISourceCache {
     currentCustomer: ICustomerItem;
     customerListCache: ICustomerItem[];
 }
+
+export interface IDefeatReasonItem {
+    id?: number;
+    defeatReason: string;
+    isDelete?: string;
+    [key: string]: any;
+}

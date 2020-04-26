@@ -9,6 +9,8 @@ import { ILoginUserCache } from 'src/app/pages/login/login.component.config';
 import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { WordHelpComponent } from 'src/app/shared/component/word-help/word-help.component';
+import { NzModalService } from 'ng-zorro-antd';
 
 interface IUserProfileMenu {
     code?: string;
@@ -35,7 +37,8 @@ export class AppAdminLayoutComponent implements OnInit, OnDestroy {
     constructor(
         private localCache: LocalStorageService,
         private appService: AppService,
-        private loginService: LoginService
+        private loginService: LoginService,
+        private modalService: NzModalService
     ) {
         this.isCollapsed = false;
         this.user = {
@@ -62,11 +65,13 @@ export class AppAdminLayoutComponent implements OnInit, OnDestroy {
         this.loginService.userLogout({}).pipe(
             catchError(err => of(err))
         ).subscribe(res => {
-            this.localCache.remove('token');
-            this.appService.loginSubject.next({
-                needLogin: true,
-                url: '/login'
-            });
+            if (!(res instanceof TypeError)) {
+                this.localCache.remove(LocalStorageItemName.TOKRN);
+                this.appService.loginSubject.next({
+                    needLogin: true,
+                    url: '/login'
+                });
+            }
         });
     }
 
@@ -109,6 +114,26 @@ export class AppAdminLayoutComponent implements OnInit, OnDestroy {
         }
 
         return [];
+    }
+
+    /**
+     * @callback
+     * @desc 点击话术帮助
+     */
+    wordHelp() {
+        const modal = this.modalService.create({
+            nzTitle: '话术帮助',
+            nzContent: WordHelpComponent,
+            nzComponentParams: {
+            },
+            nzMaskClosable: false,
+            nzFooter: null
+        });
+
+        modal.afterClose.subscribe((res: string) => {
+            if (res === 'success') {
+            }
+        });
     }
 
     ngOnDestroy() {}

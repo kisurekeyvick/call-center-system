@@ -2,9 +2,14 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { zoomInAnimation } from 'src/app/shared/animate/index';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ITab, tabs } from './user.component.config';
-import { UploadChangeParam, UploadXHRArgs } from 'ng-zorro-antd/upload';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { defaultUserPic } from 'src/assets/img.collection';
+import { ApiService } from 'src/app/api/api.service';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { Router } from '@angular/router';
+import LocalStorageService from 'src/app/core/cache/local-storage';
+import { AppService } from 'src/app/app.service';
 
 @Component({
     selector: 'user-setting-container',
@@ -33,7 +38,11 @@ export class UserSettingComponent implements OnInit, OnDestroy {
 
     constructor(
         private fb: FormBuilder,
-        private message: NzMessageService
+        private message: NzMessageService,
+        private apiService: ApiService,
+        private router: Router,
+        private localCache: LocalStorageService,
+        private appService: AppService
     ) {
         this.personalInfoValidateForm = this.fb.group({
             photo: [null],
@@ -43,7 +52,7 @@ export class UserSettingComponent implements OnInit, OnDestroy {
         this.modfiyPWDValidateForm = this.fb.group({
             oldPwd: [null, [Validators.required]],
             newPwd: [null, [Validators.required]],
-            reNewPwd: [null, [Validators.required], [this.correctNewPwd]]
+            confirmPwd: [null, [Validators.required, this.correctNewPwd]]
         });
 
         this.tabs = [...tabs];
@@ -65,22 +74,11 @@ export class UserSettingComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * @callback
-     * @desc 提交更改密码表单
-     */
-    submitModfiyPWDForm() {
-        for (const i in this.modfiyPWDValidateForm.controls) {
-            this.modfiyPWDValidateForm.controls[i].markAsDirty();
-            this.modfiyPWDValidateForm.controls[i].updateValueAndValidity();
-        }
-    }
-
-    /**
      * @func
      * @desc 再次确认的星密码是否一致
      * @param control 
      */
-    correctNewPwd(control: FormControl): { [s: string]: boolean } {
+    correctNewPwd = (control: FormControl): { [s: string]: boolean } => {
         if (!control.value) {
             return { error: true, required: true };
         } else if (control.value !== this.modfiyPWDValidateForm.controls.newPwd.value) {
@@ -92,32 +90,37 @@ export class UserSettingComponent implements OnInit, OnDestroy {
 
     /**
      * @callback
-     * @desc 文件发生改变
-     * @param param0 
+     * @desc 提交更改密码表单
      */
-    handleChange({ file, fileList }: UploadChangeParam): void {
-        const status = file.status;
-
-        if (status !== 'uploading') {
-            console.log(file, fileList);
+    submitModfiyPWDForm() {
+        for (const i in this.modfiyPWDValidateForm.controls) {
+            this.modfiyPWDValidateForm.controls[i].markAsDirty();
+            this.modfiyPWDValidateForm.controls[i].updateValueAndValidity();
         }
-        if (status === 'done') {
-            this.message.success(`${file.name} file uploaded successfully.`);
-        } else if (status === 'error') {
-            this.message.error(`${file.name} file upload failed.`);
+
+        if (this.modfiyPWDValidateForm.valid) {
+            const params = {
+                ...this.modfiyPWDValidateForm.value
+            };
+
+            this.apiService.updatePWD(params).pipe(
+                catchError(err => of(err))
+            ).subscribe(res => {
+                res === null && this.reLogin();
+            });
         }
     }
 
     /**
      * @func
-     * @desc 自定义上传请求动作
-     * https://ng.ant.design/components/upload/zh  上传查看自定义的demo
+     * @desc 重新登录
      */
-    customReq = (item: UploadXHRArgs) => {
-        const formData = new FormData();
-        formData.append('file', item.file as any);
-        formData.append('id', '1000');
-        item.onSuccess({}, item.file, {});
+    reLogin() {
+        this.localCache.clear();
+        this.appService.loginSubject.next({
+            needLogin: true,
+            url: '/login'
+        });
     }
 
     ngOnDestroy() {}

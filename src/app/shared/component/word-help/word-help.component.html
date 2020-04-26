@@ -1,0 +1,15 @@
+<div class="app-word-help-container">
+    <div nz-row class="model-content">
+        <div class="word-list">
+            <ng-container *ngFor="let item of wordList;let i = index">
+                <nz-tag class="nzTagItem" [nzColor]="item.selected ? 'blue' : ''" (click)="showWordItemDetail(item, i)">{{ item.brief }}</nz-tag>
+            </ng-container>
+        </div>
+        <div class="word-item-detail-show">
+            <textarea [nzAutosize]="{ minRows: 6, maxRows: 12 }" nz-input [(ngModel)]="currentWordItemDetail"></textarea>
+        </div>
+        <div class="modal-btn-group">
+            <button nz-button [nzType]="'primary'" (click)="sure()">确认</button>
+        </div>
+    </div>
+</div>

@@ -43,7 +43,7 @@
                 <form class="pwd-tab-content" nz-form [formGroup]="modfiyPWDValidateForm" (ngSubmit)="submitModfiyPWDForm()">
                     <nz-form-item>
                         <nz-form-label nzRequired nz-col nzXs="3" nzFor="oldPwd">旧密码</nz-form-label>
-                        <nz-form-control nz-col nzXs="21" nzHasFeedback nzErrorTip="oldPasswordErrorTpl">
+                        <nz-form-control nz-col nzXs="21" nzHasFeedback [nzErrorTip]="oldPasswordErrorTpl">
                             <nz-input-group [nzSuffix]="oldPwdsuffixTemplate">
                                 <input
                                   [type]="oldPasswordVisible ? 'text' : 'password'"
@@ -66,7 +66,7 @@
 
                     <nz-form-item>
                         <nz-form-label nzRequired nz-col nzXs="3" nzFor="newPwd">新密码</nz-form-label>
-                        <nz-form-control nz-col nzXs="21" nzHasFeedback nzErrorTip="newPwdErrorTpl">
+                        <nz-form-control nz-col nzXs="21" nzHasFeedback [nzErrorTip]="newPwdErrorTpl">
                             <!-- <input nz-input formControlName="newPwd" id="newPwd" /> -->
                             <nz-input-group [nzSuffix]="newPwdsuffixTemplate">
                                 <input
@@ -89,16 +89,16 @@
                     </nz-form-item>
 
                     <nz-form-item>
-                        <nz-form-label nzRequired nz-col nzXs="3" nzFor="reNewPwd">确认新密码</nz-form-label>
-                        <nz-form-control nz-col nzXs="21" nzHasFeedback nzErrorTip="reNewPwdErrorTpl">
+                        <nz-form-label nzRequired nz-col nzXs="3" nzFor="confirmPwd">确认新密码</nz-form-label>
+                        <nz-form-control nz-col nzXs="21" nzHasFeedback [nzErrorTip]="reNewPwdErrorTpl">
                             <!-- <input nz-input formControlName="reNewPwd" id="reNewPwd" /> -->
                             <nz-input-group [nzSuffix]="reNewPwdsuffixTemplate">
                                 <input
                                   [type]="reNewPasswordVisible ? 'text' : 'password'"
                                   nz-input
                                   placeholder="请输入密码"
-                                  formControlName="newPwd"
-                                  id="newPwd"
+                                  formControlName="confirmPwd"
+                                  id="confirmPwd"
                                 />
                             </nz-input-group>
                             <ng-template #reNewPwdsuffixTemplate>
@@ -106,11 +106,18 @@
                             </ng-template>
                             <ng-template #reNewPwdErrorTpl let-control>
                                 <ng-container *ngIf="control.hasError('required')">
-                                  请输入旧密码
+                                    请再次输入新密码
+                                </ng-container>
+                                <ng-container *ngIf="control.hasError('confirm')">
+                                    二次输入密码不正确
                                 </ng-container>
                             </ng-template>
                         </nz-form-control>
                     </nz-form-item>
+
+                    <div class="modal-btn-group">
+                        <button nz-button [nzType]="'primary'">保存</button>
+                    </div>
                 </form>
             </nz-tab>
         </nz-tabset>

@@ -120,13 +120,5 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
         this.router.navigate(['/policyReview/list']);
     }
 
-    /**
-     * @callback
-     * @desc 下载
-     */
-    download() {
-
-    }
-
     ngOnDestroy() {}
 }

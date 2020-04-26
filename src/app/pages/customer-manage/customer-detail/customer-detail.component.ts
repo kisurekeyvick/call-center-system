@@ -4,8 +4,12 @@ import { NzModalService, NzMessageService, NzModalRef } from 'ng-zorro-antd';
 import LocalStorageService from 'src/app/core/cache/local-storage';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
-import { ISourceCache, ICustomerItem } from './customer-detail.component.config';
+import { ISourceCache, ICustomerItem, IDefeatReasonItem } from './customer-detail.component.config';
 import { dictionary } from 'src/app/shared/dictionary/dictionary';
+import { CustomerService } from '../customer-manage.service';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { DefeatSubmitModalComponent } from '../modal/defeat-submit-modal/defeat-submit-modal.component';
 
 interface ICommon {
     [key: string]: any;
@@ -33,18 +37,24 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
     };
     /** 需要保存的参数 */
     otherFormParams: ICommon;
+    /** 战败原因 */
+    defeatReasonList: IDefeatReasonItem[];
+    /** 当前展示的客户 */
+    currentCustomer: ICommon;
 
     constructor(
         private modalService: NzModalService,
         private message: NzMessageService,
         private localCache: LocalStorageService,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private customerService: CustomerService
     ) {
         const cache = this.localCache.get(LocalStorageItemName.CUSTOMERDETAIL);
         this.sourceCache = cache && cache.value || null;
         this.otherFormParams = {
             giftList: []
         };
+        this.defeatReasonList = [];
     }
 
     ngOnInit() {
@@ -92,6 +102,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             salesman: [null],
             remark: [null]
         });
+
+        this.loadDefeatReasonList();
     }
 
     /**
@@ -101,9 +113,10 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
      */
     showDetailForm(customer: ICustomerItem) {
         this.sourceCache.customerListCache.forEach((item: ICustomerItem) => {
-            item['selected'] = customer.carId === item.carId;
+            item['selected'] = customer.id === item.id;
         });
         this.loadDetailCustomerForm(customer);
+        this.currentCustomer = customer;
     }
 
     /**
@@ -113,6 +126,20 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
      */
     loadDetailCustomerForm(customer: ICustomerItem) {
         
+    }
+
+    /**
+     * @func
+     * @desc 加载战败原因
+     */
+    loadDefeatReasonList() {
+        this.customerService.queryDefeatReasonList().pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            if (res instanceof Array) {
+                this.defeatReasonList = res;
+            }
+        });
     }
 
     /**
@@ -144,6 +171,33 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
   
           if (this.validateForm.valid) {
           }
+    }
+
+    /**
+     * @callback
+     * @desc 失败提交
+     */
+    defeatSubmit() {
+        const modal = this.modalService.create({
+            nzTitle: '失败提交',
+            nzContent: DefeatSubmitModalComponent,
+            nzComponentParams: {
+                defeatReasonList: this.defeatReasonList.map(item => ({
+                    ...item,
+                    name: item.defeatReason,
+                    value: item.id
+                })),
+                customerId: this.currentCustomer.id
+            },
+            nzMaskClosable: false,
+            nzFooter: null
+        });
+
+        modal.afterClose.subscribe((res) => {
+            if (res === 'success') {
+                this.message.create('success', `提交成功`);
+            }
+        });
     }
 
     ngOnDestroy() {}

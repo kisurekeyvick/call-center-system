@@ -19,6 +19,7 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { Observable, throwError, of } from 'rxjs';
 import { catchError, mergeMap } from 'rxjs/operators';
 import SessionStorageService from 'src/app/core/cache/session-storage';
+import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
 
 interface IResponseBody {
     costTime: number;
@@ -103,10 +104,10 @@ export class DefaultInterceptor implements HttpInterceptor {
                     }
                 }
                 break;
-            case 904: // 未登录状态码
+            case 401: // 未登录状态码
                 this.session.clear();
                 this.local.clear();
-                this.goTo('/user/login');
+                this.goTo('/login');
                 return Observable.throw({ result: '用户未登录', validationErrors: null });
             case 403:
             case 404:
@@ -121,7 +122,7 @@ export class DefaultInterceptor implements HttpInterceptor {
                 }
                 if (event instanceof HttpErrorResponse) {
                     console.warn('未可知错误，大部分是由于后端不支持CORS或无效配置引起', event);
-                    this.msg.error(event.message || '服务异常，请联系管理员');
+                    this.msg.error(event.error.message || '服务异常，请联系管理员');
                     return Observable.throw({ result: '未可知错误，大部分是由于后端不支持CORS或无效配置引起', validationErrors: null });
                 }
                 break;
@@ -143,7 +144,7 @@ export class DefaultInterceptor implements HttpInterceptor {
             return next.handle(req.clone({ url: url }));
         }
 
-        const tokenValue = this.local.get('token');
+        const tokenValue = this.local.get(LocalStorageItemName.TOKRN);
         const token = tokenValue && tokenValue['value'] || '';
         const header = new HttpHeaders()
             .set('Accept', '*/*') // application/json, text/javascript, */*; q=0.01
@@ -158,7 +159,6 @@ export class DefaultInterceptor implements HttpInterceptor {
             // withCredentials: true,
             headers: header,
             body: Object.assign({
-                // lcb_request_id: this.utils.guid(),
                 // appCode: environment.appCode,
                 // groupId: groupInfo.groupId,
                 // groupType: groupInfo.groupType

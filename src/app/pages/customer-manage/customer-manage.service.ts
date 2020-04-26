@@ -90,4 +90,14 @@ export class CustomerService {
     queryCustomer(params): Observable<any> {
         return this.http.post(`api/customer/customerList`, params);
     }
+
+    /** 操作客户 */
+    operationCustomer(params): Observable<any> {
+        return this.http.post(`api/customer/operationCustomer`, params);
+    }
+
+    /** 战败原因列表查询 */
+    queryDefeatReasonList(params: ICommon = {}): Observable<any> {
+        return this.http.post(`api/defeatreason/queryAll`, params);
+    }
 }

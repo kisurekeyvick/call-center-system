@@ -83,9 +83,28 @@
 
             .head-menu {
               flex: 1;
+              text-align: right;
+
+              .word-guide {
+                flex-basis: 150px;
+                float: right;
+                margin-right: 24px;
+                cursor: pointer;
+
+                &:hover {
+                  i, span {
+                    color: #1890ff;
+                  }
+                }
+
+                i {
+                  margin-right: 8px;
+                }
+              }
 
               .user-info {
                 float: right;
+                flex-basis: 50px;
                 padding-right: 24px;
                 cursor: pointer;
 

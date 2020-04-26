@@ -90,4 +90,17 @@ export class ApiService {
     querySaleman(): Observable<any> {
         return this.http.get(`api/user/sale-man`, {});
     }
+
+    /** 话术列表查询 */
+    querySpeechList(params: ICommon = {}): Observable<any> {
+        return this.http.post(`api/speech/queryAll`, params);
+    }
+
+    /**
+     * @func
+     * @desc 公共接口 修改密码
+     */
+    updatePWD(params: ICommon): Observable<any> {
+        return this.http.post(`api/user/update-pwd`, params);
+    }
 }

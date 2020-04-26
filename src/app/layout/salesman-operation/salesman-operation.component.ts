@@ -52,7 +52,7 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
         this.intervalSubscription$ = this.intervalSource.subscribe(() => {
             this.loadTrackingList();
             this.loadFirstCallList();
-            this.loadRemindData();
+            // this.loadRemindData();
             this.loadCalendarList();
         });
     }
@@ -60,7 +60,7 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.loadTrackingList();
         this.loadFirstCallList();
-        this.loadRemindData();
+        // this.loadRemindData();
         this.loadCalendarList();
         this.initToggleShowDetailEventListener();
     }
@@ -141,9 +141,9 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
      * @func
      * @desc 加载提醒数据
      */
-    loadRemindData() {
-        this.remind = remindValue();
-    }
+    // loadRemindData() {
+    //     this.remind = remindValue();
+    // }
 
     /**
      * @func

@@ -64,18 +64,22 @@
           </span>
           <div class="head-menu">
               <div class="user-info">
-                <img 
-                  nz-popover 
-                  nzPopoverPlacement="bottomRight"
-                  nzPopoverTrigger="click"
-                  [nzPopoverContent]="contentTemplate"  
-                  src="{{user.pic}}"/>
+                  <img 
+                    nz-popover 
+                    nzPopoverPlacement="bottomRight"
+                    nzPopoverTrigger="click"
+                    [nzPopoverContent]="contentTemplate"  
+                    src="{{user.pic}}"/>
               </div>
               <ng-template #contentTemplate>
-                <div class="app-user-menu">
-                  <p (click)="userLogout()">退出登录</p>
-                </div>
+                  <div class="app-user-menu">
+                      <p (click)="userLogout()">退出登录</p>
+                  </div>
               </ng-template>
+              <div class="word-guide" (click)="wordHelp()">
+                  <i nz-icon nzType="question-circle" nzTheme="outline"></i>
+                  <span>话术帮助</span>
+              </div>
           </div>
         </div>
       </nz-header>

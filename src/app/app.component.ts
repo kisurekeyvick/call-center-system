@@ -3,7 +3,7 @@ import LocalStorageService from 'src/app/core/cache/local-storage';
 import { Router } from '@angular/router';
 import { AppService, ILoginSubject, IUserProfileSubject } from 'src/app/app.service';
 import { ApiService } from 'src/app/api/api.service';
-// import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
+import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
         private appService: AppService,
         private apiService: ApiService
     ) {
-        const token = this.localCache.get('token');
+        const token = this.localCache.get(LocalStorageItemName.TOKRN);
         this.needLogin = !token ? true : false;
 
         if (this.needLogin) {

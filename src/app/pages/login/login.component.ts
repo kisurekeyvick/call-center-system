@@ -105,24 +105,26 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.loginService.userSignIn(params).pipe(
                 catchError(err => of(err))
             ).subscribe(res => {
-                this.saveUserLoginCache();
-                /** 缓存token */
-                this.localCache.set('token', res.Authorization);
-
-                this.apiService.getUserProfile().pipe(
-                    catchError(err => of(err))
-                ).subscribe(res => {
-                    const userInfo = res;
-                    /** TODO 暂时写死！！ */
-                    userInfo['roleCode'] = 'role_salesman';
-                    /** 缓存用户信息 */
-                    this.localCache.set(LocalStorageItemName.USERPROFILE, userInfo);
-                    
-                    this.appService.loginSubject.next({
-                        needLogin: false,
-                        url: '/home'
+                if (!(res instanceof TypeError)) {
+                    this.saveUserLoginCache();
+                    /** 缓存token */
+                    this.localCache.set(LocalStorageItemName.TOKRN, res.Authorization);
+    
+                    this.apiService.getUserProfile().pipe(
+                        catchError(err => of(err))
+                    ).subscribe(res => {
+                        const userInfo = res;
+                        /** TODO 暂时写死！！ */
+                        userInfo['roleCode'] = 'role_salesman';
+                        /** 缓存用户信息 */
+                        this.localCache.set(LocalStorageItemName.USERPROFILE, userInfo);
+                        
+                        this.appService.loginSubject.next({
+                            needLogin: false,
+                            url: '/home'
+                        });
                     });
-                });
+                }
             });
         }
     }

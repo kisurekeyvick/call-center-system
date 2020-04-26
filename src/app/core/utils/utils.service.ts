@@ -34,7 +34,7 @@ export class UtilsService {
      */
     downloadFile(parmas: IDownloadFileParams) {
         const { httpMethod, httpUrl, fileName, requestParams } = parmas;
-        const tokenValue = this.localCache.get('token');
+        const tokenValue = this.localCache.get(LocalStorageItemName.TOKRN);
         const token = tokenValue && tokenValue['value'] || '';
 
         const header = new HttpHeaders()
