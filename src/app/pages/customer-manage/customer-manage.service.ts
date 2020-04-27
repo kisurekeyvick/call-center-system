@@ -106,4 +106,8 @@ export class CustomerService {
         return this.http.post(`api/customer/getCustomerDetail`, params);
     }
     
+    /** 客户保存 */
+    saveCustomer(params: ICommon): Observable<any> {
+        return this.http.post(`api/customer/saveCustomer`, params);
+    }
 }

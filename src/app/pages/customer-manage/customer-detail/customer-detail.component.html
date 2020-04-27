@@ -218,7 +218,7 @@
                     <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="8" nzGutter="24">
                         <nz-form-item class="nzFormItem">
                             <nz-form-label nz-col nzXs="8" nzRequired  nzFor="compulsorySumPremium" class="nzFormLabel">
-                                <label nz-checkbox id="clivtaFlag" formControlName="clivtaFlag"></label>
+                                <!-- <label nz-checkbox id="clivtaFlag" formControlName="clivtaFlag"></label> -->
                                 交强险金额
                             </nz-form-label>
                             <nz-form-control nz-col nzXs="16" class="nzFormControl">
@@ -229,19 +229,11 @@
                     <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="8" nzGutter="24">
                         <nz-form-item class="nzFormItem">
                             <nz-form-label nz-col nzXs="8" nzRequired  nzFor="travelTax" class="nzFormLabel">
-                                <label nz-checkbox id="travelTaxFlag" formControlName="travelTaxFlag"></label>
+                                <!-- <label nz-checkbox id="travelTaxFlag" formControlName="travelTaxFlag"></label> -->
                                 车船税
                             </nz-form-label>
                             <nz-form-control nz-col nzXs="16" class="nzFormControl">
                                 <nz-input-number style="width: 100%;" id="taxActual" [nzMin]="0" formControlName="taxActual" [nzStep]="0.000000001"></nz-input-number>
-                            </nz-form-control>
-                        </nz-form-item>
-                    </div>
-                    <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="8" nzGutter="24">
-                        <nz-form-item class="nzFormItem">
-                            <nz-form-label nz-col nzXs="8" nzRequired  nzFor="sumPremium" class="nzFormLabel">开单保费</nz-form-label>
-                            <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                <nz-input-number style="width: 100%;" id="sumPremium" [nzMin]="0" formControlName="sumPremium" [nzStep]="0.000000001"></nz-input-number>
                             </nz-form-control>
                         </nz-form-item>
                     </div>
@@ -253,18 +245,63 @@
                             </nz-form-control>
                         </nz-form-item>
                     </div>
-                    <div nz-row nz-col nzXs="24" nzSm="24" nzLg="24" nzXl="16" nzGutter="24">
+                    <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="8" nzGutter="24">
                         <nz-form-item class="nzFormItem">
-                            <nz-form-label nz-col nzXs="4" nzRequired  nzFor="paidInAmount" class="nzFormLabel">赠送礼品</nz-form-label>
+                            <nz-form-label nz-col nzXs="8" nzRequired  nzFor="drivingPremium" class="nzFormLabel">驾意险价格</nz-form-label>
                             <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                <ng-container *ngIf="otherFormParams.giftList.length > 0; else addGiftTpl">
+                                <nz-input-number style="width: 100%;" id="drivingPremium" [nzMin]="0" formControlName="drivingPremium" [nzStep]="0.000000001"></nz-input-number>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="8" nzGutter="24">
+                        <nz-form-item class="nzFormItem">
+                            <nz-form-label nz-col nzXs="8" nzRequired  nzFor="allowancePremium" class="nzFormLabel">津贴保价格</nz-form-label>
+                            <nz-form-control nz-col nzXs="16" class="nzFormControl">
+                                <nz-input-number style="width: 100%;" id="allowancePremium" [nzMin]="0" formControlName="allowancePremium" [nzStep]="0.000000001"></nz-input-number>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="8" nzGutter="24">
+                        <nz-form-item class="nzFormItem">
+                            <nz-form-label nz-col nzXs="8" nzRequired  nzFor="glassPremium" class="nzFormLabel">玻璃膜价格</nz-form-label>
+                            <nz-form-control nz-col nzXs="16" class="nzFormControl">
+                                <nz-input-number style="width: 100%;" id="glassPremium" [nzMin]="0" formControlName="glassPremium" [nzStep]="0.000000001"></nz-input-number>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <!-- nzXs="24" nzSm="24" nzLg="24" nzXl="16" nzGutter="24"-->
+                    <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="8" nzGutter="24">
+                        <nz-form-item class="nzFormItem">
+                            <nz-form-label nz-col nzXs="8" nzRequired  nzFor="paidInAmount" class="nzFormLabel">赠送礼品</nz-form-label>
+                            <nz-form-control nz-col nzXs="16" class="nzFormControl">
+                                <!-- <ng-container *ngIf="otherFormParams.giftList.length > 0; else addGiftTpl">
                                     <ng-container *ngFor="let gift of otherFormParams.giftList; let i = index">
                                         <nz-tag [nzColor]="'blue'" nzMode="closeable" (nzOnClose)="deleteGift(i)">{{ gift.name }}</nz-tag>
                                     </ng-container>
                                 </ng-container>
                                 <ng-template #addGiftTpl>
                                     <button nz-button nzType="primary" (click)="chooseGift()">点击选择</button>
-                                </ng-template>
+                                </ng-template> -->
+
+                                <button nz-button nzType="primary" (click)="chooseGift()">点击选择</button>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="8" nzGutter="24">
+                        <nz-form-item class="nzFormItem">
+                            <!--赠品内容-->
+                            <ng-container *ngIf="otherFormParams.giftList.length > 0;">
+                                <ng-container *ngFor="let gift of otherFormParams.giftList; let i = index">
+                                    <nz-tag [nzColor]="'blue'" nzMode="closeable" (nzOnClose)="deleteGift(i)">{{ gift.name }}</nz-tag>
+                                </ng-container>
+                            </ng-container>
+                        </nz-form-item>
+                    </div>
+                    <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="8" nzGutter="24">
+                        <nz-form-item class="nzFormItem">
+                            <nz-form-label nz-col nzXs="8" nzRequired  nzFor="sumPremium" class="nzFormLabel">开单保费</nz-form-label>
+                            <nz-form-control nz-col nzXs="16" class="nzFormControl">
+                                <nz-input-number style="width: 100%;" id="sumPremium" [nzMin]="0" formControlName="sumPremium" [nzStep]="0.000000001"></nz-input-number>
                             </nz-form-control>
                         </nz-form-item>
                     </div>
@@ -335,10 +372,10 @@
                 </div>
                 <div class="modal-btn-group">
                     <button nz-button [nzType]="'primary'">保存信息</button>
-                    <button nz-button [nzType]="'primary'">跟踪提交</button>
-                    <button nz-button [nzType]="'primary'">成功提交</button>
+                    <button nz-button [nzType]="'primary'" (click)="trackSubmit()">跟踪提交</button>
+                    <button nz-button [nzType]="'primary'" (click)="successSubmit()">成功提交</button>
                     <button nz-button [nzType]="'primary'" (click)="defeatSubmit()">失败提交</button>
-                    <button nz-button [nzType]="'primary'">无效名单</button>
+                    <button nz-button [nzType]="'primary'" (click)="invalidSubmit()">无效名单</button>
                 </div>
             </form>
         </div>

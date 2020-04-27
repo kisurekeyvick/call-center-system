@@ -41,6 +41,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
     defeatReasonList: IDefeatReasonItem[];
     /** 当前展示的客户 */
     currentCustomer: ICommon;
+    /** 缓存接口加载出来的客户详情信息数据 */
+    cacheCustomerInfo: ICommon;
 
     constructor(
         private modalService: NzModalService,
@@ -55,6 +57,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             giftList: []
         };
         this.defeatReasonList = [];
+        this.cacheCustomerInfo = {};
     }
 
     ngOnInit() {
@@ -84,12 +87,15 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             commercialSumPremium: [null],
             isDiscount: [null],
             discount: [null],
-            clivtaFlag: [null],
+            // clivtaFlag: [null],
             compulsorySumPremium: [null],
-            travelTaxFlag: [null],
+            // travelTaxFlag: [null],
             taxActual: [null],
             sumPremium: [null],
             realSumPremium: [null],
+            drivingPremium: [null],
+            allowancePremium: [null],
+            glassPremium: [null],
             /** 时间信息 */
             compulsoryTime: [null],
             commercialTime: [null],
@@ -131,7 +137,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             catchError(err => of(err))
         ).subscribe(res => {
             if (!(res instanceof TypeError)) {
-                console.log('客户详情信息', res);
+                console.log('res', res);
+                this.cacheCustomerInfo = res;
                 this.setFormGroupValue(res);
             }
         });
@@ -158,7 +165,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             usage, purchasePrice, carTypeCode, receiptName, receiptPhone, sender, receiptRemarks,
             receiptDate } = customer;
         const { isDiscount, commercialSumPremium, compulsorySumPremium, taxActual, discount,
-            sumPremium, realSumPremium } = quoteInsurance;
+            sumPremium, realSumPremium, drivingPremium, allowancePremium, glassPremium } = quoteInsurance;
         this.validateForm.patchValue({
             /** 客户信息 */
             /** 姓名 */
@@ -213,6 +220,12 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             sumPremium,
             /** 实收金额 */
             realSumPremium,
+            /** 驾意险价格 */
+            drivingPremium,
+            /** 津贴保价格 */
+            allowancePremium,
+            /** 玻璃膜价格 */
+            glassPremium,
 
             /** 时间信息 */
             /** 交强险时间 */
@@ -266,6 +279,48 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
     }
 
     /**
+     * @func
+     * @desc format将要保存的参数
+     */
+    formatRequestParams() {
+        const formValue = this.validateForm.value;
+        const { 
+            /** 客户信息 */
+            customerName, idCard, customerPhone, otherContact, customerAddress, customerRemark,
+            /** 车辆信息 */
+            carNo, brandName, vinNo, engineNo, seatNumber, registerTime, validityDate, lastCompanyCode,
+            usage, carTypeCode, purchasePrice,
+            /** 最终报价 */
+            commercialSumPremium, isDiscount, discount, compulsorySumPremium, taxActual, sumPremium, realSumPremium,
+            drivingPremium, allowancePremium, glassPremium,
+            /** 时间信息 */
+            compulsoryTime, commercialTime,
+            /** 保单派送信息 */
+            receiptDate, receiptName, receiptPhone, sender, receiptRemarks
+        } = formValue;
+        /** 商业险时间 */
+        const [commercialStartTime = null, commercialEndTime = null] = commercialTime || [];
+        /** 交强险时间 */
+        const [compulsoryStartTime = null, compulsoryEndTime = null] = compulsoryTime || [];
+        const params = this.cacheCustomerInfo;
+        
+        Object.assign(params.customer, {
+            customerName, customerPhone, customerAddress, customerRemark, idCard, otherContact,
+            carNo, brandName, vinNo, engineNo, seatNumber, registerTime, lastCompanyCode,
+            validityDate, commercialEndTime, commercialStartTime, compulsoryEndTime, compulsoryStartTime,
+            usage, purchasePrice, carTypeCode, receiptName, receiptPhone, sender, receiptRemarks,
+            receiptDate
+        });
+
+        Object.assign(params.quoteInsurance, {
+            isDiscount, commercialSumPremium, compulsorySumPremium, taxActual, discount,
+            sumPremium, realSumPremium, drivingPremium, allowancePremium, glassPremium
+        });
+
+        return params;
+    }
+
+    /**
      * @callback
      * @desc 保存信息
      */
@@ -276,7 +331,34 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         }
   
         if (this.validateForm.valid) {
+            const params = {
+                ...this.formatRequestParams()
+            };
+
+            this.customerService.saveCustomer(params).pipe(
+                catchError(err => of(err))
+            ).subscribe(res => {
+                if (!(res instanceof TypeError)) {
+                    this.message.success('保存成功');
+                }
+            });
         }
+    }
+
+    /**
+     * @callback
+     * @desc 跟踪提交
+     */
+    trackSubmit() {
+
+    }
+
+    /**
+     * @callback
+     * @desc 成功提交
+     */
+    successSubmit() {
+
     }
 
     /**
@@ -304,6 +386,14 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                 this.message.create('success', `提交成功`);
             }
         });
+    }
+
+    /**
+     * @callback
+     * @desc 无效提交
+     */
+    invalidSubmit() {
+
     }
 
     ngOnDestroy() {}
