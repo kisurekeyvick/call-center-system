@@ -180,5 +180,22 @@ export const dictionary = new Map([
             { name: '续保', value: '1' },
             { name: '非续保', value: '2' }
         ]
+    ],
+    [
+        /** 客户管理 客户详情 使用性质 */
+        'usage', [
+            { name: '家庭自用', value: '8A' },
+            { name: '非营业企业', value: '8B' },
+        ]
+    ],
+    [
+        /** 客户管理 客户详情 车辆类型 */
+        'carType', [
+            { name: '六座以下客车', value: 'A012' },
+            { name: '六座至十座以下客车', value: 'A022' },
+            { name: '十座至二十座以下客车', value: 'A032' },
+            { name: '二十座至三十六座以下客车', value: 'A042' },
+            { name: '三十六座及三十六座以上客车', value: 'A052' },
+        ]
     ]
 ]);

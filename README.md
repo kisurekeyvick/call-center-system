@@ -26,4 +26,5 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 6.个人设置模块，目前暂不支持修改账号密码，用户名称等，需要后端接口配合
 7.login页面 118行，写死了角色：userInfo['roleCode'] = 'role_salesman';
 8.客户详情 -> 点击战败弹框(未经过验证保存成功)
+9.名单分配模块 调用api/customer/queryDistributionInfo接口 应该返回业务员的userID
 ``` 

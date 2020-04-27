@@ -100,4 +100,10 @@ export class CustomerService {
     queryDefeatReasonList(params: ICommon = {}): Observable<any> {
         return this.http.post(`api/defeatreason/queryAll`, params);
     }
+
+    /** 查询客户详情 */
+    queryCustomerDetail(params: ICommon): Observable<any> {
+        return this.http.post(`api/customer/getCustomerDetail`, params);
+    }
+    
 }

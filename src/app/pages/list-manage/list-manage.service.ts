@@ -53,4 +53,9 @@ export class ListManageService {
     queryCustomer(params): Observable<any> {
         return this.http.post(`api/customer/customerList`, params);
     }
+
+    /** 查询今日业务员分配信息 */
+    querySalesmenDistributionInfo(params = {}): Observable<any> {
+        return this.http.post(`api/customer/queryDistributionInfo`, params);
+    }
 }

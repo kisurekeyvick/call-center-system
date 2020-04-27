@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { jackInTheBoxAnimation, jackInTheBoxOnEnterAnimation } from 'src/app/shared/animate/index';
-import { tableConifg, IAssignMember, listValue } from './list-assignment.component.config';
+import { tableConifg, IAssignMember } from './list-assignment.component.config';
 import { NzModalService, NzMessageService } from 'ng-zorro-antd';
 import { RuleFormModalComponent, IRuleFormCbVal, IDefaultRuleFormValueSourceItem } from '../modal/rule-form/rule-form-modal.component';
 import { defaultRuleForm, IRuleForm } from '../modal/rule-form/rule-form-modal.component.config';
@@ -27,6 +27,7 @@ interface ICommon {
 export class ListAssignmentComponent implements OnInit, OnDestroy {
     /** 分配人员列表 */
     assignMemberList: IAssignMember[];
+    historyAssignMemberList: IAssignMember[];
     /** table列表配置 */
     tableCfg: ITableCfg = tableConifg;
     /** 是否正在加载 */
@@ -45,6 +46,8 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
     lastAssignNumber: number;
     /** 规则设置缓存 */
     customerQueryReqDto: ICommon;
+    /** 当日业务员已分配的历史总数 */
+    historyDistributionNum: number;
 
     constructor(
         private modalService: NzModalService,
@@ -58,27 +61,36 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
         this.ruleList = [];
         this.totalNumber = 0;
         this.lastAssignNumber = 0;
+        this.historyDistributionNum = 0;
     }
 
     ngOnInit() {
-        this.loadAssignmentList();
+        this.loadSalesmenDistributionInfoList();
     }
 
-    loadAssignmentList() {
+    /**
+     * @func
+     * @desc 加载业务员贡献值信息
+     */
+    loadSalesmenDistributionInfoList() {
         this.isLoading = true;
 
-        this.apiService.querySaleman().pipe(
+        this.listManageService.querySalesmenDistributionInfo().pipe(
             catchError(err => of(err))
         ).subscribe(res => {
             if (res instanceof Array) {
-                this.assignMemberList = res.map(item => ({
-                    ...item,
-                    amount: 0
-                }));
+                this.assignMemberList = res;
+                this.historyAssignMemberList = res;
+                this.historyDistributionNum = res.reduce((pre, cur) => {
+                    pre = pre + cur.distributionNum;
+                    return pre;
+                }, 0);
             }
             this.isLoading = false;
         });
     }
+
+
 
     /**
      * @callback
@@ -136,15 +148,16 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
      * @desc 分配发生改变
      * @param assignMember 
      */
-    amountChange(assignMember: IAssignMember) {
+    distributionNumChange(assignMember: IAssignMember) {
+        /** 当次分配总量 = 数据总分配 - 今日历史已分配 */
         const totalNumber = this.assignMemberList.reduce((pre: number, next: IAssignMember) => {
-            pre = pre + (next.amount || 0);
+            pre = pre + (next.distributionNum || 0);
             return pre;
-        }, 0);
+        }, 0) - this.historyDistributionNum;
 
         if (totalNumber > this.totalNumber) {
             this.message.error('已超过可配置数额').onClose.subscribe(() => {
-                assignMember.amount = 0;
+                assignMember.distributionNum = 0;
             });
         } else if (totalNumber <= this.totalNumber) {
             this.lastAssignNumber = this.totalNumber - totalNumber;
@@ -208,8 +221,8 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
     saveAssigmentAmount() {
         const distributionCustomerDtoList = this.assignMemberList.map(member => {
             return {
-                number: member.amount,
-                userId: member.id
+                number: member.distributionNum,
+                userId: member.userId
             };
         });
         const params = {

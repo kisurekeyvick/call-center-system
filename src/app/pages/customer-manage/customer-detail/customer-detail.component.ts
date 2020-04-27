@@ -32,8 +32,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
     /** 表单选项列表 */
     formList = {
         insuranceCompanysList: dictionary.get('insuranceCompanys'),
-        useNatureList: [],
-        categoryList: [],
+        usageList: dictionary.get('usage'),
+        carTypeList: dictionary.get('carType'),
     };
     /** 需要保存的参数 */
     otherFormParams: ICommon;
@@ -62,45 +62,43 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
 
         this.validateForm = this.fb.group({
             /** 客户信息 */
-            name: [null, [Validators.required]],
+            customerName: [null, [Validators.required]],
             idCard: [null, [Validators.required]],
-            callPhone: [null, [Validators.required]],
-            otherLink: [null],
-            address: [null],
-            customerInfoRemark: [null],
+            customerPhone: [null, [Validators.required]],
+            otherContact: [null],
+            customerAddress: [null],
+            customerRemark: [null],
             /** 车辆信息 */
-            plate: [null],
-            brandModel: [null],
-            vinCode: [null],
-            engineNumber: [null],
-            seating: [null],
-            firstRegisterDate: [null],
-            insuranceDueDate: [null],
-            inspectPeriodDate: [null],
-            preInsuranceCompany: [null],
-            useNature: [null],
-            category: [null],
-            price: [null],
+            carNo: [null],
+            brandName: [null],
+            vinNo: [null],
+            engineNo: [null],
+            seatNumber: [null],
+            registerTime: [null],
+            validityDate: [null],
+            lastCompanyCode: [null],
+            usage: [null],
+            carTypeCode: [null],
+            purchasePrice: [null],
             /** 最终报价 */
-            viPrice: [null],
-            viDiscount: [null],
+            commercialSumPremium: [null],
             isDiscount: [null],
-            cashBack: [null],
+            discount: [null],
             clivtaFlag: [null],
-            clivtaPrice: [null],
+            compulsorySumPremium: [null],
             travelTaxFlag: [null],
-            travelTax: [null],
-            billedPremium: [null],
-            paidInAmount: [null],
+            taxActual: [null],
+            sumPremium: [null],
+            realSumPremium: [null],
             /** 时间信息 */
-            clivtaDate: [null],
-            viDate: [null],
+            compulsoryTime: [null],
+            commercialTime: [null],
             /** 保单派送信息 */
-            deliveryTime: [null],
-            recipient: [null],
-            phone: [null],
-            salesman: [null],
-            remark: [null]
+            receiptDate: [null],
+            receiptName: [null],
+            receiptPhone: [null],
+            sender: [null],
+            receiptRemarks: [null]
         });
 
         this.loadDefeatReasonList();
@@ -125,7 +123,115 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
      * @param customer 
      */
     loadDetailCustomerForm(customer: ICustomerItem) {
-        
+        const params = {
+            id: customer.id
+        };
+
+        this.customerService.queryCustomerDetail(params).pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            if (!(res instanceof TypeError)) {
+                console.log('客户详情信息', res);
+                this.setFormGroupValue(res);
+            }
+        });
+    }
+
+    /**
+     * @desc 计算公式
+     *      (1) discount  优惠比例  = 100- 商业险折扣
+     *      (2) 实收金额 = (商业险 + 交强险 + 车船税) * (100 - discount) + 驾意险 + 津贴宝 + 
+     *      (3) 开单保费 = (商业险 + 交强险 + 车船税) + 驾意险 + 津贴宝 + 
+     * @param
+     */
+
+    /**
+     * @func
+     * @desc 设置表单详情信息
+     * @param detailInfo 
+     */
+    setFormGroupValue(detailInfo) {
+        const { customer, quoteCommercialInsuranceDetailList, quoteInsurance } = detailInfo;
+        const { customerName, customerPhone, customerAddress, customerRemark, idCard, otherContact,
+            carNo, brandName, vinNo, engineNo, seatNumber, registerTime, lastCompanyCode,
+            validityDate, commercialEndTime, commercialStartTime, compulsoryEndTime, compulsoryStartTime,
+            usage, purchasePrice, carTypeCode, receiptName, receiptPhone, sender, receiptRemarks,
+            receiptDate } = customer;
+        const { isDiscount, commercialSumPremium, compulsorySumPremium, taxActual, discount,
+            sumPremium, realSumPremium } = quoteInsurance;
+        this.validateForm.patchValue({
+            /** 客户信息 */
+            /** 姓名 */
+            customerName,
+            /** 身份证 */
+            idCard,
+            /** 联系电话 */
+            customerPhone,
+            /** 其他联系方式 */
+            otherContact,
+            /** 联系地址 */
+            customerAddress,
+            /** 备注 */
+            customerRemark,
+            
+            /** 车辆信息 */
+            /** 车牌 */
+            carNo,
+            /** 品牌型号 */
+            brandName,
+            /** 车架号 */
+            vinNo,
+            /** 发动机 */
+            engineNo,
+            /** 核定座位 */
+            seatNumber,
+            /** 初登日期 */
+            registerTime,
+            /** 年检有效期 */
+            validityDate,
+            /** 上年投保公司 */
+            lastCompanyCode,
+            /** 使用性质 */
+            usage,
+            /** 车辆种类 */
+            carTypeCode,
+            /** 新车购置价 */
+            purchasePrice,
+
+            /** 最终报价 */
+            /** 商业险金额 */
+            commercialSumPremium,
+            /** 是否优惠 */
+            isDiscount,
+            /** 优惠比例 */
+            discount,
+            /** 交强险金额 */
+            compulsorySumPremium,
+            /** 车船税 */
+            taxActual,
+            /** 开单保费 */
+            sumPremium,
+            /** 实收金额 */
+            realSumPremium,
+
+            /** 时间信息 */
+            /** 交强险时间 */
+            compulsoryTime: [compulsoryStartTime, compulsoryEndTime],
+            /** 商业险时间 */
+            commercialTime: [commercialStartTime, commercialEndTime],
+
+            /** 保单派送信息 */
+            /** 派送时间 */
+            receiptDate,
+            /** 收件人 */
+            receiptName,
+            /** 联系方式 */
+            receiptPhone,
+            /** 寄件人 */
+            sender,
+            /** 备注 */
+            receiptRemarks
+        });
     }
 
     /**
@@ -167,10 +273,10 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         for (const i in this.validateForm.controls) {
             this.validateForm.controls[i].markAsDirty();
             this.validateForm.controls[i].updateValueAndValidity();
-          }
+        }
   
-          if (this.validateForm.valid) {
-          }
+        if (this.validateForm.valid) {
+        }
     }
 
     /**
