@@ -8,7 +8,7 @@
 
     <div nz-row class="content">
         <div class="search-list-box">
-            <search-list [searchListModel]="searchListModel" [searchListItem]="searchListItem" (onSearch)="search()" (onReseat)="reseat()"></search-list>
+            <search-list [searchListLayout]="searchListLayout" [searchListModel]="searchListModel" [searchListItem]="searchListItem" (onSearch)="search()" (onReseat)="reseat()"></search-list>
         </div>
         <div class="search-list-table">
             <ng-container *ngIf="!isLoading; else skeleton">
@@ -22,24 +22,31 @@
                   </thead>
                   <tbody>
                     <tr *ngFor="let data of list.data">
-                        <td>{{data.applyName}}</td>
-                        <td>{{data.createDate}}</td>
-                        <td>{{data.name}}</td>
-                        <td>{{data.plateNumber}}</td>
+                        <td>{{data.userName}}</td>
+                        <td>{{data.applyDate}}</td>
+                        <td>{{data.customerName}}</td>
+                        <td>{{data.carNo}}</td>
                         <td>{{data.companyName}}</td>
-                        <td>{{data.cateName}}</td>
-                        <td>{{data.viPrice}}</td>
-                        <td>{{data}}</td>
-                        <td>{{data.rebatePrice}}</td>
-                        <td>0</td>
-                        <td>保单申请</td>
-                        <td>{{data.statusName}}</td>
+                        <td>{{data.carTypeCodeName}}</td>
+                        <td>{{data.commercialSumPremium}}</td>
+                        <td>{{data.discount}}</td>
+                        <td>{{data.overPrice}}</td>
+                        <td>{{data.handleStateName}}</td>
                         <td>
-                            <a><i class="remark-icon" nz-icon nz-popover nzPopoverTitle="备注" [nzPopoverContent]="data.remark" nzPopoverPlacement="left" nzType="eye" nzTheme="outline"></i></a>
+                            <a><i class="remark-icon" nz-icon nz-popover nzPopoverTitle="备注" nzPopoverTrigger="click" [nzPopoverContent]="customerRemark" nzPopoverPlacement="left" nzType="eye" nzTheme="outline"></i></a>
                             <nz-divider nzType="vertical"></nz-divider>
                             <a (click)="agreeApplication(data)"><i nz-icon nzTooltipTitle="同意" nzTooltipPlacement="bottom" nz-tooltip nzType="check" nzTheme="outline"></i></a>
                             <nz-divider nzType="vertical"></nz-divider>
-                            <a (click)="undoApplication(data)"><i nz-icon nzTooltipTitle="拒绝" nzTooltipPlacement="bottom" nz-tooltip nzType="rollback" nzTheme="outline"></i></a>
+                            <a (click)="rejectApplication(data)"><i nz-icon nzTooltipTitle="拒绝" nzTooltipPlacement="bottom" nz-tooltip nzType="close" nzTheme="outline"></i></a>
+                            <ng-template #customerRemark>
+                                <ng-container *ngIf="data.customerRemark; else noRemark">
+                                    {{ data.customerRemark }}
+                                </ng-container>
+                                <ng-template #noRemark>
+                                    <span class="noRemark-msg" style="background-color: #fffbe6;padding: 5px 12px;">
+                                        <i style="margin-right: 8px; color: #faad14" nz-icon nzType="exclamation-circle" nzTheme="outline"></i>该客户无备注</span>
+                                </ng-template>
+                            </ng-template>
                         </td>
                     </tr>
                   </tbody>

@@ -75,12 +75,12 @@ export class CustomerListComponent implements OnInit, OnDestroy {
         this.searchListLayout = {...searchListLayout};
         this.customerList = [];
         this.pageInfo = new PaginationService({
-            total: 200,
+            total: 0,
             pageSize: 10,
             pageIndex: 1
         });
         this.canDeleteCustomer = false;
-        this.isLoading = true;
+        this.isLoading = false;
     }
 
     ngOnInit() {

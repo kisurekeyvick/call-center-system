@@ -108,7 +108,9 @@ export class DefaultInterceptor implements HttpInterceptor {
                 this.session.clear();
                 this.local.clear();
                 this.goTo('/login');
-                return Observable.throw({ result: '用户未登录', validationErrors: null });
+                this.msg.error('用户未登录');
+                //return Observable.throw({ result: '用户未登录', validationErrors: null });
+                break;
             case 403:
             case 404:
             case 500:

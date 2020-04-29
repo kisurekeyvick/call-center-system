@@ -78,9 +78,9 @@ export const dictionary = new Map([
         /** 返利申请 状态搜索条件 */
         'rebateApplicationStatusList', [
             { name: '请选择', value: '' },
-            { name: '未处理', value: '6' },
-            { name: '驳回', value: '7' },
-            { name: '同意', value: '8' }
+            { name: '返利申请中', value: '6' },
+            { name: '返利申请被拒绝', value: '7' },
+            { name: '返利申请同意', value: '8' }
         ]
     ],
     [
