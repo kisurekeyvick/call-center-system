@@ -42,7 +42,8 @@
             </ng-template>
         </div>
         <div class="assign-number-mesg">
-            <p>当前可分配的总数额为<span class="highlight">{{totalNumber}}</span>,剩余可分配数额为<span class="highlight">{{lastAssignNumber}}</span></p>
+            <p class="isloading-assign-number" *ngIf="isLoadingAssignNumber"><i nz-icon nzType="loading" nzTheme="outline"></i>加载分配数额中...</p>
+            <p *ngIf="!isLoadingAssignNumber">当前可分配的总数额为<span class="highlight">{{totalNumber}}</span>,剩余可分配数额为<span class="highlight">{{lastAssignNumber}}</span></p>
         </div>
         <div class="search-list-table">
             <ng-container *ngIf="!isLoading; else skeleton">

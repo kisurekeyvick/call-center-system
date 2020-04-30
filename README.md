@@ -28,4 +28,6 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 8.客户详情 -> 点击战败弹框(未经过验证保存成功)
 9.名单分配模块 调用api/customer/queryDistributionInfo接口 应该返回业务员的userID
 10.返利申请模块 调用api/order/operationOrder接口 operationCode值为7，调用成功以后，handleStatus的值还是和原来的一样
+11.保单查询是123，返利查询是678
+12.名单管理 名单分配模块 点击保存分配数额给业务员，再次调用接口获取业务员数据，结果还是为0
 ``` 

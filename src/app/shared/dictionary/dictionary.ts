@@ -84,6 +84,29 @@ export const dictionary = new Map([
         ]
     ],
     [
+        /**  内勤出单状态 */
+        'internalOrderStatus', [
+            { name: '请选择', value: '' },
+            { name: '已经提交', value: '1' },
+            { name: '内勤通过', value: '2' },
+            { name: '内勤审评失败', value: '3' },
+        ]
+    ],
+    [
+        /** 客户状态 */
+        'customerStatus', [
+            { name: '未处理', value: '1' },
+            { name: '预约跟踪', value: '2' },
+            { name: '成功提交', value: '3' },
+            { name: '失败提交', value: '4' },
+            { name: '名单无效', value: '5' },
+            { name: '返利申请中', value: '6' },
+            { name: '返利申请被拒绝', value: '7' },
+            { name: '返利申请同意', value: '8' },
+            { name: '分配', value: '20' }
+        ]
+    ],
+    [
         /** 处理状态 */
         'processingState', [
             { name: '请选择', value: '' },
