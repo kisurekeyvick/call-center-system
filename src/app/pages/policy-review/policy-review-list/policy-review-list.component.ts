@@ -5,9 +5,14 @@ import { Router } from '@angular/router';
 import LocalStorageService from 'src/app/core/cache/local-storage';
 import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
 import { ISearchListItem, searchListItem, ISearchListModel, IPolicyReviewItem,
-    searchListModel, tableConfig, listValue } from './policy-review-list.component.config';
+    searchListModel, tableConfig, searchListLayout, renewalStateList, companyList } from './policy-review-list.component.config';
 import { IPageChangeInfo, PaginationService } from 'src/app/shared/component/search-list-pagination/pagination';
 import { ConfirmOutDocModalComponent } from '../modal/confirm-outDoc/confirm-outDoc-modal.component';
+import { PolicyReviewService, IQueryCustomerParams } from '../policy-review.service';
+import { of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { findValueName } from 'src/app/core/utils/function';
+import * as dayjs from 'dayjs';
 
 type ITableCfg = typeof tableConfig;
 type pageChangeType = 'pageIndex' | 'pageSize';
@@ -29,6 +34,7 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
     /** 搜索配置 */
     searchListItem: ISearchListItem[];
     searchListModel: ISearchListModel;
+    searchListLayout: ICommon;
     /** table列表配置 */
     policyReviewList: IPolicyReviewItem[];
     /** table列表配置 */
@@ -42,13 +48,15 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
         private modalService: NzModalService,
         private message: NzMessageService,
         private router: Router,
-        private localCache: LocalStorageService
+        private localCache: LocalStorageService,
+        private policyReviewService: PolicyReviewService
     ) {
         this.searchListItem = [...searchListItem];
         this.searchListModel = {...searchListModel};
+        this.searchListLayout = {...searchListLayout};
         this.policyReviewList = [];
         this.pageInfo = new PaginationService({
-            total: 200,
+            total: 0,
             pageSize: 10,
             pageIndex: 1
         });
@@ -63,7 +71,9 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
      * @desc 搜索
      */
     search() {
-        this.loadReviewList({});
+        const params = this.formatSearchParams();
+
+        this.loadReviewList(params);
     }
 
     /**
@@ -71,24 +81,60 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
      * @desc 重置搜索内容
      */
     reseat() {
+        this.searchListModel = {...searchListModel};
+    }
 
+    /**
+     * @func
+     * @desc format请求的参数
+     */
+    formatSearchParams(): IQueryCustomerParams {
+        const { registerTime } = this.searchListModel;
+        const params = {
+            ...this.searchListModel,
+            startRegisterTime: registerTime[0] && new Date(registerTime[0]).getTime() || null,
+            endRegisterTime: registerTime[1] && new Date(registerTime[1]).getTime() || null,
+        };
+
+        return params;
     }
 
     /**
      * @func
      * @desc 加载员工列表
      */
-    loadReviewList(params: ICommon, pageChangeType?: pageChangeType) {
+    loadReviewList(params: IQueryCustomerParams, pageChangeType?: pageChangeType) {
         this.isLoading = true;
-        
-        setTimeout(() => {
-            this.policyReviewList = listValue();
+        const { pageIndex, pageSize } = this.pageInfo;
+        const requestParam: ICommon = {
+            ...params,
+            basePageInfo: {
+                pageNum: pageIndex,
+                pageSize
+            }
+        };
+
+        this.policyReviewService.queryOrderList(requestParam).pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
             this.isLoading = false;
 
-            if (pageChangeType === 'pageSize') {
-                this.pageInfo.pageIndex = 1;
+            if (res.list) {
+                const { list, total } = res;
+                this.policyReviewList = list.map(item => {
+                    const { commercialEndTime, compulsoryEndTime, registerTime, updateTime } = item;
+                    item['renewalStateName'] = findValueName(renewalStateList, item['renewalState']);
+                    item['lastCompanyName'] = findValueName(companyList, item['lastCompanyCode'])
+                    item['commercialEndTimeFormat'] = commercialEndTime && dayjs(commercialEndTime).format('YYYY-MM-DD HH:mm:ss') || '--';
+                    item['compulsoryEndTimeFormat'] = compulsoryEndTime && dayjs(compulsoryEndTime).format('YYYY-MM-DD HH:mm:ss') || '--';
+                    item['registerTimeFormat'] = registerTime && dayjs(registerTime).format('YYYY-MM-DD HH:mm:ss') || '--';
+                    item['updateTimeFormat'] = updateTime && dayjs(updateTime).format('YYYY-MM-DD HH:mm:ss') || '--';
+                    return item;
+                });
+                this.pageInfo.total = total;
+                pageChangeType === 'pageSize' && (this.pageInfo.pageIndex = 1);
             }
-        }, 2000);
+        });
     }
 
     /**
@@ -106,13 +152,12 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
      * @param policyReviewItem 
      */
     showDetail(policyReviewItem: IPolicyReviewItem) {
-        // const cache = {
-        //     originPage: 'customer/list',
-        //     customerListCache: this.customerList,
-        //     currentCustomer: customer
-        // };
+        const cache = {
+            originPage: 'policyReview/list',
+            currentOrder: policyReviewItem
+        };
 
-        // this.localCache.set(LocalStorageItemName.CUSTOMERDETAIL, cache);
+        this.localCache.set(LocalStorageItemName.POLICYREVIEW, cache);
         this.router.navigate(['/policyReview/list/detail']);
     }
 
@@ -147,7 +192,8 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
         const property = changeInfo.type;
         this.pageInfo[property] = changeInfo.value;
 
-        this.loadReviewList({}, property);
+        const params = this.formatSearchParams();
+        this.loadReviewList(params, property);
     }
 
     ngOnDestroy() {}

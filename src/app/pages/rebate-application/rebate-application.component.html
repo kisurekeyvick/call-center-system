@@ -35,9 +35,9 @@
                         <td>
                             <a><i class="remark-icon" nz-icon nz-popover nzPopoverTitle="备注" nzPopoverTrigger="click" [nzPopoverContent]="customerRemark" nzPopoverPlacement="left" nzType="eye" nzTheme="outline"></i></a>
                             <nz-divider nzType="vertical"></nz-divider>
-                            <a (click)="agreeApplication(data)"><i nz-icon nzTooltipTitle="同意" nzTooltipPlacement="bottom" nz-tooltip nzType="check" nzTheme="outline"></i></a>
+                            <a (click)="agreeApplication(data)">同意</a>
                             <nz-divider nzType="vertical"></nz-divider>
-                            <a (click)="rejectApplication(data)"><i nz-icon nzTooltipTitle="拒绝" nzTooltipPlacement="bottom" nz-tooltip nzType="close" nzTheme="outline"></i></a>
+                            <a (click)="rejectApplication(data)">拒绝</a>
                             <ng-template #customerRemark>
                                 <ng-container *ngIf="data.customerRemark; else noRemark">
                                     {{ data.customerRemark }}
