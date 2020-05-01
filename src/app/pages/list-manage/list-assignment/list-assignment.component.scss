@@ -62,6 +62,12 @@
     }
 
     .assign-number-mesg {
+        .isloading-assign-number {
+            i {
+                margin-right: 12px;
+            }
+        }
+
         p {
             background-color: #f5f5f5;
             line-height: 40px;

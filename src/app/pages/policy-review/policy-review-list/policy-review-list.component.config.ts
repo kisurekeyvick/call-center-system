@@ -1,9 +1,8 @@
 import { dictionary } from 'src/app/shared/dictionary/dictionary';
 
-const outDocTypeList = dictionary.get('outDocTypeList');
-const insuranceCompanysList = dictionary.get('insuranceCompanys');
-const auditStatusList = dictionary.get('auditStatus');
-const receiptStatusList = dictionary.get('receiptStatus');
+export const companyList = dictionary.get('insuranceCompanys');
+const ownerShipList = dictionary.get('category');
+export const renewalStateList = dictionary.get('renewalState');
 
 export interface ISearchListItem {
     id: number;
@@ -14,6 +13,14 @@ export interface ISearchListItem {
     [key: string]: any;
 }
 
+export const searchListLayout = {
+    nzXs: '24',  
+    nzMd: '12', 
+    nzLg: '12', 
+    nzXl: '8',
+    nzXXl: '6'
+};
+
 const commonGrid = {
     label: { nzXs: '24', nzSm: '7', nzMd: '', nzLg: '', nzXl: '' },
     control: { nzXs: '24', nzSm: '15', nzMd: '', nzLg: '', nzXl: '' }
@@ -22,177 +29,179 @@ const commonGrid = {
 export const searchListItem: ISearchListItem[] = [
     {
         id: 1,
-        label: '姓名',
-        key: 'insured',
-        placeholder: '请输入姓名',
+        label: '品牌',
+        key: 'brandName',
+        placeholder: '输入品牌',
         type: 'text',
         grid: commonGrid,
     },
     {
         id: 2,
-        label: '车牌',
-        key: 'plate',
-        placeholder: '请输入车牌',
+        label: '车牌号',
+        key: 'carNo',
+        placeholder: '输入车牌号',
         type: 'text',
         grid: commonGrid,
     },
     {
         id: 3,
-        label: '是否出单',
-        key: 'outDocType',
-        placeholder: '请选择是否出单',
+        label: '是否在职',
+        key: 'inJob',
+        placeholder: '请选择是否在职',
         type: 'select',
         grid: commonGrid,
         config: {
-            options: [
-                ...outDocTypeList
-            ]
+            options: [{ name: '是', value: true }, { name:'否', value: false }]
         }
     },
     {
         id: 4,
-        label: '保险公司',
-        key: 'companyCode',
-        placeholder: '请选择保险公司',
+        label: '是否高端车',
+        key: 'isHigh',
+        placeholder: '请选择是否高端车',
         type: 'select',
         grid: commonGrid,
         config: {
-            options: [
-                ...insuranceCompanysList
-            ]
+            options: [{ name: '是', value: true }, { name:'否', value: false }]
         }
     },
     {
         id: 5,
-        label: '业务员',
-        key: 'salesmanId',
-        placeholder: '请选择业务员',
+        label: '是否过户',
+        key: 'isTransfer',
+        placeholder: '请选择是是否过户',
         type: 'select',
         grid: commonGrid,
         config: {
-            options: [
-            ]
+            options: [{ name: '是', value: true }, { name:'否', value: false }]
         }
     },
     {
         id: 6,
-        label: '提交日期',
-        key: 'submitTime',
-        type: 'dateRange',
-        grid: commonGrid
-    },
-    {
-        id: 7,
-        label: '审核状态',
-        key: 'outAuditStatus',
-        placeholder: '请选择审核状态',
+        label: '去年保险公司',
+        key: 'lastCompanyCode',
+        placeholder: '请选择去年保险公司',
         type: 'select',
         grid: commonGrid,
         config: {
             options: [
-                ...auditStatusList
+                ...companyList
             ]
         }
     },
     {
+        id: 7,
+        label: '指导价',
+        placeholder: '',
+        type: 'numberRange',
+        grid: commonGrid,
+        config: {
+            start: {
+                key: 'minPurchasePrice',
+                min: 0,
+                max: Infinity,
+                step: 1
+            },
+            end: {
+                key: 'maxPurchasePrice',
+                min: 0,
+                max: Infinity,
+                step: 1
+            }
+        }
+    },
+    {
         id: 8,
-        label: '收单状态',
-        key: 'receiptStatus',
-        placeholder: '请选择收单状态',
+        label: '车辆所属',
+        placeholder: '请选择车辆所属',
+        key: 'ownerShip',
         type: 'select',
         grid: commonGrid,
         config: {
             options: [
-                ...receiptStatusList
+                ...ownerShipList
             ]
         }
     },
     {
         id: 9,
-        label: '收单日期',
-        key: 'receiptTime',
+        label: '是否续保车',
+        placeholder: '请选择是否续保车',
+        key: 'renewalState',
+        type: 'select',
+        grid: commonGrid,
+        config: {
+            options: [{ name: '是', value: '1' },{ name: '否', value: '2' }]
+        }
+    },
+    {
+        id: 10,
+        label: '初登日期',
+        key: 'registerTime',
         type: 'dateRange',
         grid: commonGrid
     }
 ];
 
 export interface ISearchListModel {
-    insured: string;
-    plate: string;
-    outDocType: string;
-    companyCode: string;
-    salesmanId: string;
-    submitTime: string;
-    submitTimeBegin: string;
-    submitTimeEnd: string;
-    outAuditStatus: string;
-    receiptStatus: string;
-    receiptTime: string;
-    receiptTimeBegin: string;
-    receiptTimeEnd: string;
+    brandName: string;
+    carNo: string;
+    inJob: boolean;
+    isHigh: boolean;
+    isTransfer: boolean;
+    lastCompanyCode: string;
+    minPurchasePrice: number;
+    maxPurchasePrice: number;
+    ownerShip: string;
+    renewalState: string;
+    registerTime: string[];
+    [key: string]: any;
 }
 
 export const searchListModel: ISearchListModel = {
-    insured: '',
-    plate: '',
-    outDocType: '',
-    companyCode: '',
-    salesmanId: '',
-    submitTime: '',
-    submitTimeBegin: '',
-    submitTimeEnd: '',
-    outAuditStatus: '',
-    receiptStatus: '',
-    receiptTime: '',
-    receiptTimeBegin: '',
-    receiptTimeEnd: ''
+    brandName: null,
+    carNo: null,
+    inJob: null,
+    isHigh: null,
+    isTransfer: null,
+    lastCompanyCode: null,
+    minPurchasePrice: null,
+    maxPurchasePrice: null,
+    ownerShip: null,
+    renewalState: null,
+    registerTime: []
 };
 
 export const tableConfig = {
     thead: [
-        { name: '姓名' },
-        { name: '车牌' },
-        { name: '是否出单' },
-        { name: '出单日期' },
-        { name: '保险公司' },
-        { name: '业务员' },
-        { name: '提交日期' },
-        { name: '审核状态' },
-        { name: '收单状态' },
-        { name: '收单日期' },
+        { name: '车牌号' },
+        { name: '客户名称' },
+        { name: '车架号' },
+        { name: '品牌型号' },
+        { name: '注册日期' },
+        { name: '商业险到期时间' },
+        { name: '交强险到期时间' },
+        { name: '去年投保公司' },
+        { name: '客户类型' },
+        { name: '归属人' },
+        { name: '更新时间' },
         { name: '操作' }
     ]
 };
 
 export interface IPolicyReviewItem {
-    taskId: number;
-    insured: string;
-    plate: string;
-    outDocTypeName: string;
-    outConfirmTime: string;
-    companyName: string;
-    salesmanName: string;
-    submitTime: string;
-    outAuditStatusName: string;
-    receiptStatusName: string;
-    receiptTime: string;
+    carId: string;
+    carNo: string;
+    customerName: string;
+    vinNo: string;
+    brandName: string;
+    enrollDate: string;
+    commercialEndTime: string;
+    compulsoryEndTime: string;
+    lastCompanyCode: string;
+    lastCompanyName: string;
+    customerType: string;
+    assigneeName: string;
+    modifierTime: string;
     [key: string]: any;
 }
-
-export const listValue = (): IPolicyReviewItem[] => {
-    return Array.apply(null, Array(20)).map((item, index: number) => {
-        return {
-            taskId: index,
-            insured: '白绍科',
-            plate: '冀AFC327',
-            outDocTypeName: '未出单',
-            outConfirmTime: '',
-            companyName: '人保',
-            salesmanName: '鲍芙蓉',
-            submitTime: '2020-04-14',
-            outAuditStatusName: '待审核',
-            receiptStatusName: '未收单',
-            receiptTime: '2020-04-24'
-        };
-    });
-};

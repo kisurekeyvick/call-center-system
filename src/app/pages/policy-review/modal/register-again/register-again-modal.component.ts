@@ -1,6 +1,13 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { PolicyReviewService } from '../../policy-review.service';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+
+interface ICommon {
+    [key: string]: any;
+}
 
 @Component({
     selector: 'register-again-modal',
@@ -10,36 +17,38 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 export class RegisterAgainModalComponent implements OnInit, OnDestroy {
     /** 表单 */
     validateForm: FormGroup;
-    /** 表单选项列表 */ 
-    formList= {
-        filialeList: []
-    };
     /** 保单审核 */
-    @Input() policyItem: any = {};
+    @Input() policyItem: ICommon = {};
+    /** operationCode */
+    @Input() operationCode = '';
+    /** 操作类型 */
+    @Input() type: string;
 
     constructor(
         private modal: NzModalRef,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private policyReviewService: PolicyReviewService
     ) {
-
     }
 
     ngOnInit() {
+        const { customerOrder = {} } = this.policyItem;
+        const { commercialSumPremium, compulsorySumPremium, taxActual, drivingPremium, allowancePremium,
+            glassPremium } = customerOrder;
+
         this.validateForm = this.fb.group({
-            /** 投保机构 */
-            filialeCode: [null],
             /** 商业险金额 */
-            viPriceFinal: [null],
+            commercialSumPremium: [commercialSumPremium],
             /** 交强险金额 */
-            clivtaPriceFinal: [null],
+            compulsorySumPremium: [compulsorySumPremium],
             /** 车船税 */
-            travelTaxFinal: [null],
+            taxActual: [taxActual],
             /** 驾意险价格 */
-            drivingPremium: [null],
+            drivingPremium: [drivingPremium],
             /** 津贴保价格 */
-            allowancePremium: [null],
+            allowancePremium: [allowancePremium],
             /** 玻璃膜价格 */
-            glassPremium: [null]
+            glassPremium: [glassPremium]
         });
     }
 
@@ -54,8 +63,56 @@ export class RegisterAgainModalComponent implements OnInit, OnDestroy {
         }
 
         if (this.validateForm.valid) {
-            this.modal.destroy('success');
+            this.type === 'approved' && this.operationOrderSave();
+            this.type === 'registerAgain' && this.registerAgainSave();
         }
+    }
+
+    /**
+     * @func
+     * @desc 内勤通过保存
+     */
+    operationOrderSave() {
+        const { customerOrder, quoteCommercialInsuranceDetailList, quoteInsurance } = this.policyItem;
+        const params = {
+            operationCode: this.operationCode,
+            customerOrder: {
+                ...customerOrder,
+                ...this.validateForm.value
+            }
+        };
+
+        this.policyReviewService.updateCustomerOrder(params).pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            if (!(res instanceof TypeError)) {
+                this.modal.destroy('success');
+            }
+        });
+    }
+
+    /**
+     * @func
+     * @desc 重新登记保存
+     */
+    registerAgainSave() {
+        const { customerOrder, quoteCommercialInsuranceDetailList, quoteInsurance } = this.policyItem;
+        const params = {
+            customerOrder: {
+                ...customerOrder,
+                ...this.validateForm.value
+            },
+            quoteCommercialInsuranceDetailList,
+            quoteInsurance
+        };
+
+        this.policyReviewService.updateCustomerOrder(params).pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            if (!(res instanceof TypeError)) {
+                this.modal.destroy('success');
+            }
+        });
     }
 
     ngOnDestroy() {}

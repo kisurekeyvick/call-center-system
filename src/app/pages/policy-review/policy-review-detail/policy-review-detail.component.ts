@@ -3,6 +3,14 @@ import { jackInTheBoxAnimation, jackInTheBoxOnEnterAnimation } from 'src/app/sha
 import { Router } from '@angular/router';
 import { NzModalService, NzMessageService, NzModalRef } from 'ng-zorro-antd';
 import { RegisterAgainModalComponent } from '../modal/register-again/register-again-modal.component';
+import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
+import LocalStorageService from 'src/app/core/cache/local-storage';
+import { PolicyReviewService } from '../policy-review.service';
+import { of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { usageList, companyList } from './policy-review-detail.component.config';
+import { findValueName } from 'src/app/core/utils/function';
 
 interface ICommon {
     [key: string]: any;
@@ -22,24 +30,82 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
     isLoading: boolean;
     /** 详情信息 */
     detailInfo: ICommon;
+    /** 表单 */
+    validateForm: FormGroup;
+    /** 加载的详细信息 */
+    loadedDetailInfo: ICommon;
 
     constructor(
         private modalService: NzModalService,
         private message: NzMessageService,
-        private router: Router
+        private router: Router,
+        private localCache: LocalStorageService,
+        private policyReviewService: PolicyReviewService,
+        private fb: FormBuilder,
     ) {
         this.detailInfo = {
-            insType: [
-                { typeName: '车辆损失险', insuredAmount: '163142.4' , premium: '1717.48' },
-                { typeName: '不计免赔（车损,三责）', insuredAmount: '163142.4' , premium: '1717.48' },
-                { typeName: '第三者责任险', insuredAmount: '163142.4' , premium: '1717.48' },
-                { typeName: '车船税金额', insuredAmount: '163142.4' , premium: '1717.48' },
-                { typeName: '交强险金额', insuredAmount: '163142.4' , premium: '1717.48' },
-            ]
+            /** 投保公司 */
+            insCompany: {
+                /** 投保公司 */
+                companyName: '',
+                /** 联系人 */
+                createUser: ''
+            },
+            /** 客户信息 */
+            customerInfo: {
+                /** 被保险人姓名 */
+                customerName: '',
+                /** 身份证号码 */
+                idCard: '',
+                /** 联系电话 */
+                customerPhone: '',
+                /** 被保险人地址 */
+                customerAddress: ''
+            },
+            /** 投保车辆信息 */
+            carInfo: {
+                /** 车牌号 */
+                carNo: '',
+                /** 厂牌型号 */
+                brandName: '',
+                /** 核定座位 */
+                seatNumber: '',
+                /** 初次登记 */
+                registerTime: '',
+                /** 使用性质 */
+                usage: '',
+                usageName: '',
+                /** 车架号码 */
+                vinNo: '',
+                /** 发动机号 */
+                engineNo: '',
+                /** 新车购置价 */
+                purchasePrice: ''
+            },
+            /** 保险期间 */
+            insTime: {
+                /** 商业险 */
+                commercialStartTime: '',
+                commercialEndTime: '',
+                /** 交强险 */
+                compulsoryStartTime: '',
+                compulsoryEndTime: ''
+            },
+            /** 投保险种 */
+            insType: []
         };
     }
 
     ngOnInit() {
+        this.validateForm = this.fb.group({
+            /** 派送信息 */
+            receiptDate: [null],
+            receiptName: [null],
+            receiptPhone: [null],
+            sender: [null],
+            receiptRemarks: [null]
+        });
+
         this.loadPolicyInfo();
     }
 
@@ -48,7 +114,126 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
      * @desc 加载保单详情
      */
     loadPolicyInfo() {
+        const cache = this.localCache.get(LocalStorageItemName.POLICYREVIEW);
+        const { id = null } = cache && cache['value'] && cache['value']['currentOrder'] || {};
 
+        if (id) {
+            const params = {
+                id
+            };
+
+            this.policyReviewService.getCustomerOrderDetail(params).pipe(
+                catchError(err => of(err))
+            ).subscribe(res => {
+                if (!(res instanceof TypeError)) {
+                    console.log('获取到的详情', res);
+                    this.loadedDetailInfo = res;
+                    this.setModuleValue(res);
+                    this.setFormGroupValue(res);
+                }
+            });
+        }
+    }
+
+    /**
+     * @func
+     * @desc 设置module值
+     * @param detailInfo 
+     */
+    setModuleValue(detailInfo) {
+        const { customerOrder, quoteCommercialInsuranceDetailList } = detailInfo;
+        const { companyCode, createUser, customerName, idCard, customerPhone, customerAddress,
+            carNo, brandName, seatNumber, registerTime, usage, vinNo, engineNo, purchasePrice,
+            commercialStartTime, commercialEndTime, compulsoryStartTime, compulsoryEndTime } = customerOrder;
+        
+        this.detailInfo.insType = quoteCommercialInsuranceDetailList;
+        
+        Object.assign(this.detailInfo, {
+            insCompany: {
+                createUser,
+                companyName: findValueName(companyList, companyCode)
+            },
+            customerInfo: {
+                customerName,
+                idCard,
+                customerPhone,
+                customerAddress
+            },
+            carInfo: {
+                carNo,
+                brandName,
+                seatNumber,
+                registerTime,
+                usageName: findValueName(usageList, usage),
+                vinNo,
+                engineNo,
+                purchasePrice
+            },
+            insTime: {
+                commercialStartTime,
+                commercialEndTime,
+                compulsoryStartTime,
+                compulsoryEndTime
+            }
+        });
+
+    }
+    
+    /**
+     * @func
+     * @desc 设置表单详情信息
+     * @param detailInfo 
+     */
+    setFormGroupValue(detailInfo) {
+        const { customerOrder } = detailInfo;
+        const { receiptName, receiptPhone, sender, receiptRemarks,
+            receiptDate } = customerOrder;
+        this.validateForm.patchValue({
+            /** 派送时间 */
+            receiptDate,
+            /** 收件人 */
+            receiptName,
+            /** 联系方式 */
+            receiptPhone,
+            /** 寄件人 */
+            sender,
+            /** 备注 */
+            receiptRemarks
+        });
+    }
+
+    /**
+     * @callback
+     * @desc 保存派送信息
+     */
+    saveSendInfo() {
+        for (const i in this.validateForm.controls) {
+            this.validateForm.controls[i].markAsDirty();
+            this.validateForm.controls[i].updateValueAndValidity();
+        }
+
+        if (this.validateForm.valid) {
+            const { customerOrder, quoteCommercialInsuranceDetailList, quoteInsurance } = this.loadedDetailInfo;
+            const params = {
+                customerOrder: {
+                    ...customerOrder,
+                    ...this.validateForm.value
+                },
+                quoteCommercialInsuranceDetailList,
+                quoteInsurance
+            };
+
+            this.policyReviewService.updateCustomerOrder(params).pipe(
+                catchError(err => of(err))
+            ).subscribe(res => {
+                if (!(res instanceof TypeError)) {
+                    if (res === true) {
+                        this.message.success('保单派送信息更新成功');
+                        this.loadPolicyInfo();
+                    }
+                }
+            });
+        }
     }
 
     /**
@@ -60,7 +245,10 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
             nzTitle: '审核通过',
             nzContent: RegisterAgainModalComponent,
             nzComponentParams: {
-                policyItem: {}
+                policyItem: this.loadedDetailInfo,
+                /** operationCode的值为2 代表 内勤通过 */
+                operationCode: '2',
+                type: 'approved'
             },
             nzMaskClosable: false,
             nzFooter: null
@@ -69,6 +257,7 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
         modal.afterClose.subscribe((res: string) => {
             if (res === 'success') {
                 this.message.create('success', `通过成功`);
+                this.loadPolicyInfo();
             }
         });
     }
@@ -82,7 +271,8 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
             nzTitle: '重新登记',
             nzContent: RegisterAgainModalComponent,
             nzComponentParams: {
-                policyItem: {}
+                policyItem: this.loadedDetailInfo,
+                type: 'registerAgain'
             },
             nzMaskClosable: false,
             nzFooter: null
@@ -91,6 +281,7 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
         modal.afterClose.subscribe((res: string) => {
             if (res === 'success') {
                 this.message.create('success', `登记成功`);
+                this.loadPolicyInfo();
             }
         });
     }
@@ -104,12 +295,30 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
             nzTitle: '提示',
             nzContent: '您确认退单?',
             nzOnOk: () => {
-                this.message.create('success', '退单成功');
+                const { customerOrder } = this.loadedDetailInfo;
+                const params = {
+                    operationCode: '3',
+                    customerOrder
+                };
+
+                this.policyReviewService.operationOrder(params).pipe(
+                    catchError(err => of(err))
+                ).subscribe(res => {
+                    if (!(res instanceof TypeError)) {
+                        if (res.code === '5000') {
+                            this.message.warning(res.message);
+                        } else {
+                            this.message.create('success', '退单成功');
+                        }
+
+                        this.loadPolicyInfo();
+                    }
+                });
             },
             nzOnCancel: () => {
                 this.message.info('您已取消退单');
             }
-        })
+        });
     }
 
     /**

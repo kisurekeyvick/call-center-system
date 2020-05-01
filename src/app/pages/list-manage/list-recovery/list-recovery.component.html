@@ -44,7 +44,14 @@
             </div>
             <div nz-row nz-col nzXs="24">
                 <nz-form-item class="nzFormItem">
-                    <p>回收名单数：<nz-tag [nzColor]="'orange'">{{listCount}}</nz-tag></p>
+                    <p>回收名单数：
+                        <ng-container *ngIf="isLoadingListCount; else tagTpl">
+                            <i nz-icon nzType="loading" nzTheme="outline"></i>
+                        </ng-container>
+                        <ng-template #tagTpl>
+                            <nz-tag [nzColor]="'orange'">{{listCount}}</nz-tag>
+                        </ng-template>
+                    </p>
                 </nz-form-item>
             </div>
             <div nz-row nz-col nzXs="24">

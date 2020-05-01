@@ -5,8 +5,8 @@ import { NzModalService, NzMessageService } from 'ng-zorro-antd';
 import { RuleFormModalComponent, IRuleFormCbVal, IDefaultRuleFormValueSourceItem } from '../modal/rule-form/rule-form-modal.component';
 import { defaultRuleForm, IRuleForm } from '../modal/rule-form/rule-form-modal.component.config';
 import { ApiService } from 'src/app/api/api.service';
-import { of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { of, merge, Subject } from 'rxjs';
+import { catchError, debounceTime } from 'rxjs/operators';
 import { ListManageService } from '../list-manage.service';
 
 type ITableCfg = typeof tableConifg;
@@ -32,10 +32,10 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
     tableCfg: ITableCfg = tableConifg;
     /** 是否正在加载 */
     isLoading: boolean;
+    /** 是否在加载分配数额 */
+    isLoadingAssignNumber: boolean;
     /** 是否处于编辑状态 */
     isEditing: boolean;
-    /** 当月名单总数 */
-    currentMounthTotalAccount: number;
     /** 提取名单数 */
     extractionListAccount: number;
     /** 提取规则展示 */
@@ -48,6 +48,10 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
     customerQueryReqDto: ICommon;
     /** 当日业务员已分配的历史总数 */
     historyDistributionNum: number;
+    /** 关闭tag，进行规制查询 */
+    closeTagLoadAssignNumber$: Subject<boolean> = new Subject<boolean>();
+    /** 缓存当前规则的源数据 */
+    cacheHistoryRuleValue: ICommon;
 
     constructor(
         private modalService: NzModalService,
@@ -56,16 +60,23 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
         private listManageService: ListManageService
     ) {
         this.isEditing = false;
-        this.currentMounthTotalAccount = 81576;
         this.extractionListAccount = 0;
         this.ruleList = [];
         this.totalNumber = 0;
         this.lastAssignNumber = 0;
         this.historyDistributionNum = 0;
+        this.isLoadingAssignNumber = false;
     }
 
     ngOnInit() {
         this.loadSalesmenDistributionInfoList();
+        merge(this.closeTagLoadAssignNumber$).pipe(
+            debounceTime(1000)
+        ).subscribe(res => {
+            if (res) {
+                this.loadTotalNumber(this.cacheHistoryRuleValue);
+            }
+        });
     }
 
     /**
@@ -90,8 +101,6 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
         });
     }
 
-
-
     /**
      * @callback
      * @desc 编辑提取规则
@@ -113,6 +122,7 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
             if (type === 'success') {
                 this.message.create('success', `编辑成功`);
                 this.ruleList = value;
+                this.cacheHistoryRuleValue = originValue;
 
                 this.loadTotalNumber(originValue);
             }
@@ -124,6 +134,7 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
      * @desc 加载符合条件的总数量
      */
     loadTotalNumber(originValue) {
+        this.isLoadingAssignNumber = true;
         const { firstRegisterDate: registerTime } = originValue;
         const params = {
             ...originValue,
@@ -140,6 +151,8 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
                 this.totalNumber = res;
                 this.lastAssignNumber = res;
             }
+
+            this.isLoadingAssignNumber = false;
         });
     }
 
@@ -185,7 +198,7 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
             } else if (rule.key === 'price') {
                 ruleForm.minPurchasePrice = String(rule.value[0]);
                 ruleForm.maxPurchasePrice = String(rule.value[1]);
-            } {
+            } else {
                 ruleForm[rule.key] = rule.value;
             }
         });
@@ -199,6 +212,7 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
      */
     deleteRuleItem(index: number) {
         this.ruleList.splice(index, 1);
+        this.closeTagLoadAssignNumber$.next(true);
     }
     
     /**
@@ -226,16 +240,23 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
             };
         });
         const params = {
-            ...this.customerQueryReqDto,
+            customerQueryReqDto: {
+                ...this.customerQueryReqDto
+            },
             distributionCustomerDtoList
         };
 
         this.listManageService.distributionCustomer(params).pipe(
             catchError(err => of(err))
         ).subscribe(res => {
-            this.message.success('分配成功');
+            if (!(res instanceof TypeError)) {
+                this.message.success('分配成功');
+                this.loadSalesmenDistributionInfoList();
+            }
         });
     }
 
-    ngOnDestroy() {}
+    ngOnDestroy() {
+        this.closeTagLoadAssignNumber$.unsubscribe();
+    }
 }

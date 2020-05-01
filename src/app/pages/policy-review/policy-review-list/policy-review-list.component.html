@@ -8,7 +8,7 @@
     </div>
     <div nz-row class="content">
         <div class="search-list-box">
-            <search-list [searchListModel]="searchListModel" [searchListItem]="searchListItem" (onSearch)="search()" (onReseat)="reseat()"></search-list>
+            <search-list [searchListLayout]="searchListLayout" [searchListModel]="searchListModel" [searchListItem]="searchListItem" (onSearch)="search()" (onReseat)="reseat()"></search-list>
         </div>
         <div class="search-list-table">
             <ng-container *ngIf="!isLoading; else skeleton">
@@ -22,16 +22,17 @@
                     </thead>
                     <tbody>
                       <tr *ngFor="let data of list.data">
-                        <td>{{data.insured || '--'}}</td>
-                        <td>{{data.plate || '--'}}</td>
-                        <td>{{data.outDocTypeName || '--'}}</td>
-                        <td>{{data.outConfirmTime || '--'}}</td>
-                        <td>{{data.companyName || '--'}}</td>
-                        <td>{{data.salesmanName || '--'}}</td>
-                        <td>{{data.submitTime || '--'}}</td>
-                        <td>{{data.outAuditStatusName || '--'}}</td>
-                        <td>{{data.receiptStatusName || '--'}}</td>
-                        <td>{{data.receiptTime || '--'}}</td>
+                        <td>{{data.carNo || '--'}}</td>
+                        <td>{{data.customerName || '--'}}</td>
+                        <td>{{data.vinNo || '--'}}</td>
+                        <td>{{data.brandName || '--'}}</td>
+                        <td>{{data.registerTimeFormat}}</td>
+                        <td>{{data.commercialEndTimeFormat}}</td>
+                        <td>{{data.compulsoryEndTimeFormat}}</td>
+                        <td>{{data.lastCompanyName || '--'}}</td>
+                        <td>{{data.renewalStateName || '--'}}</td>
+                        <td>{{data.userName || '--'}}</td>
+                        <td>{{data.updateTimeFormat}}</td>
                         <td>
                             <a (click)="audit(data)">审核</a>
                             <nz-divider nzType="vertical"></nz-divider>

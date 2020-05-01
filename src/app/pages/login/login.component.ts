@@ -33,6 +33,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     loginUserCache: ILoginUserCache;
     /** 键盘enter事件 */
     documentKeydownEvent$: Subscription;
+    /** 加载登录中 */
+    isLoading: boolean;
 
     constructor(
         private message: NzMessageService,
@@ -45,6 +47,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     ) {
         this.selectedIndex = 0;
         this.loginUserCache = this.readUserLoginCache();
+        this.isLoading = false;
     }
 
     ngOnInit() {
@@ -101,6 +104,8 @@ export class LoginComponent implements OnInit, OnDestroy {
                 username,
                 password
             };
+
+            this.isLoading = true;
             
             this.loginService.userSignIn(params).pipe(
                 catchError(err => of(err))
@@ -113,6 +118,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                     this.apiService.getUserProfile().pipe(
                         catchError(err => of(err))
                     ).subscribe(res => {
+                        this.isLoading = false;
                         const userInfo = res;
                         /** TODO 暂时写死！！ */
                         userInfo['roleCode'] = 'role_salesman';

@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { jackInTheBoxAnimation, jackInTheBoxOnEnterAnimation } from 'src/app/shared/animate/index';
 import { NzMessageService, NzModalService, NzModalRef } from 'ng-zorro-antd';
-import { ISalesman } from './list-recovery.component.config';
+import { ISalesman, IAssignMember } from './list-recovery.component.config';
 import { RuleFormModalComponent, IRuleFormCbVal, IDefaultRuleFormValueSourceItem } from '../modal/rule-form/rule-form-modal.component';
 import { defaultRuleForm, IRuleForm } from '../modal/rule-form/rule-form-modal.component.config';
 import { AssignFormModalComponent } from '../modal/assign-form/assign-form-modal.component';
 import { ApiService } from 'src/app/api/api.service';
-import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { catchError, debounceTime } from 'rxjs/operators';
+import { of, Subject, merge } from 'rxjs';
 import { ListManageService } from '../list-manage.service';
 
 interface ICommon {
@@ -26,6 +26,10 @@ interface ICommon {
 export class ListRecoveryComponent implements OnInit, OnDestroy {
     /** 业务员 */
     salesmanList: ISalesman[];
+    /** 业务员详情信息 */
+    assignMemberList: IAssignMember[];
+    /** 当日业务员已分配的历史总数 */
+    historyDistributionNum: number;
     /** 当前选中的业务员 */
     salesmenID: string;
     /** 名单数量 */
@@ -36,6 +40,10 @@ export class ListRecoveryComponent implements OnInit, OnDestroy {
     confirmModal: NzModalRef;
     /** 规则设置，原数据 */
     ruleOriginValue: ICommon;
+    /** 是否正在加载名单回收数 */
+    isLoadingListCount: boolean;
+    /** 关闭tag，进行规制查询 */
+    closeTagLoadAssignNumber$: Subject<boolean> = new Subject<boolean>();
 
     constructor(
         private message: NzMessageService,
@@ -44,12 +52,22 @@ export class ListRecoveryComponent implements OnInit, OnDestroy {
         private listManageService: ListManageService
     ) {
         this.salesmanList = [];
+        this.assignMemberList = [];
         this.listCount = 0;
         this.ruleList = [];
+        this.isLoadingListCount = false;
     }
 
     ngOnInit() {
         this.loadSalesMember();
+        this.loadSalesmenDistributionInfoList();
+        merge(this.closeTagLoadAssignNumber$).pipe(
+            debounceTime(1000)
+        ).subscribe(res => {
+            if (res) {
+                this.loadRecoveryNumber();
+            }
+        });
     }
 
     /**
@@ -65,6 +83,24 @@ export class ListRecoveryComponent implements OnInit, OnDestroy {
                     ...item,
                     value: item.id
                 }));
+            }
+        });
+    }
+
+    /**
+     * @func
+     * @desc 加载业务员贡献值信息
+     */
+    loadSalesmenDistributionInfoList() {
+        this.listManageService.querySalesmenDistributionInfo().pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            if (res instanceof Array) {
+                this.assignMemberList = res;
+                this.historyDistributionNum = res.reduce((pre, cur) => {
+                    pre = pre + cur.distributionNum;
+                    return pre;
+                }, 0);
             }
         });
     }
@@ -110,6 +146,12 @@ export class ListRecoveryComponent implements OnInit, OnDestroy {
      * @desc 加载名单回收数
      */
     loadRecoveryNumber() {
+        if (!this.salesmenID) {
+            this.message.warning('请选择业务员');
+            return;
+        }
+
+        this.isLoadingListCount = true;
         const { firstRegisterDate: registerTime } = this.ruleOriginValue;
         const params: any = {
             ...this.ruleOriginValue,
@@ -124,6 +166,8 @@ export class ListRecoveryComponent implements OnInit, OnDestroy {
             if (!(res instanceof TypeError)) {
                 this.listCount = res;
             }
+
+            this.isLoadingListCount = false;
         });
     }
 
@@ -148,7 +192,7 @@ export class ListRecoveryComponent implements OnInit, OnDestroy {
             } else if (rule.key === 'price') {
                 ruleForm.priceBegin = String(rule.value[0]);
                 ruleForm.priceEnd = String(rule.value[1]);
-            } {
+            } else {
                 ruleForm[rule.key] = rule.value;
             }
         });
@@ -161,11 +205,32 @@ export class ListRecoveryComponent implements OnInit, OnDestroy {
      * @desc 分配到原始库
      */
     recoveryToOriginDB() {
+        if (!this.ruleOriginValue) {
+            this.message.warning('请选择业务员,并设置回收规则，加载出回收名单数后才能进行回收');
+
+            return;
+        }
+
         this.confirmModal = this.modalService.confirm({
             nzTitle: '提示',
             nzContent: '您确认回收原始库吗？',
             nzOnOk: () => {
-                this.message.success('回收成功');
+                const params = {
+                    customerQueryReqDto: {
+                        ...this.ruleOriginValue
+                    },
+                    toOriginal: true,
+                    distributionCustomerDtoList: []
+                };
+
+                this.listManageService.distributionCustomer(params).pipe(
+                    catchError(err => of(err))
+                ).subscribe(res => {
+                    if (!(res instanceof TypeError)) {
+                        this.message.success('回收成功');
+                        this.loadSalesmenDistributionInfoList();
+                    }
+                });
             },
             nzOnCancel: () => {
                 this.message.info('您已取消回收操作');
@@ -178,11 +243,19 @@ export class ListRecoveryComponent implements OnInit, OnDestroy {
      * @desc 分配给业务员
      */
     assignToSaleman() {
+        if (!this.ruleOriginValue) {
+            this.message.warning('请选择业务员,并设置回收规则，加载出回收名单数后才能进行分配');
+
+            return;
+        }
+
         const modal = this.modalService.create({
             nzTitle: '重新分配',
             nzContent: AssignFormModalComponent,
             nzComponentParams: {
-                listCount: this.listCount
+                listCount: this.listCount,
+                assignMemberList: this.assignMemberList,
+                customerQueryReqDto: this.ruleOriginValue
             },
             nzWidth: 900,
             nzMaskClosable: false,
@@ -192,6 +265,7 @@ export class ListRecoveryComponent implements OnInit, OnDestroy {
         modal.afterClose.subscribe((res: string) => {
             if (res === 'success') {
                 this.message.create('success', `分配成功`);
+                this.loadSalesmenDistributionInfoList();
             }
         });
     }
@@ -202,7 +276,10 @@ export class ListRecoveryComponent implements OnInit, OnDestroy {
      */
     deleteRuleItem(index: number) {
         this.ruleList.splice(index, 1);
+        this.closeTagLoadAssignNumber$.next(true);
     }
 
-    ngOnDestroy() {}
+    ngOnDestroy() {
+        this.closeTagLoadAssignNumber$.unsubscribe();
+    }
 }

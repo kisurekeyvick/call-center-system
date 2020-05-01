@@ -158,13 +158,11 @@ export class RebateApplicationComponent implements OnInit, OnDestroy {
                 }));
                 this.rebateApplicationList = list.map(item => {
                     item['companyName'] = findValueName(insuranceCompanysList, item.companyCode);
-                    item['handleStateName'] = findValueName(rebateApplicationStatusList, item.handleState);
+                    item['orderStateName'] = findValueName(rebateApplicationStatusList, item.orderState);
                     item['userName'] = findValueName(salesmenList, item.userId);
                     item['carTypeCodeName'] = findValueName(carTypeList, item.carTypeCode);
                     return item;
                 });
-
-                console.log('列表数据', list);
 
                 this.pageInfo.total = total;
                 pageChangeType === 'pageSize' && (this.pageInfo.pageIndex = 1);

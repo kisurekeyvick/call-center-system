@@ -1,8 +1,16 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { NzModalRef } from 'ng-zorro-antd';
-import { tableConifg, ISalesman, salesmanlistValue } from './assign-form-modal.component.config';
+import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
+import { tableConifg, ISalesman } from './assign-form-modal.component.config';
+import { IAssignMember } from '../../list-recovery/list-recovery.component.config';
+import { ListManageService } from '../../list-manage.service';
+import { of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 type ITableCfg = typeof tableConifg;
+
+interface ICommon {
+    [key: string]: any;
+}
 
 @Component({
     selector: 'assign-form-modal',
@@ -10,36 +18,52 @@ type ITableCfg = typeof tableConifg;
     styleUrls: ['./assign-form-modal.component.scss']
 })
 export class AssignFormModalComponent implements OnInit, OnDestroy {
-    /** 业务员列表 */
-    salesmanList: ISalesman[];
     /** 是否正在加载 */
     isLoading: boolean;
     /** table列表配置 */
     tableCfg: ITableCfg = tableConifg;
+    /** 可分配总数 */
+    totalNumber: number = 0;
+    /** 剩余可分配的总数 */
+    lastAssignNumber: number;
 
     @Input() listCount: number = 0;
+    /** 业务员列表 */
+    @Input() assignMemberList: IAssignMember[] = [];
+    /** 规则设置缓存 */
+    @Input() customerQueryReqDto: ICommon;
 
     constructor(
-        private modal: NzModalRef
+        private modal: NzModalRef,
+        private listManageService: ListManageService,
+        private message: NzMessageService
     ) {
-        this.salesmanList = [];
+        this.isLoading = false;
     }
 
     ngOnInit() {
-        this.loadSalesmanList();
+        this.totalNumber = this.listCount;
     }
 
     /**
-     * @func
-     * @desc 加载业务员
+     * @callback
+     * @desc 分配发生改变
+     * @param assignMember 
      */
-    loadSalesmanList() {
-        this.isLoading = true;
+    distributionNumChange(assignMember: IAssignMember) {
+        /** 当次分配总量 = 数据总分配 - 今日历史已分配 */
+        const totalNumber = this.assignMemberList.reduce((pre: number, next: IAssignMember) => {
+            pre = pre + (next.distributionNum || 0);
+            return pre;
+        }, 0) - this.listCount;
 
-        setTimeout(() => {
-            this.salesmanList = salesmanlistValue();
-            this.isLoading = false;
-        }, 2000);
+        if (totalNumber > this.totalNumber) {
+            this.message.error('已超过可配置数额').onClose.subscribe(() => {
+                assignMember.distributionNum = 0;
+            });
+        } else if (totalNumber <= this.totalNumber) {
+            this.lastAssignNumber = this.totalNumber - totalNumber;
+        }
     }
 
     /**
@@ -55,7 +79,31 @@ export class AssignFormModalComponent implements OnInit, OnDestroy {
      * @desc 保存
      */
     save() {
-        this.modal.destroy('success');
+        this.isLoading = true;
+
+        const distributionCustomerDtoList = this.assignMemberList.map(member => {
+            return {
+                number: member.distributionNum,
+                userId: member.userId
+            };
+        });
+
+        const params = {
+            customerQueryReqDto: {
+                ...this.customerQueryReqDto
+            },
+            distributionCustomerDtoList
+        };
+
+        this.listManageService.distributionCustomer(params).pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            if (!(res instanceof TypeError)) {
+                this.modal.destroy('success');
+            }
+
+            this.isLoading = false;
+        });
     }
 
     ngOnDestroy() {}
