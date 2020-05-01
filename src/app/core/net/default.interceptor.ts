@@ -20,6 +20,7 @@ import { Observable, throwError, of } from 'rxjs';
 import { catchError, mergeMap } from 'rxjs/operators';
 import SessionStorageService from 'src/app/core/cache/session-storage';
 import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
+import { AppService } from 'src/app/app.service';
 
 interface IResponseBody {
     costTime: number;
@@ -38,7 +39,9 @@ export class DefaultInterceptor implements HttpInterceptor {
     constructor(
         private injector: Injector,
         private session: SessionStorageService,
-        private local: LocalStorageService) {
+        private local: LocalStorageService,
+        private appService: AppService
+        ) {
     }
 
     /** 白名单 */
@@ -86,7 +89,7 @@ export class DefaultInterceptor implements HttpInterceptor {
 
                     if (body) {
                         return of(event);
-                    } else if(!body && event.statusText === 'OK') {
+                    } else if (!body && event.statusText === 'OK') {
                         /** 此处用于处理一些添加，删除操作时候的处理 */
                         return of(event);
                     } else if (body && Number(body.statusCode) === 904 || Number(body.statusCode) === 8800111) {
@@ -107,9 +110,13 @@ export class DefaultInterceptor implements HttpInterceptor {
             case 401: // 未登录状态码
                 this.session.clear();
                 this.local.clear();
-                this.goTo('/login');
+                // this.goTo('/login');
+                this.appService.loginSubject.next({
+                    needLogin: true,
+                    url: '/login'
+                });
                 this.msg.error('用户未登录');
-                //return Observable.throw({ result: '用户未登录', validationErrors: null });
+                // return Observable.throw({ result: '用户未登录', validationErrors: null });
                 break;
             case 403:
             case 404:
