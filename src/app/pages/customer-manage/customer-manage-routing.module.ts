@@ -8,6 +8,7 @@ import { TrackingCustomerModalComponent } from './modal/tracking-customer-modal/
 import { CustomerImportModalComponent } from './modal/customer-import-modal/customer-import-modal.component';
 import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
 import { DefeatSubmitModalComponent } from './modal/defeat-submit-modal/defeat-submit-modal.component';
+import { TrackingSubmitModalComponent } from './modal/tracking-submit-modal/tracking-submit-modal.component';
 
 export const routedComponents = [
     CustomerListComponent,
@@ -17,7 +18,8 @@ export const routedComponents = [
     CustomerImportComponent,
     CustomerImportModalComponent,
     CustomerDetailComponent,
-    DefeatSubmitModalComponent
+    DefeatSubmitModalComponent,
+    TrackingSubmitModalComponent
 ];
 
 export const entriedComponents = [
@@ -25,7 +27,8 @@ export const entriedComponents = [
     TransferCustomerModalComponent,
     TrackingCustomerModalComponent,
     CustomerImportModalComponent,
-    DefeatSubmitModalComponent
+    DefeatSubmitModalComponent,
+    TrackingSubmitModalComponent
 ];
 
 const routes: Routes = [

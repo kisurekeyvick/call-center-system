@@ -10,7 +10,7 @@ import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { usageList, companyList } from './policy-review-detail.component.config';
-import { findValueName } from 'src/app/core/utils/function';
+import { findValueName, validPhoneValue } from 'src/app/core/utils/function';
 
 interface ICommon {
     [key: string]: any;
@@ -99,11 +99,11 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.validateForm = this.fb.group({
             /** 派送信息 */
-            receiptDate: [null],
-            receiptName: [null],
-            receiptPhone: [null],
-            sender: [null],
-            receiptRemarks: [null]
+            receiptDate: [null, [Validators.required]],
+            receiptName: [null, [Validators.required]],
+            receiptPhone: [null, [Validators.required, this.validPhone]],
+            sender: [null, [Validators.required]],
+            receiptRemarks: [null, [Validators.required]]
         });
 
         this.loadPolicyInfo();
@@ -200,6 +200,21 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
             /** 备注 */
             receiptRemarks
         });
+    }
+
+    /**
+     * @func
+     * @desc 验证手机
+     * @param control 
+     */
+    validPhone = (control: FormControl): { [s: string]: boolean } => {
+        if (!control.value) {
+            return { error: true, required: true };
+        } else if (!validPhoneValue(control.value)) {
+            return { confirm: true, error: true };
+        }
+
+        return {};
     }
 
     /**
@@ -305,7 +320,7 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
                     catchError(err => of(err))
                 ).subscribe(res => {
                     if (!(res instanceof TypeError)) {
-                        if (res.code === '5000') {
+                        if (res.code !== '200') {
                             this.message.warning(res.message);
                         } else {
                             this.message.create('success', '退单成功');

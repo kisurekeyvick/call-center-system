@@ -31,5 +31,13 @@
                 margin: 0 6px;
             }
         }
+
+        .operation-group {
+            position: fixed;
+            bottom: 20px;
+            width: calc(100% - 250px);
+            z-index: 999;
+            right: 30px;
+        }
     }
 }

@@ -8,8 +8,10 @@ import { ISourceCache, ICustomerItem, IDefeatReasonItem } from './customer-detai
 import { dictionary } from 'src/app/shared/dictionary/dictionary';
 import { CustomerService } from '../customer-manage.service';
 import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { DefeatSubmitModalComponent } from '../modal/defeat-submit-modal/defeat-submit-modal.component';
+import { validIDCardValue, validPhoneValue, validCarNoValue } from 'src/app/core/utils/function';
+import { TrackingSubmitModalComponent } from '../modal/tracking-submit-modal/tracking-submit-modal.component';
 
 interface ICommon {
     [key: string]: any;
@@ -43,6 +45,10 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
     currentCustomer: ICommon;
     /** 缓存接口加载出来的客户详情信息数据 */
     cacheCustomerInfo: ICommon;
+    /** 成功提交的subject */
+    successSubmitSubject$: Subject<boolean> = new Subject();
+    /** 当前的点击操作 */
+    currentAction: string;
 
     constructor(
         private modalService: NzModalService,
@@ -58,6 +64,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         };
         this.defeatReasonList = [];
         this.cacheCustomerInfo = {};
+        this.currentAction = '';
     }
 
     ngOnInit() {
@@ -66,13 +73,13 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         this.validateForm = this.fb.group({
             /** 客户信息 */
             customerName: [null, [Validators.required]],
-            idCard: [null, [Validators.required]],
-            customerPhone: [null, [Validators.required]],
+            idCard: [null, [Validators.required, this.validIDCard]],
+            customerPhone: [null, [Validators.required, this.validPhone]],
             otherContact: [null],
             customerAddress: [null],
             customerRemark: [null],
             /** 车辆信息 */
-            carNo: [null],
+            carNo: [null, [Validators.required, this.validCarNo]],
             brandName: [null],
             vinNo: [null],
             engineNo: [null],
@@ -108,6 +115,13 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         });
 
         this.loadDefeatReasonList();
+
+        /** 用于监听 是否能够成功提交 */
+        this.successSubmitSubject$.subscribe(res => {
+            if (res === true) {
+                this.successSubmitAction();
+            }
+        });
     }
 
     /**
@@ -140,6 +154,10 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                 console.log('res', res);
                 this.cacheCustomerInfo = res;
                 this.setFormGroupValue(res);
+            }
+
+            if (this.currentAction === 'successSubmit') {
+                this.successSubmitSubject$.next(true);
             }
         });
     }
@@ -280,6 +298,48 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
 
     /**
      * @func
+     * @desc 验证手机
+     */
+    validPhone = (control: FormControl): { [s: string]: boolean } => {
+        if (!control.value) {
+            return { error: true, required: true };
+        } else if (!validPhoneValue(control.value)) {
+            return { confirm: true, error: true };
+        }
+
+        return {};
+    }
+
+    /**
+     * @func
+     * @desc 验证身份证
+     */
+    validIDCard = (control: FormControl): { [s: string]: boolean } => {
+        if (!control.value) {
+            return { error: true, required: true };
+        } else if (!validIDCardValue(control.value)) {
+            return { confirm: true, error: true };
+        }
+
+        return {};
+    }
+
+    /**
+     * @func
+     * @desc 验证车牌号
+     */
+    validCarNo = (control: FormControl): { [s: string]: boolean } => {
+        if (!control.value) {
+            return { error: true, required: true };
+        } else if (!validCarNoValue(control.value)) {
+            return { confirm: true, error: true };
+        }
+
+        return {};
+    }
+
+    /**
+     * @func
      * @desc format将要保存的参数
      */
     formatRequestParams() {
@@ -322,9 +382,9 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
 
     /**
      * @callback
-     * @desc 保存信息
+     * @desc 
      */
-    submitForm() {
+    saveSubmit() {
         for (const i in this.validateForm.controls) {
             this.validateForm.controls[i].markAsDirty();
             this.validateForm.controls[i].updateValueAndValidity();
@@ -339,7 +399,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                 catchError(err => of(err))
             ).subscribe(res => {
                 if (!(res instanceof TypeError)) {
-                    this.message.success('保存成功');
+                    res && this.message.success('保存成功');
+                    this.sourceCache && this.showDetailForm(this.sourceCache.currentCustomer);
                 }
             });
         }
@@ -350,7 +411,24 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
      * @desc 跟踪提交
      */
     trackSubmit() {
+        const { customer } = this.cacheCustomerInfo;
+        const { customerId } = customer;
 
+        const modal = this.modalService.create({
+            nzTitle: '跟踪提交',
+            nzContent: TrackingSubmitModalComponent,
+            nzComponentParams: {
+                customerId
+            },
+            nzMaskClosable: false,
+            nzFooter: null
+        });
+
+        modal.afterClose.subscribe((res) => {
+            if (res === 'success') {
+                this.message.create('success', `提交成功`);
+            }
+        });
     }
 
     /**
@@ -358,7 +436,66 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
      * @desc 成功提交
      */
     successSubmit() {
+        /** this.currentAction 是一个标识，在loadDetailCustomerForm方法中会做判断，用于发送给subject */
+        this.currentAction = 'successSubmit';
+        this.saveSubmit();
+    }
 
+    /**
+     * @func
+     * @desc 该方法由successSubmitSubject来触发
+     *      之所以有successSubmitSubject，是因为每一次点击成功提交时候
+     *      需要保存一下，也就是调用saveSubmit方法
+     *      为了保证接口调用的先后顺序，所以这边的解决方案定为通过subject来实现。
+     */
+    successSubmitAction() {
+        const { customer } = this.cacheCustomerInfo;
+        const { customerId } = customer;
+        const params = {
+            operationCode: '3',
+            customerId
+        };
+
+        this.customerService.operationCustomer(params).pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            if (!(res instanceof TypeError)) {
+                /** 10086 代表超过默认折扣上限 */
+                if (res.code === '10086') {
+                    this.modalService.confirm({
+                        nzTitle: '提示',
+                        nzContent: res.message,
+                        nzOnOk: () => {
+                            this.secondSuccessSubmit(params);
+                        },
+                        nzOnCancel: () => {
+                            this.message.info('您已取消提交');
+                        }
+                    });
+                } else {
+                    this.message.success('提交成功');
+                }
+            }
+        });
+    }
+
+    /**
+     * @func
+     * @desc 确认后再次提交
+     */
+    secondSuccessSubmit(params) {
+        const requestParams = {
+            ...params,
+            confirm: true
+        };
+
+        this.customerService.operationCustomer(requestParams).pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            if (!(res instanceof TypeError)) {
+                res.result && this.message.success('提交成功');
+            }
+        });
     }
 
     /**
@@ -366,6 +503,9 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
      * @desc 失败提交
      */
     defeatSubmit() {
+        const { customer } = this.cacheCustomerInfo;
+        const { customerId } = customer;
+
         const modal = this.modalService.create({
             nzTitle: '失败提交',
             nzContent: DefeatSubmitModalComponent,
@@ -375,7 +515,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                     name: item.defeatReason,
                     value: item.id
                 })),
-                customerId: this.currentCustomer.id
+                customerId
             },
             nzMaskClosable: false,
             nzFooter: null
@@ -393,8 +533,24 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
      * @desc 无效提交
      */
     invalidSubmit() {
+        const { customer } = this.cacheCustomerInfo;
+        const { customerId } = customer;
 
+        const params = {
+            operationCode: '5',
+            customerId
+        };
+
+        this.customerService.operationCustomer(params).pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            if (!(res instanceof TypeError)) {
+                res.result && this.message.success('提交成功');
+            }
+        });
     }
 
-    ngOnDestroy() {}
+    ngOnDestroy() {
+        this.successSubmitSubject$.unsubscribe();
+    }
 }

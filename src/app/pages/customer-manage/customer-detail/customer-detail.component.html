@@ -28,13 +28,13 @@
             </ng-template>
         </div>
         <div class="customer-detail-form">
-            <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+            <form nz-form [formGroup]="validateForm">
                 <div nz-row>
                     <p class="title"><i nz-icon nzType="user" nzTheme="outline"></i>客户信息</p>
                     <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="8" nzGutter="24">
                         <nz-form-item class="nzFormItem">
                             <nz-form-label nz-col nzXs="8" nzRequired  nzFor="customerName" class="nzFormLabel">姓名</nz-form-label>
-                            <nz-form-control nz-col nzXs="16" class="nzFormControl">
+                            <nz-form-control nz-col nzXs="16" nzHasFeedback class="nzFormControl">
                                 <input nz-input placeholder="请输入姓名" id="customerName" formControlName="customerName"/>
                             </nz-form-control>
                         </nz-form-item>
@@ -42,17 +42,35 @@
                     <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="8" nzGutter="24">
                         <nz-form-item class="nzFormItem">
                             <nz-form-label nz-col nzXs="8" nzRequired  nzFor="idCard" class="nzFormLabel">身份证</nz-form-label>
-                            <nz-form-control nz-col nzXs="16" class="nzFormControl">
+                            <nz-form-control nz-col nzXs="16" nzHasFeedback class="nzFormControl" [nzErrorTip]="idCardErrorTpl">
                                 <input nz-input placeholder="请输入身份证" id="idCard" formControlName="idCard"/>
                             </nz-form-control>
+
+                            <ng-template #idCardErrorTpl let-control>
+                                <ng-container *ngIf="control.hasError('required')">
+                                    请输入身份证
+                                </ng-container>
+                                <ng-container *ngIf="control.hasError('confirm')">
+                                    请输入正确的身份证
+                                </ng-container>
+                            </ng-template>
                         </nz-form-item>
                     </div>
                     <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="8" nzGutter="24">
                         <nz-form-item class="nzFormItem">
                             <nz-form-label nz-col nzXs="8" nzRequired nzFor="customerPhone" class="nzFormLabel">联系电话</nz-form-label>
-                            <nz-form-control nz-col nzXs="16" class="nzFormControl">
+                            <nz-form-control nz-col nzXs="16" nzHasFeedback class="nzFormControl" [nzErrorTip]="phoneErrorTpl">
                                 <input nz-input placeholder="请输入姓名" id="customerPhone" formControlName="customerPhone"/>
                             </nz-form-control>
+
+                            <ng-template #phoneErrorTpl let-control>
+                                <ng-container *ngIf="control.hasError('required')">
+                                    请输入联系电话
+                                </ng-container>
+                                <ng-container *ngIf="control.hasError('confirm')">
+                                    请输入正确的联系电话
+                                </ng-container>
+                            </ng-template>
                         </nz-form-item>
                     </div>
                     <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="8" nzGutter="24">
@@ -89,9 +107,18 @@
                     <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="8" nzGutter="24">
                         <nz-form-item class="nzFormItem">
                             <nz-form-label nz-col nzXs="8" nzRequired  nzFor="carNo" class="nzFormLabel">车牌</nz-form-label>
-                            <nz-form-control nz-col nzXs="16" class="nzFormControl">
+                            <nz-form-control nz-col nzXs="16" nzHasFeedback class="nzFormControl" [nzErrorTip]="carNoErrorTpl">
                                 <input nz-input placeholder="请输入车牌" id="carNo" formControlName="carNo"/>
                             </nz-form-control>
+
+                            <ng-template #carNoErrorTpl let-control>
+                                <ng-container *ngIf="control.hasError('required')">
+                                    请输入联系电话
+                                </ng-container>
+                                <ng-container *ngIf="control.hasError('confirm')">
+                                    请输入正确的联系电话
+                                </ng-container>
+                            </ng-template>
                         </nz-form-item>
                     </div>
                     <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="8" nzGutter="24">
@@ -331,7 +358,7 @@
                         <nz-form-item class="nzFormItem">
                             <nz-form-label nz-col nzXs="8" nzRequired  nzFor="receiptDate" class="nzFormLabel">派送时间</nz-form-label>
                             <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                <nz-range-picker [nzFormat]="'yyyy-MM-dd HH:mm:ss'" id="receiptDate" formControlName="receiptDate"></nz-range-picker>
+                                <nz-date-picker [nzFormat]="'yyyy-MM-dd HH:mm:ss'" id="receiptDate" formControlName="receiptDate"></nz-date-picker>
                             </nz-form-control>
                         </nz-form-item>
                     </div>
@@ -371,7 +398,7 @@
                     </div>
                 </div>
                 <div class="modal-btn-group">
-                    <button nz-button [nzType]="'primary'">保存信息</button>
+                    <button nz-button [nzType]="'primary'" (click)="saveSubmit()">保存信息</button>
                     <button nz-button [nzType]="'primary'" (click)="trackSubmit()">跟踪提交</button>
                     <button nz-button [nzType]="'primary'" (click)="successSubmit()">成功提交</button>
                     <button nz-button [nzType]="'primary'" (click)="defeatSubmit()">失败提交</button>
