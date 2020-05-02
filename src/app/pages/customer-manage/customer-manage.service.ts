@@ -110,4 +110,14 @@ export class CustomerService {
     saveCustomer(params: ICommon): Observable<any> {
         return this.http.post(`api/customer/saveCustomer`, params);
     }
+
+    /** 礼品列表查询 */
+    queryGiftList(params: ICommon = {}): Observable<any> {
+        return this.http.post(`api/gift/queryAll`, params);
+    }
+
+    /** 查询导入数据状态 */
+    queryImportList(params: ICommon): Observable<any> {
+        return this.http.get(`api/customer/import-list`, { params });
+    }
 }

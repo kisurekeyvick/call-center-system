@@ -155,10 +155,24 @@ export class DefaultInterceptor implements HttpInterceptor {
 
         const tokenValue = this.local.get(LocalStorageItemName.TOKRN);
         const token = tokenValue && tokenValue['value'] || '';
-        const header = new HttpHeaders()
+
+        const sourceRequestHeader = req.headers;
+        let header = null;
+        if (sourceRequestHeader.get('Content-type') === 'undefined') {
+            header = new HttpHeaders()
+            .set('Accept', '*/*')
+            .set('Authorization', token);
+        } else {
+            header = new HttpHeaders()
             .set('Accept', '*/*') // application/json, text/javascript, */*; q=0.01
             .set('Content-type', 'application/json; charset=UTF-8')
             .set('Authorization', token);
+        }
+
+        // const header = new HttpHeaders()
+        //     .set('Accept', '*/*') // application/json, text/javascript, */*; q=0.01
+        //     .set('Content-type', 'application/json; charset=UTF-8')
+        //     .set('Authorization', token);
 
         const body = req.body;
         // const groupInfo = Object.assign({ groupId: null, groupType: null }, this.session.get('currentGroupInfo'));
@@ -167,11 +181,7 @@ export class DefaultInterceptor implements HttpInterceptor {
             url: url,
             // withCredentials: true,
             headers: header,
-            body: Object.assign({
-                // appCode: environment.appCode,
-                // groupId: groupInfo.groupId,
-                // groupType: groupInfo.groupType
-            }, body)
+            body: body
         });
         // const timeout = parseInt(req.params.get('timeout'), 0) || 10000;
         // eturn next.handle(newReq).timeout(timeout).pipe(

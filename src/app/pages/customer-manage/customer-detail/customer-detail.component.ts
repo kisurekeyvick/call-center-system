@@ -4,7 +4,7 @@ import { NzModalService, NzMessageService, NzModalRef } from 'ng-zorro-antd';
 import LocalStorageService from 'src/app/core/cache/local-storage';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
-import { ISourceCache, ICustomerItem, IDefeatReasonItem } from './customer-detail.component.config';
+import { ISourceCache, ICustomerItem, IDefeatReasonItem, IGiftItem } from './customer-detail.component.config';
 import { dictionary } from 'src/app/shared/dictionary/dictionary';
 import { CustomerService } from '../customer-manage.service';
 import { catchError } from 'rxjs/operators';
@@ -41,6 +41,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
     otherFormParams: ICommon;
     /** 战败原因 */
     defeatReasonList: IDefeatReasonItem[];
+    /** 赠品 */
+    giftList: IGiftItem[];
     /** 当前展示的客户 */
     currentCustomer: ICommon;
     /** 缓存接口加载出来的客户详情信息数据 */
@@ -63,6 +65,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             giftList: []
         };
         this.defeatReasonList = [];
+        this.giftList = [];
         this.cacheCustomerInfo = {};
         this.currentAction = '';
     }
@@ -103,6 +106,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             drivingPremium: [null],
             allowancePremium: [null],
             glassPremium: [null],
+            /** 赠品 */
+            giftId: [null], 
             /** 时间信息 */
             compulsoryTime: [null],
             commercialTime: [null],
@@ -115,6 +120,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         });
 
         this.loadDefeatReasonList();
+        this.loadGiftList();
 
         /** 用于监听 是否能够成功提交 */
         this.successSubmitSubject$.subscribe(res => {
@@ -183,7 +189,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             usage, purchasePrice, carTypeCode, receiptName, receiptPhone, sender, receiptRemarks,
             receiptDate } = customer;
         const { isDiscount, commercialSumPremium, compulsorySumPremium, taxActual, discount,
-            sumPremium, realSumPremium, drivingPremium, allowancePremium, glassPremium } = quoteInsurance;
+            sumPremium, realSumPremium, drivingPremium, allowancePremium, glassPremium, giftId } = quoteInsurance;
         this.validateForm.patchValue({
             /** 客户信息 */
             /** 姓名 */
@@ -244,6 +250,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             allowancePremium,
             /** 玻璃膜价格 */
             glassPremium,
+            /** 赠品 */
+            giftId,
 
             /** 时间信息 */
             /** 交强险时间 */
@@ -275,6 +283,24 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         ).subscribe(res => {
             if (res instanceof Array) {
                 this.defeatReasonList = res;
+            }
+        });
+    }
+
+    /**
+     * @func
+     * @desc 加载赠品列表数据
+     */
+    loadGiftList() {
+        this.customerService.queryGiftList().pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            if (res instanceof Array) {
+                this.giftList = res.map(gift => ({
+                    ...gift,
+                    name: gift.giftName,
+                    value: gift.id
+                }));
             }
         });
     }
@@ -352,7 +378,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             usage, carTypeCode, purchasePrice,
             /** 最终报价 */
             commercialSumPremium, isDiscount, discount, compulsorySumPremium, taxActual, sumPremium, realSumPremium,
-            drivingPremium, allowancePremium, glassPremium,
+            drivingPremium, allowancePremium, glassPremium, giftId,
             /** 时间信息 */
             compulsoryTime, commercialTime,
             /** 保单派送信息 */
@@ -363,6 +389,27 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         /** 交强险时间 */
         const [compulsoryStartTime = null, compulsoryEndTime = null] = compulsoryTime || [];
         const params = this.cacheCustomerInfo;
+
+        /** 赠品信息 */
+        const giftInfo = {
+            giftId: 0,
+            giftName: '',
+            giftNumber: 0,
+            giftPrice: 0,
+            giftTotalPrice: 0
+        };
+
+        if (giftId) {
+            const targetGift: IGiftItem = this.giftList.find(gift => gift.id === giftId);
+
+            Object.assign(giftInfo, {
+                giftId,
+                giftName: targetGift.name,
+                giftNumber: 1,
+                giftPrice: targetGift.giftPrice,
+                giftTotalPrice: targetGift.giftPrice,
+            });
+        }
         
         Object.assign(params.customer, {
             customerName, customerPhone, customerAddress, customerRemark, idCard, otherContact,
@@ -374,7 +421,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
 
         Object.assign(params.quoteInsurance, {
             isDiscount, commercialSumPremium, compulsorySumPremium, taxActual, discount,
-            sumPremium, realSumPremium, drivingPremium, allowancePremium, glassPremium
+            sumPremium, realSumPremium, drivingPremium, allowancePremium, glassPremium,
+            ...giftInfo
         });
 
         return params;

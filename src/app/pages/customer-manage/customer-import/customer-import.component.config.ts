@@ -2,13 +2,7 @@ export const tableConfig = {
     thead: [
         { name: '上传时间' },
         { name: '文件名称' },
-        { name: '上传成功/失败/总量' },
-        { name: '查询成功' },
-        { name: '只取到行驶本' },
-        { name: '查询失败' },
-        { name: '待处理' },
-        { name: '查询进度' },
-        { name: '重新查询' },
+        { name: '导入数据量' },
         { name: '操作' }
     ]
 };

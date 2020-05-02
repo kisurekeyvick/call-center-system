@@ -5,6 +5,7 @@ import { UploadChangeParam, UploadXHRArgs, UploadFile } from 'ng-zorro-antd/uplo
 import { of, interval } from 'rxjs';
 import { delay, catchError } from 'rxjs/operators';
 import { CustomerService } from '../../customer-manage.service';
+import { UtilsService } from 'src/app/core/utils/utils.service';
 
 @Component({
     selector: 'customer-import-modal',
@@ -18,7 +19,8 @@ export class CustomerImportModalComponent implements OnInit, OnDestroy {
     constructor(
         private modal: NzModalRef,
         private message: NzMessageService,
-        private customerService: CustomerService
+        private customerService: CustomerService,
+        private utilsService: UtilsService
     ) {
 
     }
@@ -60,7 +62,7 @@ export class CustomerImportModalComponent implements OnInit, OnDestroy {
      */
     customReq = (item: UploadXHRArgs) => {
         return of('1').pipe(
-            delay(2000)
+            delay(500)
         ).subscribe(() => {
             item.onSuccess('success', item.file, {});
         });
@@ -73,20 +75,26 @@ export class CustomerImportModalComponent implements OnInit, OnDestroy {
     uploadFile() {
         this.fileList.forEach((file: UploadFile) => {
             const formData = new FormData();
-            formData.append('file', file.originFileObj, file.name);
+            formData.append('file', file.originFileObj);
 
-            this.customerService.customerImport(formData).pipe(
+            const requestParams = {
+                httpMethod: 'POST',
+                httpUrl: 'api/customer/import',
+                requestParams: formData
+            };
+
+            this.utilsService.uploadFile(requestParams).pipe(
                 catchError(err => of(err))
             ).subscribe(res => {
-                this.message.success('附件上传成功');
+                if (!(res instanceof TypeError)) {
+                    this.modal.destroy('success');
+                }
             });
-
-            // const reader: FileReader = new FileReader();
-            // reader.onload = e => {
-            //     console.log('上传的附件', e);
-            // };
-
-            // reader.readAsBinaryString(file.originFileObj);
+            // this.customerService.customerImport(formData).pipe(
+            //     catchError(err => of(err))
+            // ).subscribe(res => {
+            //     this.message.success('附件上传成功');
+            // });
         });
     }
 

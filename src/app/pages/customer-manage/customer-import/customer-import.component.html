@@ -25,27 +25,17 @@
                     </thead>
                     <tbody>
                       <tr *ngFor="let data of list.data">
-                        <td>{{data.uploadTime}}</td>
+                        <td>{{data.createTime | date:'yyyy-MM-dd HH:mm:ss' }}</td>
                         <td>{{data.fileName}}</td>
                         <!--上传成功/失败/总量-->
-                        <td>{{data.totalCount - data.uploadFailCount}}/{{data.uploadFailCount}}/{{data.totalCount}}</td>
-                        <!--查询成功-->
-                        <td>{{data.querySuccessCount}}</td>
-                        <!--行驶本-->
-                        <td>{{data.queryDrivingCount}}</td>
-                        <!--查询失败-->
-                        <td>{{data.queryFailCount}}</td>
-                        <!--待处理-->
-                        <td>{{data.processingCount}}</td>
-                        <!--查询进度-->
-                        <td>{{data.progressShow}}</td>
-                        <td><a (click)="requeryCustomer(data)">重新查询</a></td>
+                        <td>{{data.number}}</td>
                         <td class="icon-operation">
-                            <i nz-icon nz-tooltip nzTooltipPlacement="bottom" nzTooltipTitle="查看详情" nzType="link" nzTheme="outline" (click)="customerDetail(data)"></i>
+                            --
+                            <!-- <i nz-icon nz-tooltip nzTooltipPlacement="bottom" nzTooltipTitle="查看详情" nzType="link" nzTheme="outline" (click)="customerDetail(data)"></i>
                             <nz-divider nzType="vertical"></nz-divider>
                             <i nz-icon nz-tooltip nzTooltipPlacement="bottom" nzTooltipTitle="下载" nzType="download" nzTheme="outline" (click)="downloadCustomer(data)"></i>
                             <nz-divider nzType="vertical"></nz-divider>
-                            <i nz-icon nz-tooltip nzTooltipPlacement="bottom" nzTooltipTitle="删除" nzType="delete" nzTheme="outline" (click)="deleteCustomer(data)"></i>
+                            <i nz-icon nz-tooltip nzTooltipPlacement="bottom" nzTooltipTitle="删除" nzType="delete" nzTheme="outline" (click)="deleteCustomer(data)"></i> -->
                         </td>
                       </tr>
                     </tbody>

@@ -14,3 +14,11 @@ export interface IDefeatReasonItem {
     isDelete?: string;
     [key: string]: any;
 }
+
+export interface IGiftItem {
+    id: number;
+    tenantCode: string;
+    giftName: string;
+    giftPrice: string;
+    [key: string]: any;
+}

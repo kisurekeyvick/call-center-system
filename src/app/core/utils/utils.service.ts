@@ -18,6 +18,12 @@ interface IDownloadFileParams {
     requestParams: ICommon;
 }
 
+interface IUploadFileParams {
+    httpMethod: string;
+    httpUrl: string;
+    requestParams: ICommon;
+}
+
 @Injectable()
 export class UtilsService {
     constructor(
@@ -56,6 +62,26 @@ export class UtilsService {
             }
 
             saveAs(res.body, decodeURI(fileName));
+        });
+    }
+
+    /**
+     * @func
+     * @desc 上传文件
+     */
+    uploadFile(parmas: IUploadFileParams) {
+        const { httpMethod, httpUrl, requestParams } = parmas;
+        const tokenValue = this.localCache.get(LocalStorageItemName.TOKRN);
+        const token = tokenValue && tokenValue['value'] || '';
+
+        const header = new HttpHeaders()
+            .set('Accept', '*/*')
+            .set('Content-type', 'undefined')
+            .set('Authorization', token);
+
+        return this.http.request(httpMethod, httpUrl, {
+            headers: header,
+            body: requestParams
         });
     }
 

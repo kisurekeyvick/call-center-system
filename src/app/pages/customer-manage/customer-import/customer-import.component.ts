@@ -5,6 +5,9 @@ import { NzModalService, NzMessageService, NzModalRef } from 'ng-zorro-antd';
 import { IPageChangeInfo, PaginationService } from 'src/app/shared/component/search-list-pagination/pagination';
 import { tableConfig, IData, listValue, IMessage } from './customer-import.component.config';
 import { CustomerImportModalComponent } from '../modal/customer-import-modal/customer-import-modal.component';
+import { CustomerService } from '../customer-manage.service';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 type ITableCfg = typeof tableConfig;
 type pageChangeType = 'pageIndex' | 'pageSize';
@@ -40,6 +43,7 @@ export class CustomerImportComponent implements OnInit, OnDestroy {
         private modalService: NzModalService,
         private message: NzMessageService,
         private router: Router,
+        private customerService: CustomerService
     ) {
         this.customerList = [];
         this.importMessage = {
@@ -47,7 +51,7 @@ export class CustomerImportComponent implements OnInit, OnDestroy {
             remain: 997
         };
         this.pageInfo = new PaginationService({
-            total: 200,
+            total: 0,
             pageSize: 10,
             pageIndex: 1
         });
@@ -68,29 +72,31 @@ export class CustomerImportComponent implements OnInit, OnDestroy {
 
     /**
      * @func
-     * @desc 加载员工列表
+     * @desc 加载导入数据情况
      */
     loadCustomerList(params: ICommon, pageChangeType?: pageChangeType) {
         this.isLoading = true;
-        
-        setTimeout(() => {
-            this.customerList = (listValue()).map((list: IData) => {
-                if (list.progress === 'Completed') {
-                    list.progressShow = '已完成(100%)';
-                } else if (list.progress === 'Executing') {
-                    const value = String((list.totalCount - list.pending) / list.totalCount).split('.')[0];
-                    list.progressShow = `已完成(${value}%)`;
-                } else {
-                    list.progressShow = '已完成(0%)';
-                }
-                return list;
-            });
+        const { pageIndex, pageSize } = this.pageInfo;
+        const requestParam = {
+            ...params,
+            basePageInfo: {
+                pageNum: pageIndex,
+                pageSize
+            }
+        };
+
+        this.customerService.queryImportList(requestParam).pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
             this.isLoading = false;
 
-            if (pageChangeType === 'pageSize') {
-                this.pageInfo.pageIndex = 1;
+            if (!(res instanceof TypeError)) {
+                const { list, total } = res;
+                this.customerList = list;
+                this.pageInfo.total = total;
+                pageChangeType === 'pageSize' && (this.pageInfo.pageIndex = 1);
             }
-        }, 2000);
+        });
     }
 
     /**
@@ -107,20 +113,11 @@ export class CustomerImportComponent implements OnInit, OnDestroy {
         });
 
         modal.afterClose.subscribe((res) => {
-            // if (res === 'success') {
-            //     this.message.create('success', `导入成功`);
-            //     this.search();
-            // }
+            if (res === 'success') {
+                this.message.create('success', `导入成功`);
+                this.search();
+            }
         });
-    }
-
-    /**
-     * @callback
-     * @desc 重新查询
-     * @param customer 
-     */
-    requeryCustomer(customer: IData) {
-
     }
 
     /**
