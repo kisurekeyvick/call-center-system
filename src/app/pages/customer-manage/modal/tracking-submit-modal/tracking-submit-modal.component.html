@@ -1,29 +1,32 @@
 <div class="tracking-submit-modal-container">
-    <div nz-row class="model-content">
-        <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
-            <div nz-row>
-                <div nz-row nz-col nzXs="24" nzGutter="24">
-                    <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="6" nzRequired nzFor="appointmentTime" class="nzFormLabel">预约时间</nz-form-label>
-                        <nz-form-control nz-col nzXs="18" class="nzFormControl" nzHasFeedback nzErrorTip="请选择预约时间">
-                            <nz-date-picker style="width: 100%;" [nzFormat]="'yyyy-MM-dd HH:mm:ss'" id="appointmentTime" formControlName="appointmentTime"></nz-date-picker>
-                        </nz-form-control>
-                    </nz-form-item>
-                    
-                    <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="6" nzRequired nzFor="appointmentLevel" class="nzFormLabel">预约级别</nz-form-label>
-                        <nz-form-control nz-col nzXs="18" nzHasFeedback class="nzFormControl" nzHasFeedback nzErrorTip="请选择预约级别">
-                            <nz-radio-group id="appointmentLevel" formControlName="appointmentLevel">
-                                <label nz-radio [nzValue]="level.value" *ngFor="let level of appointmentLevelList">{{ level.label }}</label>
-                            </nz-radio-group>
-                        </nz-form-control>
-                    </nz-form-item>
+    <nz-spin [nzSpinning]="isLoading" [nzIndicator]="indicatorTemplate">
+        <div nz-row class="model-content">
+            <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+                <div nz-row>
+                    <div nz-row nz-col nzXs="24" nzGutter="24">
+                        <nz-form-item class="nzFormItem">
+                            <nz-form-label nz-col nzXs="6" nzRequired nzFor="appointmentTime" class="nzFormLabel">预约时间</nz-form-label>
+                            <nz-form-control nz-col nzXs="18" class="nzFormControl" nzErrorTip="请选择预约时间">
+                                <nz-date-picker style="width: 100%;" [nzFormat]="'yyyy-MM-dd HH:mm:ss'" id="appointmentTime" formControlName="appointmentTime"></nz-date-picker>
+                            </nz-form-control>
+                        </nz-form-item>
+                        
+                        <nz-form-item class="nzFormItem">
+                            <nz-form-label nz-col nzXs="6" nzRequired nzFor="appointmentLevel" class="nzFormLabel">预约级别</nz-form-label>
+                            <nz-form-control nz-col nzXs="18" class="nzFormControl" nzErrorTip="请选择预约级别">
+                                <nz-radio-group id="appointmentLevel" formControlName="appointmentLevel">
+                                    <label nz-radio [nzValue]="level.value" *ngFor="let level of appointmentLevelList">{{ level.name }}</label>
+                                </nz-radio-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
                 </div>
-            </div>
-            <div class="modal-btn-group">
-                <button nz-button [nzType]="'default'" (click)="cancel()">取消</button>
-                <button nz-button [nzType]="'primary'">保存</button>
-            </div>
-        </form>
-    </div>
+                <div class="modal-btn-group">
+                    <button nz-button [nzType]="'default'" (click)="cancel()">取消</button>
+                    <button nz-button [nzType]="'primary'">保存</button>
+                </div>
+            </form>
+        </div>
+    </nz-spin>
+    <ng-template #indicatorTemplate><i nz-icon nzType="loading"></i></ng-template>
 </div>

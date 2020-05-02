@@ -17,6 +17,8 @@ export class TrackingSubmitModalComponent implements OnInit, OnDestroy {
     @Input() customerId: string;
     /** 预约级别 */
     appointmentLevelList: Array<{ name: string; value: string }>;
+    /** 加载中 */
+    isLoading = false;
 
     constructor(
         private modal: NzModalRef,
@@ -60,6 +62,7 @@ export class TrackingSubmitModalComponent implements OnInit, OnDestroy {
                 ...this.validateForm.value
             };
 
+            this.isLoading = true;
             this.customerService.operationCustomer(params).pipe(
                 catchError(err => of(err))
             ).subscribe(res => {
@@ -70,6 +73,8 @@ export class TrackingSubmitModalComponent implements OnInit, OnDestroy {
                         this.modal.destroy('success');
                     }
                 }
+
+                this.isLoading = false;
             });
         }
     }

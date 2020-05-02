@@ -16,7 +16,7 @@
         </div>
         <div class="search-list-table">
             <ng-container *ngIf="!isLoading; else skeleton">
-                <nz-table #list [nzData]="customerList" nzShowPagination="false">
+                <nz-table #list [nzData]="customerList" nzShowPagination="false" [nzScroll]="{ x: '1920px' }">
                     <thead>
                       <tr>
                         <!-- <th nzShowCheckbox

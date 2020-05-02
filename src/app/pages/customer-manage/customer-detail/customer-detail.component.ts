@@ -51,6 +51,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
     successSubmitSubject$: Subject<boolean> = new Subject();
     /** 当前的点击操作 */
     currentAction: string;
+    /** 加载中 */
+    isLoading: boolean;
 
     constructor(
         private modalService: NzModalService,
@@ -68,6 +70,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         this.giftList = [];
         this.cacheCustomerInfo = {};
         this.currentAction = '';
+        this.isLoading = false;
     }
 
     ngOnInit() {
@@ -153,11 +156,12 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             id: customer.id
         };
 
+        this.isLoading = true;
+
         this.customerService.queryCustomerDetail(params).pipe(
             catchError(err => of(err))
         ).subscribe(res => {
             if (!(res instanceof TypeError)) {
-                console.log('res', res);
                 this.cacheCustomerInfo = res;
                 this.setFormGroupValue(res);
             }
@@ -165,6 +169,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             if (this.currentAction === 'successSubmit') {
                 this.successSubmitSubject$.next(true);
             }
+
+            this.isLoading = false;
         });
     }
 
@@ -443,6 +449,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                 ...this.formatRequestParams()
             };
 
+            this.isLoading = true;
             this.customerService.saveCustomer(params).pipe(
                 catchError(err => of(err))
             ).subscribe(res => {
@@ -450,6 +457,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                     res && this.message.success('保存成功');
                     this.sourceCache && this.showDetailForm(this.sourceCache.currentCustomer);
                 }
+
+                this.isLoading = false;
             });
         }
     }
@@ -589,12 +598,15 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             customerId
         };
 
+        this.isLoading = true;
         this.customerService.operationCustomer(params).pipe(
             catchError(err => of(err))
         ).subscribe(res => {
             if (!(res instanceof TypeError)) {
                 res.result && this.message.success('提交成功');
             }
+
+            this.isLoading = false;
         });
     }
 

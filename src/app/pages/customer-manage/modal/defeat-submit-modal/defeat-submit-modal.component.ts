@@ -24,6 +24,8 @@ export class DefeatSubmitModalComponent implements OnInit, OnDestroy {
     @Input() defeatReasonList: IDefeatReasonItem[] = [];
     /** 客户id */
     @Input() customerId: string;
+    /** 加载中 */
+    isLoading = false;
 
     constructor(
         private modal: NzModalRef,
@@ -65,6 +67,7 @@ export class DefeatSubmitModalComponent implements OnInit, OnDestroy {
                 customerId: this.customerId
             };
     
+            this.isLoading = true;
             this.customerService.operationCustomer(params).pipe(
                 catchError(err => of(err))
             ).subscribe(res => {
@@ -76,6 +79,8 @@ export class DefeatSubmitModalComponent implements OnInit, OnDestroy {
                         this.message.create('error', message || '提交失败');
                     }
                 }
+
+                this.isLoading = false;
             });
         }
     }
