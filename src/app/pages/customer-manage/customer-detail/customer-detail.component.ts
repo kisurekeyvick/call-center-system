@@ -4,14 +4,15 @@ import { NzModalService, NzMessageService, NzModalRef } from 'ng-zorro-antd';
 import LocalStorageService from 'src/app/core/cache/local-storage';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
-import { ISourceCache, ICustomerItem, IDefeatReasonItem, IGiftItem } from './customer-detail.component.config';
+import { ISourceCache, ICustomerItem, IDefeatReasonItem, IGiftItem, insList } from './customer-detail.component.config';
 import { dictionary } from 'src/app/shared/dictionary/dictionary';
 import { CustomerService } from '../customer-manage.service';
-import { catchError } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
 import { DefeatSubmitModalComponent } from '../modal/defeat-submit-modal/defeat-submit-modal.component';
 import { validIDCardValue, validPhoneValue, validCarNoValue } from 'src/app/core/utils/function';
 import { TrackingSubmitModalComponent } from '../modal/tracking-submit-modal/tracking-submit-modal.component';
+import { Router, ActivatedRoute, ParamMap  } from '@angular/router';
 
 interface ICommon {
     [key: string]: any;
@@ -53,13 +54,21 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
     currentAction: string;
     /** 加载中 */
     isLoading: boolean;
+    /** 险种选中 */
+    setOfCheckedId = new Set<number>();
+    /** 险种的配置 */
+    insList = [...insList];
+    /** 表单的类型 */
+    formType: string;
 
     constructor(
         private modalService: NzModalService,
         private message: NzMessageService,
         private localCache: LocalStorageService,
         private fb: FormBuilder,
-        private customerService: CustomerService
+        private customerService: CustomerService,
+        private activatedRoute: ActivatedRoute,
+        private router: Router
     ) {
         const cache = this.localCache.get(LocalStorageItemName.CUSTOMERDETAIL);
         this.sourceCache = cache && cache.value || null;
@@ -68,13 +77,22 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         };
         this.defeatReasonList = [];
         this.giftList = [];
-        this.cacheCustomerInfo = {};
+        this.cacheCustomerInfo = {
+            customer: {},
+            quoteCommercialInsuranceDetailList: [],
+            quoteInsurance: {}
+        };
         this.currentAction = '';
         this.isLoading = false;
+        this.formType = 'add';
     }
 
     ngOnInit() {
-        this.sourceCache && this.showDetailForm(this.sourceCache.currentCustomer);
+        this.activatedRoute.params.subscribe(data => {
+            this.formType = data['type'];
+        });
+
+        (this.formType === 'detail') && this.sourceCache && this.showDetailForm(this.sourceCache.currentCustomer);
 
         this.validateForm = this.fb.group({
             /** 客户信息 */
@@ -188,12 +206,14 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
      * @param detailInfo 
      */
     setFormGroupValue(detailInfo) {
-        const { customer, quoteCommercialInsuranceDetailList, quoteInsurance } = detailInfo;
+        let { customer, quoteInsurance } = detailInfo;
+        !customer && (customer = {});
         const { customerName, customerPhone, customerAddress, customerRemark, idCard, otherContact,
             carNo, brandName, vinNo, engineNo, seatNumber, registerTime, lastCompanyCode,
             validityDate, commercialEndTime, commercialStartTime, compulsoryEndTime, compulsoryStartTime,
             usage, purchasePrice, carTypeCode, receiptName, receiptPhone, sender, receiptRemarks,
             receiptDate } = customer;
+        !quoteInsurance && (quoteInsurance = {});
         const { isDiscount, commercialSumPremium, compulsorySumPremium, taxActual, discount,
             sumPremium, realSumPremium, drivingPremium, allowancePremium, glassPremium, giftId } = quoteInsurance;
         this.validateForm.patchValue({
@@ -368,6 +388,20 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         }
 
         return {};
+    }
+
+    /**
+     * @callback
+     * @desc 险种的check状态
+     * @param id 
+     * @param checked 
+     */
+    onInsItemChecked(id: number, checked: boolean) {
+        if (checked) {
+            this.setOfCheckedId.add(id);
+        } else {
+            this.setOfCheckedId.delete(id);
+        }
     }
 
     /**
@@ -649,6 +683,41 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
 
             const target = this.sourceCache.customerListCache[index + 1];
             this.showDetailForm(target);
+        }
+    }
+
+    /**
+     * @callback
+     * @desc 新增客户
+     */
+    newCustomer() {
+        console.log('新增');
+
+        for (const i in this.validateForm.controls) {
+            this.validateForm.controls[i].markAsDirty();
+            this.validateForm.controls[i].updateValueAndValidity();
+        }
+  
+        if (this.validateForm.valid) {
+            const params = {
+                ...this.formatRequestParams()
+            };
+
+            this.isLoading = true;
+            this.customerService.saveCustomer(params).pipe(
+                catchError(err => of(err))
+            ).subscribe(res => {
+                if (!(res instanceof TypeError)) {
+                    if (res === true) {
+                        this.message.success('新增成功');
+                        this.router.navigate(['/customer/list']);
+                    } else {
+                        this.message.error('新增失败');
+                    }
+                }
+
+                this.isLoading = false;
+            });
         }
     }
 

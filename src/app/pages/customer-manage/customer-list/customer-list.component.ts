@@ -149,7 +149,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
                 this.customerList = list.map(item => {
                     const { commercialEndTime, compulsoryEndTime, registerTime, updateTime } = item;
                     item['renewalStateName'] = findValueName(renewalStateList, item['renewalState']);
-                    item['lastCompanyName'] = findValueName(companyList, item['lastCompanyCode'])
+                    item['lastCompanyName'] = findValueName(companyList, item['lastCompanyCode']);
                     item['commercialEndTimeFormat'] = commercialEndTime && dayjs(commercialEndTime).format('YYYY-MM-DD HH:mm:ss') || '--';
                     item['compulsoryEndTimeFormat'] = compulsoryEndTime && dayjs(compulsoryEndTime).format('YYYY-MM-DD HH:mm:ss') || '--';
                     item['registerTimeFormat'] = registerTime && dayjs(registerTime).format('YYYY-MM-DD HH:mm:ss') || '--';
@@ -257,6 +257,14 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
     /**
      * @callback
+     * @desc 添加客户
+     */
+    addCustomer() {
+        this.router.navigate(['/customer/list/', 'add']);
+    }
+
+    /**
+     * @callback
      * @desc 导入数据
      */
     // importCustomer() {
@@ -337,7 +345,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
         };
 
         this.localCache.set(LocalStorageItemName.CUSTOMERDETAIL, cache);
-        this.router.navigate(['/customer/list/detail']);
+        this.router.navigate(['/customer/list', 'detail']);
     }
 
     /**

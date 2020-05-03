@@ -8,7 +8,7 @@
         </nz-breadcrumb>
     </div>
     <div nz-row class="content">
-        <div class="slide-customer-list">
+        <div class="slide-customer-list" *ngIf="formType === 'detail'">
             <div class="customer-list-count">
                 <nz-tag [nzColor]="'blue'">共计{{ sourceCache ? sourceCache.customerListCache.length : '0' }}条数据</nz-tag>
             </div>
@@ -16,8 +16,7 @@
                 <div class="slide-customer-list-scroll">
                     <ng-container *ngFor="let customer of sourceCache.customerListCache">
                         <div [ngClass]="{'customer-simple-show': true, 'selected': customer.selected}" (click)="showDetailForm(customer)">
-                            <p class="customer-simple-show-top"><i nz-icon nzType="car" nzTheme="outline"></i><span class="plateNo">{{ customer.plateNo}}</span>-<span class="customerName">{{ customer.customerName }}</span></p>
-                            <p class="customer-simple-show-center">预计距离到期<span class="highlight">222</span>天</p>
+                            <p class="customer-simple-show-top"><i nz-icon nzType="car" nzTheme="outline"></i><span class="plateNo">{{ customer.carNo}}</span>-<span class="customerName">{{ customer.customerName }}</span></p>
                             <p class="customer-simple-show-bottom">{{ customer.brandName }}</p>
                         </div>
                     </ng-container>
@@ -204,101 +203,36 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzRequired  nzFor="purchasePrice" class="nzFormLabel">新车购置价</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-input-number style="width: 100%;" id="purchasePrice" [nzMin]="1" formControlName="purchasePrice" [nzStep]="0.000000001"></nz-input-number>
+                                    <nz-input-number style="width: 100%;" id="purchasePrice" [nzMin]="1" formControlName="purchasePrice" [nzStep]="1"></nz-input-number>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
                     </div>
-                    <div nz-row>
+                    <div nz-row class="ins-box">
                         <p class="title"><i nz-icon nzType="money-collect" nzTheme="outline"></i>车险选项</p>
-                        <div nz-row nz-col nzXs="24" nzSm="24" nzLg="24" nzXl="12" nzXXl="8" nzGutter="24">
-                            <nz-form-item class="nzFormItem">
-                                <nz-form-label nz-col nzXs="8" class="nzFormLabel">车辆损失险</nz-form-label>
-                                <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
-                        <div nz-row nz-col nzXs="24" nzSm="24" nzLg="24" nzXl="12" nzXXl="8" nzGutter="24">
-                            <nz-form-item class="nzFormItem">
-                                <nz-form-label nz-col nzXs="8" class="nzFormLabel">第三者责任险</nz-form-label>
-                                <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
-                        <div nz-row nz-col nzXs="24" nzSm="24" nzLg="24" nzXl="12" nzXXl="8" nzGutter="24">
-                            <nz-form-item class="nzFormItem">
-                                <nz-form-label nz-col nzXs="8" class="nzFormLabel">驾驶员座位险</nz-form-label>
-                                <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
-                        <div nz-row nz-col nzXs="24" nzSm="24" nzLg="24" nzXl="12" nzXXl="8" nzGutter="24">
-                            <nz-form-item class="nzFormItem">
-                                <nz-form-label nz-col nzXs="8" class="nzFormLabel">乘客座位险/座</nz-form-label>
-                                <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
-                        <div nz-row nz-col nzXs="24" nzSm="24" nzLg="24" nzXl="12" nzXXl="8" nzGutter="24">
-                            <nz-form-item class="nzFormItem">
-                                <nz-form-label nz-col nzXs="8" class="nzFormLabel">玻璃单独破碎险</nz-form-label>
-                                <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
-                        <div nz-row nz-col nzXs="24" nzSm="24" nzLg="24" nzXl="12" nzXXl="8" nzGutter="24">
-                            <nz-form-item class="nzFormItem">
-                                <nz-form-label nz-col nzXs="8" class="nzFormLabel">全车盗抢险</nz-form-label>
-                                <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
-                        <div nz-row nz-col nzXs="24" nzSm="24" nzLg="24" nzXl="12" nzXXl="8" nzGutter="24">
-                            <nz-form-item class="nzFormItem">
-                                <nz-form-label nz-col nzXs="8" class="nzFormLabel">自燃损失险</nz-form-label>
-                                <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
-                        <div nz-row nz-col nzXs="24" nzSm="24" nzLg="24" nzXl="12" nzXXl="8" nzGutter="24">
-                            <nz-form-item class="nzFormItem">
-                                <nz-form-label nz-col nzXs="8" class="nzFormLabel">车身划痕险</nz-form-label>
-                                <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
-                        <div nz-row nz-col nzXs="24" nzSm="24" nzLg="24" nzXl="12" nzXXl="8" nzGutter="24">
-                            <nz-form-item class="nzFormItem">
-                                <nz-form-label nz-col nzXs="8" class="nzFormLabel">涉水险</nz-form-label>
-                                <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
-                        <div nz-row nz-col nzXs="24" nzSm="24" nzLg="24" nzXl="12" nzXXl="8" nzGutter="24">
-                            <nz-form-item class="nzFormItem">
-                                <nz-form-label nz-col nzXs="8" class="nzFormLabel">无法找到第三方特约险</nz-form-label>
-                                <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
-                        <div nz-row nz-col nzXs="24" nzSm="24" nzLg="24" nzXl="12" nzXXl="8" nzGutter="24">
-                            <nz-form-item class="nzFormItem">
-                                <nz-form-label nz-col nzXs="8" class="nzFormLabel">不计免赔险</nz-form-label>
-                                <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
+                        <nz-table #list [nzData]="insList" nzShowPagination="false">
+                            <thead>
+                                <tr>
+                                    <th nzWidth="50px"></th>
+                                    <th>投保险种</th>
+                                    <th>保险金额/责任限额</th>
+                                    <th>不计免赔</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- <tr *ngFor="let data of list.data">
+                                    <td><label nz-checkbox name="hasCurrentIns" [(ngModel)]="data.value.hasCurrentIns"></label></td>
+                                    <td>{{ data.name }}</td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <ng-container *ngIf="data.hasCheckbox">
+                                            <label nz-checkbox name='hasCheckbox' [(ngModel)]="data.value.checked"></label>
+                                        </ng-container>
+                                    </td>
+                                </tr> -->
+                            </tbody>
+                        </nz-table>
                     </div>
                     <div nz-row>
                         <p class="title"><i nz-icon nzType="transaction" nzTheme="outline"></i>最终报价</p>
@@ -306,7 +240,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzRequired  nzFor="commercialSumPremium" class="nzFormLabel">商业险金额</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-input-number style="width: 100%;" id="commercialSumPremium" [nzMin]="0" formControlName="commercialSumPremium" [nzStep]="0.000000001"></nz-input-number>
+                                    <nz-input-number style="width: 100%;" id="commercialSumPremium" [nzMin]="0" formControlName="commercialSumPremium" [nzStep]="1"></nz-input-number>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -314,7 +248,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzRequired  nzFor="viDiscount" class="nzFormLabel">商业险折扣</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-input-number style="width: 100%;" id="viDiscount" [nzMin]="0" formControlName="viDiscount" [nzStep]="0.000000001"></nz-input-number>
+                                    <nz-input-number style="width: 100%;" id="viDiscount" [nzMin]="0" formControlName="viDiscount" [nzStep]="1"></nz-input-number>
                                 </nz-form-control>
                             </nz-form-item>
                         </div> -->
@@ -330,18 +264,17 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzRequired  nzFor="discount" class="nzFormLabel">优惠比例(%)</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-input-number style="width: 100%;" id="discount" formControlName="discount" [nzStep]="0.000000001"></nz-input-number>
+                                    <nz-input-number style="width: 100%;" id="discount" formControlName="discount" [nzStep]="1"></nz-input-number>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
                         <div nz-row nz-col nzXs="24" nzSm="24" nzLg="24" nzXl="12" nzXXl="8" nzGutter="24">
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzRequired  nzFor="compulsorySumPremium" class="nzFormLabel">
-                                    <!-- <label nz-checkbox id="clivtaFlag" formControlName="clivtaFlag"></label> -->
                                     交强险金额
                                 </nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-input-number style="width: 100%;" id="compulsorySumPremium" [nzMin]="0" formControlName="compulsorySumPremium" [nzStep]="0.000000001"></nz-input-number>
+                                    <nz-input-number style="width: 100%;" id="compulsorySumPremium" [nzMin]="0" formControlName="compulsorySumPremium" [nzStep]="1"></nz-input-number>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -352,7 +285,7 @@
                                     车船税
                                 </nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-input-number style="width: 100%;" id="taxActual" [nzMin]="0" formControlName="taxActual" [nzStep]="0.000000001"></nz-input-number>
+                                    <nz-input-number style="width: 100%;" id="taxActual" [nzMin]="0" formControlName="taxActual" [nzStep]="1"></nz-input-number>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -360,7 +293,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzRequired  nzFor="realSumPremium" class="nzFormLabel">实收金额</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-input-number style="width: 100%;" id="realSumPremium" [nzMin]="0" formControlName="realSumPremium" [nzStep]="0.000000001"></nz-input-number>
+                                    <nz-input-number style="width: 100%;" id="realSumPremium" [nzMin]="0" formControlName="realSumPremium" [nzStep]="1"></nz-input-number>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -368,7 +301,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzRequired  nzFor="drivingPremium" class="nzFormLabel">驾意险价格</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-input-number style="width: 100%;" id="drivingPremium" [nzMin]="0" formControlName="drivingPremium" [nzStep]="0.000000001"></nz-input-number>
+                                    <nz-input-number style="width: 100%;" id="drivingPremium" [nzMin]="0" formControlName="drivingPremium" [nzStep]="1"></nz-input-number>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -376,7 +309,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzRequired  nzFor="allowancePremium" class="nzFormLabel">津贴保价格</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-input-number style="width: 100%;" id="allowancePremium" [nzMin]="0" formControlName="allowancePremium" [nzStep]="0.000000001"></nz-input-number>
+                                    <nz-input-number style="width: 100%;" id="allowancePremium" [nzMin]="0" formControlName="allowancePremium" [nzStep]="1"></nz-input-number>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -384,7 +317,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzRequired  nzFor="glassPremium" class="nzFormLabel">玻璃膜价格</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-input-number style="width: 100%;" id="glassPremium" [nzMin]="0" formControlName="glassPremium" [nzStep]="0.000000001"></nz-input-number>
+                                    <nz-input-number style="width: 100%;" id="glassPremium" [nzMin]="0" formControlName="glassPremium" [nzStep]="1"></nz-input-number>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -393,7 +326,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzRequired  nzFor="giftId" class="nzFormLabel">赠送礼品</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-select nzShowSearch nzAllowClear id="giftId" nzPlaceHolder="请选择车辆种类" formControlName="giftId">
+                                    <nz-select nzShowSearch nzAllowClear id="giftId" nzPlaceHolder="请选择赠送礼品" formControlName="giftId">
                                         <nz-option *ngFor="let option of giftList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
                                     </nz-select>
                                 </nz-form-control>
@@ -403,7 +336,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzRequired  nzFor="sumPremium" class="nzFormLabel">开单保费</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-input-number style="width: 100%;" id="sumPremium" [nzMin]="0" formControlName="sumPremium" [nzStep]="0.000000001"></nz-input-number>
+                                    <nz-input-number style="width: 100%;" id="sumPremium" [nzMin]="0" formControlName="sumPremium" [nzStep]="1"></nz-input-number>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -472,12 +405,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-btn-group">
+                    <div class="modal-btn-group" *ngIf="formType === 'detail'">
                         <button nz-button [nzType]="'primary'" (click)="saveSubmit()">保存信息</button>
                         <button nz-button [nzType]="'primary'" (click)="trackSubmit()">跟踪提交</button>
                         <button nz-button [nzType]="'primary'" (click)="successSubmit()">成功提交</button>
                         <button nz-button [nzType]="'danger'" (click)="defeatSubmit()">失败提交</button>
                         <button nz-button [nzType]="'primary'" (click)="invalidSubmit()">无效名单</button>
+                    </div>
+                    <div class="modal-btn-group" *ngIf="formType === 'add'">
+                        <button nz-button [nzType]="'primary'" (click)="newCustomer()">新增</button>
                     </div>
                 </form>
             </nz-spin>

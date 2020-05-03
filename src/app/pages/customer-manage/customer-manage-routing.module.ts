@@ -52,10 +52,10 @@ const routes: Routes = [
         }
     },
     {
-        path: 'list/detail',
+        path: 'list/:type',
         component: CustomerDetailComponent,
         data: {
-            title: '客户详情'
+            title: '客户表单'
         }
     }
 ];
