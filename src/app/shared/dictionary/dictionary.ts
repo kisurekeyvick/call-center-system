@@ -193,9 +193,9 @@ export const dictionary = new Map([
             { name: '不计免赔险（新增设备险）', value: 'NewEquipmentCoverageRegardless' },
             { name: '不计免赔险', value: 'ExcludingDeductibleRiskRegardless' },
             
-            { name: '驾意险', value: 'driverAccidentRisk' },
-            { name: '津贴保', value: 'allowanceInsuranceRisk' },
-            { name: '玻璃膜价格', value: 'glassFilmPriceRisk' }
+            { name: '驾意险', value: 'DriverAccidentRisk' },
+            { name: '津贴保', value: 'GlassFilmPriceRisk' },
+            { name: '玻璃膜价格', value: 'GlassFilmPriceRisk' }
         ]
     ],
     [

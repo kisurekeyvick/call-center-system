@@ -114,6 +114,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             usage: [null],
             carTypeCode: [null],
             purchasePrice: [null],
+            /** 车险选项 */
             /** 最终报价 */
             commercialSumPremium: [null],
             isDiscount: [null],

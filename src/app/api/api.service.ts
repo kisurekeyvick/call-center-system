@@ -32,9 +32,8 @@ export class ApiService {
             return this.http.get(`api/role`, {}).pipe(
                 catchError(err => of(err)),
                 map(val => {
-                    const roleList: IRoleItem[] = roleValue();
-                    this.localCache.set(LocalStorageItemName.ROLEINFO, roleList);
-                    return roleList;
+                    this.localCache.set(LocalStorageItemName.ROLEINFO, val);
+                    return val;
                 })
             );
         }

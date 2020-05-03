@@ -110,6 +110,8 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.loginService.userSignIn(params).pipe(
                 catchError(err => of(err))
             ).subscribe(res => {
+                this.isLoading = false;
+
                 if (!(res instanceof TypeError)) {
                     this.saveUserLoginCache();
                     /** 缓存token */

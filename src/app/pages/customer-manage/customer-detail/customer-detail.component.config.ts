@@ -31,8 +31,8 @@ export const insList = [
         hasCheckbox: true,
         type: 'input',
         value: {
-            hasCurrentIns: false,
-            checked: false
+            CarDamageRiskHasCurrentIns: false,
+            CarDamageRiskChecked: false
         }
     },
     {
@@ -45,8 +45,8 @@ export const insList = [
             options: []
         },
         value: {
-            hasCurrentIns: false,
-            checked: false
+            ThirdPartyRiskHasCurrentIns: false,
+            ThirdPartyRiskChecked: false
         }
     },
     {
@@ -55,8 +55,8 @@ export const insList = [
         id: 3,
         hasCheckbox: true,
         value: {
-            hasCurrentIns: false,
-            checked: false
+            TheftProtectionRiskHasCurrentIns: false,
+            TheftProtectionRiskChecked: false
         }
     },
     {
@@ -65,8 +65,8 @@ export const insList = [
         id: 4,
         hasCheckbox: true,
         value: {
-            hasCurrentIns: false,
-            checked: false
+            DriverRiskHasCurrentIns: false,
+            DriverRiskChecked: false
         }
     },
     {
@@ -75,8 +75,8 @@ export const insList = [
         id: 5,
         hasCheckbox: true,
         value: {
-            hasCurrentIns: false,
-            checked: false
+            PassengerRiskHasCurrentIns: false,
+            PassengerRiskChecked: false
         }
     },
     {
@@ -85,8 +85,8 @@ export const insList = [
         id: 6,
         hasCheckbox: true,
         value: {
-            hasCurrentIns: false,
-            checked: false
+            ScratchRiskHasCurrentIns: false,
+            ScratchRiskChecked: false
         }
     },
     {
@@ -95,8 +95,8 @@ export const insList = [
         id: 7,
         hasCheckbox: false,
         value: {
-            hasCurrentIns: false,
-            checked: false
+            GlassRiskHasCurrentIns: false,
+            GlassRiskChecked: false
         }
     },
     {
@@ -105,8 +105,8 @@ export const insList = [
         id: 8,
         hasCheckbox: true,
         value: {
-            hasCurrentIns: false,
-            checked: false
+            BurningRiskHasCurrentIns: false,
+            BurningRiskChecked: false
         }
     },
     {
@@ -115,8 +115,8 @@ export const insList = [
         id: 9,
         hasCheckbox: true,
         value: {
-            hasCurrentIns: false,
-            checked: false
+            EngineWaterRiskHasCurrentIns: false,
+            EngineWaterRiskChecked: false
         }
     },
     {
@@ -125,8 +125,8 @@ export const insList = [
         id: 10,
         hasCheckbox: false,
         value: {
-            hasCurrentIns: false,
-            checked: false
+            NoThirdRiskHasCurrentIns: false,
+            NoThirdRiskChecked: false
         }
     },
     {
@@ -135,38 +135,38 @@ export const insList = [
         id: 11,
         hasCheckbox: true,
         value: {
-            hasCurrentIns: false,
-            checked: false
+            NewEquipmentCoverageHasCurrentIns: false,
+            NewEquipmentCoverageChecked: false
         }
     },
     {
         name: '驾意险',
-        code: 'driverAccidentRisk',
+        code: 'DriverAccidentRisk',
         id: 12,
         hasCheckbox: false,
         value: {
-            hasCurrentIns: false,
-            checked: false
+            DriverAccidentRiskHasCurrentIns: false,
+            DriverAccidentRiskChecked: false
         }
     },
     {
         name: '津贴保',
-        code: 'allowanceInsuranceRisk',
+        code: 'GlassFilmPriceRisk',
         id: 13,
         hasCheckbox: false,
         value: {
-            hasCurrentIns: false,
-            checked: false
+            GlassFilmPriceRiskHasCurrentIns: false,
+            GlassFilmPriceRiskChecked: false
         }
     },
     {
         name: '玻璃膜价格',
-        code: 'glassFilmPriceRisk',
+        code: 'GlassFilmPriceRisk',
         id: 14,
         hasCheckbox: false,
         value: {
-            hasCurrentIns: false,
-            checked: false
+            GlassFilmPriceRiskHasCurrentIns: false,
+            GlassFilmPriceRiskChecked: false
         }
     },
 ];
