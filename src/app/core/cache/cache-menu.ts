@@ -11,5 +11,7 @@ export enum LocalStorageItemName {
     /** token */
     TOKRN = 'TOKRN',
     /** 保单审核查看详情 */
-    POLICYREVIEW = 'POLICYREVIEW'
+    POLICYREVIEW = 'POLICYREVIEW',
+    /** 保单查询查看详情 */
+    SUCCESSSUBMITREVIEW = 'SUCCESSSUBMITREVIEW'
 }

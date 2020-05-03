@@ -4,7 +4,7 @@
     .small-operation-show {
         position: fixed;
         right: 50px;
-        top:25px;
+        top: 60px;
         z-index: 999;
         cursor: pointer;
 
@@ -16,7 +16,11 @@
             padding: 7px;
             border-radius: 50%;
             background-color: #ffd591;
-            color: #e409c8;
+            color: red;
+
+            &.small-operation-show-icon {
+                z-index: 999;
+            }
         }
 
         @-webkit-keyframes wateranimate {
@@ -43,8 +47,8 @@
         }			
         .container {
             position: relative;
-            width: 150px;
-            height: 150px;
+            width: 80px;
+            height: 80px;
         }			
         .water1 {
             -webkit-animation: wateranimate 12s 9s ease-out infinite;

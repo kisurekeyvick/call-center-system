@@ -1,0 +1,95 @@
+<div class="success-submit-detail" [@jackInTheBox] [@jackInTheBoxOnEnter]>
+    <div nz-row class="container-nav">
+        <nz-breadcrumb nz-page-header-breadcrumb>
+            <nz-breadcrumb-item><a class="route-link" routerLink="/home"><i nz-icon nzType="home" nzTheme="outline"></i>首页</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item>保单查询</nz-breadcrumb-item>
+            <nz-breadcrumb-item><a class="route-link" routerLink="/successSubmit/list">列表</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item>详情</nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </div>
+
+    <div nz-row class="content">
+        <div class="detail-box">
+            <div class="detail-item">
+                <p class="title">投保公司</p>
+                <div nz-row class="detail-item-content">
+                    <p nz-col nzXs="24" nzSm="12" nzMd="8">投保公司：{{ detailInfo.insCompany.companyName }}</p>
+                    <p nz-col nzXs="24" nzSm="12" nzMd="8">联系人：{{ detailInfo.insCompany.createUser }}</p>
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <p class="title">客户信息</p>
+                <div nz-row class="detail-item-content">
+                    <p nz-col nzXs="24" nzSm="12" nzMd="8">被保险人姓名：{{ detailInfo.customerInfo.customerName }}</p>
+                    <p nz-col nzXs="24" nzSm="12" nzMd="8">身份证号码：{{ detailInfo.customerInfo.idCard }}</p>
+                    <p nz-col nzXs="24" nzSm="12" nzMd="8">联系电话：{{ detailInfo.customerInfo.customerPhone }}</p>
+                    <p nz-col nzXs="24" nzSm="12" nzMd="8">被保险人地址：{{ detailInfo.customerInfo.customerAddress }}</p>
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <p class="title">投保车辆信息</p>
+                <div nz-row class="detail-item-content">
+                    <p nz-col nzXs="24" nzSm="12" nzMd="8">车牌号码：{{ detailInfo.carInfo.carNo }}</p>
+                    <p nz-col nzXs="24" nzSm="12" nzMd="8">厂牌型号：{{ detailInfo.carInfo.brandName }}</p>
+                    <p nz-col nzXs="24" nzSm="12" nzMd="8">核定座位：{{ detailInfo.carInfo.seatNumber }}</p>
+                    <p nz-col nzXs="24" nzSm="12" nzMd="8">初次登记：{{ detailInfo.carInfo.registerTime | date:'yyyy-MM-dd HH:mm:ss' }}</p>
+                    <p nz-col nzXs="24" nzSm="12" nzMd="8">使用性质：{{ detailInfo.carInfo.usageName }}</p>
+                    <p nz-col nzXs="24" nzSm="12" nzMd="8">车架号码：{{ detailInfo.carInfo.vinNo }}</p>
+                    <p nz-col nzXs="24" nzSm="12" nzMd="8">发动机号：{{ detailInfo.carInfo.engineNo }}</p>
+                    <p nz-col nzXs="24" nzSm="12" nzMd="8">新车购置价：{{ detailInfo.carInfo.purchasePrice }}</p>
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <p class="title">保险期间</p>
+                <div nz-row class="detail-item-content">
+                    <p nz-col nzXs="24" nzSm="12" nzMd="8">交强险自 {{ detailInfo.insTime.compulsoryStartTime | date:'yyyy-MM-dd HH:mm:ss' }} 起至 {{ detailInfo.insTime.compulsoryEndTime | date:'yyyy-MM-dd HH:mm:ss' }} 止</p>
+                    <p nz-col nzXs="24" nzSm="12" nzMd="8">商业险自 {{ detailInfo.insTime.commercialStartTime | date:'yyyy-MM-dd HH:mm:ss' }} 起至 {{ detailInfo.insTime.commercialEndTime | date:'yyyy-MM-dd HH:mm:ss' }} 止</p>
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <p class="title">投保险种</p>
+                <div>
+                    <nz-table #list [nzData]="detailInfo.insType" nzShowPagination="false"  [nzTotal]="detailInfo.insType.length">
+                        <thead>
+                            <tr>
+                                <th>投保险种</th>
+                                <th>保险金额/责任限额</th>
+                                <th>保费（元）</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of list.data">
+                                <td>{{data.name}}</td>
+                                <td>{{data.coverage}}</td>
+                                <td>{{data.payPremium}}</td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                </div>
+            </div>
+            
+            <div class="detail-item summation">
+                <p>保险费合计：{{ detailInfo.sumPremium }}元</p>
+            </div>
+
+            <div class="detail-item">
+                <p class="title">派送信息</p>
+                <div nz-row class="detail-item-content">
+                    <p nz-col nzXs="24" nzSm="12" nzMd="8">派送时间：{{ detailInfo.receiptInfo.receiptDate }}</p>
+                    <p nz-col nzXs="24" nzSm="12" nzMd="8">收件人：{{ detailInfo.receiptInfo.receiptName }}</p>
+                    <p nz-col nzXs="24" nzSm="12" nzMd="8">联系方式：{{ detailInfo.receiptInfo.receiptPhone }}</p>
+                    <p nz-col nzXs="24" nzSm="12" nzMd="8">寄件人：{{ detailInfo.receiptInfo.nzFormLabel }}</p>
+                    <p nz-col nzXs="24" nzSm="12" nzMd="8">备注：{{ detailInfo.receiptInfo.receiptRemarks }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-group operation-group">
+            <button nz-button nzType="default" (click)="back()">返回</button>
+        </div>
+    </div>
+</div>

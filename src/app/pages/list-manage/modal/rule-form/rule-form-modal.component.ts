@@ -22,7 +22,8 @@ export class RuleFormModalComponent implements OnInit, OnDestroy {
         isHighList: [{ name: '是', value: true }, { name:'否', value: false }],
         // isOnlyCompulsoryList: dictionary.get('isOnlyCompulsory'),
         insuranceCompanysList: dictionary.get('insuranceCompanys'),
-        ownerShipList: dictionary.get('category')
+        ownerShipList: dictionary.get('category'),
+        distributionList: [{ name: '已经分配', value: '1' }, { name: '未分配', value: '2' }]
     };
 
     @Input() ruleForm: IRuleForm = {...defaultRuleForm()};
@@ -71,6 +72,7 @@ export class RuleFormModalComponent implements OnInit, OnDestroy {
             carNo: [ruleForm.carNo || null, [this.validPlate]],
             /** 批次 */
             // remark: [ruleForm.remark || null],
+            isDistribution: [ruleForm.isDistribution || null]
         });
     }
 
@@ -132,6 +134,10 @@ export class RuleFormModalComponent implements OnInit, OnDestroy {
 
             if (target.key === 'isHigh') {
                 return this.formList.isHighList.find(list => list.value === value).name;
+            }
+
+            if (target.key === 'isDistribution') {
+                return this.formList.distributionList.find(list => list.value === value).name;
             }
 
             return value;

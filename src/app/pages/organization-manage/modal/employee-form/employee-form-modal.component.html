@@ -65,19 +65,6 @@
                         </nz-form-control>
                     </nz-form-item>
                 </div>
-                
-                <div nz-row nz-col nzXs="24" nzGutter="24">
-                    <nz-form-item class="nzFormItem">
-                        <nz-form-label class="nzFormLabel" nz-col nzXs="5" nzFor="departmentCode">所属部门</nz-form-label>
-                        <nz-form-control class="nzFormControl" nz-col nzXs="19">
-                            <nz-select nzShowSearch nzAllowClear id="departmentCode"
-                                formControlName="departmentCode" nzErrorTip="请选择所属部门"
-                                nzPlaceHolder="请选择所属部门" style="width: 100%;">
-                                <nz-option *ngFor="let option of departmentList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
-                            </nz-select>
-                        </nz-form-control>
-                    </nz-form-item>
-                </div>
 
                 <div nz-row nz-col nzXs="24" nzGutter="24">
                     <nz-form-item class="nzFormItem">

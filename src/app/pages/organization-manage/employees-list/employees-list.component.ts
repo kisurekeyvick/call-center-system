@@ -216,7 +216,12 @@ export class EmployeesListComponent implements OnInit, OnDestroy {
         this.organizationService.deleteUserInfo(params).pipe(
             catchError(err => of(err))
         ).subscribe(res => {
-            this.message.create('success', `删除成功`);
+            if (!(res instanceof TypeError)) {
+                this.message.create('success', `删除成功`);
+                this.search({
+                    pageIndex: 1
+                });
+            }
         });
     }
 

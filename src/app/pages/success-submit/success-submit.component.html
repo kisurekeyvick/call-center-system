@@ -3,16 +3,17 @@
         <nz-breadcrumb nz-page-header-breadcrumb>
             <nz-breadcrumb-item><a class="route-link" routerLink="/home"><i nz-icon nzType="home" nzTheme="outline"></i>首页</a></nz-breadcrumb-item>
             <nz-breadcrumb-item>保单查询</nz-breadcrumb-item>
+            <nz-breadcrumb-item>列表</nz-breadcrumb-item>
         </nz-breadcrumb>
     </div>
 
     <div nz-row class="content">
         <div class="search-list-box">
-            <search-list [searchListModel]="searchListModel" [searchListItem]="searchListItem" (onSearch)="search()" (onReseat)="reseat()"></search-list>
+            <search-list [searchListLayout]="searchListLayout" [searchListModel]="searchListModel" [searchListItem]="searchListItem" (onSearch)="search()" (onReseat)="reseat()"></search-list>
         </div>
         <div class="search-list-table">
             <ng-container *ngIf="!isLoading; else skeleton">
-                <nz-table #list [nzData]="successSubmitList" nzShowPagination="false">
+                <nz-table #list [nzData]="successSubmitList" nzShowPagination="false" [nzScroll]="{ x: '1920px' }">
                     <thead>
                       <tr>
                         <ng-container *ngFor="let th of tableCfg.thead">
@@ -22,17 +23,19 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let data of list.data">
-                            <td>{{ data.insured }}</td>
-                            <td>{{ data.plate }}</td>
-                            <td>{{ data.outDocTypeName }}</td>
-                            <td>{{ data.companyName }}</td>
-                            <td>{{ data.salesmanName }}</td>
-                            <td>{{ data.submitTime }}</td>
-                            <td>{{ data.outAuditStatusName }}</td>
-                            <td>{{ data.receiptStatusName }}</td>
-                            <td>{{ data.receiptTime }}</td>
+                            <td>{{data.carNo || '--'}}</td>
+                            <td>{{data.customerName || '--'}}</td>
+                            <td>{{data.vinNo || '--'}}</td>
+                            <td>{{data.brandName || '--'}}</td>
+                            <td>{{data.registerTimeFormat}}</td>
+                            <td>{{data.commercialEndTimeFormat}}</td>
+                            <td>{{data.compulsoryEndTimeFormat}}</td>
+                            <td>{{data.lastCompanyName || '--'}}</td>
+                            <td>{{data.renewalStateName || '--'}}</td>
+                            <td>{{data.userName || '--'}}</td>
+                            <td>{{data.updateTimeFormat}}</td>
                             <td>
-                                <a (click)="changeBelongs(data)">更改所属</a>
+                                <a (click)="showDetail(data)">查看</a>
                             </td>
                         </tr>
                     </tbody>

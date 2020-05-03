@@ -40,7 +40,7 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
     constructor(
         private appService: AppService,
         private router: Router,
-        private el:ElementRef,
+        private el: ElementRef,
         private apiService: ApiService
     ) {
         this.showDetail = false;
@@ -67,11 +67,11 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
 
     /**
      * @func
-     * @desc 初始化监听鼠标hover到class叫small-operation-show的容器事件
+     * @desc 初始化监听鼠标hover到class叫small-operation-show-icon的容器事件
      *      初始化监听dom点击事件隐藏详情
      */
     initToggleShowDetailEventListener() {
-        const dom = this.el.nativeElement.querySelector('.small-operation-show');
+        const dom = this.el.nativeElement.querySelector('.small-operation-show-icon');
         this.mouseHover$ = fromEvent(dom, 'click').subscribe(() => {
             this.showDetail = true;
         });

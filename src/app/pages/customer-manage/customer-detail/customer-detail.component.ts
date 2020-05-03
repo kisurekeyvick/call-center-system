@@ -454,8 +454,18 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                 catchError(err => of(err))
             ).subscribe(res => {
                 if (!(res instanceof TypeError)) {
-                    res && this.message.success('保存成功');
-                    this.sourceCache && this.showDetailForm(this.sourceCache.currentCustomer);
+                    if (res === true) {
+                        this.message.success('保存成功');
+                        console.log('hello kisure');
+                        /** 如果当前操作不是成功提交，则保存成功以后直接切换至下一个客户 */
+                        if (this.currentAction !== 'successSubmit') {
+                            this.switchToNextCustomer();
+                        } else {
+                            this.sourceCache && this.showDetailForm(this.sourceCache.currentCustomer);
+                        }
+                    } else {
+                        this.message.error('保存失败');
+                    }
                 }
 
                 this.isLoading = false;
@@ -484,6 +494,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         modal.afterClose.subscribe((res) => {
             if (res === 'success') {
                 this.message.create('success', `提交成功`);
+                this.switchToNextCustomer();
             }
         });
     }
@@ -550,7 +561,12 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             catchError(err => of(err))
         ).subscribe(res => {
             if (!(res instanceof TypeError)) {
-                res.result && this.message.success('提交成功');
+                if (res.code !== '200') {
+                    this.message.error(res.message);
+                } else {
+                    this.message.success('提交成功');
+                    this.switchToNextCustomer();
+                }
             }
         });
     }
@@ -581,6 +597,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         modal.afterClose.subscribe((res) => {
             if (res === 'success') {
                 this.message.create('success', `提交成功`);
+                this.switchToNextCustomer();
             }
         });
     }
@@ -603,11 +620,36 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             catchError(err => of(err))
         ).subscribe(res => {
             if (!(res instanceof TypeError)) {
-                res.result && this.message.success('提交成功');
+                if (res.code !== '200') {
+                    this.message.error(res.message);
+                } else {
+                    this.message.success('提交成功');
+                    this.switchToNextCustomer();
+                }
             }
 
             this.isLoading = false;
         });
+    }
+
+    /**
+     * @func
+     * @desc 切换至下一个客户
+     */
+    switchToNextCustomer() {
+        const index = this.sourceCache.customerListCache.findIndex((item: ICustomerItem) => {
+            return this.currentCustomer.id === item.id;
+        });
+
+        /** 如果index存在，并且index+1在整个cache的范围内，则可以切换至下一个客户 */
+        if (index > -1 && this.sourceCache.customerListCache.length >= index + 1) {
+            this.message.info('准备切换至下一个客户', {
+                nzDuration: 1500
+            });
+
+            const target = this.sourceCache.customerListCache[index + 1];
+            this.showDetailForm(target);
+        }
     }
 
     ngOnDestroy() {

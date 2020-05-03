@@ -68,7 +68,7 @@ export class TrackingSubmitModalComponent implements OnInit, OnDestroy {
             ).subscribe(res => {
                 if (!(res instanceof TypeError)) {
                     if (res.code !== '200') {
-                        this.message.warning(res.message);
+                        this.message.error(res.message);
                     } else {
                         this.modal.destroy('success');
                     }

@@ -123,6 +123,17 @@
                         </nz-form-control>
                     </nz-form-item>
                 </div>
+                <div nz-row nz-col nzXs="24" nzMd="12" nzGutter="24">
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label nz-col nzXs="6" nzFor="isDistribution" class="nzFormLabel">是否分配</nz-form-label>
+                        <nz-form-control nz-col nzXs="24" class="nzFormControl">
+                            <!-- <input nz-input id="isDistribution" placeholder="请输入车牌" formControlName="isDistribution"/> -->
+                            <nz-select nzShowSearch nzAllowClear id="isDistribution" nzPlaceHolder="请选择是否分配" formControlName="isDistribution">
+                                <nz-option *ngFor="let option of formList.distributionList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
             </div>
             <div class="modal-btn-group">
                 <button nz-button [nzType]="'default'" (click)="cancel()">取消</button>

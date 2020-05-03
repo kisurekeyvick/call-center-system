@@ -33,6 +33,8 @@ export interface IRuleForm {
     carNo: string;
     /** 批次 */
     // remark: string;
+    /** 是否分配 */
+    isDistribution: string;
     [key: string]: any;
 }
 
@@ -57,7 +59,8 @@ export const defaultRuleFormValueSource: IDefaultRuleFormValueSourceItem[] = [
     // { name: '保险到期', key: 'insuranceDueDate', value: [], formatValue: '' },
     { name: '上年保险公司', key: 'lastCompanyCode', value: '', formatValue: '' },
     { name: '车价', key: 'price', value: [], formatValue: '' },
-    { name: '车牌', key: 'carNo', value: '', formatValue: '' }
+    { name: '车牌', key: 'carNo', value: '', formatValue: '' },
+    { name: '是否分配', key: 'isDistribution', value: '', formatValue: '' }
 ];
 
 /** 整理默认数据源，变成IRuleForm的对象结构 */
@@ -87,5 +90,5 @@ export interface IRuleFormCbVal {
     value?: IDefaultRuleFormValueSourceItem[];
     originValue?: {
         [key: string]: any;
-    }
+    };
 }

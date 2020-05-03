@@ -1,0 +1,43 @@
+@import '../../../core/common/common.style.scss';
+
+.success-submit-detail {
+    @include listLayout;
+
+    .content {
+        .detail-box {
+            p.title {
+                background: #f0f2f5;
+                line-height: 40px;
+                padding: 0 12px;
+            }
+
+            .detail-item.summation {
+                p {
+                    text-align: center;
+                    line-height: 80px;
+                }
+            }
+
+            .detail-item-content {
+                padding: 0 12px;
+                margin-bottom: 24px;
+            }
+        }
+
+        .btn-group {
+            text-align: center;
+
+            button {
+                margin: 0 6px;
+            }
+        }
+
+        .operation-group {
+            position: fixed;
+            bottom: 20px;
+            width: calc(100% - 250px);
+            z-index: 999;
+            right: 30px;
+        }
+    }
+}

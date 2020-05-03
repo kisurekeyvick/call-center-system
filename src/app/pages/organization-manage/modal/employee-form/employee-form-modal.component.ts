@@ -38,7 +38,7 @@ export class EmployeeFormComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         const formModel = this.formModel;
-        const { name, accountStatus, phone, username, password, departmentCode, roleCode } = formModel;
+        const { name, accountStatus, phone, username, password, roleCode } = formModel;
 
         this.validateForm = this.fb.group({
             /** 姓名 */
@@ -51,8 +51,6 @@ export class EmployeeFormComponent implements OnInit, OnDestroy {
             username: [username, [Validators.required]],
             /** 密码 */
             password: [password, [Validators.required]],
-            /** 所属部门 */
-            departmentCode: [departmentCode],
             /** 角色 */
             roleCode: [roleCode, [Validators.required]],
         });

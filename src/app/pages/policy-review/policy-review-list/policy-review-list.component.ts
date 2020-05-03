@@ -146,7 +146,7 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
 
     }
 
-     /**
+    /**
      * @callback
      * @desc 展示详情信息
      * @param policyReviewItem 
