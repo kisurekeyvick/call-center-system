@@ -29,10 +29,11 @@ export const insList = [
         code: 'CarDamageRisk',
         id: 1,
         hasCheckbox: true,
-        type: 'input',
+        type: 'inputNumber',
         value: {
-            CarDamageRiskHasCurrentIns: false,
-            CarDamageRiskChecked: false
+            hasCurrentIns: false,
+            checked: false,
+            payPremium: null
         }
     },
     {
@@ -40,13 +41,16 @@ export const insList = [
         code: 'ThirdPartyRisk',
         id: 2,
         hasCheckbox: true,
-        type: 'select',
+        type: 'autocomplete',
         config: {
-            options: []
+            options: [
+                '5万', '10万', '15万', '20万', '30万', '50万', '100万', '150万', '200万', '250万', '300万', '500万'
+            ]
         },
         value: {
-            ThirdPartyRiskHasCurrentIns: false,
-            ThirdPartyRiskChecked: false
+            hasCurrentIns: false,
+            checked: false,
+            payPremium: null
         }
     },
     {
@@ -54,9 +58,11 @@ export const insList = [
         code: 'TheftProtectionRisk',
         id: 3,
         hasCheckbox: true,
+        type: 'inputNumber',
         value: {
-            TheftProtectionRiskHasCurrentIns: false,
-            TheftProtectionRiskChecked: false
+            hasCurrentIns: false,
+            checked: false,
+            payPremium: null
         }
     },
     {
@@ -64,9 +70,16 @@ export const insList = [
         code: 'DriverRisk',
         id: 4,
         hasCheckbox: true,
+        type: 'autocomplete',
+        config: {
+            options: [
+                '1万', '2万', '3万', '4万', '5万', '10万', '15万', '20万', '50万', '100万'
+            ]
+        },
         value: {
-            DriverRiskHasCurrentIns: false,
-            DriverRiskChecked: false
+            hasCurrentIns: false,
+            checked: false,
+            payPremium: null
         }
     },
     {
@@ -74,9 +87,16 @@ export const insList = [
         code: 'PassengerRisk',
         id: 5,
         hasCheckbox: true,
+        type: 'autocomplete',
+        config: {
+            options: [
+                '1万', '2万', '3万', '4万', '5万', '10万', '15万', '20万', '50万', '100万'
+            ]
+        },
         value: {
-            PassengerRiskHasCurrentIns: false,
-            PassengerRiskChecked: false
+            hasCurrentIns: false,
+            checked: false,
+            payPremium: null
         }
     },
     {
@@ -84,9 +104,16 @@ export const insList = [
         code: 'ScratchRisk',
         id: 6,
         hasCheckbox: true,
+        type: 'autocomplete',
+        config: {
+            options: [
+                '2000元', '5000元', '1万', '2万'
+            ]
+        },
         value: {
-            ScratchRiskHasCurrentIns: false,
-            ScratchRiskChecked: false
+            hasCurrentIns: false,
+            checked: false,
+            payPremium: null
         }
     },
     {
@@ -94,9 +121,17 @@ export const insList = [
         code: 'GlassRisk',
         id: 7,
         hasCheckbox: false,
+        type: 'select',
+        config: {
+            options: [
+                { name: '国产', value: '1' },
+                { name: '进口', value: '2' },
+            ]
+        },
         value: {
-            GlassRiskHasCurrentIns: false,
-            GlassRiskChecked: false
+            hasCurrentIns: false,
+            checked: false,
+            type: null
         }
     },
     {
@@ -104,9 +139,11 @@ export const insList = [
         code: 'BurningRisk',
         id: 8,
         hasCheckbox: true,
+        type: 'inputNumber',
         value: {
-            BurningRiskHasCurrentIns: false,
-            BurningRiskChecked: false
+            hasCurrentIns: false,
+            checked: false,
+            payPremium: null
         }
     },
     {
@@ -114,9 +151,11 @@ export const insList = [
         code: 'EngineWaterRisk',
         id: 9,
         hasCheckbox: true,
+        type: 'inputNumber',
         value: {
-            EngineWaterRiskHasCurrentIns: false,
-            EngineWaterRiskChecked: false
+            hasCurrentIns: false,
+            checked: false,
+            payPremium: null
         }
     },
     {
@@ -124,9 +163,11 @@ export const insList = [
         code: 'NoThirdRisk',
         id: 10,
         hasCheckbox: false,
+        type: 'inputNumber',
         value: {
-            NoThirdRiskHasCurrentIns: false,
-            NoThirdRiskChecked: false
+            hasCurrentIns: false,
+            checked: false,
+            payPremium: null
         }
     },
     {
@@ -134,9 +175,11 @@ export const insList = [
         code: 'NewEquipmentCoverage',
         id: 11,
         hasCheckbox: true,
+        type: 'inputNumber',
         value: {
-            NewEquipmentCoverageHasCurrentIns: false,
-            NewEquipmentCoverageChecked: false
+            hasCurrentIns: false,
+            checked: false,
+            payPremium: null
         }
     },
     {
@@ -144,9 +187,11 @@ export const insList = [
         code: 'DriverAccidentRisk',
         id: 12,
         hasCheckbox: false,
+        type: 'inputNumber',
         value: {
-            DriverAccidentRiskHasCurrentIns: false,
-            DriverAccidentRiskChecked: false
+            hasCurrentIns: false,
+            checked: false,
+            payPremium: null
         }
     },
     {
@@ -154,9 +199,11 @@ export const insList = [
         code: 'GlassFilmPriceRisk',
         id: 13,
         hasCheckbox: false,
+        type: 'inputNumber',
         value: {
-            GlassFilmPriceRiskHasCurrentIns: false,
-            GlassFilmPriceRiskChecked: false
+            hasCurrentIns: false,
+            checked: false,
+            payPremium: null
         }
     },
     {
@@ -164,9 +211,11 @@ export const insList = [
         code: 'GlassFilmPriceRisk',
         id: 14,
         hasCheckbox: false,
+        type: 'inputNumber',
         value: {
-            GlassFilmPriceRiskHasCurrentIns: false,
-            GlassFilmPriceRiskChecked: false
+            hasCurrentIns: false,
+            checked: false,
+            payPremium: null
         }
     },
 ];

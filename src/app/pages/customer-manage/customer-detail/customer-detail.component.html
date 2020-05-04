@@ -2,9 +2,14 @@
     <div nz-row class="container-nav">
         <nz-breadcrumb nz-page-header-breadcrumb>
             <nz-breadcrumb-item><a class="route-link" routerLink="/home"><i nz-icon nzType="home" nzTheme="outline"></i>首页</a></nz-breadcrumb-item>
-            <nz-breadcrumb-item>客户管理</nz-breadcrumb-item>
-            <nz-breadcrumb-item><a class="route-link" routerLink="/customer/list">客户列表</a></nz-breadcrumb-item>
-            <nz-breadcrumb-item>详情</nz-breadcrumb-item>
+            <ng-container *ngIf="pageOrigin === 'layout/operation'; else commonTpl">
+                <nz-breadcrumb-item>详情</nz-breadcrumb-item>
+            </ng-container>
+            <ng-template #commonTpl>
+                <nz-breadcrumb-item>客户管理</nz-breadcrumb-item>
+                <nz-breadcrumb-item><a class="route-link" routerLink="/customer/list">客户列表</a></nz-breadcrumb-item>
+                <nz-breadcrumb-item>详情</nz-breadcrumb-item>
+            </ng-template>
         </nz-breadcrumb>
     </div>
     <div nz-row class="content">
@@ -210,29 +215,7 @@
                     </div>
                     <div nz-row class="ins-box">
                         <p class="title"><i nz-icon nzType="money-collect" nzTheme="outline"></i>车险选项</p>
-                        <nz-table #list [nzData]="insList" nzShowPagination="false">
-                            <thead>
-                                <tr>
-                                    <th nzWidth="50px"></th>
-                                    <th>投保险种</th>
-                                    <th>保险金额/责任限额</th>
-                                    <th>不计免赔</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- <tr *ngFor="let data of list.data">
-                                    <td><label nz-checkbox name="hasCurrentIns" formControlName="data.value.CarDamageRiskHasCurrentIns"></label></td>
-                                    <td>{{ data.name }}</td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                        <ng-container *ngIf="data.hasCheckbox">
-                                            <label nz-checkbox name='hasCheckbox' [(ngModel)]="data.value.checked"></label>
-                                        </ng-container>
-                                    </td>
-                                </tr> -->
-                            </tbody>
-                        </nz-table>
+                        <customer-detail-insurance [insList]="insList"></customer-detail-insurance>
                     </div>
                     <div nz-row>
                         <p class="title"><i nz-icon nzType="transaction" nzTheme="outline"></i>最终报价</p>

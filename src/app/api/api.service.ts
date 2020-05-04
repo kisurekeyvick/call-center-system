@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
 import LocalStorageService from 'src/app/core/cache/local-storage';
-import { IRoleItem, roleValue } from 'src/app/api/api.mock';
+import { IRoleItem } from 'src/app/api/api.mock';
 
 interface ICommon {
     [key: string]: any;

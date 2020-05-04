@@ -15,7 +15,7 @@
                     <div class="trackingList-box" *ngIf="selectedIndex === 0">
                         <nz-table #list [nzSize]="'small'" [nzData]="trackingList" [nzShowPagination]="false" [nzFrontPagination]="false" [nzTotal]="trackingList.length">
                             <tbody>
-                              <tr *ngFor="let data of list.data; let i = index" class="follow-item" (click)="customerDetail(data)">
+                              <tr *ngFor="let data of list.data; let i = index" class="follow-item" (click)="customerDetail(data, trackingList)">
                                 <td>{{i + 1}}</td>
                                 <td>{{data.customerName}}</td>
                                 <td>{{data.carNo}}</td>
@@ -30,7 +30,7 @@
                     <div class="firstCallList-box" *ngIf="selectedIndex === 1">
                         <nz-table #list [nzSize]="'small'" [nzData]="firstCallList" [nzShowPagination]="false" [nzFrontPagination]="false" [nzTotal]="trackingList.length">
                             <tbody>
-                              <tr *ngFor="let data of list.data; let i = index" class="follow-item" (click)="customerDetail(data)">
+                              <tr *ngFor="let data of list.data; let i = index" class="follow-item" (click)="customerDetail(data, firstCallList)">
                                 <td>{{i + 1}}</td>
                                 <td>{{data.customerName}}</td>
                                 <td>{{data.carNo}}</td>

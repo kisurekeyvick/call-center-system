@@ -60,6 +60,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
     insList = [...insList];
     /** 表单的类型 */
     formType: string;
+    /** 来源 */
+    pageOrigin: string;
 
     constructor(
         private modalService: NzModalService,
@@ -72,6 +74,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
     ) {
         const cache = this.localCache.get(LocalStorageItemName.CUSTOMERDETAIL);
         this.sourceCache = cache && cache.value || null;
+        this.pageOrigin = cache && cache.value && cache.value.originPage || '';
         this.otherFormParams = {
             giftList: []
         };
@@ -114,7 +117,9 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             usage: [null],
             carTypeCode: [null],
             purchasePrice: [null],
-            /** 车险选项 */
+            /** 车险选项 start */
+
+            /** 车险选项 end */
             /** 最终报价 */
             commercialSumPremium: [null],
             isDiscount: [null],

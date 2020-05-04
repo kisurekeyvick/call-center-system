@@ -9,6 +9,7 @@ import { CustomerImportModalComponent } from './modal/customer-import-modal/cust
 import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
 import { DefeatSubmitModalComponent } from './modal/defeat-submit-modal/defeat-submit-modal.component';
 import { TrackingSubmitModalComponent } from './modal/tracking-submit-modal/tracking-submit-modal.component';
+import { CustomerDetailInsuranceComponent } from './customer-detail-insurance/customer-detail-insurance.component';
 
 export const routedComponents = [
     CustomerListComponent,
@@ -19,7 +20,8 @@ export const routedComponents = [
     CustomerImportModalComponent,
     CustomerDetailComponent,
     DefeatSubmitModalComponent,
-    TrackingSubmitModalComponent
+    TrackingSubmitModalComponent,
+    CustomerDetailInsuranceComponent
 ];
 
 export const entriedComponents = [
@@ -28,7 +30,8 @@ export const entriedComponents = [
     TrackingCustomerModalComponent,
     CustomerImportModalComponent,
     DefeatSubmitModalComponent,
-    TrackingSubmitModalComponent
+    TrackingSubmitModalComponent,
+    CustomerDetailInsuranceComponent
 ];
 
 const routes: Routes = [

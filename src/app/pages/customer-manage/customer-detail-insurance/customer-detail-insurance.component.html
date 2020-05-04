@@ -1,0 +1,39 @@
+<div class="customer-detail-insurance-container">
+    <nz-table #list [nzData]="insList" nzShowPagination="false">
+        <thead>
+            <tr>
+                <th nzWidth="50px"></th>
+                <th>投保险种</th>
+                <th>保险金额/责任限额</th>
+                <th>不计免赔</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of list.data; let i = index">
+                <td><label nz-checkbox name="hasCurrentIns" [(ngModel)]="data.value.hasCurrentIns"></label></td>
+                <td>{{ data.name }}</td>
+                <td>
+                    <ng-container [ngSwitch]="data.type">
+                        <ng-container *ngSwitchCase="'inputNumber'">
+                            <nz-input-number style="width: 100%" nzPlaceHolder="请输入" [(ngModel)]="data.value.payPremium" [name]="data.code"></nz-input-number>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'autocomplete'">
+                            <input nz-input [(ngModel)]="data.value.payPremium" placeholder="请输入或选择" [nzAutocomplete]="auto" [name]="data.code + 'payPremium'"/>
+                            <nz-autocomplete [nzDataSource]="data.config.options" #auto></nz-autocomplete>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'select'">
+                            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="请选择" [(ngModel)]="data.value.type" [name]="data.code + i">
+                                <nz-option *ngFor="let option of data.config.options" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
+                            </nz-select>
+                        </ng-container>
+                    </ng-container>
+                </td>
+                <td>
+                    <ng-container *ngIf="data.hasCheckbox">
+                        <label nz-checkbox name='hasCheckbox' [(ngModel)]="data.value.checked"></label>
+                    </ng-container>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</div>

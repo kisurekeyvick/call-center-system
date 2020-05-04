@@ -6,6 +6,8 @@ import { Observable, interval, Subscription, fromEvent, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { debounceTime, catchError } from 'rxjs/operators';
 import { ApiService } from 'src/app/api/api.service';
+import LocalStorageService from 'src/app/core/cache/local-storage';
+import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
 
 interface ICommon {
     [key: string]: any;
@@ -41,7 +43,8 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
         private appService: AppService,
         private router: Router,
         private el: ElementRef,
-        private apiService: ApiService
+        private apiService: ApiService,
+        private localCache: LocalStorageService
     ) {
         this.showDetail = false;
         this.trackingList = [];
@@ -173,8 +176,15 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
      * @desc 客户详情
      * @param trackItem 
      */
-    customerDetail(trackItem: ITrackingListItem) {
+    customerDetail(item: ITrackingListItem, source: any[]) {
+        const cache = {
+            originPage: 'layout/operation',
+            customerListCache: source,
+            currentCustomer: item
+        };
 
+        this.localCache.set(LocalStorageItemName.CUSTOMERDETAIL, cache);
+        this.router.navigate(['/customer/list', 'detail']);
     }
 
     ngOnDestroy() {
