@@ -184,10 +184,10 @@ export const insList: IInsList[] = [
         }
     },
     {
-        name: '驾意险',
-        code: 'DriverAccidentRisk',
-        id: 12,
-        hasCheckbox: false,
+        name: '不急免赔险',
+        code: 'ExcludingDeductibleRiskRegardless',
+        id: 11,
+        hasCheckbox: true,
         type: 'text',
         value: {
             hasCurrentIns: false,
@@ -196,30 +196,43 @@ export const insList: IInsList[] = [
             payPremium: null
         }
     },
-    {
-        name: '津贴保',
-        code: 'GlassFilmPriceRisk',
-        id: 13,
-        hasCheckbox: false,
-        type: 'text',
-        value: {
-            hasCurrentIns: false,
-            checked: false,
-            coverageValue: '',
-            payPremium: null
-        }
-    },
-    {
-        name: '玻璃膜价格',
-        code: 'GlassFilmPriceRisk',
-        id: 14,
-        hasCheckbox: false,
-        type: 'text',
-        value: {
-            hasCurrentIns: false,
-            checked: false,
-            coverageValue: '',
-            payPremium: null
-        }
-    },
+    // {
+    //     name: '驾意险',
+    //     code: 'DriverAccidentRisk',
+    //     id: 12,
+    //     hasCheckbox: false,
+    //     type: 'text',
+    //     value: {
+    //         hasCurrentIns: false,
+    //         checked: false,
+    //         coverageValue: '',
+    //         payPremium: null
+    //     }
+    // },
+    // {
+    //     name: '津贴保',
+    //     code: 'GlassFilmPriceRisk',
+    //     id: 13,
+    //     hasCheckbox: false,
+    //     type: 'text',
+    //     value: {
+    //         hasCurrentIns: false,
+    //         checked: false,
+    //         coverageValue: '',
+    //         payPremium: null
+    //     }
+    // },
+    // {
+    //     name: '玻璃膜价格',
+    //     code: 'GlassFilmPriceRisk',
+    //     id: 14,
+    //     hasCheckbox: false,
+    //     type: 'text',
+    //     value: {
+    //         hasCurrentIns: false,
+    //         checked: false,
+    //         coverageValue: '',
+    //         payPremium: null
+    //     }
+    // },
 ];

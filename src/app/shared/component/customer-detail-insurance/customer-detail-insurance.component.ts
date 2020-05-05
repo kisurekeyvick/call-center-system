@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
     selector: 'customer-detail-insurance',
@@ -8,12 +8,22 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 export class CustomerDetailInsuranceComponent implements OnInit, OnDestroy {
     @Input() insList: any[] = [];
 
+    @Output() onPayPremiumChange: EventEmitter<any> = new EventEmitter<any>();
+
     constructor() {
 
     }
 
     ngOnInit() {
 
+    }
+
+    /**
+     * @callback
+     * @desc 保费发生变化
+     */
+    payPremiumChange() {
+        this.onPayPremiumChange.emit();
     }
 
     ngOnDestroy() {}

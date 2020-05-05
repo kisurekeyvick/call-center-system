@@ -33,7 +33,7 @@
                     </ng-container>
                 </td>
                 <td>
-                    <nz-input-number style="width: 100%" nzPlaceHolder="请输入" [(ngModel)]="data.value.payPremium" [name]="data.code + 'payPremium'"></nz-input-number>
+                    <nz-input-number style="width: 100%" nzPlaceHolder="请输入" [(ngModel)]="data.value.payPremium" (ngModelChange)="payPremiumChange()" [name]="data.code + 'payPremium'"></nz-input-number>
                 </td>
             </tr>
         </tbody>

@@ -215,7 +215,19 @@
                     </div>
                     <div nz-row class="ins-box">
                         <p class="title"><i nz-icon nzType="money-collect" nzTheme="outline"></i>车险选项</p>
-                        <customer-detail-insurance [insList]="insList"></customer-detail-insurance>
+                        <div nz-row nz-col nzXs="24" nzSm="24" nzLg="24" nzXl="12" nzXXl="8" nzGutter="24">
+                            <nz-form-item class="nzFormItem">
+                                <nz-form-label nz-col nzXs="8" nzRequired  nzFor="companyCode" class="nzFormLabel">保险公司</nz-form-label>
+                                <nz-form-control nz-col nzXs="16" class="nzFormControl">
+                                    <nz-select nzShowSearch nzAllowClear id="companyCode" nzPlaceHolder="请选择保险公司" formControlName="companyCode">
+                                        <nz-option *ngFor="let option of formList.insuranceCompanysList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-row nz-col nzXs="24" nzSm="24">
+                            <customer-detail-insurance [insList]="insList" (onPayPremiumChange)="payPremiumChange()"></customer-detail-insurance>
+                        </div>
                     </div>
                     <div nz-row>
                         <p class="title"><i nz-icon nzType="transaction" nzTheme="outline"></i>最终报价</p>
@@ -247,7 +259,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzRequired  nzFor="discount" class="nzFormLabel">优惠比例(%)</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-input-number style="width: 100%;" id="discount" formControlName="discount" [nzStep]="1"></nz-input-number>
+                                    <nz-input-number style="width: 100%;" id="discount" formControlName="discount" [nzStep]="1" (ngModelChange)="insItemChange()"></nz-input-number>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -257,7 +269,7 @@
                                     交强险金额
                                 </nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-input-number style="width: 100%;" id="compulsorySumPremium" [nzMin]="0" formControlName="compulsorySumPremium" [nzStep]="1"></nz-input-number>
+                                    <nz-input-number style="width: 100%;" id="compulsorySumPremium" [nzMin]="0" formControlName="compulsorySumPremium" [nzStep]="1" (ngModelChange)="insItemChange()"></nz-input-number>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -268,15 +280,7 @@
                                     车船税
                                 </nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-input-number style="width: 100%;" id="taxActual" [nzMin]="0" formControlName="taxActual" [nzStep]="1"></nz-input-number>
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
-                        <div nz-row nz-col nzXs="24" nzSm="24" nzLg="24" nzXl="12" nzXXl="8" nzGutter="24">
-                            <nz-form-item class="nzFormItem">
-                                <nz-form-label nz-col nzXs="8" nzRequired  nzFor="realSumPremium" class="nzFormLabel">实收金额</nz-form-label>
-                                <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-input-number style="width: 100%;" id="realSumPremium" [nzMin]="0" formControlName="realSumPremium" [nzStep]="1"></nz-input-number>
+                                    <nz-input-number style="width: 100%;" id="taxActual" [nzMin]="0" formControlName="taxActual" [nzStep]="1" (ngModelChange)="insItemChange()"></nz-input-number>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -284,7 +288,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzRequired  nzFor="drivingPremium" class="nzFormLabel">驾意险价格</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-input-number style="width: 100%;" id="drivingPremium" [nzMin]="0" formControlName="drivingPremium" [nzStep]="1"></nz-input-number>
+                                    <nz-input-number style="width: 100%;" id="drivingPremium" [nzMin]="0" formControlName="drivingPremium" [nzStep]="1" (ngModelChange)="insItemChange()"></nz-input-number>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -292,7 +296,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzRequired  nzFor="allowancePremium" class="nzFormLabel">津贴保价格</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-input-number style="width: 100%;" id="allowancePremium" [nzMin]="0" formControlName="allowancePremium" [nzStep]="1"></nz-input-number>
+                                    <nz-input-number style="width: 100%;" id="allowancePremium" [nzMin]="0" formControlName="allowancePremium" [nzStep]="1" (ngModelChange)="insItemChange()"></nz-input-number>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -300,7 +304,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzRequired  nzFor="glassPremium" class="nzFormLabel">玻璃膜价格</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-input-number style="width: 100%;" id="glassPremium" [nzMin]="0" formControlName="glassPremium" [nzStep]="1"></nz-input-number>
+                                    <nz-input-number style="width: 100%;" id="glassPremium" [nzMin]="0" formControlName="glassPremium" [nzStep]="1" (ngModelChange)="insItemChange()"></nz-input-number>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -320,6 +324,14 @@
                                 <nz-form-label nz-col nzXs="8" nzRequired  nzFor="sumPremium" class="nzFormLabel">开单保费</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
                                     <nz-input-number style="width: 100%;" id="sumPremium" [nzMin]="0" formControlName="sumPremium" [nzStep]="1"></nz-input-number>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-row nz-col nzXs="24" nzSm="24" nzLg="24" nzXl="12" nzXXl="8" nzGutter="24">
+                            <nz-form-item class="nzFormItem">
+                                <nz-form-label nz-col nzXs="8" nzRequired  nzFor="realSumPremium" class="nzFormLabel">实收金额</nz-form-label>
+                                <nz-form-control nz-col nzXs="16" class="nzFormControl">
+                                    <nz-input-number style="width: 100%;" id="realSumPremium" [nzMin]="0" formControlName="realSumPremium" [nzStep]="1"></nz-input-number>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>

@@ -221,6 +221,7 @@ export const tableConfig = {
         { name: '客户类型' },
         { name: '归属人' },
         { name: '更新时间' },
+        { name: '保单状态' },
         { name: '操作' }
     ]
 };

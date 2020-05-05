@@ -238,6 +238,7 @@ export const tableConfig = {
         { name: '去年投保公司' },
         { name: '客户类型' },
         { name: '归属人' },
-        { name: '更新时间' }
+        { name: '更新时间' },
+        { name: '客户状态' }
     ]
 };

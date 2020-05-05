@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import LocalStorageService from 'src/app/core/cache/local-storage';
 import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
 import { ISearchListItem, searchListItem, ISearchListModel, IPolicyReviewItem,
-    searchListModel, tableConfig, searchListLayout, renewalStateList, companyList } from './policy-review-list.component.config';
+    searchListModel, tableConfig, searchListLayout, renewalStateList, companyList, internalOrderStatusList } from './policy-review-list.component.config';
 import { IPageChangeInfo, PaginationService } from 'src/app/shared/component/search-list-pagination/pagination';
 import { ConfirmOutDocModalComponent } from '../modal/confirm-outDoc/confirm-outDoc-modal.component';
 import { PolicyReviewService, IQueryCustomerParams } from '../policy-review.service';
@@ -123,13 +123,14 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
                 if (res.list) {
                     const { list, total } = res;
                     this.policyReviewList = list.map(item => {
-                        const { commercialEndTime, compulsoryEndTime, registerTime, updateTime } = item;
+                        const { commercialEndTime, compulsoryEndTime, registerTime, updateTime, orderState } = item;
                         item['renewalStateName'] = findValueName(renewalStateList, item['renewalState']);
                         item['lastCompanyName'] = findValueName(companyList, item['lastCompanyCode']);
                         item['commercialEndTimeFormat'] = commercialEndTime && dayjs(commercialEndTime).format('YYYY-MM-DD HH:mm:ss') || '--';
                         item['compulsoryEndTimeFormat'] = compulsoryEndTime && dayjs(compulsoryEndTime).format('YYYY-MM-DD HH:mm:ss') || '--';
                         item['registerTimeFormat'] = registerTime && dayjs(registerTime).format('YYYY-MM-DD HH:mm:ss') || '--';
                         item['updateTimeFormat'] = updateTime && dayjs(updateTime).format('YYYY-MM-DD HH:mm:ss') || '--';
+                        item['orderStateName'] = findValueName(internalOrderStatusList, orderState) || '--';
                         return item;
                     });
                     this.pageInfo.total = total;

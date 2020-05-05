@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { jackInTheBoxAnimation, jackInTheBoxOnEnterAnimation } from 'src/app/shared/animate/index';
 import { ISearchListItem, searchListItem, ISearchListModel, ICustomerItem,
-    searchListModel, tableConfig, searchListLayout, companyList, renewalStateList } from './customer-list.component.config';
+    searchListModel, tableConfig, searchListLayout, companyList, renewalStateList, rebateApplicationStatusList } from './customer-list.component.config';
 import { IPageChangeInfo, PaginationService } from 'src/app/shared/component/search-list-pagination/pagination';
 import { NzModalService, NzMessageService, NzModalRef } from 'ng-zorro-antd';
 // import { NzModalRef } from 'ng-zorro-antd/modal';
@@ -148,13 +148,14 @@ export class CustomerListComponent implements OnInit, OnDestroy {
                 if (res.list) {
                     const { list, total } = res;
                     this.customerList = list.map(item => {
-                        const { commercialEndTime, compulsoryEndTime, registerTime, updateTime } = item;
+                        const { commercialEndTime, compulsoryEndTime, registerTime, updateTime, handleState } = item;
                         item['renewalStateName'] = findValueName(renewalStateList, item['renewalState']);
                         item['lastCompanyName'] = findValueName(companyList, item['lastCompanyCode']);
                         item['commercialEndTimeFormat'] = commercialEndTime && dayjs(commercialEndTime).format('YYYY-MM-DD HH:mm:ss') || '--';
                         item['compulsoryEndTimeFormat'] = compulsoryEndTime && dayjs(compulsoryEndTime).format('YYYY-MM-DD HH:mm:ss') || '--';
                         item['registerTimeFormat'] = registerTime && dayjs(registerTime).format('YYYY-MM-DD HH:mm:ss') || '--';
                         item['updateTimeFormat'] = updateTime && dayjs(updateTime).format('YYYY-MM-DD HH:mm:ss') || '--';
+                        item['handleStateName'] = handleState && findValueName(rebateApplicationStatusList, handleState) || '--';
                         return item;
                     });
                     this.pageInfo.total = total;

@@ -124,7 +124,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                 carTypeCode: [null],
                 purchasePrice: [null],
                 /** 车险选项 start */
-    
+                companyCode: [null],
                 /** 车险选项 end */
                 /** 最终报价 */
                 commercialSumPremium: [null],
@@ -241,7 +241,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             receiptDate } = customer;
         !quoteInsurance && (quoteInsurance = {});
         const { isDiscount, commercialSumPremium, compulsorySumPremium, taxActual, discount,
-            sumPremium, realSumPremium, drivingPremium, allowancePremium, glassPremium, giftId } = quoteInsurance;
+            sumPremium, realSumPremium, drivingPremium, allowancePremium, glassPremium, giftId, companyCode } = quoteInsurance;
         this.validateForm.patchValue({
             /** 客户信息 */
             /** 姓名 */
@@ -280,6 +280,9 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             carTypeCode,
             /** 新车购置价 */
             purchasePrice,
+            /** 车险选项 start */
+            companyCode,
+            /** 车险选项 end */
 
             /** 最终报价 */
             /** 商业险金额 */
@@ -440,6 +443,50 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
 
     /**
      * @callback
+     * @desc 险种保费发生变化
+     */
+    payPremiumChange() {
+        this.insItemChange();
+    }
+
+    /**
+     * @callback
+     * @desc 险种金额发生变化
+     */
+    insItemChange() {
+        /**
+         * 商业险 = 所有险种保费
+         * 开担保费 = 商业险+ 交强险 + 车船税 + 小险种（三个驾意险。津贴保，玻璃膜）
+         * 实收保费 = （商业险+ 交强险）* 折扣 +车船税 + 小险种（三个驾意险。津贴保，玻璃膜）
+         */
+        /** 商业险 */
+        const commercialSumPremium = this.insList.reduce((pre, cur: IInsList) => {
+            pre += (cur.value.payPremium || 0); 
+            return pre;
+        }, 0);
+
+        const { compulsorySumPremium = 0, taxActual = 0, discount = 0, 
+            drivingPremium = 0, allowancePremium = 0, glassPremium = 0 } = this.validateForm.value; 
+
+        /** 开单保费 */
+        const sumPremium = commercialSumPremium + compulsorySumPremium + taxActual + drivingPremium + allowancePremium + glassPremium;
+
+        /** 实收保费 */
+        const realSumPremium = (commercialSumPremium + compulsorySumPremium) * (discount / 100) + taxActual + + drivingPremium + allowancePremium + glassPremium;
+
+        /** 设置值 */
+        this.validateForm.patchValue({
+            /** 商业险金额 */
+            commercialSumPremium,
+            /** 开单保费 */
+            sumPremium,
+            /** 实收金额 */
+            realSumPremium
+        });
+    }
+
+    /**
+     * @callback
      * @desc 险种的check状态
      * @param id 
      * @param checked 
@@ -467,6 +514,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             /** 最终报价 */
             commercialSumPremium, isDiscount, discount, compulsorySumPremium, taxActual, sumPremium, realSumPremium,
             drivingPremium, allowancePremium, glassPremium, giftId,
+            /** 险种 */
+            companyCode,
             /** 时间信息 */
             compulsoryTime, commercialTime,
             /** 保单派送信息 */
@@ -512,7 +561,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         Object.assign(params.quoteInsurance, {
             isDiscount, commercialSumPremium, compulsorySumPremium, taxActual, discount,
             sumPremium, realSumPremium, drivingPremium, allowancePremium, glassPremium,
-            ...giftInfo
+            ...giftInfo, companyCode
         });
 
         return params;
@@ -558,12 +607,10 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                 catchError(err => of(err))
             ).subscribe(res => {
                 if (!(res instanceof TypeError)) {
-                    if (res.code !== '50000') {
+                    if (res.code === '200') {
                         this.message.success('保存成功');
-                        /** 如果当前操作不是成功提交，则保存成功以后直接切换至下一个客户 */
-                        if (this.currentAction !== 'successSubmit') {
-                            this.switchToNextCustomer();
-                        } else {
+                        /** 如果当前操作是成功提交，则重新展示页面数据 */
+                        if (this.currentAction === 'successSubmit') {
                             this.sourceCache && this.showDetailForm(this.sourceCache.currentCustomer);
                         }
                     } else {
