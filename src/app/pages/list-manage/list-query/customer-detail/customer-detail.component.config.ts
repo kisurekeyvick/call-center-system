@@ -36,16 +36,32 @@ export interface IGiftItem {
     [key: string]: any;
 }
 
-export const insList = [
+export interface IInsList {
+    name: string;
+    code: string;
+    hasCheckbox: boolean;
+    type: string;
+    value: {
+        hasCurrentIns: boolean;
+        checked: boolean;
+        coverageValue?: string | number,
+        materialsType?: string;
+        payPremium: number
+    };
+    [key: string]: any;
+}
+
+export const insList: IInsList[] = [
     {
         name: '车辆损失险',
         code: 'CarDamageRisk',
         id: 1,
         hasCheckbox: true,
-        type: 'inputNumber',
+        type: 'text',
         value: {
             hasCurrentIns: false,
             checked: false,
+            coverageValue: '',
             payPremium: null
         }
     },
@@ -63,6 +79,7 @@ export const insList = [
         value: {
             hasCurrentIns: false,
             checked: false,
+            coverageValue: null,
             payPremium: null
         }
     },
@@ -71,10 +88,11 @@ export const insList = [
         code: 'TheftProtectionRisk',
         id: 3,
         hasCheckbox: true,
-        type: 'inputNumber',
+        type: 'text',
         value: {
             hasCurrentIns: false,
             checked: false,
+            coverageValue: '',
             payPremium: null
         }
     },
@@ -92,6 +110,7 @@ export const insList = [
         value: {
             hasCurrentIns: false,
             checked: false,
+            coverageValue: null,
             payPremium: null
         }
     },
@@ -109,6 +128,7 @@ export const insList = [
         value: {
             hasCurrentIns: false,
             checked: false,
+            coverageValue: null,
             payPremium: null
         }
     },
@@ -126,6 +146,7 @@ export const insList = [
         value: {
             hasCurrentIns: false,
             checked: false,
+            coverageValue: null,
             payPremium: null
         }
     },
@@ -134,7 +155,7 @@ export const insList = [
         code: 'GlassRisk',
         id: 7,
         hasCheckbox: false,
-        type: 'select',
+        type: 'select-glass',
         config: {
             options: [
                 { name: '国产', value: '1' },
@@ -144,7 +165,8 @@ export const insList = [
         value: {
             hasCurrentIns: false,
             checked: false,
-            type: null
+            materialsType: null,
+            payPremium: null
         }
     },
     {
@@ -152,10 +174,11 @@ export const insList = [
         code: 'BurningRisk',
         id: 8,
         hasCheckbox: true,
-        type: 'inputNumber',
+        type: 'text',
         value: {
             hasCurrentIns: false,
             checked: false,
+            coverageValue: '',
             payPremium: null
         }
     },
@@ -164,22 +187,24 @@ export const insList = [
         code: 'EngineWaterRisk',
         id: 9,
         hasCheckbox: true,
-        type: 'inputNumber',
+        type: 'text',
         value: {
             hasCurrentIns: false,
             checked: false,
+            coverageValue: '',
             payPremium: null
         }
     },
     {
         name: '机动车损失保险无法找到第三方特约险',
-        code: 'NoThirdRisk',
+        code: 'text',
         id: 10,
         hasCheckbox: false,
         type: 'inputNumber',
         value: {
             hasCurrentIns: false,
             checked: false,
+            coverageValue: null,
             payPremium: null
         }
     },
@@ -188,10 +213,11 @@ export const insList = [
         code: 'NewEquipmentCoverage',
         id: 11,
         hasCheckbox: true,
-        type: 'inputNumber',
+        type: 'text',
         value: {
             hasCurrentIns: false,
             checked: false,
+            coverageValue: '',
             payPremium: null
         }
     },
@@ -200,10 +226,11 @@ export const insList = [
         code: 'DriverAccidentRisk',
         id: 12,
         hasCheckbox: false,
-        type: 'inputNumber',
+        type: 'text',
         value: {
             hasCurrentIns: false,
             checked: false,
+            coverageValue: '',
             payPremium: null
         }
     },
@@ -212,10 +239,11 @@ export const insList = [
         code: 'GlassFilmPriceRisk',
         id: 13,
         hasCheckbox: false,
-        type: 'inputNumber',
+        type: 'text',
         value: {
             hasCurrentIns: false,
             checked: false,
+            coverageValue: '',
             payPremium: null
         }
     },
@@ -224,10 +252,11 @@ export const insList = [
         code: 'GlassFilmPriceRisk',
         id: 14,
         hasCheckbox: false,
-        type: 'inputNumber',
+        type: 'text',
         value: {
             hasCurrentIns: false,
             checked: false,
+            coverageValue: '',
             payPremium: null
         }
     },

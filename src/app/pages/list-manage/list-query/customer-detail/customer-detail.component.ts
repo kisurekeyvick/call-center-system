@@ -4,15 +4,16 @@ import { NzModalService, NzMessageService, NzModalRef } from 'ng-zorro-antd';
 import LocalStorageService from 'src/app/core/cache/local-storage';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
-import { ISourceCache, ICustomerItem, IDefeatReasonItem, IGiftItem, insList } from './customer-detail.component.config';
+import { ISourceCache, ICustomerItem, IDefeatReasonItem, IGiftItem, insList, IInsList } from './customer-detail.component.config';
 import { dictionary } from 'src/app/shared/dictionary/dictionary';
 import { ListManageService } from '../../list-manage.service';
 import { catchError } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
 import { DefeatSubmitModalComponent } from '../../modal/defeat-submit-modal/defeat-submit-modal.component';
-import { validIDCardValue, validPhoneValue, validCarNoValue } from 'src/app/core/utils/function';
+import { validIDCardValue, validPhoneValue, validCarNoValue, priceFormat, reversePriceFormat } from 'src/app/core/utils/function';
 import { TrackingSubmitModalComponent } from '../../modal/tracking-submit-modal/tracking-submit-modal.component';
 import { Router, ActivatedRoute } from '@angular/router';
+import { cloneDeep } from 'lodash';
 
 interface ICommon {
     [key: string]: any;
@@ -57,7 +58,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
     /** 险种选中 */
     setOfCheckedId = new Set<number>();
     /** 险种的配置 */
-    insList = [...insList];
+    insList = cloneDeep(insList);
     /** 表单的类型 */
     formType: string;
     /** 来源 */
@@ -182,6 +183,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         this.sourceCache.customerListCache.forEach((item: ICustomerItem) => {
             item['selected'] = customer.id === item.id;
         });
+        this.insList = cloneDeep(insList);
         this.loadDetailCustomerForm(customer);
         this.currentCustomer = customer;
     }
@@ -205,6 +207,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                 this.cacheCustomerInfo = res;
                 this.cacheCustomerInfo.quoteInsurance === null && (this.cacheCustomerInfo.quoteInsurance = {});
                 this.setFormGroupValue(res);
+                this.setInsuranceListValue(res);
             }
 
             if (this.currentAction === 'successSubmit') {
@@ -320,6 +323,28 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             /** 备注 */
             receiptRemarks
         });
+    }
+
+    /**
+     * @func
+     * @desc 填充险种值
+     */
+    setInsuranceListValue(detailInfo) {
+        const { quoteCommercialInsuranceDetailList = [] } = detailInfo;
+        if (quoteCommercialInsuranceDetailList.length > 0) {
+            this.insList.forEach(ins => {
+                quoteCommercialInsuranceDetailList.forEach(insItem => {
+                    if (ins.code === insItem.code) {
+                        Object.assign(ins.value, {
+                            hasCurrentIns: true,
+                            coverageValue: insItem.coverage && reversePriceFormat(insItem.coverage) || '',
+                            payPremium: insItem.payPremium,
+                            materialsType: insItem.materialsType
+                        });
+                    }
+                });
+            });
+        }
     }
 
     /**
@@ -482,6 +507,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             receiptDate
         });
 
+        params.quoteCommercialInsuranceDetailList = this.formatRequestInsValue();
+
         Object.assign(params.quoteInsurance, {
             isDiscount, commercialSumPremium, compulsorySumPremium, taxActual, discount,
             sumPremium, realSumPremium, drivingPremium, allowancePremium, glassPremium,
@@ -489,6 +516,26 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         });
 
         return params;
+    }
+
+    /**
+     * @func
+     * @desc format险种的值
+     */
+    formatRequestInsValue(): Array<any> {
+        let value = [];
+        value = this.insList.filter(list => list.value.hasCurrentIns).map((list: IInsList) => {
+            const { coverageValue, materialsType, payPremium } = list.value;
+
+            return {
+                code: list.code,
+                coverage: coverageValue ? priceFormat(coverageValue) : '',
+                payPremium: payPremium,
+                materialsType,
+            };
+        });
+
+        return value;
     }
 
     /**
@@ -698,7 +745,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         });
 
         /** 如果index存在，并且index+1在整个cache的范围内，则可以切换至下一个客户 */
-        if (index > -1 && this.sourceCache.customerListCache.length >= index + 1) {
+        if (index > -1 && this.sourceCache.customerListCache.length > index + 1) {
             this.message.info('准备切换至下一个客户', {
                 nzDuration: 1500
             });

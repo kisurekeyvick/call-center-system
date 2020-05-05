@@ -51,3 +51,41 @@ export function validCarNoValue(value: string): boolean {
 
     return true;
 }
+
+/**
+ * @func
+ * @desc format价格
+ * @param value 
+ */
+export function priceFormat(value: string | number): string {
+    let result = String(value);
+
+    if (result.indexOf('万')) {
+        result = result.replace('万', '0000');
+    }
+
+    if (result.indexOf('元')) {
+        result = result.replace('元', '');
+    }
+
+    return result;
+}
+
+/**
+ * @func
+ * @desc format价格 显示中文
+ * @param value 
+ */
+export function reversePriceFormat(value: string | number): string {
+    let result = String(value);
+
+    if (result.length > 4) {
+        result = Number(result) / 10000 + '万';
+    }
+
+    if (result.length < 4) {
+        result += '元';
+    }
+
+    return result;
+}
