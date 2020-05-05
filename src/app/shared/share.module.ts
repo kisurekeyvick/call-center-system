@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { SearchListComponent } from 'src/app/shared/component/search-list/search-list.component';
 import { SearchListPaginationComponent } from 'src/app/shared/component/search-list-pagination/search-list-pagination.component';
 import { WordHelpComponent } from 'src/app/shared/component/word-help/word-help.component';
+import { CustomerDetailInsuranceComponent } from 'src/app/shared/component/customer-detail-insurance/customer-detail-insurance.component';
 
 /** 管道 */
 import { InnerhtmlpipePipe } from './pipe/innerhtml.pipe';
@@ -18,7 +19,8 @@ const PIPES = [
 const COMPONENT = [
     SearchListComponent,
     SearchListPaginationComponent,
-    WordHelpComponent
+    WordHelpComponent,
+    CustomerDetailInsuranceComponent
 ];
 
 const SERVICE = [

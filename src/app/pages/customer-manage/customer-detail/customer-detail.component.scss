@@ -105,6 +105,11 @@
         }
 
         .modal-btn-group {
+            position: fixed;
+            bottom: 20px;
+            width: calc(100% - 200px);
+            z-index: 999;
+            right: 30px;
             text-align: center;
 
             button {

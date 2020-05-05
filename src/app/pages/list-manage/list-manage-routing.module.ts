@@ -6,7 +6,6 @@ import { AssignFormModalComponent } from './modal/assign-form/assign-form-modal.
 import { RuleFormModalComponent } from './modal/rule-form/rule-form-modal.component';
 import { ListAssignmentComponent } from './list-assignment/list-assignment.component';
 import { CustomerDetailComponent } from './list-query/customer-detail/customer-detail.component';
-import { CustomerDetailInsuranceComponent } from './list-query/customer-detail-insurance/customer-detail-insurance.component';
 import { DefeatSubmitModalComponent } from './modal/defeat-submit-modal/defeat-submit-modal.component';
 import { TrackingSubmitModalComponent } from './modal/tracking-submit-modal/tracking-submit-modal.component';
 
@@ -17,7 +16,6 @@ export const routedComponents = [
     RuleFormModalComponent,
     ListAssignmentComponent,
     CustomerDetailComponent,
-    CustomerDetailInsuranceComponent,
     DefeatSubmitModalComponent,
     TrackingSubmitModalComponent
 ];
@@ -25,7 +23,6 @@ export const routedComponents = [
 export const entriedComponents = [
     AssignFormModalComponent,
     RuleFormModalComponent,
-    CustomerDetailInsuranceComponent,
     DefeatSubmitModalComponent,
     TrackingSubmitModalComponent
 ];
