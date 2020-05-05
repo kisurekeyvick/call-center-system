@@ -1,0 +1,11 @@
+@import '../../../../core/common/common.style.scss';
+
+.defeat-submit-modal-container {
+    .model-content {
+        margin-bottom: 24px;
+    }
+    
+    .modal-btn-group {
+        @include modal-btn-group;
+    }
+}

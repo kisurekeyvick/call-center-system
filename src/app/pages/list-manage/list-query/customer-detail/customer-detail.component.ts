@@ -6,13 +6,13 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
 import { ISourceCache, ICustomerItem, IDefeatReasonItem, IGiftItem, insList } from './customer-detail.component.config';
 import { dictionary } from 'src/app/shared/dictionary/dictionary';
-import { CustomerService } from '../customer-manage.service';
-import { catchError, switchMap } from 'rxjs/operators';
+import { ListManageService } from '../../list-manage.service';
+import { catchError } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
-import { DefeatSubmitModalComponent } from '../modal/defeat-submit-modal/defeat-submit-modal.component';
+import { DefeatSubmitModalComponent } from '../../modal/defeat-submit-modal/defeat-submit-modal.component';
 import { validIDCardValue, validPhoneValue, validCarNoValue } from 'src/app/core/utils/function';
-import { TrackingSubmitModalComponent } from '../modal/tracking-submit-modal/tracking-submit-modal.component';
-import { Router, ActivatedRoute, ParamMap  } from '@angular/router';
+import { TrackingSubmitModalComponent } from '../../modal/tracking-submit-modal/tracking-submit-modal.component';
+import { Router, ActivatedRoute } from '@angular/router';
 
 interface ICommon {
     [key: string]: any;
@@ -62,19 +62,19 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
     formType: string;
     /** 来源 */
     pageOrigin: string;
+    /** 是否展示侧边快捷栏 */
+    canShowDetailFeature: boolean;
 
     constructor(
         private modalService: NzModalService,
         private message: NzMessageService,
         private localCache: LocalStorageService,
         private fb: FormBuilder,
-        private customerService: CustomerService,
+        private customerService: ListManageService,
         private activatedRoute: ActivatedRoute,
         private router: Router
     ) {
-        const cache = this.localCache.get(LocalStorageItemName.CUSTOMERDETAIL);
-        this.sourceCache = cache && cache.value || null;
-        this.pageOrigin = cache && cache.value && cache.value.originPage || '';
+        this.readCache();
         this.otherFormParams = {
             giftList: []
         };
@@ -88,66 +88,72 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         this.currentAction = '';
         this.isLoading = false;
         this.formType = 'add';
+        this.canShowDetailFeature = false;
     }
 
     ngOnInit() {
         this.activatedRoute.params.subscribe(data => {
             this.formType = data['type'];
+
+            this.readCache();
+
+            if (this.formType === 'detail' || this.formType === 'quickLink') {
+                this.canShowDetailFeature = true;
+                this.sourceCache && this.showDetailForm(this.sourceCache.currentCustomer);
+            }
+    
+            this.validateForm = this.fb.group({
+                /** 客户信息 */
+                customerName: [null, [Validators.required]],
+                idCard: [null, [Validators.required, this.validIDCard]],
+                customerPhone: [null, [Validators.required, this.validPhone]],
+                otherContact: [null],
+                customerAddress: [null],
+                customerRemark: [null],
+                /** 车辆信息 */
+                carNo: [null, [Validators.required, this.validCarNo]],
+                brandName: [null],
+                vinNo: [null],
+                engineNo: [null],
+                seatNumber: [null],
+                registerTime: [null],
+                validityDate: [null],
+                lastCompanyCode: [null],
+                usage: [null],
+                carTypeCode: [null],
+                purchasePrice: [null],
+                /** 车险选项 start */
+    
+                /** 车险选项 end */
+                /** 最终报价 */
+                commercialSumPremium: [null],
+                isDiscount: [null],
+                discount: [null],
+                // clivtaFlag: [null],
+                compulsorySumPremium: [null],
+                // travelTaxFlag: [null],
+                taxActual: [null],
+                sumPremium: [null],
+                realSumPremium: [null],
+                drivingPremium: [null],
+                allowancePremium: [null],
+                glassPremium: [null],
+                /** 赠品 */
+                giftId: [null], 
+                /** 时间信息 */
+                compulsoryTime: [null],
+                commercialTime: [null],
+                /** 保单派送信息 */
+                receiptDate: [null],
+                receiptName: [null],
+                receiptPhone: [null],
+                sender: [null],
+                receiptRemarks: [null]
+            });
+    
+            this.loadDefeatReasonList();
+            this.loadGiftList();
         });
-
-        (this.formType === 'detail') && this.sourceCache && this.showDetailForm(this.sourceCache.currentCustomer);
-
-        this.validateForm = this.fb.group({
-            /** 客户信息 */
-            customerName: [null, [Validators.required]],
-            idCard: [null, [Validators.required, this.validIDCard]],
-            customerPhone: [null, [Validators.required, this.validPhone]],
-            otherContact: [null],
-            customerAddress: [null],
-            customerRemark: [null],
-            /** 车辆信息 */
-            carNo: [null, [Validators.required, this.validCarNo]],
-            brandName: [null],
-            vinNo: [null],
-            engineNo: [null],
-            seatNumber: [null],
-            registerTime: [null],
-            validityDate: [null],
-            lastCompanyCode: [null],
-            usage: [null],
-            carTypeCode: [null],
-            purchasePrice: [null],
-            /** 车险选项 start */
-
-            /** 车险选项 end */
-            /** 最终报价 */
-            commercialSumPremium: [null],
-            isDiscount: [null],
-            discount: [null],
-            // clivtaFlag: [null],
-            compulsorySumPremium: [null],
-            // travelTaxFlag: [null],
-            taxActual: [null],
-            sumPremium: [null],
-            realSumPremium: [null],
-            drivingPremium: [null],
-            allowancePremium: [null],
-            glassPremium: [null],
-            /** 赠品 */
-            giftId: [null], 
-            /** 时间信息 */
-            compulsoryTime: [null],
-            commercialTime: [null],
-            /** 保单派送信息 */
-            receiptDate: [null],
-            receiptName: [null],
-            receiptPhone: [null],
-            sender: [null],
-            receiptRemarks: [null]
-        });
-
-        this.loadDefeatReasonList();
-        this.loadGiftList();
 
         /** 用于监听 是否能够成功提交 */
         this.successSubmitSubject$.subscribe(res => {
@@ -155,6 +161,16 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                 this.successSubmitAction();
             }
         });
+    }
+
+    /**
+     * @func
+     * @desc 读取缓存
+     */
+    readCache() {
+        const cache = this.localCache.get(LocalStorageItemName.CUSTOMERDETAIL);
+        this.sourceCache = cache && cache.value || null;
+        this.pageOrigin = cache && cache.value && cache.value.originPage || '';
     }
 
     /**
@@ -495,7 +511,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                 catchError(err => of(err))
             ).subscribe(res => {
                 if (!(res instanceof TypeError)) {
-                    if (res === true) {
+                    if (res.code !== '50000') {
                         this.message.success('保存成功');
                         /** 如果当前操作不是成功提交，则保存成功以后直接切换至下一个客户 */
                         if (this.currentAction !== 'successSubmit') {
@@ -504,7 +520,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                             this.sourceCache && this.showDetailForm(this.sourceCache.currentCustomer);
                         }
                     } else {
-                        this.message.error('保存失败');
+                        this.message.error(res.message);
                     }
                 }
 
@@ -697,8 +713,6 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
      * @desc 新增客户
      */
     newCustomer() {
-        console.log('新增');
-
         for (const i in this.validateForm.controls) {
             this.validateForm.controls[i].markAsDirty();
             this.validateForm.controls[i].updateValueAndValidity();
@@ -716,7 +730,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                 if (!(res instanceof TypeError)) {
                     if (res === true) {
                         this.message.success('新增成功');
-                        this.router.navigate(['/customer/list']);
+                        this.router.navigate(['/listManage/query']);
                     } else {
                         this.message.error('新增失败');
                     }
@@ -725,6 +739,14 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                 this.isLoading = false;
             });
         }
+    }
+
+    /**
+     * @callback
+     * @desc 返回列表页
+     */
+    back() {
+        this.router.navigate(['/listManage/query']);
     }
 
     ngOnDestroy() {

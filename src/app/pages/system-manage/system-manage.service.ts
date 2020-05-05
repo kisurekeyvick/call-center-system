@@ -75,4 +75,27 @@ export class SystemManageService {
     deleteRebate(params: ICommon): Observable<any> {
         return this.http.post(`api/rebate/config/delete`, params);
     }
+
+    /** 礼品列表查询 */
+    queryGiftList(params: ICommon = {}): Observable<any> {
+        return this.http.post(`api/gift/queryAll`, params);
+    }
+
+    /** 礼品新增 */
+    addGift(params: ICommon): Observable<any> {
+        return this.http.post(`api/gift/insert`, params);
+    }
+
+    /** 礼品更新 */
+    updateGift(params: ICommon): Observable<any> {
+        return this.http.post(`api/gift/update`, params);
+    }
+
+    /** 
+     * 删除礼品
+     * 传id值
+     */
+    deleteGift(params: ICommon): Observable<any> {
+        return this.http.post(`api/gift/delete`, params);
+    }
 }

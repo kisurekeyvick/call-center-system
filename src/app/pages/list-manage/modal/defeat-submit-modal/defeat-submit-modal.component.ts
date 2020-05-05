@@ -1,44 +1,44 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
+import { ListManageService } from '../../list-manage.service';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CustomerService } from '../../customer-manage.service';
+
+interface IDefeatReasonItem {
+    id?: number;
+    defeatReason: string;
+    isDelete?: string;
+    [key: string]: any;
+}
 
 @Component({
-    selector: 'tracking-submit-modal',
-    templateUrl: './tracking-submit-modal.component.html',
-    styleUrls: ['./tracking-submit-modal.component.scss']
+    selector: 'defeat-submit-modal',
+    templateUrl: './defeat-submit-modal.component.html',
+    styleUrls: ['./defeat-submit-modal.component.scss']
 })
-export class TrackingSubmitModalComponent implements OnInit, OnDestroy {
+export class DefeatSubmitModalComponent implements OnInit, OnDestroy {
     /** 表单 */
     validateForm: FormGroup;
+    /** 战败原因 */
+    @Input() defeatReasonList: IDefeatReasonItem[] = [];
     /** 客户id */
     @Input() customerId: string;
-    /** 预约级别 */
-    appointmentLevelList: Array<{ name: string; value: string }>;
     /** 加载中 */
     isLoading = false;
 
     constructor(
         private modal: NzModalRef,
         private fb: FormBuilder,
-        private customerService: CustomerService,
+        private customerService: ListManageService,
         private message: NzMessageService,
     ) {
-        this.appointmentLevelList = [
-            { name: 'A', value: 'A' },
-            { name: 'B', value: 'B' },
-            { name: 'C', value: 'C' },
-            { name: 'D', value: 'D' },
-            { name: 'E', value: 'E' },
-        ];
+
     }
 
     ngOnInit() {
         this.validateForm = this.fb.group({
-            appointmentLevel: [null, [Validators.required]],
-            appointmentTime: [null, [Validators.required]]
+            defeatReason: [null, [Validators.required]],
         });
     }
 
@@ -55,23 +55,28 @@ export class TrackingSubmitModalComponent implements OnInit, OnDestroy {
             this.validateForm.controls[i].markAsDirty();
             this.validateForm.controls[i].updateValueAndValidity();
         }
-
+  
         if (this.validateForm.valid) {
+            const { defeatReason: defeatId } = this.validateForm.value;
+            const defeat = this.defeatReasonList.find(reason => reason.id === defeatId);
             const params = {
-                customerId: this.customerId,
-                ...this.validateForm.value,
-                operationCode: '2'
+                /** 4代表失败提交 */
+                operationCode: '4',
+                defeatId,
+                defeatReason: defeat.defeatReason,
+                customerId: this.customerId
             };
-
+    
             this.isLoading = true;
             this.customerService.operationCustomer(params).pipe(
                 catchError(err => of(err))
             ).subscribe(res => {
                 if (!(res instanceof TypeError)) {
-                    if (res.code !== '200') {
-                        this.message.error(res.message);
-                    } else {
+                    const { result, message } = res;
+                    if (result) {
                         this.modal.destroy('success');
+                    } else {
+                        this.message.create('error', message || '提交失败');
                     }
                 }
 

@@ -1,0 +1,124 @@
+@import '../../../../core/common/common.style.scss';
+
+.customer-detail {
+    @include listLayout;
+    min-height: 1500px;
+
+    .highlight {
+        color: #f5222d;
+    }
+
+    .content {
+        display: flex;
+    }
+
+    .slide-customer-list {
+        max-height: calc(100% - 100px);
+        float: left;
+        flex-basis: 200px;
+
+        .customer-list-count {
+            margin-bottom: 12px;
+        }
+
+        .slide-customer-list-scroll {
+            width: 200px;
+            height: calc(100% - 200px);
+            overflow-y: auto;
+
+            .customer-simple-show {
+                cursor: pointer;
+                border-bottom: 1px solid #ccc;
+
+                p {
+                    margin-bottom: 5px;
+                    padding: 0 5px;
+                    font-size: 12px;
+                }
+
+                p.customer-simple-show-top {
+                    border-bottom: 1px dashed #eee;
+                    padding: 5px 0;
+                    margin: 0 5px;
+
+                    i {
+                        margin-right: 8px;
+                        margin-right: 8px;
+                        color: #fff;
+                        border-radius: 50%;
+                        background-color: $primarycolor;
+                        font-size: 15px;
+                        padding: 4px;
+                    }
+
+                    span.plateNo {
+                        color: $primarycolor;
+                    }
+
+                    span.customerName {
+                        color: #999;;
+                    }
+                }
+
+                p.customer-simple-show-center {
+                    margin-bottom: 0;
+                    margin-top: 5px;
+                }
+
+                &:hover, 
+                &.selected {
+                    background-color: $primarycolor;
+
+                    & * {
+                        color: #fff !important;
+                    }
+
+                    i {
+                        background-color: #fff !important;
+                        color: $primarycolor !important;
+                    }
+                }
+            }
+
+            .customer-simple-show:first-child {
+                border-top: 1px solid #ccc;
+            }
+        }
+    }
+
+    .ins-box {
+        margin-bottom: 24px;
+    }
+
+    .customer-detail-form {
+        flex: 1;
+        padding-left: 24px;
+
+        p.title {
+            background: #f0f2f5;
+            line-height: 40px;
+            padding: 0 12px;
+
+            i {
+                margin-right: 12px;
+            }
+        }
+
+        .sendInfo-box {
+            margin-bottom: 48px;
+        }
+
+        .modal-btn-group {
+            position: fixed;
+            bottom: 20px;
+            width: calc(100% - 200px);
+            z-index: 999;
+            right: 30px;
+            text-align: center;
+
+            button {
+                margin: 0 6px;
+            }
+        }
+    }
+}

@@ -12,6 +12,14 @@ export interface ISearchListItem {
     [key: string]: any;
 }
 
+export const searchListLayout = {
+    nzXs: '24',  
+    nzMd: '12', 
+    nzLg: '12', 
+    nzXl: '8',
+    nzXXl: '6'
+};
+
 const commonGrid = {
     label: { nzXs: '24', nzSm: '7', nzMd: '', nzLg: '', nzXl: '' },
     control: { nzXs: '24', nzSm: '15', nzMd: '', nzLg: '', nzXl: '' }

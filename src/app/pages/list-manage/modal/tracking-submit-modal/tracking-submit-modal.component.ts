@@ -3,7 +3,7 @@ import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CustomerService } from '../../customer-manage.service';
+import { ListManageService } from '../../list-manage.service';
 
 @Component({
     selector: 'tracking-submit-modal',
@@ -23,7 +23,7 @@ export class TrackingSubmitModalComponent implements OnInit, OnDestroy {
     constructor(
         private modal: NzModalRef,
         private fb: FormBuilder,
-        private customerService: CustomerService,
+        private customerService: ListManageService,
         private message: NzMessageService,
     ) {
         this.appointmentLevelList = [

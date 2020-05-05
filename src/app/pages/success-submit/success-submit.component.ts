@@ -124,19 +124,25 @@ export class SuccessSubmitComponent implements OnInit, OnDestroy {
         ).subscribe(res => {
             this.isLoading = false;
 
-            if (res.list) {
-                const { list, total } = res;
-                this.successSubmitList = list.map(item => {
-                    const { commercialEndTime, compulsoryEndTime, registerTime, updateTime } = item;
-                    item['renewalStateName'] = findValueName(renewalStateList, item['renewalState']);
-                    item['lastCompanyName'] = findValueName(companyList, item['lastCompanyCode'])
-                    item['commercialEndTimeFormat'] = commercialEndTime && dayjs(commercialEndTime).format('YYYY-MM-DD HH:mm:ss') || '--';
-                    item['compulsoryEndTimeFormat'] = compulsoryEndTime && dayjs(compulsoryEndTime).format('YYYY-MM-DD HH:mm:ss') || '--';
-                    item['registerTimeFormat'] = registerTime && dayjs(registerTime).format('YYYY-MM-DD HH:mm:ss') || '--';
-                    item['updateTimeFormat'] = updateTime && dayjs(updateTime).format('YYYY-MM-DD HH:mm:ss') || '--';
-                    return item;
-                });
-                this.pageInfo.total = total;
+            if (!(res instanceof TypeError)) {
+                if (res.list) {
+                    const { list, total } = res;
+                    this.successSubmitList = list.map(item => {
+                        const { commercialEndTime, compulsoryEndTime, registerTime, updateTime } = item;
+                        item['renewalStateName'] = findValueName(renewalStateList, item['renewalState']);
+                        item['lastCompanyName'] = findValueName(companyList, item['lastCompanyCode']);
+                        item['commercialEndTimeFormat'] = commercialEndTime && dayjs(commercialEndTime).format('YYYY-MM-DD HH:mm:ss') || '--';
+                        item['compulsoryEndTimeFormat'] = compulsoryEndTime && dayjs(compulsoryEndTime).format('YYYY-MM-DD HH:mm:ss') || '--';
+                        item['registerTimeFormat'] = registerTime && dayjs(registerTime).format('YYYY-MM-DD HH:mm:ss') || '--';
+                        item['updateTimeFormat'] = updateTime && dayjs(updateTime).format('YYYY-MM-DD HH:mm:ss') || '--';
+                        return item;
+                    });
+                    this.pageInfo.total = total;
+                } else {
+                    this.successSubmitList = [];
+                    this.pageInfo.total = 0;
+                }
+                
                 pageChangeType === 'pageSize' && (this.pageInfo.pageIndex = 1);
             }
         });

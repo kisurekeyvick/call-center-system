@@ -1,9 +1,9 @@
 import { dictionary } from 'src/app/shared/dictionary/dictionary';
 
-const tableStateList = dictionary.get('customerLlistTableState');
 export const companyList = dictionary.get('insuranceCompanys');
 const ownerShipList = dictionary.get('category');
 export const renewalStateList = dictionary.get('renewalState');
+export const rebateApplicationStatusList = dictionary.get('rebateApplicationStatusList');
 
 export interface ISearchListItem {
     id: number;
@@ -30,6 +30,35 @@ const commonGrid = {
 export const searchListItem: ISearchListItem[] = [
     {
         id: 1,
+        label: '客户姓名',
+        key: 'customerName',
+        placeholder: '请输入客户姓名',
+        type: 'text',
+        grid: commonGrid,
+    },
+    {
+        id: 2,
+        label: '手机号',
+        key: 'customerPhone',
+        placeholder: '请输入客户手机号',
+        type: 'text',
+        grid: commonGrid,
+    },
+    {
+        id: 3,
+        label: '状态',
+        key: 'handleState',
+        placeholder: '请选择状态',
+        type: 'select',
+        grid: commonGrid,
+        config: {
+            options: [
+                ...rebateApplicationStatusList
+            ]
+        }
+    },
+    {
+        id: 5,
         label: '品牌',
         key: 'brandName',
         placeholder: '输入品牌',
@@ -37,7 +66,7 @@ export const searchListItem: ISearchListItem[] = [
         grid: commonGrid,
     },
     {
-        id: 2,
+        id: 6,
         label: '车牌号',
         key: 'carNo',
         placeholder: '输入车牌号',
@@ -45,7 +74,7 @@ export const searchListItem: ISearchListItem[] = [
         grid: commonGrid,
     },
     {
-        id: 3,
+        id: 7,
         label: '是否在职',
         key: 'inJob',
         placeholder: '请选择是否在职',
@@ -56,7 +85,7 @@ export const searchListItem: ISearchListItem[] = [
         }
     },
     {
-        id: 4,
+        id: 8,
         label: '是否高端车',
         key: 'isHigh',
         placeholder: '请选择是否高端车',
@@ -67,7 +96,7 @@ export const searchListItem: ISearchListItem[] = [
         }
     },
     {
-        id: 5,
+        id: 9,
         label: '是否过户',
         key: 'isTransfer',
         placeholder: '请选择是是否过户',
@@ -78,7 +107,7 @@ export const searchListItem: ISearchListItem[] = [
         }
     },
     {
-        id: 6,
+        id: 10,
         label: '去年保险公司',
         key: 'lastCompanyCode',
         placeholder: '请选择去年保险公司',
@@ -91,7 +120,7 @@ export const searchListItem: ISearchListItem[] = [
         }
     },
     {
-        id: 7,
+        id: 11,
         label: '指导价',
         placeholder: '',
         type: 'numberRange',
@@ -112,7 +141,7 @@ export const searchListItem: ISearchListItem[] = [
         }
     },
     {
-        id: 8,
+        id: 12,
         label: '车辆所属',
         placeholder: '请选择车辆所属',
         key: 'ownerShip',
@@ -125,7 +154,7 @@ export const searchListItem: ISearchListItem[] = [
         }
     },
     {
-        id: 9,
+        id: 13,
         label: '是否续保车',
         placeholder: '请选择是否续保车',
         key: 'renewalState',
@@ -136,7 +165,7 @@ export const searchListItem: ISearchListItem[] = [
         }
     },
     {
-        id: 10,
+        id: 14,
         label: '初登日期',
         key: 'registerTime',
         type: 'dateRange',
@@ -145,6 +174,9 @@ export const searchListItem: ISearchListItem[] = [
 ];
 
 export interface ISearchListModel {
+    customerName: string;
+    customerPhone: string;
+    handleState: string;
     brandName: string;
     carNo: string;
     inJob: boolean;
@@ -160,6 +192,9 @@ export interface ISearchListModel {
 }
 
 export const searchListModel: ISearchListModel = {
+    customerName: null,
+    customerPhone: null,
+    handleState: null,
     brandName: null,
     carNo: null,
     inJob: null,
@@ -190,76 +225,18 @@ export const tableConifg = {
 };
 
 export interface IQueryListItem {
-    name: string;
-    phone: string;
-    plate: string;
-    preInsuranceCompanyName: string;
-    insuranceDueDate: string;
-    handleDate: string;
-    distributeDate: string;
-    teamName: string;
-    salesmanName: string;
-    isRenewalName: string;
-    dialStatusName: string;
+    carId: string;
+    carNo: string;
+    customerName: string;
+    vinNo: string;
+    brandName: string;
+    enrollDate: string;
+    commercialEndTime: string;
+    compulsoryEndTime: string;
+    lastCompanyCode: string;
+    lastCompanyName: string;
+    customerType: string;
+    assigneeName: string;
+    modifierTime: string;
     [key: string]: any;
 }
-
-export const listValue = (): IQueryListItem[] => {
-    return Array.apply(null, Array(20)).map((item, index: number) => {
-        return {
-            id: index + 1,
-            appointmentId: null,
-            appointmentLevel: null,
-            appointmentStatus: null,
-            appointmentTime: null,
-            appointmentTimeBegin: null,
-            appointmentTimeEnd: null,
-            batch: null,
-            brandModel: null,
-            currentPageNum: null,
-            dialStatus: '11006',
-            dialStatusName: '名单无效',
-            distributeDate: null,
-            distributionDateBegin: null,
-            distributionDateEnd: null,
-            failureReasons: '08004',
-            firstRegisterDate: '20151010',
-            firstRegisterDateBegin: null,
-            firstRegisterDateEnd: null,
-            handleDate: '2018-10-05',
-            insuranceDueDate: '2018-10-16',
-            insuranceDueDateBegin: null,
-            insuranceDueDateEnd: null,
-            isFlashSend: 0,
-            isRenewal: 0,
-            isRenewalName: '非续保',
-            modifyDate: '20181107221132',
-            modifyDateBegin: null,
-            modifyDateEnd: null,
-            name: '李其美',
-            otherLink: null,
-            outDocType: null,
-            ownerId: 78018,
-            pageSize: null,
-            phone: '13862184016',
-            plate: null,
-            plateNumber: 'E5F38B',
-            preInsuranceCompany: null,
-            preInsuranceCompanyName: null,
-            priceCheckStatus: null,
-            province: '苏',
-            remark: null,
-            salesmanId: null,
-            salesmanName: '王小利',
-            sortArrStr: null,
-            sortList: null,
-            startPageSize: null,
-            taskId: 24587,
-            teamId: null,
-            teamName: '石家庄团队',
-            thisInsuranceCompany: null,
-            userId: 85,
-            viFlag: null
-        };
-    });
-};

@@ -10,7 +10,6 @@ export const menus = new Map([
                 { name: '角色权限', url: '/organization/role', icon: '', childrens: [] },
             ] },
             { name: '个人设置', url: '/user', icon: 'user', childrens: [] },
-            { name: '赠品管理', url: '/gift', icon: 'gift', childrens: [] },
             { name: '名单管理', url: '/listManage', icon: 'profile', childrens: [
                 { name: '名单分配', url: '/listManage/assignment', icon: '', childrens: [] },
                 { name: '名单查询', url: '/listManage/query', icon: '', childrens: [] },
@@ -29,6 +28,7 @@ export const menus = new Map([
                 { name: '话术管理', url: '/system/wordManagement', icon: '', childrens: [] },
                 { name: '返利比率', url: '/system/ratioSetting', icon: '', childrens: [] },
                 { name: '战败原因设置', url: '/system/defeatReason', icon: '', childrens: [] },
+                { name: '赠品管理', url: '/system/giftManagement', icon: '', childrens: [] },
             ] },
         ]
     ]

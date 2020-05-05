@@ -6,6 +6,8 @@ import { RatioSettingListComponent } from './ratio-setting/ratio-setting.compone
 import { RatioFormModalComponent } from './modal/ratio-form/ratio-form.component';
 import { DefeatReasonComponent } from './defeat-reason/defeat-reason.component';
 import { DefeatReasonFormModalComponent } from './modal/defeat-reason-form/defeat-reason-form.component';
+import { GiftManageListComponent } from './gift-manage/gift-manage.component';
+import { GIftFormModalComponent } from './modal/gift-form/gift-form-modal.component';
 
 export const routedComponents = [
     WordManageComponent,
@@ -13,13 +15,16 @@ export const routedComponents = [
     RatioSettingListComponent,
     RatioFormModalComponent,
     DefeatReasonComponent,
-    DefeatReasonFormModalComponent
+    DefeatReasonFormModalComponent,
+    GiftManageListComponent,
+    GIftFormModalComponent
 ];
 
 export const entriedComponents = [
     WordItemModalComponent,
     RatioFormModalComponent,
-    DefeatReasonFormModalComponent
+    DefeatReasonFormModalComponent,
+    GIftFormModalComponent
 ];
 
 const routes: Routes = [
@@ -39,6 +44,10 @@ const routes: Routes = [
     {
         path: 'defeatReason',
         component: DefeatReasonComponent
+    },
+    {
+        path: 'giftManagement',
+        component: GiftManageListComponent
     }
 ];
 

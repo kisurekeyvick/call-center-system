@@ -28,18 +28,6 @@ export const defaultRemidVal = {
     percent: 0
 };
 
-export const remindValue = (): IRemind => {
-    return {
-        fail: 0,
-        success: 0,
-        handled: 0,
-        invalid: 0,
-        unhandleTask: 0,
-        unhandleAppoint: 24,
-        percent: 5
-    };
-};
-
 export interface ICalendarItem {
     hadAppointmentNumber: number;
     date: string;

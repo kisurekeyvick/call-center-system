@@ -2,13 +2,16 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { jackInTheBoxAnimation, jackInTheBoxOnEnterAnimation } from 'src/app/shared/animate/index';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { ISearchListItem, searchListItem, ISearchListModel, searchListModel, 
-    tableConifg, IQueryListItem, listValue, searchListLayout, companyList, renewalStateList } from './list-query.component.config';
+    tableConifg, IQueryListItem, searchListLayout, companyList, renewalStateList } from './list-query.component.config';
 import { IPageChangeInfo, PaginationService } from 'src/app/shared/component/search-list-pagination/pagination';
 import { IQueryCustomerParams, ListManageService } from '../list-manage.service';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { findValueName } from 'src/app/core/utils/function';
 import * as dayjs from 'dayjs';
+import { Router } from '@angular/router';
+import LocalStorageService from 'src/app/core/cache/local-storage';
+import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
 
 type ITableCfg = typeof tableConifg;
 type pageChangeType = 'pageIndex' | 'pageSize';
@@ -16,7 +19,7 @@ type pageChangeType = 'pageIndex' | 'pageSize';
 interface ICommon {
     [key: string]: any;
 }
-    
+
 @Component({
     selector: 'list-query-list',
     templateUrl: './list-query.component.html',
@@ -43,14 +46,16 @@ export class ListQueryComponent implements OnInit, OnDestroy {
     constructor(
         private message: NzMessageService,
         private modalService: NzModalService,
-        private listManageService: ListManageService
+        private listManageService: ListManageService,
+        private router: Router,
+        private localCache: LocalStorageService
     ) {
         this.searchListItem = [...searchListItem];
         this.searchListModel = {...searchListModel};
         this.searchListLayout = {...searchListLayout};
         this.queryList = [];
         this.pageInfo = new PaginationService({
-            total: 200,
+            total: 0,
             pageSize: 10,
             pageIndex: 1
         });
@@ -118,19 +123,25 @@ export class ListQueryComponent implements OnInit, OnDestroy {
         ).subscribe(res => {
             this.isLoading = false;
 
-            if (res.list) {
-                const { list, total } = res;
-                this.queryList = list.map(item => {
-                    const { commercialEndTime, compulsoryEndTime, registerTime, updateTime } = item;
-                    item['renewalStateName'] = findValueName(renewalStateList, item['renewalState']);
-                    item['lastCompanyName'] = findValueName(companyList, item['lastCompanyCode']);
-                    item['commercialEndTimeFormat'] = commercialEndTime && dayjs(commercialEndTime).format('YYYY-MM-DD HH:mm:ss') || '--';
-                    item['compulsoryEndTimeFormat'] = compulsoryEndTime && dayjs(compulsoryEndTime).format('YYYY-MM-DD HH:mm:ss') || '--';
-                    item['registerTimeFormat'] = registerTime && dayjs(registerTime).format('YYYY-MM-DD HH:mm:ss') || '--';
-                    item['updateTimeFormat'] = updateTime && dayjs(updateTime).format('YYYY-MM-DD HH:mm:ss') || '--';
-                    return item;
-                });
-                this.pageInfo.total = total;
+            if (!(res instanceof TypeError)) {
+                if (res.list) {
+                    const { list, total } = res;
+                    this.queryList = list.map(item => {
+                        const { commercialEndTime, compulsoryEndTime, registerTime, updateTime } = item;
+                        item['renewalStateName'] = findValueName(renewalStateList, item['renewalState']);
+                        item['lastCompanyName'] = findValueName(companyList, item['lastCompanyCode']);
+                        item['commercialEndTimeFormat'] = commercialEndTime && dayjs(commercialEndTime).format('YYYY-MM-DD HH:mm:ss') || '--';
+                        item['compulsoryEndTimeFormat'] = compulsoryEndTime && dayjs(compulsoryEndTime).format('YYYY-MM-DD HH:mm:ss') || '--';
+                        item['registerTimeFormat'] = registerTime && dayjs(registerTime).format('YYYY-MM-DD HH:mm:ss') || '--';
+                        item['updateTimeFormat'] = updateTime && dayjs(updateTime).format('YYYY-MM-DD HH:mm:ss') || '--';
+                        return item;
+                    });
+                    this.pageInfo.total = total;
+                } else {
+                    this.queryList = [];
+                    this.pageInfo.total = 0;
+                }
+                
                 pageChangeType === 'pageSize' && (this.pageInfo.pageIndex = 1);
             }
         });
@@ -138,11 +149,26 @@ export class ListQueryComponent implements OnInit, OnDestroy {
 
     /**
      * @callback
-     * @desc 展示报价信息
-     * @param queryListItem 
+     * @desc 展示客户详情信息
+     * @param customer 
      */
-    showQuoteInfo(queryListItem: IQueryListItem) {
+    customerDetail(customer: IQueryListItem) {
+        const cache = {
+            originPage: 'listManage/query',
+            customerListCache: this.queryList,
+            currentCustomer: customer
+        };
 
+        this.localCache.set(LocalStorageItemName.CUSTOMERDETAIL, cache);
+        this.router.navigate(['/listManage/query', 'detail']);
+    }
+
+    /**
+     * @callback
+     * @desc 添加客户
+     */
+    addCustomer() {
+        this.router.navigate(['/listManage/query', 'add']);
     }
 
     /**

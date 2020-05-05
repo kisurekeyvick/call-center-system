@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
 import { AppService } from 'src/app/app.service';
-import { ITrackingListItem, IRemind, remindValue, 
+import { ITrackingListItem, IRemind, 
     defaultRemidVal, ICalendarItem } from './salesman-operation.component.config';
 import { Observable, interval, Subscription, fromEvent, of } from 'rxjs';
 import { Router } from '@angular/router';
@@ -55,7 +55,6 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
         this.intervalSubscription$ = this.intervalSource.subscribe(() => {
             this.loadTrackingList();
             this.loadFirstCallList();
-            // this.loadRemindData();
             this.loadCalendarList();
         });
     }
@@ -63,7 +62,6 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.loadTrackingList();
         this.loadFirstCallList();
-        // this.loadRemindData();
         this.loadCalendarList();
         this.initToggleShowDetailEventListener();
     }
@@ -142,14 +140,6 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
 
     /**
      * @func
-     * @desc 加载提醒数据
-     */
-    // loadRemindData() {
-    //     this.remind = remindValue();
-    // }
-
-    /**
-     * @func
      * @desc 加载预约日历
      */
     loadCalendarList() {
@@ -184,7 +174,7 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
         };
 
         this.localCache.set(LocalStorageItemName.CUSTOMERDETAIL, cache);
-        this.router.navigate(['/customer/list', 'detail']);
+        this.router.navigate(['/listManage/query', 'quickLink', { id: item.id }]);
     }
 
     ngOnDestroy() {

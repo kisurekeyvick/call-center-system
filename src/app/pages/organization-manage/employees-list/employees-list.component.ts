@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { jackInTheBoxAnimation, jackInTheBoxOnEnterAnimation } from 'src/app/shared/animate/index';
 import { searchListItem, ISearchListItem, ISearchListModel, searchListModel, IEmployeeItem, 
-    tableConifg, ISearchListParams, IRoleItem, accountStatusList } from './employees-list.component.config';
+    tableConifg, ISearchListParams, IRoleItem, accountStatusList, searchListLayout } from './employees-list.component.config';
 import { IPageChangeInfo, PaginationService } from 'src/app/shared/component/search-list-pagination/pagination';
 import { NzModalService, NzMessageService } from 'ng-zorro-antd';
 import { EmployeeFormComponent, defaultFormModel } from '../modal/employee-form/employee-form-modal.component';
@@ -33,6 +33,7 @@ export class EmployeesListComponent implements OnInit, OnDestroy {
     /** 搜索配置 */
     searchListItem: ISearchListItem[];
     searchListModel: ISearchListModel;
+    searchListLayout: ICommon;
     /** 员工列表table展示数据 */
     employeesList: IEmployeeItem[];
     /** table列表配置 */
@@ -53,6 +54,7 @@ export class EmployeesListComponent implements OnInit, OnDestroy {
     ) {
         this.searchListItem = [...searchListItem];
         this.searchListModel = {...searchListModel};
+        this.searchListLayout = {...searchListLayout};
         this.employeesList = [];
         this.roleList = [];
         this.pageInfo = new PaginationService({

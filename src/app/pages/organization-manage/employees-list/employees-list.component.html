@@ -9,7 +9,7 @@
 
     <div nz-row class="content">
         <div class="search-list-box">
-            <search-list [searchListModel]="searchListModel" [searchListItem]="searchListItem" (onSearch)="search()" (onReseat)="reseat()"></search-list>
+            <search-list [searchListLayout]="searchListLayout" [searchListModel]="searchListModel" [searchListItem]="searchListItem" (onSearch)="search()" (onReseat)="reseat()"></search-list>
         </div>
         <div class="search-list-menu-group">
             <button nz-button [nzType]="'primary'" (click)="addEmployee()"><i nz-icon nzType="plus" nzTheme="outline"></i>新增人员</button>

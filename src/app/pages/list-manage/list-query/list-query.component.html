@@ -11,6 +11,9 @@
         <div class="search-list-box">
             <search-list [searchListLayout]="searchListLayout" [searchListModel]="searchListModel" [searchListItem]="searchListItem" (onSearch)="search()" (onReseat)="reseat()"></search-list>
         </div>
+        <div class="search-list-menu-group">
+            <button nz-button [nzType]="'primary'" (click)="addCustomer()"><i nz-icon nzType="plus" nzTheme="outline"></i>新增</button>
+        </div>
         <div class="search-list-table">
             <ng-container *ngIf="!isLoading; else skeleton">
               <nz-table #list [nzData]="queryList" nzShowPagination="false" [nzScroll]="{ x: '1920px' }">
@@ -23,7 +26,7 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let data of list.data">
-                    <td>{{data.carNo || '--'}}</td>
+                    <td><a (click)="customerDetail(data)">{{data.carNo || '--'}}</a></td>
                     <td>{{data.customerName || '--'}}</td>
                     <td>{{data.vinNo || '--'}}</td>
                     <td>{{data.brandName || '--'}}</td>
@@ -34,9 +37,6 @@
                     <td>{{data.renewalStateName || '--'}}</td>
                     <td>{{data.userName || '--'}}</td>
                     <td>{{data.updateTimeFormat}}</td>
-                    <!-- <td>
-                        <a (click)="showQuoteInfo(data)">查看详情</a>
-                    </td> -->
                   </tr>
                 </tbody>
             </nz-table>

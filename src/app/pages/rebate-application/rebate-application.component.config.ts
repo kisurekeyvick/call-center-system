@@ -145,5 +145,5 @@ export interface IRebateApplicationItem {
     /** 状态 */
     handleState: string;
     handleStateName: string;
-    [key: string]:any;
+    [key: string]: any;
 }
