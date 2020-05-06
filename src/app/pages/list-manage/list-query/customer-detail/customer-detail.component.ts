@@ -10,7 +10,7 @@ import { ListManageService } from '../../list-manage.service';
 import { catchError } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
 import { DefeatSubmitModalComponent } from '../../modal/defeat-submit-modal/defeat-submit-modal.component';
-import { validIDCardValue, validPhoneValue, validCarNoValue, priceFormat, reversePriceFormat } from 'src/app/core/utils/function';
+import { validIDCardValue, validPhoneValue, validCarNoValue, priceFormat, reversePriceFormat, numberToFixed } from 'src/app/core/utils/function';
 import { TrackingSubmitModalComponent } from '../../modal/tracking-submit-modal/tracking-submit-modal.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { cloneDeep } from 'lodash';
@@ -472,16 +472,16 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         const sumPremium = commercialSumPremium + compulsorySumPremium + taxActual + drivingPremium + allowancePremium + glassPremium;
 
         /** 实收保费 */
-        const realSumPremium = (commercialSumPremium + compulsorySumPremium) * (discount / 100) + taxActual + + drivingPremium + allowancePremium + glassPremium;
+        const realSumPremium = (commercialSumPremium + compulsorySumPremium) * (1 - discount / 100) + taxActual + + drivingPremium + allowancePremium + glassPremium;
 
         /** 设置值 */
         this.validateForm.patchValue({
             /** 商业险金额 */
-            commercialSumPremium,
+            commercialSumPremium: numberToFixed(commercialSumPremium),
             /** 开单保费 */
-            sumPremium,
+            sumPremium: numberToFixed(sumPremium),
             /** 实收金额 */
-            realSumPremium
+            realSumPremium: numberToFixed(realSumPremium)
         });
     }
 

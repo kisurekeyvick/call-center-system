@@ -99,11 +99,7 @@ export const dictionary = new Map([
             { name: '预约跟踪', value: '2' },
             { name: '成功提交', value: '3' },
             { name: '失败提交', value: '4' },
-            { name: '名单无效', value: '5' },
-            { name: '返利申请中', value: '6' },
-            { name: '返利申请被拒绝', value: '7' },
-            { name: '返利申请同意', value: '8' },
-            { name: '分配', value: '20' }
+            { name: '名单无效', value: '5' }
         ]
     ],
     [

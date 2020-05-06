@@ -10,6 +10,7 @@ import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ApiService } from 'src/app/api/api.service';
 import { findValueName } from 'src/app/core/utils/function';
+import * as dayjs from 'dayjs';
 
 type ITableCfg = typeof tableConifg;
 type pageChangeType = 'pageIndex' | 'pageSize';
@@ -157,10 +158,12 @@ export class RebateApplicationComponent implements OnInit, OnDestroy {
                     value: item.value
                 }));
                 this.rebateApplicationList = list.map(item => {
-                    item['companyName'] = findValueName(insuranceCompanysList, item.companyCode);
-                    item['orderStateName'] = findValueName(rebateApplicationStatusList, item.orderState);
-                    item['userName'] = findValueName(salesmenList, item.userId);
-                    item['carTypeCodeName'] = findValueName(carTypeList, item.carTypeCode);
+                    const { companyCode, orderState, userId, carTypeCode, applyDate } = item;
+                    item['companyName'] = findValueName(insuranceCompanysList, companyCode);
+                    item['orderStateName'] = findValueName(rebateApplicationStatusList, orderState);
+                    item['userName'] = findValueName(salesmenList, userId);
+                    item['carTypeCodeName'] = findValueName(carTypeList, carTypeCode);
+                    item['applyDateFormat'] = applyDate && dayjs(applyDate).format('YYYY-MM-DD HH:mm:ss') || '--';
                     return item;
                 });
 

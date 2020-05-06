@@ -89,3 +89,20 @@ export function reversePriceFormat(value: string | number): string {
 
     return result;
 }
+
+/**
+ * @func
+ * @desc 数字精确位数
+ * @param value 
+ * @param fixNumber 
+ */
+export function numberToFixed(value: number, fixNumber: number = 2): number {
+    let result = value;
+    const hasDecimalPoint: boolean = String(value).includes('.');
+
+    if (hasDecimalPoint) {
+        result = Number(result.toFixed(fixNumber));
+    }
+
+    return result;
+}

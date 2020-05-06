@@ -3,7 +3,7 @@ import { dictionary } from 'src/app/shared/dictionary/dictionary';
 export const companyList = dictionary.get('insuranceCompanys');
 const ownerShipList = dictionary.get('category');
 export const renewalStateList = dictionary.get('renewalState');
-export const rebateApplicationStatusList = dictionary.get('rebateApplicationStatusList');
+export const customerStatusList = dictionary.get('customerStatus');
 
 export interface ISearchListItem {
     id: number;
@@ -53,7 +53,7 @@ export const searchListItem: ISearchListItem[] = [
         grid: commonGrid,
         config: {
             options: [
-                ...rebateApplicationStatusList
+                ...customerStatusList
             ]
         }
     },

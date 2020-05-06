@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { jackInTheBoxAnimation, jackInTheBoxOnEnterAnimation } from 'src/app/shared/animate/index';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { ISearchListItem, searchListItem, ISearchListModel, searchListModel, 
-    tableConifg, IQueryListItem, searchListLayout, companyList, renewalStateList, rebateApplicationStatusList } from './list-query.component.config';
+    tableConifg, IQueryListItem, searchListLayout, companyList, renewalStateList, customerStatusList } from './list-query.component.config';
 import { IPageChangeInfo, PaginationService } from 'src/app/shared/component/search-list-pagination/pagination';
 import { IQueryCustomerParams, ListManageService } from '../list-manage.service';
 import { catchError } from 'rxjs/operators';
@@ -134,7 +134,7 @@ export class ListQueryComponent implements OnInit, OnDestroy {
                         item['compulsoryEndTimeFormat'] = compulsoryEndTime && dayjs(compulsoryEndTime).format('YYYY-MM-DD HH:mm:ss') || '--';
                         item['registerTimeFormat'] = registerTime && dayjs(registerTime).format('YYYY-MM-DD HH:mm:ss') || '--';
                         item['updateTimeFormat'] = updateTime && dayjs(updateTime).format('YYYY-MM-DD HH:mm:ss') || '--';
-                        item['handleStateName'] = handleState && findValueName(rebateApplicationStatusList, handleState) || '--';
+                        item['handleStateName'] = handleState && findValueName(customerStatusList, handleState) || '--';
                         return item;
                     });
                     this.pageInfo.total = total;
