@@ -123,7 +123,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                         this.isLoading = false;
                         const userInfo = res;
                         /** TODO 暂时写死！！ */
-                        userInfo['roleCode'] = 'role_salesman';
+                        // userInfo['roleCode'] = 'role_salesman';
                         /** 缓存用户信息 */
                         this.localCache.set(LocalStorageItemName.USERPROFILE, userInfo);
                         

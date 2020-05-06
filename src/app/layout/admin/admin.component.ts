@@ -42,8 +42,6 @@ export class AppAdminLayoutComponent implements OnInit, OnDestroy {
     ) {
         this.isCollapsed = false;
         this.user = {
-            name: 'kisure',
-            age: 27,
             pic: defaultUserPic,
         };
         this.canShowSalesmanOperation = false;
@@ -90,7 +88,6 @@ export class AppAdminLayoutComponent implements OnInit, OnDestroy {
             this.layoutMenus = menus;
         }
         // this.layoutMenus = menus.get('admin');
-        // this.layoutMenus = this.buildMenu(userInfo);
     }
 
     /**
@@ -105,19 +102,6 @@ export class AppAdminLayoutComponent implements OnInit, OnDestroy {
             /** 如果roleCode匹配,则推送为true，展示便捷操作界面 */
             this.appService.SALESMAN_ROLE_CODE === roleCode && (this.canShowSalesmanOperation = true);
         }
-    }
-
-    /**
-     * @func
-     * @desc 加载菜单
-     */
-    buildMenu(userInfo):IUserProfileMenu[] {
-        if (userInfo) {
-            const menus: any[] = userInfo['menus'];
-            return menus;
-        }
-
-        return [];
     }
 
     /**
