@@ -85,7 +85,11 @@ export class AppAdminLayoutComponent implements OnInit, OnDestroy {
 
         this.showSalesmanOperation(userInfo);
         /** 这边暂时用mock数据 */
-        this.layoutMenus = menus.get('admin');
+        if (userInfo) {
+            const { menus } = userInfo;
+            this.layoutMenus = menus;
+        }
+        // this.layoutMenus = menus.get('admin');
         // this.layoutMenus = this.buildMenu(userInfo);
     }
 

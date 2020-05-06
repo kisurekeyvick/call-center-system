@@ -10,7 +10,7 @@ import { CustomerService } from '../customer-manage.service';
 import { catchError } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
 import { DefeatSubmitModalComponent } from '../modal/defeat-submit-modal/defeat-submit-modal.component';
-import { validIDCardValue, validPhoneValue, validCarNoValue, priceFormat, reversePriceFormat } from 'src/app/core/utils/function';
+import { validIDCardValue, validPhoneValue, validCarNoValue, priceFormat, reversePriceFormat, numberToFixed } from 'src/app/core/utils/function';
 import { TrackingSubmitModalComponent } from '../modal/tracking-submit-modal/tracking-submit-modal.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { cloneDeep } from 'lodash';
@@ -473,11 +473,11 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         /** 设置值 */
         this.validateForm.patchValue({
             /** 商业险金额 */
-            commercialSumPremium,
+            commercialSumPremium: numberToFixed(commercialSumPremium),
             /** 开单保费 */
-            sumPremium,
+            sumPremium: numberToFixed(sumPremium),
             /** 实收金额 */
-            realSumPremium
+            realSumPremium: numberToFixed(realSumPremium)
         });
     }
 
@@ -604,10 +604,11 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             ).subscribe(res => {
                 if (!(res instanceof TypeError)) {
                     if (res.code === '200') {
-                        this.message.success('保存成功');
                         /** 如果当前操作是成功提交，则重新展示页面数据 */
                         if (this.currentAction === 'successSubmit') {
                             this.sourceCache && this.showDetailForm(this.sourceCache.currentCustomer);
+                        } else {
+                            this.message.success('客户信息保存成功');
                         }
                     } else {
                         this.message.error(res.message);
@@ -686,8 +687,10 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                             this.message.info('您已取消提交');
                         }
                     });
-                } else {
+                } else if (res.code === '200') {
                     this.message.success('提交成功');
+                } else {
+                    this.message.error(res.message);
                 }
             }
         });

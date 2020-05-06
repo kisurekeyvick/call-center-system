@@ -690,8 +690,10 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                             this.message.info('您已取消提交');
                         }
                     });
-                } else {
+                } else if (res.code === '200') {
                     this.message.success('提交成功');
+                } else {
+                    this.message.error(res.message);
                 }
             }
         });
