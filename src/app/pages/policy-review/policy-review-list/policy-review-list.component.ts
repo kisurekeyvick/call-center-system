@@ -187,6 +187,8 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
         modal.afterClose.subscribe((res: string) => {
             if (res === 'success') {
                 this.message.create('success', `通过成功`);
+                this.pageInfo.pageIndex = 1;
+                this.search();
             }
         });
     }

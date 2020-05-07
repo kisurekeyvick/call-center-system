@@ -30,4 +30,5 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 10.返利申请模块 调用api/order/operationOrder接口 operationCode值为7，调用成功以后，handleStatus的值还是和原来的一样
 11.保单查询是123，返利查询是678
 12.名单管理 名单分配模块 点击保存分配数额给业务员，再次调用接口获取业务员b数据，结果还是为0
+13.内勤人员 点击 保单审核管理 -> 确认出单信息 ->后端需要新添加一个字段：orderDate(出单日期)
 ``` 

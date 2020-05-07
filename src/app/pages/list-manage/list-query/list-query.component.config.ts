@@ -210,7 +210,7 @@ export const searchListModel: ISearchListModel = {
 
 export const tableConifg = {
     thead: [
-        { name: '车牌号' },
+        { name: '车牌号', type: 'fixed-left' },
         { name: '客户名称' },
         { name: '车架号' },
         { name: '品牌型号' },

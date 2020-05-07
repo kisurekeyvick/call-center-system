@@ -611,6 +611,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                             this.message.success('客户信息保存成功');
                         }
                     } else {
+                        /** 如果保存失败，也需要重置action */
+                        this.currentAction = '';
                         this.message.error(res.message);
                     }
                 }
@@ -671,6 +673,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             customerId
         };
 
+        /** 此处需要重置当前的操作 */
+        this.currentAction = '';
         this.customerService.operationCustomer(params).pipe(
             catchError(err => of(err))
         ).subscribe(res => {

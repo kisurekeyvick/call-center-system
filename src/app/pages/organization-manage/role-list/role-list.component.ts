@@ -253,7 +253,15 @@ export class RoleListComponent implements OnInit, OnDestroy {
                 }
 
                 if (node.children && node.children.length > 0) {
-                    readCheckedNode(node.children);
+                    const childselected = node.children.some((item: IPermission) => item.checked);
+                    if (childselected) {
+                        /** 如果子节点存在被选中，并且父节点checked为false，那么还是会将父节点加进去 */
+                        !node.checked && result.push({
+                            code: node.code,
+                            type: node.type
+                        });
+                        readCheckedNode(node.children);
+                    }
                 }
             });
         };

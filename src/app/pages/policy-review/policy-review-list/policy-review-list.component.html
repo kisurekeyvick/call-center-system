@@ -12,17 +12,25 @@
         </div>
         <div class="search-list-table">
             <ng-container *ngIf="!isLoading; else skeleton">
-                <nz-table #list [nzData]="policyReviewList" nzShowPagination="false" [nzScroll]="{ x: '1920px' }">
+                <nz-table #list [nzData]="policyReviewList" nzShowPagination="false" [nzScroll]="{ x: '1620px' }">
                     <thead>
                       <tr>
                         <ng-container *ngFor="let th of tableCfg.thead">
-                            <th>{{ th.name }}</th>
+                            <ng-container *ngIf="th.type === 'fixed-right'">
+                                <th [nzRight]='true' class="sticky-ele">{{ th.name }}</th>
+                            </ng-container>
+                            <ng-container *ngIf="th.type === 'fixed-left'">
+                                <th [nzLeft]='true' class="sticky-ele">{{ th.name }}</th>
+                            </ng-container>
+                            <ng-container *ngIf="!th.type">
+                                <th>{{ th.name }}</th>
+                            </ng-container>
                         </ng-container>
                       </tr>
                     </thead>
                     <tbody>
                       <tr *ngFor="let data of list.data">
-                        <td>{{data.carNo || '--'}}</td>
+                        <td [nzLeft]="true" class="sticky-ele"><a (click)="showDetail(data)">{{data.carNo || '--'}}</a></td>
                         <td>{{data.customerName || '--'}}</td>
                         <td>{{data.vinNo || '--'}}</td>
                         <td>{{data.brandName || '--'}}</td>
@@ -34,11 +42,7 @@
                         <td>{{data.userName || '--'}}</td>
                         <td>{{data.updateTimeFormat}}</td>
                         <td>{{data.orderStateName}}</td>
-                        <td>
-                            <a (click)="audit(data)">审核</a>
-                            <nz-divider nzType="vertical"></nz-divider>
-                            <a (click)="showDetail(data)">查看</a>
-                            <nz-divider nzType="vertical"></nz-divider>
+                        <td [nzRight]='true' class="sticky-ele">
                             <a (click)="confirmOutDocInfo(data)">确认出单信息</a>
                         </td>
                       </tr>

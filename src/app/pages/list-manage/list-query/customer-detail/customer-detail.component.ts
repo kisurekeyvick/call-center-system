@@ -608,12 +608,15 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             ).subscribe(res => {
                 if (!(res instanceof TypeError)) {
                     if (res.code === '200') {
-                        this.message.success('保存成功');
                         /** 如果当前操作是成功提交，则重新展示页面数据 */
                         if (this.currentAction === 'successSubmit') {
                             this.sourceCache && this.showDetailForm(this.sourceCache.currentCustomer);
+                        } else {
+                            this.message.success('保存成功');
                         }
                     } else {
+                        /** 如果保存失败，也需要重置action */
+                        this.currentAction = '';
                         this.message.error(res.message);
                     }
                 }
@@ -674,6 +677,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             customerId
         };
 
+        /** 此处需要重置当前的操作 */
+        this.currentAction = '';
         this.customerService.operationCustomer(params).pipe(
             catchError(err => of(err))
         ).subscribe(res => {

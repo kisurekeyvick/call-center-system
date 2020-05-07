@@ -184,9 +184,9 @@ export const insList: IInsList[] = [
         }
     },
     {
-        name: '不急免赔险',
+        name: '不计免赔险',
         code: 'ExcludingDeductibleRiskRegardless',
-        id: 11,
+        id: 12,
         hasCheckbox: true,
         type: 'text',
         value: {

@@ -1,7 +1,10 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { NzModalRef } from 'ng-zorro-antd';
+import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { IPolicyReviewItem } from '../../policy-review-list/policy-review-list.component.config';
+import { PolicyReviewService } from '../../policy-review.service';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
     selector: 'confirm-outDoc-modal',
@@ -16,21 +19,24 @@ export class ConfirmOutDocModalComponent implements OnInit, OnDestroy {
 
     constructor(
         private modal: NzModalRef,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private policyReviewService: PolicyReviewService,
+        private message: NzMessageService,
     ) {
 
     }
 
     ngOnInit() {
+        const { compulsorySumPremium, taxActual, commercialSumPremium, orderDate } = this.policyItem;
         this.validateForm = this.fb.group({
             /** 交强险金额 */
-            clivtaPriceFinal: [null, [Validators.required]],
+            compulsorySumPremium: [compulsorySumPremium, [Validators.required]],
             /** 车船税 */
-            travelTaxFinal: [null, [Validators.required]],
+            taxActual: [taxActual, [Validators.required]],
             /** 商业险金额 */
-            viPriceFinal: [null, [Validators.required]],
+            commercialSumPremium: [commercialSumPremium, [Validators.required]],
             /** 出单日期 */
-            payDate: [null, [Validators.required]]
+            orderDate: [orderDate, [Validators.required]]
         });
     }
 
@@ -45,7 +51,24 @@ export class ConfirmOutDocModalComponent implements OnInit, OnDestroy {
         }
 
         if (this.validateForm.valid) {
-            this.modal.destroy('success');
+            const params = {
+                customerOrder: {
+                    ...this.policyItem,
+                    ...this.validateForm.value
+                }
+            };
+
+            this.policyReviewService.updateCustomerOrder(params).pipe(
+                catchError(err => of(err))
+            ).subscribe(res => {
+                if (!(res instanceof TypeError)) {
+                    if (res === true) {
+                        this.modal.destroy('success');
+                    } else {
+                        this.message.error('保存失败');
+                    }
+                }
+            });
         }
     }
 

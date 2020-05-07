@@ -16,7 +16,7 @@
         </div>
         <div class="search-list-table">
             <ng-container *ngIf="!isLoading; else skeleton">
-                <nz-table #list [nzData]="customerList" nzShowPagination="false" [nzScroll]="{ x: '1920px' }">
+                <nz-table #list [nzData]="customerList" nzShowPagination="false" [nzScroll]="{ x: '1720px' }">
                     <thead>
                       <tr>
                         <!-- <th nzShowCheckbox
@@ -24,14 +24,19 @@
                             [(nzChecked)]="isAllDisplayDataChecked"
                             (nzCheckedChange)="checkAll($event)"></th> -->
                         <ng-container *ngFor="let th of tableCfg.thead">
-                            <th>{{ th.name }}</th>
+                            <ng-container *ngIf="th.type === 'fixed-left'">
+                                <th [nzLeft]='true' class="sticky-ele">{{ th.name }}</th>
+                              </ng-container>
+                              <ng-container *ngIf="!th.type">
+                                  <th>{{ th.name }}</th>
+                              </ng-container>
                         </ng-container>
                       </tr>
                     </thead>
                     <tbody>
                       <tr *ngFor="let data of list.data">
                         <!-- <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[data.id]" (nzCheckedChange)="refreshStatus()"></td> -->
-                        <td><a (click)="customerDetail(data)">{{data.carNo || '--'}}</a></td>
+                        <td [nzLeft]='true'><a (click)="customerDetail(data)">{{data.carNo || '--'}}</a></td>
                         <td>{{data.customerName || '--'}}</td>
                         <td>{{data.vinNo || '--'}}</td>
                         <td>{{data.brandName || '--'}}</td>

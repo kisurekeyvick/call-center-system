@@ -2,4 +2,8 @@
 
 .policy-review-list {
     @include listLayout;
+
+    .sticky-ele {
+        position: sticky;
+    }
 }

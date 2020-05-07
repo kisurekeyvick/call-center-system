@@ -3,6 +3,7 @@
         <nz-breadcrumb nz-page-header-breadcrumb>
             <nz-breadcrumb-item><a class="route-link" routerLink="/home"><i nz-icon nzType="home" nzTheme="outline"></i>首页</a></nz-breadcrumb-item>
             <nz-breadcrumb-item>返利申请</nz-breadcrumb-item>
+            <nz-breadcrumb-item>列表</nz-breadcrumb-item>
         </nz-breadcrumb>
     </div>
 
@@ -12,7 +13,7 @@
         </div>
         <div class="search-list-table">
             <ng-container *ngIf="!isLoading; else skeleton">
-                <nz-table #list [nzData]="rebateApplicationList" [nzShowPagination]="false" [nzScroll]="{ x: '1920px' }">
+                <nz-table #list [nzData]="rebateApplicationList" [nzShowPagination]="false" [nzScroll]="{ x: '1600px' }">
                   <thead>
                     <tr>
                         <ng-container *ngFor="let th of tableCfg.thead">

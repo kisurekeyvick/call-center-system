@@ -6,39 +6,39 @@
                     <nz-form-item class="nzFormItem">
                         <nz-form-label nz-col nzXs="7"  nzFor="clivtaPriceFinal" class="nzFormLabel">车牌</nz-form-label>
                         <nz-form-control nz-col nzXs="17" class="nzFormControl">
-                            <span>{{policyItem?.plate}}</span>
+                            <span>{{policyItem?.carNo}}</span>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div nz-row nz-col nzXs="24"nzGutter="24">
                     <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="7"  nzRequired  nzFor="clivtaPriceFinal" class="nzFormLabel">交强险金额(元)</nz-form-label>
+                        <nz-form-label nz-col nzXs="7"  nzRequired  nzFor="compulsorySumPremium" class="nzFormLabel">交强险金额(元)</nz-form-label>
                         <nz-form-control nz-col nzXs="17" class="nzFormControl">
-                            <nz-input-number style="width: 100%;" [nzMin]="0" id="clivtaPriceFinal" formControlName="clivtaPriceFinal" [nzStep]="0.0001"></nz-input-number>
+                            <nz-input-number style="width: 100%;" [nzMin]="0" id="compulsorySumPremium" formControlName="compulsorySumPremium" [nzStep]="1"></nz-input-number>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div nz-row nz-col nzXs="24"nzGutter="24">
                     <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="7"  nzRequired  nzFor="travelTaxFinal" class="nzFormLabel">车船税(元)</nz-form-label>
+                        <nz-form-label nz-col nzXs="7"  nzRequired  nzFor="taxActual" class="nzFormLabel">车船税(元)</nz-form-label>
                         <nz-form-control nz-col nzXs="17" class="nzFormControl">
-                            <nz-input-number style="width: 100%;" [nzMin]="0" id="travelTaxFinal" formControlName="travelTaxFinal" [nzStep]="0.0001"></nz-input-number>
+                            <nz-input-number style="width: 100%;" [nzMin]="0" id="taxActual" formControlName="taxActual" [nzStep]="1"></nz-input-number>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div nz-row nz-col nzXs="24"nzGutter="24">
                     <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="7"  nzRequired  nzFor="viPriceFinal" class="nzFormLabel">商业险金额(元)</nz-form-label>
+                        <nz-form-label nz-col nzXs="7"  nzRequired  nzFor="commercialSumPremium" class="nzFormLabel">商业险金额(元)</nz-form-label>
                         <nz-form-control nz-col nzXs="17" class="nzFormControl">
-                            <nz-input-number style="width: 100%;" [nzMin]="0" id="viPriceFinal" formControlName="viPriceFinal" [nzStep]="0.0001"></nz-input-number>
+                            <nz-input-number style="width: 100%;" [nzMin]="0" id="commercialSumPremium" formControlName="commercialSumPremium" [nzStep]="1"></nz-input-number>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div nz-row nz-col nzXs="24"nzGutter="24">
                     <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="7"  nzRequired  nzFor="payDate" class="nzFormLabel">出单日期</nz-form-label>
+                        <nz-form-label nz-col nzXs="7"  nzRequired  nzFor="orderDate" class="nzFormLabel">出单日期</nz-form-label>
                         <nz-form-control nz-col nzXs="17" class="nzFormControl">
-                            <nz-range-picker [nzFormat]="'yyyy-MM-dd'" id="payDate" formControlName="payDate"></nz-range-picker>
+                            <nz-date-picker [nzFormat]="'yyyy-MM-dd HH:mm:ss'" id="orderDate" formControlName="orderDate"></nz-date-picker>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
