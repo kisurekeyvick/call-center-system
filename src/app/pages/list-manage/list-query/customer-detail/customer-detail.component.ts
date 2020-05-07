@@ -206,8 +206,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             if (!(res instanceof TypeError)) {
                 this.cacheCustomerInfo = res;
                 this.cacheCustomerInfo.quoteInsurance === null && (this.cacheCustomerInfo.quoteInsurance = {});
-                this.setFormGroupValue(res);
                 this.setInsuranceListValue(res);
+                this.setFormGroupValue(res);
             }
 
             if (this.currentAction === 'successSubmit') {
@@ -454,6 +454,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
      * @desc 险种金额发生变化
      */
     insItemChange() {
+        console.log('险种发生变化，开始计算', this.insList);
         /**
          * 商业险 = 所有险种保费
          * 开担保费 = 商业险+ 交强险 + 车船税 + 小险种（三个驾意险。津贴保，玻璃膜）
@@ -829,11 +830,11 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                 catchError(err => of(err))
             ).subscribe(res => {
                 if (!(res instanceof TypeError)) {
-                    if (res === true) {
+                    if (res.code === '200') {
                         this.message.success('新增成功');
                         this.router.navigate(['/listManage/query']);
                     } else {
-                        this.message.error('新增失败');
+                        this.message.error(res.message || '新增失败');
                     }
                 }
 

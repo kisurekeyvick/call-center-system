@@ -1,52 +1,55 @@
 <div class="confirm-outDoc-modal-container">
-    <div nz-row class="model-content">
-        <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
-            <div nz-row>
-                <div nz-row nz-col nzXs="24"nzGutter="24">
-                    <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="7"  nzFor="clivtaPriceFinal" class="nzFormLabel">车牌</nz-form-label>
-                        <nz-form-control nz-col nzXs="17" class="nzFormControl">
-                            <span>{{policyItem?.carNo}}</span>
-                        </nz-form-control>
-                    </nz-form-item>
+    <nz-spin [nzSpinning]="isLoading" [nzIndicator]="indicatorTemplate">
+        <div nz-row class="model-content">
+            <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+                <div nz-row>
+                    <div nz-row nz-col nzXs="24"nzGutter="24">
+                        <nz-form-item class="nzFormItem">
+                            <nz-form-label nz-col nzXs="7"  nzFor="clivtaPriceFinal" class="nzFormLabel">车牌</nz-form-label>
+                            <nz-form-control nz-col nzXs="17" class="nzFormControl">
+                                <span>{{policyItem?.carNo}}</span>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-row nz-col nzXs="24"nzGutter="24">
+                        <nz-form-item class="nzFormItem">
+                            <nz-form-label nz-col nzXs="7"  nzRequired  nzFor="compulsorySumPremium" class="nzFormLabel">交强险金额(元)</nz-form-label>
+                            <nz-form-control nz-col nzXs="17" class="nzFormControl" nzHasFeedback nzErrorTip="请输入交强险金额">
+                                <nz-input-number style="width: 100%;" [nzMin]="0" id="compulsorySumPremium" formControlName="compulsorySumPremium" [nzStep]="1"></nz-input-number>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-row nz-col nzXs="24"nzGutter="24">
+                        <nz-form-item class="nzFormItem">
+                            <nz-form-label nz-col nzXs="7"  nzRequired  nzFor="taxActual" class="nzFormLabel">车船税(元)</nz-form-label>
+                            <nz-form-control nz-col nzXs="17" class="nzFormControl" nzHasFeedback nzErrorTip="请输入车船税">
+                                <nz-input-number style="width: 100%;" [nzMin]="0" id="taxActual" formControlName="taxActual" [nzStep]="1"></nz-input-number>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-row nz-col nzXs="24"nzGutter="24">
+                        <nz-form-item class="nzFormItem">
+                            <nz-form-label nz-col nzXs="7"  nzRequired  nzFor="commercialSumPremium" class="nzFormLabel">商业险金额(元)</nz-form-label>
+                            <nz-form-control nz-col nzXs="17" class="nzFormControl" nzHasFeedback nzErrorTip="请输入商业险金额">
+                                <nz-input-number style="width: 100%;" [nzMin]="0" id="commercialSumPremium" formControlName="commercialSumPremium" [nzStep]="1"></nz-input-number>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-row nz-col nzXs="24"nzGutter="24">
+                        <nz-form-item class="nzFormItem">
+                            <nz-form-label nz-col nzXs="7"  nzRequired  nzFor="orderDate" class="nzFormLabel">出单日期</nz-form-label>
+                            <nz-form-control nz-col nzXs="17" class="nzFormControl" nzHasFeedback nzErrorTip="请输入出单日期">
+                                <nz-date-picker [nzFormat]="'yyyy-MM-dd HH:mm:ss'" id="orderDate" formControlName="orderDate"></nz-date-picker>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
                 </div>
-                <div nz-row nz-col nzXs="24"nzGutter="24">
-                    <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="7"  nzRequired  nzFor="compulsorySumPremium" class="nzFormLabel">交强险金额(元)</nz-form-label>
-                        <nz-form-control nz-col nzXs="17" class="nzFormControl">
-                            <nz-input-number style="width: 100%;" [nzMin]="0" id="compulsorySumPremium" formControlName="compulsorySumPremium" [nzStep]="1"></nz-input-number>
-                        </nz-form-control>
-                    </nz-form-item>
+                <div class="modal-btn-group">
+                    <button nz-button [nzType]="'default'" (click)="cancel()">取消</button>
+                    <button nz-button [nzType]="'primary'">保存</button>
                 </div>
-                <div nz-row nz-col nzXs="24"nzGutter="24">
-                    <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="7"  nzRequired  nzFor="taxActual" class="nzFormLabel">车船税(元)</nz-form-label>
-                        <nz-form-control nz-col nzXs="17" class="nzFormControl">
-                            <nz-input-number style="width: 100%;" [nzMin]="0" id="taxActual" formControlName="taxActual" [nzStep]="1"></nz-input-number>
-                        </nz-form-control>
-                    </nz-form-item>
-                </div>
-                <div nz-row nz-col nzXs="24"nzGutter="24">
-                    <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="7"  nzRequired  nzFor="commercialSumPremium" class="nzFormLabel">商业险金额(元)</nz-form-label>
-                        <nz-form-control nz-col nzXs="17" class="nzFormControl">
-                            <nz-input-number style="width: 100%;" [nzMin]="0" id="commercialSumPremium" formControlName="commercialSumPremium" [nzStep]="1"></nz-input-number>
-                        </nz-form-control>
-                    </nz-form-item>
-                </div>
-                <div nz-row nz-col nzXs="24"nzGutter="24">
-                    <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="7"  nzRequired  nzFor="orderDate" class="nzFormLabel">出单日期</nz-form-label>
-                        <nz-form-control nz-col nzXs="17" class="nzFormControl">
-                            <nz-date-picker [nzFormat]="'yyyy-MM-dd HH:mm:ss'" id="orderDate" formControlName="orderDate"></nz-date-picker>
-                        </nz-form-control>
-                    </nz-form-item>
-                </div>
-            </div>
-            <div class="modal-btn-group">
-                <button nz-button [nzType]="'default'" (click)="cancel()">取消</button>
-                <button nz-button [nzType]="'primary'">保存</button>
-            </div>
-        </form>
-    </div>
+            </form>
+        </div>
+    </nz-spin>
+    <ng-template #indicatorTemplate><i nz-icon nzType="loading"></i></ng-template>
 </div>

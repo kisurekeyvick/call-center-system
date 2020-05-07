@@ -25,7 +25,7 @@ export class AppService {
     /** 允许加载用户信息 */
     canLoadUserProfile: Subject<IUserProfileSubject> = new Subject<IUserProfileSubject>();
     /** 业务员的roleCode */
-    SALESMAN_ROLE_CODE: string = 'role_salesman';
+    SALESMAN_ROLE_CODE: string = 'sale_man';
 
     constructor(
         private http: HttpClient) {

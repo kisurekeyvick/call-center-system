@@ -16,6 +16,8 @@ export class ConfirmOutDocModalComponent implements OnInit, OnDestroy {
     validateForm: FormGroup;
     /** 保单审核 */
     @Input() policyItem: IPolicyReviewItem;
+    /** 是否正在加载 */
+    isLoading: boolean;
 
     constructor(
         private modal: NzModalRef,
@@ -58,6 +60,7 @@ export class ConfirmOutDocModalComponent implements OnInit, OnDestroy {
                 }
             };
 
+            this.isLoading = true;
             this.policyReviewService.updateCustomerOrder(params).pipe(
                 catchError(err => of(err))
             ).subscribe(res => {
@@ -68,6 +71,8 @@ export class ConfirmOutDocModalComponent implements OnInit, OnDestroy {
                         this.message.error('保存失败');
                     }
                 }
+
+                this.isLoading = false;
             });
         }
     }

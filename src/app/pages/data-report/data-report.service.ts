@@ -2,14 +2,18 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+interface ICommon {
+    [key: string]: any;
+}
+
 @Injectable()
 export class DataReportService {
     constructor(
         private http: HttpClient) {
     }
 
-    /** 这边写入一些ajax */
-    // public queryRenewalTaskList(params: any): Observable<any> {
-    //     return this.http.post(environment.gateway.SAAS + '/insurance/task/queryIRenewalTaskList', params);
-    // }
+    /** 战败原因列表 */
+    queryFailReasonList(params: ICommon = {}): Observable<any> {
+        return this.http.post(`api/customer/failReasonList`, params);
+    }
 }

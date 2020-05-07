@@ -202,8 +202,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             if (!(res instanceof TypeError)) {
                 this.cacheCustomerInfo = res;
                 this.cacheCustomerInfo.quoteInsurance === null && (this.cacheCustomerInfo.quoteInsurance = {});
-                this.setFormGroupValue(res);
                 this.setInsuranceListValue(res);
+                this.setFormGroupValue(res);
             }
 
             if (this.currentAction === 'successSubmit') {

@@ -259,7 +259,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzRequired  nzFor="discount" class="nzFormLabel">优惠比例(%)</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-input-number style="width: 100%;" id="discount" formControlName="discount" [nzStep]="1" (ngModelChange)="insItemChange()"></nz-input-number>
+                                    <nz-input-number style="width: 100%;" id="discount" formControlName="discount" [nzStep]="1" [nzMax]="100" (ngModelChange)="insItemChange()"></nz-input-number>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
