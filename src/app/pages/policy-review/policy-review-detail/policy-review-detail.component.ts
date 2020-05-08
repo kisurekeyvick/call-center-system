@@ -92,7 +92,8 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
                 compulsoryEndTime: ''
             },
             /** 投保险种 */
-            insType: []
+            insType: [],
+            sumPremium: ''
         };
     }
 
@@ -144,7 +145,7 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
         const { customerOrder, quoteCommercialInsuranceDetailList } = detailInfo;
         const { companyCode, createUser, customerName, idCard, customerPhone, customerAddress,
             carNo, brandName, seatNumber, registerTime, usage, vinNo, engineNo, purchasePrice,
-            commercialStartTime, commercialEndTime, compulsoryStartTime, compulsoryEndTime } = customerOrder;
+            commercialStartTime, commercialEndTime, compulsoryStartTime, compulsoryEndTime, sumPremium } = customerOrder;
         
         this.detailInfo.insType = quoteCommercialInsuranceDetailList.map(item => {
             if (item.code) {
@@ -180,7 +181,8 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
                 commercialEndTime,
                 compulsoryStartTime,
                 compulsoryEndTime
-            }
+            },
+            sumPremium
         });
 
     }

@@ -159,7 +159,7 @@ export const insList: IInsList[] = [
     },
     {
         name: '机动车损失保险无法找到第三方特约险',
-        code: 'text',
+        code: 'NoThirdRisk',
         id: 10,
         hasCheckbox: false,
         type: 'inputNumber',
