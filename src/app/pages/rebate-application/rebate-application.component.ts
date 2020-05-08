@@ -161,8 +161,7 @@ export class RebateApplicationComponent implements OnInit, OnDestroy {
                     const { companyCode, orderState, userId, carTypeCode, applyDate } = item;
                     item['companyName'] = findValueName(insuranceCompanysList, companyCode);
                     item['orderStateName'] = findValueName(rebateApplicationStatusList, orderState);
-                    item['userName'] = findValueName(salesmenList, userId);
-                    item['carTypeCodeName'] = findValueName(carTypeList, carTypeCode);
+                    // item['carTypeCodeName'] = findValueName(carTypeList, carTypeCode);
                     item['applyDateFormat'] = applyDate && dayjs(applyDate).format('YYYY-MM-DD HH:mm:ss') || '--';
                     return item;
                 });

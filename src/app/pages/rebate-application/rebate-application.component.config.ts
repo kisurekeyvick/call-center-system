@@ -118,7 +118,7 @@ export const tableConifg = {
         { name: '客户姓名' },
         { name: '车牌' },
         { name: '保险公司' },
-        { name: '类别' },
+        // { name: '类别' },
         { name: '商业险金额' },
         { name: '返现比率%' },
         { name: '超出金额' },

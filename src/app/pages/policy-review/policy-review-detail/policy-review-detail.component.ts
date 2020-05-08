@@ -9,7 +9,7 @@ import { PolicyReviewService } from '../policy-review.service';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { usageList, companyList } from './policy-review-detail.component.config';
+import { usageList, companyList, insList } from './policy-review-detail.component.config';
 import { findValueName, validPhoneValue } from 'src/app/core/utils/function';
 
 interface ICommon {
@@ -146,7 +146,13 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
             carNo, brandName, seatNumber, registerTime, usage, vinNo, engineNo, purchasePrice,
             commercialStartTime, commercialEndTime, compulsoryStartTime, compulsoryEndTime } = customerOrder;
         
-        this.detailInfo.insType = quoteCommercialInsuranceDetailList;
+        this.detailInfo.insType = quoteCommercialInsuranceDetailList.map(item => {
+            if (item.code) {
+                item['insName'] = findValueName(insList, item.code);
+            }
+
+            return item;
+        });
         
         Object.assign(this.detailInfo, {
             insCompany: {

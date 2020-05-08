@@ -63,8 +63,8 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let data of list.data">
-                                <td>{{data.name}}</td>
-                                <td>{{data.coverage}}</td>
+                                <td>{{data.insName}}</td>
+                                <td>{{data.coverage || '--'}}</td>
                                 <td>{{data.payPremium}}</td>
                             </tr>
                         </tbody>

@@ -6,7 +6,7 @@ import LocalStorageService from 'src/app/core/cache/local-storage';
 import { SuccessSubmitService } from '../success-submit.service';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { usageList, companyList } from './success-submit-detail.component.config';
+import { usageList, companyList, insList } from './success-submit-detail.component.config';
 import { findValueName } from 'src/app/core/utils/function';
 
 interface ICommon {
@@ -138,7 +138,13 @@ export class SuccessSubmitDetailComponent implements OnInit, OnDestroy {
             commercialStartTime, commercialEndTime, compulsoryStartTime, compulsoryEndTime,
             receiptDate, receiptName, receiptPhone, sender, receiptRemarks, sumPremium } = customerOrder;
         
-        this.detailInfo.insType = quoteCommercialInsuranceDetailList;
+        this.detailInfo.insType = quoteCommercialInsuranceDetailList.map(item => {
+            if (item.code) {
+                item['insName'] = findValueName(insList, item.code);
+            }
+
+            return item;
+        });;
         
         Object.assign(this.detailInfo, {
             insCompany: {
