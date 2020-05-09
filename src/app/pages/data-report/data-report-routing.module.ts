@@ -19,11 +19,11 @@ export const entriedComponents = [
 const routes: Routes = [
     {
         path: '',
-        redirectTo: 'workStatistic',
+        redirectTo: 'customerStatistics',
         pathMatch: 'full'
     },
     {
-        path: 'workStatistic', 
+        path: 'customerStatistics', //'workStatistic', 
         component: StatisticWorkReportComponent,
         data: {
             title: '客户分布统计'
@@ -37,14 +37,14 @@ const routes: Routes = [
         }
     },
     { 
-        path: 'kpi', 
+        path: 'battle', // 'kpi', 
         component: KpiAnalysisReportComponent,
         data: {
             title: '战报'
         }
     },
     {
-        path: 'successSubmit', 
+        path: 'successRate', // 'successSubmit', 
         component: SuccessSubmitAnalysisReportComponent,
         data: {
             title: '业务员排名'
