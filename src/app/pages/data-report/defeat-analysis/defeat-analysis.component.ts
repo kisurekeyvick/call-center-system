@@ -18,7 +18,7 @@ export class DefeatAnalysisReportComponent implements OnInit, OnDestroy {
     /** 是否正在加载 */
     isLoading: boolean;
     /** chartDOM容器 */
-    chartDOM: HTMLDivElement ;
+    // chartDOM: HTMLDivElement ;
 
     constructor(
         private dataReportService: DataReportService,
@@ -28,7 +28,7 @@ export class DefeatAnalysisReportComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.chartDOM = this.el.nativeElement.querySelector('#echartsContainer');
+        // this.chartDOM = this.el.nativeElement.querySelector('#echartsContainer');
         this.loadFailReasonReport();
     }
 
@@ -42,74 +42,10 @@ export class DefeatAnalysisReportComponent implements OnInit, OnDestroy {
         this.dataReportService.queryFailReasonList().pipe(
             catchError(err => of(err))
         ).subscribe(res => {
+            this.isLoading = false;
+            
             if (!(res instanceof TypeError)) {
-                const result = [
-                    {
-                        "failReasonList":[
-                            {
-                                "failReason":"原因1",
-                                "failId": 1,
-                                "number":1
-                            }
-                        ],
-                        "userId":189,
-                        "userName":"业务员1"
-                    },
-                    {
-                        "failReasonList":[
-                            {
-                                "failReason":"原因1",
-                                "failId": 1,
-                                "number":1
-                            },
-                            {
-                                "failReason":"原因2",
-                                "failId": 2,
-                                "number":2
-                            }
-                        ],
-                        "userId":190,
-                        "userName":"业务员2"
-                    },
-                    {
-                        "failReasonList":[
-                            {
-                                "failReason":"原因3",
-                                "number":3,
-                                "failId": 3,
-                            },
-                            {
-                                "failReason":"原因kkks",
-                                "number":12,
-                                "failId": 4,
-                            },
-                            {
-                                "failReason":"原因 nice fish",
-                                "number":122,
-                                "failId": 5,
-                            }
-                        ],
-                        "userId":191,
-                        "userName":"业务员3"
-                    },
-                    {
-                        "failReasonList":[
-                            {
-                                "failReason":"原因2",
-                                "number":40,
-                                "failId": 2,
-                            },
-                            {
-                                "failReason":"原因6",
-                                "number":45,
-                                "failId": 6,
-                            }
-                        ],
-                        "userId":191,
-                        "userName":"业务员4"
-                    }
-                ];
-                this.buildEchartReport(result);
+                this.buildEchartReport(res);
             }
         });
     }
@@ -120,8 +56,9 @@ export class DefeatAnalysisReportComponent implements OnInit, OnDestroy {
      * @param res 
      */
     buildEchartReport(res: Array<any>) {
-        const myChart = echarts.init(this.chartDOM);
-        /** X轴展示战败缘由 */
+        const dom: HTMLDivElement = this.el.nativeElement.querySelector('#echartsContainer');
+        const myChart = echarts.init(dom);
+        /** X轴展示业务员 */
         const xAxisData_salesmen = [];
         /** 顶部展示业务员 */
         const legendData_defeatReason = [];
@@ -138,26 +75,27 @@ export class DefeatAnalysisReportComponent implements OnInit, OnDestroy {
                 userId: item.userId
             });
 
-            item.failReasonList.forEach(list => {
-                const seriesIndex = legendData_defeatReason.findIndex(data => data.failId === item.failId);
+            (item.failReasonList || []).forEach(list => {
+                // const seriesIndex = legendData_defeatReason.findIndex(data => data.failId === item.failId);
+                const seriesIndex = legendData_defeatReason.findIndex(data => data.name === list.failReason);
                 /** 如果不存在，则push进去 */
                 if (seriesIndex === -1) {
                     legendData_defeatReason.push({
                         name: list.failReason,
-                        failId: list.failId
+                        // failId: list.failId
                     });
                 }
             });
         });
 
         legendData_defeatReason.forEach(reason => {
-            const { failId, name } = reason;
+            const { name } = reason;
             const result = {
-                name, failId, stack: '总量', data: []
+                name, stack: '总量', data: []
             };
 
             res.forEach(item => {
-                const failReasonItem = item.failReasonList.find(list => list.failId === failId);
+                const failReasonItem = (item.failReasonList || []).find(list => list.failReason === name);
 
                 if (failReasonItem) {
                     result.data.push(failReasonItem.number);
@@ -184,7 +122,7 @@ export class DefeatAnalysisReportComponent implements OnInit, OnDestroy {
                 formatter: (params: any, ticket: string, callback: (ticket: string, html: string) => {}) => {
                     let str = `${params[0] && params[0]['axisValue'] || ''}`;
                     (params as Array<any>).forEach(param => {
-                        str += `<br />使用"${param.seriesName}"，共计${param.value}次`;
+                        str += `<br />使用战败原因："${param.seriesName}"，共计${param.value}次`;
                     });
                     return str;
                 }

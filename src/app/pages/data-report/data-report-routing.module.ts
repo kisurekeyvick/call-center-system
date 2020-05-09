@@ -24,19 +24,31 @@ const routes: Routes = [
     },
     {
         path: 'workStatistic', 
-        component: StatisticWorkReportComponent 
+        component: StatisticWorkReportComponent,
+        data: {
+            title: '客户分布统计'
+        }
     },
     { 
         path: 'defeat', 
-        component: DefeatAnalysisReportComponent 
+        component: DefeatAnalysisReportComponent,
+        data: {
+            title: '战败分析'
+        }
     },
     { 
         path: 'kpi', 
-        component: KpiAnalysisReportComponent 
+        component: KpiAnalysisReportComponent,
+        data: {
+            title: '战报'
+        }
     },
     {
         path: 'successSubmit', 
-        component: SuccessSubmitAnalysisReportComponent 
+        component: SuccessSubmitAnalysisReportComponent,
+        data: {
+            title: '业务员排名'
+        }
     }
 ];
 

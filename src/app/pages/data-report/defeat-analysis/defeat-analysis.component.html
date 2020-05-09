@@ -8,6 +8,9 @@
     </div>
 
     <div nz-row class="content">
-        <div id="echartsContainer" style="width: 100%;min-height: 650px;"></div>
+        <nz-spin [nzSpinning]="isLoading" [nzIndicator]="indicatorTemplate">
+            <div id="echartsContainer" style="width: 100%;min-height: 650px;"></div>
+        </nz-spin>
+        <ng-template #indicatorTemplate><i nz-icon nzType="loading"></i></ng-template>
     </div>
 </div>

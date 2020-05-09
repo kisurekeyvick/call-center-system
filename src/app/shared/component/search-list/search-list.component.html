@@ -132,6 +132,20 @@
                                 [(ngModel)]="searchListModel[item.key]"></nz-range-picker>
                         </nz-form-control>
                     </nz-form-item>
+
+                    <!--month-->
+                    <nz-form-item class="nzFormItem" *ngSwitchCase="'month'">
+                        <ng-container *ngIf="item.label">
+                            <nz-form-label class="nzFormLabel" nz-col [nzXs]="item?.grid?.label?.nzXs" [nzSm]="item?.grid?.label?.nzSm" [nzMd]="item?.grid?.label?.nzMd" [nzLg]="item?.grid?.label?.nzLg" [nzXl]="item?.grid?.label?.nzXl" [nzFor]="item.key">
+                                {{ item.label }}
+                            </nz-form-label>
+                        </ng-container>
+                        <nz-form-control class="nzFormControl" nz-col [nzXs]="item?.grid?.control?.nzXs" [nzSm]="item?.grid?.control?.nzSm" [nzMd]="item?.grid?.control?.nzMd" [nzLg]="item?.grid?.control?.nzLg" [nzXl]="item?.grid?.control?.nzXl">
+                            <nz-month-picker [nzStyle]="{'width': '100%'}" [id]="item.key" nzShowTime
+                                [nzDisabled]="item.disabled" [nzFormat]=" item?.config?.format || 'yyyy-MM-dd'" [name]="item.key"
+                                [(ngModel)]="searchListModel[item.key]"></nz-month-picker>
+                        </nz-form-control>
+                    </nz-form-item>
                 </div>
             </ng-container>
         </ng-container>

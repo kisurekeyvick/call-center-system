@@ -16,4 +16,19 @@ export class DataReportService {
     queryFailReasonList(params: ICommon = {}): Observable<any> {
         return this.http.post(`api/customer/failReasonList`, params);
     }
+
+    /** 客户分布详情 */
+    queryCustomerStatistics(params: ICommon = {}): Observable<any> {
+        return this.http.post(`api/customer/customerStatistics`, params);
+    }
+
+    /** 战报 */
+    queryBattle(params: ICommon = {}): Observable<any> {
+        return this.http.post(`api/report/battle`, params);
+    }
+
+    /** 业务员排名 */
+    querySuccessRate(params: ICommon = {}): Observable<any> {
+        return this.http.post(`api/report/successRate`, params);
+    }
 }
