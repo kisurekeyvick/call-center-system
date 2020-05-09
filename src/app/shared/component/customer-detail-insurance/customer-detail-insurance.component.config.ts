@@ -157,19 +157,19 @@ export const insList: IInsList[] = [
             payPremium: null
         }
     },
-    {
-        name: '机动车损失保险无法找到第三方特约险',
-        code: 'NoThirdRisk',
-        id: 10,
-        hasCheckbox: false,
-        type: 'inputNumber',
-        value: {
-            hasCurrentIns: false,
-            checked: false,
-            coverageValue: null,
-            payPremium: null
-        }
-    },
+    // {
+    //     name: '机动车损失保险无法找到第三方特约险',
+    //     code: 'NoThirdRisk',
+    //     id: 10,
+    //     hasCheckbox: false,
+    //     type: 'inputNumber',
+    //     value: {
+    //         hasCurrentIns: false,
+    //         checked: false,
+    //         coverageValue: null,
+    //         payPremium: null
+    //     }
+    // },
     {
         name: '新增设备损失险',
         code: 'NewEquipmentCoverage',

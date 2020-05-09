@@ -16,6 +16,10 @@ export class TrackingSubmitModalComponent implements OnInit, OnDestroy {
     /** 客户id */
     @Input() customerId: string;
     /** 预约级别 */
+    @Input() appointmentLevel: string;
+    /** 预约时间 */
+    @Input() appointmentTime: string;
+    /** 预约级别列表选项数据 */
     appointmentLevelList: Array<{ name: string; value: string }>;
     /** 加载中 */
     isLoading = false;
@@ -31,14 +35,15 @@ export class TrackingSubmitModalComponent implements OnInit, OnDestroy {
             { name: 'B', value: 'B' },
             { name: 'C', value: 'C' },
             { name: 'D', value: 'D' },
-            { name: 'E', value: 'E' },
+            { name: '单交', value: '单交' },
+            { name: 'E', value: 'E' }
         ];
     }
 
     ngOnInit() {
         this.validateForm = this.fb.group({
-            appointmentLevel: [null, [Validators.required]],
-            appointmentTime: [null, [Validators.required]]
+            appointmentLevel: [this.appointmentLevel || null, [Validators.required]],
+            appointmentTime: [this.appointmentTime || null, [Validators.required]]
         });
     }
 

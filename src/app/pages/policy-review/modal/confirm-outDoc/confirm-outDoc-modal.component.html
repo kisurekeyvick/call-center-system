@@ -43,6 +43,30 @@
                             </nz-form-control>
                         </nz-form-item>
                     </div>
+                    <div nz-row nz-col nzXs="24"nzGutter="24">
+                        <nz-form-item class="nzFormItem">
+                            <nz-form-label nz-col nzXs="7"  nzRequired  nzFor="drivingPremium" class="nzFormLabel">驾意险价格(元)</nz-form-label>
+                            <nz-form-control nz-col nzXs="17" class="nzFormControl" nzHasFeedback nzErrorTip="请输入驾意险价格">
+                                <nz-input-number style="width: 100%;" [nzMin]="0" id="drivingPremium" formControlName="drivingPremium" [nzStep]="1"></nz-input-number>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-row nz-col nzXs="24"nzGutter="24">
+                        <nz-form-item class="nzFormItem">
+                            <nz-form-label nz-col nzXs="7"  nzRequired  nzFor="allowancePremium" class="nzFormLabel">津贴保价格(元)</nz-form-label>
+                            <nz-form-control nz-col nzXs="17" class="nzFormControl" nzHasFeedback nzErrorTip="请输入津贴保价格">
+                                <nz-input-number style="width: 100%;" [nzMin]="0" id="allowancePremium" formControlName="allowancePremium" [nzStep]="1"></nz-input-number>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                    <div nz-row nz-col nzXs="24"nzGutter="24">
+                        <nz-form-item class="nzFormItem">
+                            <nz-form-label nz-col nzXs="7"  nzRequired  nzFor="glassPremium" class="nzFormLabel">玻璃膜价格(元)</nz-form-label>
+                            <nz-form-control nz-col nzXs="17" class="nzFormControl" nzHasFeedback nzErrorTip="请输入玻璃膜价格">
+                                <nz-input-number style="width: 100%;" [nzMin]="0" id="glassPremium" formControlName="glassPremium" [nzStep]="1"></nz-input-number>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
                 </div>
                 <div class="modal-btn-group">
                     <button nz-button [nzType]="'default'" (click)="cancel()">取消</button>

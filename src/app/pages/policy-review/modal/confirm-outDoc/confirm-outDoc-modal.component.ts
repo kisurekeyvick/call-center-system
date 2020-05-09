@@ -29,7 +29,9 @@ export class ConfirmOutDocModalComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        const { compulsorySumPremium, taxActual, commercialSumPremium, orderDate } = this.policyItem;
+        const { compulsorySumPremium, taxActual, commercialSumPremium, orderDate,
+            drivingPremium, allowancePremium, glassPremium } = this.policyItem;
+
         this.validateForm = this.fb.group({
             /** 交强险金额 */
             compulsorySumPremium: [compulsorySumPremium, [Validators.required]],
@@ -38,7 +40,13 @@ export class ConfirmOutDocModalComponent implements OnInit, OnDestroy {
             /** 商业险金额 */
             commercialSumPremium: [commercialSumPremium, [Validators.required]],
             /** 出单日期 */
-            orderDate: [orderDate, [Validators.required]]
+            orderDate: [orderDate, [Validators.required]],
+            /** 驾意险价格 */
+            drivingPremium: [drivingPremium, [Validators.required]],
+            /** 津贴保价格 */
+            allowancePremium: [allowancePremium, [Validators.required]],
+            /** 玻璃膜价格 */
+            glassPremium: [glassPremium, [Validators.required]]
         });
     }
 

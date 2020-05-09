@@ -632,14 +632,17 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
      */
     trackSubmit() {
         const { customer } = this.cacheCustomerInfo;
-        const { customerId } = customer;
+        const { customerId, appointmentLevel, appointmentTime } = customer;
 
         const modal = this.modalService.create({
             nzTitle: '跟踪提交',
             nzContent: TrackingSubmitModalComponent,
             nzComponentParams: {
-                customerId
+                customerId,
+                appointmentLevel,
+                appointmentTime
             },
+            nzWidth: 550,
             nzMaskClosable: false,
             nzFooter: null
         });
