@@ -62,6 +62,7 @@
                     <td>{{data.firstCallAlreadyNum}}</td>
                     <td>{{data.appointmentNum}}</td>
                     <td>{{data.appointmentHandleNum}}</td>
+                    <td>{{data.todayNum}}</td>
                     <td>
                         <ng-container *ngIf="isEditing">
                             <nz-input-number [(ngModel)]="data.distributionNum" (ngModelChange)="distributionNumChange(data)" [nzMin]="0" [nzStep]="1"></nz-input-number>

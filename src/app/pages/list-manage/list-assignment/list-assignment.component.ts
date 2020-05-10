@@ -90,10 +90,15 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
             catchError(err => of(err))
         ).subscribe(res => {
             if (res instanceof Array) {
-                this.assignMemberList = res;
-                this.historyAssignMemberList = res;
-                this.historyDistributionNum = res.reduce((pre, cur) => {
-                    pre = pre + cur.distributionNum;
+                const value = res.map(item => ({
+                    ...item,
+                    todayNum: item.distributionNum,
+                    distributionNum: 0
+                }));
+                this.assignMemberList = value;
+                this.historyAssignMemberList = value;
+                this.historyDistributionNum = value.reduce((pre, cur) => {
+                    pre = pre + cur.todayNum;
                     return pre;
                 }, 0);
             }
@@ -164,9 +169,11 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
     distributionNumChange(assignMember: IAssignMember) {
         /** 当次分配总量 = 数据总分配 - 今日历史已分配 */
         const totalNumber = this.assignMemberList.reduce((pre: number, next: IAssignMember) => {
-            pre = pre + (next.distributionNum || 0);
+            pre = pre + (next.distributionNum || 0) + (next.todayNum || 0);
             return pre;
         }, 0) - this.historyDistributionNum;
+
+        console.log('nice fish', totalNumber);
 
         if (totalNumber > this.totalNumber) {
             this.message.error('已超过可配置数额').onClose.subscribe(() => {

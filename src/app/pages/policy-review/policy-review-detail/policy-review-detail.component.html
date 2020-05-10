@@ -45,8 +45,8 @@
             <div class="detail-item">
                 <p class="title">保险期间</p>
                 <div nz-row class="detail-item-content">
-                    <p nz-col nzXs="24" nzSm="12" nzMd="8">交强险自 {{ detailInfo.insTime.compulsoryStartTime | date:'yyyy-MM-dd HH:mm:ss' }} 起至 {{ detailInfo.insTime.compulsoryEndTime | date:'yyyy-MM-dd HH:mm:ss' }} 止</p>
-                    <p nz-col nzXs="24" nzSm="12" nzMd="8">商业险自 {{ detailInfo.insTime.commercialStartTime | date:'yyyy-MM-dd HH:mm:ss' }} 起至 {{ detailInfo.insTime.commercialEndTime | date:'yyyy-MM-dd HH:mm:ss' }} 止</p>
+                    <p nz-col nzXs="24" nzSm="12" nzMd="8">交强险 {{ detailInfo.insTime.compulsoryStartTime | date:'yyyy-MM-dd HH:mm:ss' }} ~ {{ detailInfo.insTime.compulsoryEndTime | date:'yyyy-MM-dd HH:mm:ss' }}</p>
+                    <p nz-col nzXs="24" nzSm="12" nzMd="8">商业险 {{ detailInfo.insTime.commercialStartTime | date:'yyyy-MM-dd HH:mm:ss' }} ~ {{ detailInfo.insTime.commercialEndTime | date:'yyyy-MM-dd HH:mm:ss' }}</p>
                 </div>
             </div>
 

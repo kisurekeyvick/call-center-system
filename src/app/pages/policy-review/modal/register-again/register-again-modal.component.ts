@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { NzModalRef } from 'ng-zorro-antd';
+import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PolicyReviewService } from '../../policy-review.service';
 import { catchError } from 'rxjs/operators';
@@ -27,7 +27,8 @@ export class RegisterAgainModalComponent implements OnInit, OnDestroy {
     constructor(
         private modal: NzModalRef,
         private fb: FormBuilder,
-        private policyReviewService: PolicyReviewService
+        private policyReviewService: PolicyReviewService,
+        private message: NzMessageService,
     ) {
     }
 
@@ -82,11 +83,15 @@ export class RegisterAgainModalComponent implements OnInit, OnDestroy {
             }
         };
 
-        this.policyReviewService.updateCustomerOrder(params).pipe(
+        this.policyReviewService.operationOrder(params).pipe(
             catchError(err => of(err))
         ).subscribe(res => {
             if (!(res instanceof TypeError)) {
-                this.modal.destroy('success');
+                if (res.code === '200') {
+                    this.modal.destroy('success');
+                } else {
+                    this.message.error(res.message);
+                }
             }
         });
     }
