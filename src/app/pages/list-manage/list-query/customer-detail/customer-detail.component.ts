@@ -14,6 +14,7 @@ import { validIDCardValue, validPhoneValue, validCarNoValue, priceFormat, revers
 import { TrackingSubmitModalComponent } from '../../modal/tracking-submit-modal/tracking-submit-modal.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { cloneDeep } from 'lodash';
+import * as dayjs from 'dayjs';
 
 interface ICommon {
     [key: string]: any;
@@ -442,6 +443,26 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
     }
 
     /**
+     * @func
+     * @desc 时间发生变化
+     * @param time 
+     */
+    formControlTimeChange(time: Date[], formControlName: string) {
+        if (time.length > 0) {
+            const startTime = dayjs(time[0]);
+            const formatStartTime = dayjs(startTime).format('YYYY/MM/DD');
+            const resetStartTime = new Date(formatStartTime);
+            const formatEndTime = formatStartTime.split('/').map((item: string, index: number) => {
+                return index === 0 && String(Number(item) + 1) || item;
+            }).join('/');
+            const resetEndTime = new Date(formatEndTime);
+            this.validateForm.patchValue({
+                [formControlName]: [resetStartTime, resetEndTime]
+            });
+        }
+    }
+
+    /**
      * @callback
      * @desc 险种保费发生变化
      */
@@ -550,10 +571,12 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         
         Object.assign(params.customer, {
             customerName, customerPhone, customerAddress, customerRemark, idCard, otherContact,
-            carNo, brandName, vinNo, engineNo, seatNumber, registerTime, lastCompanyCode,
-            validityDate, commercialEndTime, commercialStartTime, compulsoryEndTime, compulsoryStartTime,
+            carNo, brandName, vinNo, engineNo, seatNumber, 
+            registerTime: new Date(dayjs(registerTime).format('YYYY-MM-DD')), lastCompanyCode,
+            validityDate: new Date(dayjs(validityDate).format('YYYY-MM-DD')), 
+            commercialEndTime, commercialStartTime, compulsoryEndTime, compulsoryStartTime,
             usage, purchasePrice, carTypeCode, receiptName, receiptPhone, sender, receiptRemarks,
-            receiptDate
+            receiptDate: new Date(dayjs(receiptDate).format('YYYY-MM-DD'))
         });
 
         params.quoteCommercialInsuranceDetailList = this.formatRequestInsValue();

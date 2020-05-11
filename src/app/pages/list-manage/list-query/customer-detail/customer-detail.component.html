@@ -157,7 +157,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzRequired  nzFor="registerTime" class="nzFormLabel">初登日期</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-date-picker style="width: 100%;" [nzFormat]="'yyyy-MM-dd HH:mm:ss'" id="registerTime" formControlName="registerTime"></nz-date-picker>
+                                    <nz-date-picker style="width: 100%;" [nzFormat]="'yyyy-MM-dd'" id="registerTime" formControlName="registerTime"></nz-date-picker>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -165,7 +165,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzRequired  nzFor="validityDate" class="nzFormLabel">年检有效期</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-date-picker [nzFormat]="'yyyy-MM-dd HH:mm:ss'" id="validityDate" formControlName="validityDate"></nz-date-picker>
+                                    <nz-date-picker [nzFormat]="'yyyy-MM-dd'" id="validityDate" formControlName="validityDate"></nz-date-picker>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -337,7 +337,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzRequired  nzFor="compulsoryTime" class="nzFormLabel">交强险时间</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-range-picker [nzFormat]="'yyyy-MM-dd 00:00:00'" id="compulsoryTime" formControlName="compulsoryTime"></nz-range-picker>
+                                    <nz-range-picker [nzFormat]="'yyyy-MM-dd 00:00:00'" id="compulsoryTime" formControlName="compulsoryTime" (nzOnCalendarChange)="formControlTimeChange($event, 'compulsoryTime')"></nz-range-picker>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -345,7 +345,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzRequired  nzFor="commercialTime" class="nzFormLabel">商业险时间</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-range-picker [nzFormat]="'yyyy-MM-dd 00:00:00'" id="commercialTime" formControlName="commercialTime"></nz-range-picker>
+                                    <nz-range-picker [nzFormat]="'yyyy-MM-dd 00:00:00'" id="commercialTime" formControlName="commercialTime" (nzOnCalendarChange)="formControlTimeChange($event, 'commercialTime')"></nz-range-picker>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -356,7 +356,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzRequired  nzFor="receiptDate" class="nzFormLabel">派送时间</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-date-picker [nzFormat]="'yyyy-MM-dd HH:mm:ss'" id="receiptDate" formControlName="receiptDate"></nz-date-picker>
+                                    <nz-date-picker [nzFormat]="'yyyy-MM-dd'" id="receiptDate" formControlName="receiptDate"></nz-date-picker>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>

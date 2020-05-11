@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import * as echarts from 'echarts';
 import { ISearchListItem, ISearchListModel, searchListItem,
-    searchListModel, searchListLayout } from './kpi-analysis.component.config';
+    searchListModel, searchListLayout, IChartData } from './kpi-analysis.component.config';
 import { NzMessageService } from 'ng-zorro-antd';
 
 interface ICommon {
@@ -96,7 +96,98 @@ export class KpiAnalysisReportComponent implements OnInit, OnDestroy {
             this.isLoading = false;
 
             if (!(res instanceof TypeError)) {
-                // this.buildEchartReport(res);
+                res.header.length > 0 && (this.exitData = true) || (this.exitData = false);
+                const val = {
+                    header: [
+                        {
+                            "userId": 192,
+                            "userName": "zhaodacheng",
+                            "ranking": 1,
+                            "realSumPremium": 0
+                        },
+                        {
+                            "userId": 195,
+                            "userName": "yewuyuan",
+                            "ranking": 2,
+                            "realSumPremium": 0
+                        }
+                    ],
+                    body: [
+                        {
+                            "days": 1,
+                            "columns": [
+                                {
+                                    "id": 192,
+                                    "value": 20
+                                },
+                                {
+                                    "id": 195,
+                                    "value": 30
+                                }
+                            ],
+                            "total": 50
+                        },
+                        {
+                            "days": 2,
+                            "columns": [
+                                {
+                                    "id": 192,
+                                    "value": 15
+                                },
+                                {
+                                    "id": 195,
+                                    "value": 25
+                                }
+                            ],
+                            "total": 40
+                        },
+                        {
+                            "days": 3,
+                            "columns": [
+                                {
+                                    "id": 192,
+                                    "value": 12
+                                },
+                                {
+                                    "id": 195,
+                                    "value": 27
+                                }
+                            ],
+                            "total": 39
+                        },
+                        {
+                            "days": 4,
+                            "columns": [
+                                {
+                                    "id": 192,
+                                    "value": 13
+                                },
+                                {
+                                    "id": 195,
+                                    "value": 29
+                                }
+                            ],
+                            "total": 42
+                        },
+                        {
+                            "days": 5,
+                            "columns": [
+                                {
+                                    "id": 192,
+                                    "value": 3
+                                },
+                                {
+                                    "id": 195,
+                                    "value": 8
+                                }
+                            ],
+                            "total": 11
+                        }
+                    ]
+                };
+                this.buildEchartReport(val);
+            } else {
+                this.exitData = false;
             }
         });
     }
@@ -106,11 +197,91 @@ export class KpiAnalysisReportComponent implements OnInit, OnDestroy {
      * @desc 构建echart报表
      * @param res 
      */
-    buildEchartReport(res: ICommon) {
+    buildEchartReport(res: IChartData) {
         const dom: HTMLDivElement = this.el.nativeElement.querySelector('#echartsContainer');
         const myChart = echarts.init(dom);
+        /** X轴展示day */
+        const xAxisData_day = [];
+        /** 顶部展示业务员 */
+        let legendData_salesmen = [];
+        /** 根据业务员，展示每个业务员的战绩 */
+        const seriesData = [];
 
-        const options: any = {};
+        const { body, header } = res;
+        legendData_salesmen = header;
+
+        body.forEach(item => {
+            xAxisData_day.push(`${item.days}月`);
+        });
+
+        legendData_salesmen.forEach(salesman => {
+            const { userName, userId } = salesman;
+            const result = {
+                name: userName, stack: '总量', data: []
+            };
+
+            body.forEach(item => {
+                const { columns } = item;
+
+                for (const { id, value } of columns) {
+                    if (id === userId) {
+                        result.data.push(value);
+                        break;
+                    }
+                }
+            });
+
+            seriesData.push(result);
+        });
+
+        const options: any = {
+            title: {
+                text: '战报'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    label: {
+                        backgroundColor: '#6a7985'
+                    }
+                },
+                formatter: (params: any, ticket: string, callback: (ticket: string, html: string) => {}) => {
+                    let str = `${params[0] && params[0]['axisValue'] || ''}`;
+                    (params as Array<any>).forEach(param => {
+                        str += `<br />业务员："${param.seriesName}"，当月数量${param.value}`;
+                    });
+                    return str;
+                }
+            },
+            legend: {
+                data: (legendData_salesmen.map(reason => reason.userName) as String[])
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            xAxis: [{
+                type: 'category',
+                data: xAxisData_day
+            }],
+            yAxis: [{
+                type: 'value'
+            }],
+            series: seriesData.map(serie => ({
+                name: serie.name,
+                type: 'bar',
+                areaStyle: {},
+                data: serie.data
+            }))
+        };
 
         myChart.setOption(options);
     }

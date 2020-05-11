@@ -39,3 +39,21 @@ export const searchListModel: ISearchListModel = {
     time: null,
 };
 
+export interface IChartData {
+    body: Array<{
+        days: number;
+        total: number;
+        columns: Array<{
+            id: number;
+            value: number;
+            [key: string]: any;
+        }>;
+    }>;
+    header: Array<{
+        ranking: number;
+        userId: number;
+        userName: string;
+        realSumPremium: number;
+        [key: string]: any;
+    }>;
+}
