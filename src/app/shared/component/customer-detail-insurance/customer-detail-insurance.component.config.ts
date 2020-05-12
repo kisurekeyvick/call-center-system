@@ -196,6 +196,19 @@ export const insList: IInsList[] = [
             payPremium: null
         }
     },
+    {
+        name: '指定厂专修险',
+        code: 'SPECIAL_REPAIR_FACTORY_RISK',
+        id: 13,
+        hasCheckbox: true,
+        type: 'text',
+        value: {
+            hasCurrentIns: false,
+            checked: false,
+            coverageValue: '',
+            payPremium: null
+        }
+    }
     // {
     //     name: '驾意险',
     //     code: 'DriverAccidentRisk',

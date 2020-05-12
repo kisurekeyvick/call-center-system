@@ -57,14 +57,14 @@ export const dictionary = new Map([
     [
         /** 保险公司 */
         'insuranceCompanys', [
-            { name: '中国人民财产保险股份有限公司', value: 'PICC' },
-            { name: '中国平安财产保险股份有限公司', value: 'PAIC' },
-            { name: '中国太平洋财产保险股份有限公司', value: 'CPIC' },
-            { name: '太平财产保险有限公司', value: 'TPIC' },
-            { name: '阳光财产保险股份有限公司', value: 'SSIC' },
-            { name: '中华联合财产保险股份有限公司', value: 'CICP' },
-            { name: '安盛天平财产保险股份有限公司', value: 'ASTP' },
-            { name: '众安在线财产保险股份有限公司', value: 'ZAPA' },
+            { name: '人保', value: 'PICC' },
+            { name: '平安', value: 'PAIC' },
+            { name: '太平洋', value: 'CPIC' },
+            { name: '太平', value: 'TPIC' },
+            { name: '阳光', value: 'SSIC' },
+            { name: '中华', value: 'CICP' },
+            { name: '安盛天平', value: 'ASTP' },
+            { name: '众安平安', value: 'ZAPA' },
             { name: '中国人寿财产保险股份有限公司', value: 'CLPC' },
             { name: '中国大地财产保险股份有限公司', value: 'CCIC' },
             { name: '天安保险股份有限公司', value: 'TAIC' },

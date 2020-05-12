@@ -102,7 +102,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             this.validateForm = this.fb.group({
                 /** 客户信息 */
                 customerName: [null, [Validators.required]],
-                idCard: [null, [this.validIDCard]],
+                idCard: [null],
                 customerPhone: [null, [Validators.required, this.validPhone]],
                 otherContact: [null],
                 customerAddress: [null],
