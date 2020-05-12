@@ -12,6 +12,8 @@
     }
 
     .search-list-table {
+        @include tableListStyle;
+
         .remark-icon {
             cursor: pointer;
         }

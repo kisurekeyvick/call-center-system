@@ -4,8 +4,8 @@ interface IFindValueNameSource {
     [key: string]: any;
 }
 
-export function findValueName(source: IFindValueNameSource[], value: string) {
-    const target = source.find(item => String(item.value) === value);
+export function findValueName(source: IFindValueNameSource[], value: string | number) {
+    const target = source.find(item => String(item.value) === String(value));
     return target && target.name || null;
 }
 

@@ -10,7 +10,7 @@ import { ListManageService } from '../../list-manage.service';
 import { catchError } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
 import { DefeatSubmitModalComponent } from '../../modal/defeat-submit-modal/defeat-submit-modal.component';
-import { validIDCardValue, validPhoneValue, validCarNoValue, priceFormat, reversePriceFormat, numberToFixed } from 'src/app/core/utils/function';
+import { validIDCardValue, validPhoneValue, validCarNoValue, priceFormat, reversePriceFormat, numberToFixed, findValueName } from 'src/app/core/utils/function';
 import { TrackingSubmitModalComponent } from '../../modal/tracking-submit-modal/tracking-submit-modal.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { cloneDeep } from 'lodash';
@@ -98,16 +98,11 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             this.formType = data['type'];
 
             this.readCache();
-
-            if (this.formType === 'detail' || this.formType === 'quickLink') {
-                this.canShowDetailFeature = true;
-                this.sourceCache && this.showDetailForm(this.sourceCache.currentCustomer);
-            }
     
             this.validateForm = this.fb.group({
                 /** 客户信息 */
                 customerName: [null, [Validators.required]],
-                idCard: [null, [Validators.required, this.validIDCard]],
+                idCard: [null, [this.validIDCard]],
                 customerPhone: [null, [Validators.required, this.validPhone]],
                 otherContact: [null],
                 customerAddress: [null],
@@ -150,11 +145,22 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                 receiptName: [null],
                 receiptPhone: [null],
                 sender: [null],
+                giftName: [null],
+                receiptAddress: [null],
                 receiptRemarks: [null]
             });
     
             this.loadDefeatReasonList();
-            this.loadGiftList();
+
+            if (this.formType === 'detail' || this.formType === 'quickLink') {
+                this.canShowDetailFeature = true;
+                /** 预先加载赠品，再加载详情 */
+                this.loadGiftList().finally(() => {
+                    this.sourceCache && this.showDetailForm(this.sourceCache.currentCustomer);
+                });
+            } else {
+                this.loadGiftList();
+            }
         });
 
         /** 用于监听 是否能够成功提交 */
@@ -239,10 +245,12 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             carNo, brandName, vinNo, engineNo, seatNumber, registerTime, lastCompanyCode,
             validityDate, commercialEndTime, commercialStartTime, compulsoryEndTime, compulsoryStartTime,
             usage, purchasePrice, carTypeCode, receiptName, receiptPhone, sender, receiptRemarks,
-            receiptDate } = customer;
+            receiptDate, receiptAddress } = customer;
         !quoteInsurance && (quoteInsurance = {});
         const { isDiscount, commercialSumPremium, compulsorySumPremium, taxActual, discount,
             sumPremium, realSumPremium, drivingPremium, allowancePremium, glassPremium, giftId, companyCode } = quoteInsurance;
+        const roleInfo = this.localCache.get(LocalStorageItemName.USERPROFILE);
+        const { name } = roleInfo && roleInfo['value'] || { name: '' };
         this.validateForm.patchValue({
             /** 客户信息 */
             /** 姓名 */
@@ -319,11 +327,15 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             /** 派送时间 */
             receiptDate,
             /** 收件人 */
-            receiptName,
+            receiptName: receiptName || customerName,
             /** 联系方式 */
             receiptPhone,
             /** 寄件人 */
-            sender,
+            sender: sender || name,
+            /** 赠品名 */
+            giftName: findValueName(this.giftList, giftId),
+            /** 地址 */
+            receiptAddress,
             /** 备注 */
             receiptRemarks
         });
@@ -370,17 +382,23 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
      * @desc 加载赠品列表数据
      */
     loadGiftList() {
-        this.customerService.queryGiftList().pipe(
-            catchError(err => of(err))
-        ).subscribe(res => {
-            if (res instanceof Array) {
-                this.giftList = res.map(gift => ({
-                    ...gift,
-                    name: gift.giftName,
-                    value: gift.id
-                }));
-            }
-        });
+        return new Promise((resolve, reject) => {
+            this.customerService.queryGiftList().pipe(
+                catchError(err => of(err))
+            ).subscribe(res => {
+                if (res instanceof Array) {
+                    this.giftList = res.map(gift => ({
+                        ...gift,
+                        name: gift.giftName,
+                        value: gift.id
+                    }));
+
+                    resolve('success');
+                } else {
+                    reject('err');
+                }
+            });
+        }); 
     }
 
     /**
@@ -460,6 +478,16 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                 [formControlName]: [resetStartTime, resetEndTime]
             });
         }
+    }
+
+    /**
+     * @callback
+     * @desc 赠品发生改变
+     */
+    giftChange(giftId: string) {
+        this.validateForm.patchValue({
+            giftName: findValueName(this.giftList, giftId)
+        });
     }
 
     /**
@@ -790,28 +818,37 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
      * @desc 无效提交
      */
     invalidSubmit() {
-        const { customer } = this.cacheCustomerInfo;
-        const { customerId } = customer;
-
-        const params = {
-            operationCode: '5',
-            customerId
-        };
-
-        this.isLoading = true;
-        this.customerService.operationCustomer(params).pipe(
-            catchError(err => of(err))
-        ).subscribe(res => {
-            if (!(res instanceof TypeError)) {
-                if (res.code !== '200') {
-                    this.message.error(res.message);
-                } else {
-                    this.message.success('提交成功');
-                    this.switchToNextCustomer();
-                }
+        this.modalService.confirm({
+            nzTitle: '提示',
+            nzContent: '您确认无效提交吗？',
+            nzOnOk: () => {
+                const { customer } = this.cacheCustomerInfo;
+                const { customerId } = customer;
+        
+                const params = {
+                    operationCode: '5',
+                    customerId
+                };
+        
+                this.isLoading = true;
+                this.customerService.operationCustomer(params).pipe(
+                    catchError(err => of(err))
+                ).subscribe(res => {
+                    if (!(res instanceof TypeError)) {
+                        if (res.code !== '200') {
+                            this.message.error(res.message);
+                        } else {
+                            this.message.success('提交成功');
+                            this.switchToNextCustomer();
+                        }
+                    }
+        
+                    this.isLoading = false;
+                });
+            },
+            nzOnCancel: () => {
+                this.message.info('您已取消操作');
             }
-
-            this.isLoading = false;
         });
     }
 

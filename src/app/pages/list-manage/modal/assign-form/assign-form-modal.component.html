@@ -4,7 +4,8 @@
         <div class="model-content-item">
             <p class="title">回收名单数：<span class="highlight">{{ listCount }}</span></p>
             <div class="salesman-list-table">
-              <nz-table #list [nzData]="assignMemberList" [nzShowPagination]="false" [nzFrontPagination]="false" [nzTotal]="assignMemberList.length">
+              <nz-table #list [nzData]="assignMemberList" [nzShowPagination]="false" [nzFrontPagination]="false" [nzTotal]="assignMemberList.length" 
+              [nzScroll]="{ y: '500px' }">
                   <thead>
                     <tr>
                       <ng-container *ngFor="let th of tableCfg.thead">

@@ -217,5 +217,16 @@ export const dictionary = new Map([
             { name: '二十座至三十六座以下客车', value: 'A042' },
             { name: '三十六座及三十六座以上客车', value: 'A052' },
         ]
+    ],
+    [
+        /** 客户列表 预约级别 */
+        'appointmentLevel', [
+            { name: 'A', value: 'A' },
+            { name: 'B', value: 'B' },
+            { name: 'C', value: 'C' },
+            { name: 'D', value: 'D' },
+            { name: '单交', value: '单交' },
+            { name: 'E', value: 'E' }
+        ]
     ]
 ]);

@@ -22,6 +22,10 @@
                 padding: 0 12px;
                 margin-bottom: 24px;
             }
+
+            .ins-table-list {
+                @include tableListStyle;
+            }
         }
 
         .btn-group {

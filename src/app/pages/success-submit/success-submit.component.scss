@@ -2,4 +2,8 @@
 
 .success-submit-list {
     @include listLayout;
+
+    .search-list-table {
+        @include tableListStyle;
+    }
 }

@@ -40,6 +40,16 @@
     }
 }
 
+@mixin tableListStyle {
+    .ant-table-tbody {
+        tr:nth-child(2n) {
+            td {
+                background-color: #fafafa; 
+            }
+        }
+    }
+}
+
 $primarycolor:#1890ff;
 
 @keyframes slideInDown {

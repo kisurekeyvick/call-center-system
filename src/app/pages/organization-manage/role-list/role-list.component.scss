@@ -12,12 +12,16 @@
             }
         }
 
+        // .search-list-table {
+        //     tr.selected {
+        //         td {
+        //             background: #e6f7ff;
+        //         }
+        //     }
+        // }
+
         .search-list-table {
-            tr.selected {
-                td {
-                    background: #e6f7ff;
-                }
-            }
+            @include tableListStyle;
         }
     }
 }

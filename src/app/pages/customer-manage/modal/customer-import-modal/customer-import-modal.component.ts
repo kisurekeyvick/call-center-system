@@ -15,6 +15,8 @@ import { UtilsService } from 'src/app/core/utils/utils.service';
 export class CustomerImportModalComponent implements OnInit, OnDestroy {
     /** 上传的文件 */
     fileList: UploadFile[];
+    /** 加载中 */
+    isLoading: boolean;
 
     constructor(
         private modal: NzModalRef,
@@ -22,7 +24,7 @@ export class CustomerImportModalComponent implements OnInit, OnDestroy {
         private customerService: CustomerService,
         private utilsService: UtilsService
     ) {
-
+        this.isLoading = false;
     }
 
     ngOnInit() {
@@ -82,6 +84,8 @@ export class CustomerImportModalComponent implements OnInit, OnDestroy {
                 httpUrl: 'api/customer/import',
                 requestParams: formData
             };
+            
+            this.isLoading = true;
 
             this.utilsService.uploadFile(requestParams).pipe(
                 catchError(err => of(err))
@@ -89,12 +93,9 @@ export class CustomerImportModalComponent implements OnInit, OnDestroy {
                 if (!(res instanceof TypeError)) {
                     this.modal.destroy('success');
                 }
+
+                this.isLoading = false;
             });
-            // this.customerService.customerImport(formData).pipe(
-            //     catchError(err => of(err))
-            // ).subscribe(res => {
-            //     this.message.success('附件上传成功');
-            // });
         });
     }
 

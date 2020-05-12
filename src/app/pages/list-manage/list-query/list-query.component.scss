@@ -2,4 +2,8 @@
 
 .list-query-list {
     @include listLayout;
+
+    .search-list-table {
+        @include tableListStyle;
+    }
 }

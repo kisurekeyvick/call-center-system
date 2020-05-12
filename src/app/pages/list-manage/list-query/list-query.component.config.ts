@@ -4,6 +4,7 @@ export const companyList = dictionary.get('insuranceCompanys');
 const ownerShipList = dictionary.get('category');
 export const renewalStateList = dictionary.get('renewalState');
 export const customerStatusList = dictionary.get('customerStatus');
+export const appointmentLevelList = dictionary.get('appointmentLevel');
 
 export interface ISearchListItem {
     id: number;
@@ -170,6 +171,18 @@ export const searchListItem: ISearchListItem[] = [
         key: 'registerTime',
         type: 'dateRange',
         grid: commonGrid
+    },
+    {
+        id: 15,
+        label: '意向级别',
+        key: 'appointmentLevel',
+        type: 'select',
+        grid: commonGrid,
+        config: {
+            options: [
+                ...appointmentLevelList
+            ]
+        }
     }
 ];
 
@@ -188,6 +201,7 @@ export interface ISearchListModel {
     ownerShip: string;
     renewalState: string;
     registerTime: string[];
+    appointmentLevel: string;
     [key: string]: any;
 }
 
@@ -205,6 +219,7 @@ export const searchListModel: ISearchListModel = {
     maxPurchasePrice: null,
     ownerShip: null,
     renewalState: null,
+    appointmentLevel: null,
     registerTime: []
 };
 

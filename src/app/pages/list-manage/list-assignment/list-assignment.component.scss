@@ -61,6 +61,10 @@
         }
     }
 
+    .search-list-table {
+        @include tableListStyle;
+    }
+
     .assign-number-mesg {
         .isloading-assign-number {
             i {

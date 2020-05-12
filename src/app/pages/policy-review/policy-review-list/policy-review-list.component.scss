@@ -6,4 +6,8 @@
     .sticky-ele {
         position: sticky;
     }
+
+    .search-list-table {
+        @include tableListStyle;
+    }
 }

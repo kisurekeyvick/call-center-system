@@ -35,6 +35,8 @@ export interface IGiftItem {
     tenantCode: string;
     giftName: string;
     giftPrice: string;
+    name: string;
+    value: string;
     [key: string]: any;
 }
 

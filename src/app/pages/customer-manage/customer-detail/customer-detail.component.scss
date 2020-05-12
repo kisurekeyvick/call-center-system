@@ -15,15 +15,15 @@
     .slide-customer-list {
         max-height: calc(100% - 100px);
         float: left;
-        flex-basis: 160px;
+        flex-basis: 140px;
 
         .customer-list-count {
             margin-bottom: 12px;
         }
 
         .slide-customer-list-scroll {
-            width: 160px;
-            height: calc(100% - 160px);
+            width: 140px;
+            height: calc(100% - 140px);
             overflow-y: auto;
 
             .customer-simple-show {
@@ -92,7 +92,11 @@
 
     .customer-detail-form {
         flex: 1;
-        padding-left: 24px;
+        padding-left: 12px;
+
+        .nzFormItem {
+            margin-bottom: 12px;
+        }
 
         p.title {
             background: #f0f2f5;

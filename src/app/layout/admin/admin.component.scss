@@ -22,7 +22,15 @@
                 max-height: calc(100% - 64px);
             }
         }
-          
+
+        ul.ant-menu {
+          ul {
+            li.ant-menu-item {
+              padding-left: 36px !important;
+            }
+          }
+        }
+
           .trigger:hover {
             color: #1890ff;
           }
@@ -46,7 +54,7 @@
           
           .sidebar-logo h1 {
             display: inline-block;
-            margin: 0 0 0 15px;
+            margin: 0 0 0 3px;
             color: #fff;
             font-weight: 600;
             font-size: 14px;

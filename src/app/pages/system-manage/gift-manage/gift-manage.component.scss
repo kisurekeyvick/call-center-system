@@ -10,4 +10,8 @@
             margin-right: 12px;
         }
     }
+
+    .search-list-table {
+        @include tableListStyle;
+    }
 }

@@ -11,6 +11,10 @@
         }
     }
 
+    .search-list-table {
+        @include tableListStyle;
+    }
+
     .ant-popover-message-title {
         width: 150px;
     }
