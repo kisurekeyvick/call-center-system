@@ -176,12 +176,16 @@ export class RoleListComponent implements OnInit, OnDestroy {
 
         const setNodeChecked = (nodes: IPermission[]) => {
             nodes.forEach((node: IPermission) => {
-                if (permissions.includes(node.code)) {
-                    node.checked = true;
-                }
-
                 if (node.children && node.children.length > 0) {
+                    /** 如果子child都是会被选中的，那么父级也选中 */
+                    const isTotalChecked = node.children.every(child => permissions.includes(child.code));
+                    const canExpand = node.children.some(child => permissions.includes(child.code));
+                    isTotalChecked && (node.checked = true);
+                    canExpand && (node.expanded = true);
                     setNodeChecked(node.children);
+                } else {
+                    /** children的数量为0时候判断 */
+                    permissions.includes(node.code) && (node.checked = true);
                 }
             });
         };
