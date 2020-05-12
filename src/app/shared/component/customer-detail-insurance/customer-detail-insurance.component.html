@@ -1,5 +1,40 @@
 <div class="customer-detail-insurance-container">
-    <nz-table #list [nzData]="insList" nzShowPagination="false" nzFrontPagination="false" [nzTotal]="insList.length"
+    <div nz-row class="ins-box">
+        <ng-container *ngFor="let data of insList; let i = index">
+            <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="8">
+                <nz-form-item class="nzFormItem">
+                    <nz-form-label nz-col nzXs="8" nzRequired  nzFor="customerName" class="nzFormLabel">{{ data.name }}</nz-form-label>
+                    <nz-form-control nz-col nzXs="16" class="nzFormControl">
+                        <span nz-col nzXs="8" class="dataType">
+                            <ng-container [ngSwitch]="data.type">
+                                <ng-container *ngSwitchCase="'text'">
+                                   {{ data.value.coverageValue }}
+                                </ng-container>
+                                <ng-container *ngSwitchCase="'inputNumber'">
+                                    <nz-input-number style="width: 100%" nzPlaceHolder="请输入" [(ngModel)]="data.value.coverageValue" [name]="data.code"></nz-input-number>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="'autocomplete'">
+                                    <input nz-input [(ngModel)]="data.value.coverageValue" placeholder="请输入或选择" [nzAutocomplete]="auto" [name]="data.code + 'coverageValue'"/>
+                                    <nz-autocomplete [nzDataSource]="data.config.options" #auto></nz-autocomplete>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="'select-glass'">
+                                    <nz-select nzShowSearch nzAllowClear nzPlaceHolder="请选择" [(ngModel)]="data.value.materialsType" [name]="data.code + i">
+                                        <nz-option *ngFor="let option of data.config.options" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
+                                    </nz-select>
+                                </ng-container>
+                            </ng-container>   
+                        </span>
+                        <span nz-col nzXs="16" class="payPremium">
+                            <nz-input-number style="width: 100%" nzPlaceHolder="请输入" [(ngModel)]="data.value.payPremium" (ngModelChange)="payPremiumChange()" [name]="data.code + 'payPremium'"></nz-input-number>
+                        </span>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </ng-container>
+    </div>
+
+
+    <!-- <nz-table #list [nzData]="insList" nzShowPagination="false" nzFrontPagination="false" [nzTotal]="insList.length"
         [nzScroll]="{ y: '500px' }">
         <thead>
             <tr>
@@ -37,5 +72,5 @@
                 </td>
             </tr>
         </tbody>
-    </nz-table>
+    </nz-table> -->
 </div>

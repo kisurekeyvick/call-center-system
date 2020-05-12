@@ -96,6 +96,49 @@
 
         .nzFormItem {
             margin-bottom: 8px;
+            border: 1px solid #e5e5e5;
+            margin-right: 4px;
+            display: flex;
+
+            .ant-form-item-label,
+            .ant-form-item-control {
+                line-height: 35px;
+            }
+
+            .nzFormLabel {
+                background-color: #f7f7f7;
+                border-right: 1px solid #e5e5e5;
+                flex-basis: 110px;
+                text-align: right;
+            }
+    
+            .nzFormControl {
+                flex: 1;
+                .ant-input {
+                    border: none !important;
+                    height: 30px;
+    
+                    &:focus {
+                        box-shadow: none;
+                    }
+                }
+
+                .ant-input-number-input {
+                    height: 35px;
+                }
+    
+                .ant-input-number {
+                    border: none;
+    
+                    &:focus {
+                        box-shadow: none;
+                    }
+                }
+                
+                .ant-input-number-focused {
+                    box-shadow: none;
+                }
+            }
         }
 
         p.title {
@@ -125,4 +168,27 @@
             }
         }
     }
+}
+
+:host ::ng-deep .customer-detail .customer-detail-form .ant-form-item-control {
+    line-height: 35px;
+}
+
+:host ::ng-deep .customer-detail .customer-detail-form .ant-select-selection {
+    border: none;
+    box-shadow: none;
+}
+
+:host ::ng-deep .customer-detail .customer-detail-form .ant-calendar-picker {
+    width: 100%;
+    box-shadow: none;
+}
+
+:host ::ng-deep .customer-detail .customer-detail-form .ant-input {
+    border: none;
+    box-shadow: none;
+}
+
+:host ::ng-deep .customer-detail .customer-detail-form .nzFormControl-isDiscount .ant-form-item-control {
+    padding-left: 12px;
 }

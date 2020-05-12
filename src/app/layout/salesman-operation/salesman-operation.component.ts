@@ -52,18 +52,26 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
         this.remind = {...defaultRemidVal};
         this.calendarList = [];
         this.selectedIndex = 0;
-        this.intervalSubscription$ = this.intervalSource.subscribe(() => {
-            this.loadTrackingList();
-            this.loadFirstCallList();
-            this.loadCalendarList();
-        });
+        // this.intervalSubscription$ = this.intervalSource.subscribe(() => {
+        //     this.loadTrackingList();
+        //     this.loadFirstCallList();
+        //     this.loadCalendarList();
+        // });
     }
 
     ngOnInit() {
+        this.loadSomeListValue();
+        this.initToggleShowDetailEventListener();
+    }
+
+    /**
+     * @func
+     * @desc 加载数据
+     */
+    loadSomeListValue() {
         this.loadTrackingList();
         this.loadFirstCallList();
         this.loadCalendarList();
-        this.initToggleShowDetailEventListener();
     }
 
     /**
@@ -75,6 +83,7 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
         const dom = this.el.nativeElement.querySelector('.small-operation-show-icon');
         this.mouseHover$ = fromEvent(dom, 'click').subscribe(() => {
             this.showDetail = true;
+            this.loadSomeListValue();
         });
         
         this.mouseClick$ = fromEvent(window, 'click').pipe(
