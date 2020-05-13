@@ -9,22 +9,77 @@
                 background: #f0f2f5;
                 line-height: 40px;
                 padding: 0 12px;
+                margin-bottom: 8px;
+
+                i {
+                    margin-right: 12px;
+                }
             }
 
             .detail-item.summation {
                 p {
                     text-align: center;
-                    line-height: 80px;
+                    line-height: 40px;
+                    margin-bottom: 4px;
                 }
             }
 
             .detail-item-content {
-                padding: 0 12px;
-                margin-bottom: 24px;
+                margin-bottom: 4px;
+
+                .nzFormItem {
+                    @include specialNzFormItem;
+
+                    .nzFormLabel {
+                        flex-basis: 110px;
+                    }
+
+                    .nzFormLabel,
+                    .nzFormControl {
+                        line-height: 35px;
+                        height: 35px;
+                    }
+
+                    .nzFormControl {
+                        padding: 0px 11px;
+                    }
+                }
             }
 
             .ins-table-list {
                 @include tableListStyle;
+
+                .nzFormItem {
+                    @include specialNzFormItem;
+        
+                    .nzFormControl {
+                        .ant-form-item-control {
+                            width: 100%;
+                        }
+        
+                        .dataType {
+                            border-right: 1px solid #e5e5e5;
+                            height: 35px;
+                            padding: 0 11px;
+                            text-align: left;
+                            border-radius: 0px;
+                            outline: 0;
+                            transition: all 0.3s linear;
+                            margin-top: 2px;
+                            line-height: 35px;
+                        }
+
+                        .payPremium {
+                            padding: 0 11px;
+                            height: 35px;
+                            line-height: 35px;
+                        }
+                    }
+        
+                    .nzFormLabel {
+                        flex-basis: 160px;
+                    }
+                }
             }
         }
 

@@ -13,32 +13,102 @@
             <div class="detail-item">
                 <p class="title">投保公司</p>
                 <div nz-row class="detail-item-content">
-                    <p nz-col class="nzFormItem" nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0"><span class="nzFormLabel">投保公司：</span><span class="nzFormControl">{{ detailInfo.insCompany.companyName }}</span></p>
-                    <p nz-col class="nzFormItem" nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0"><span class="nzFormLabel">联系人：</span><span class="nzFormControl">{{ detailInfo.insCompany.createUser }}</span></p>
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">投保公司：</span>
+                            <span class="nzFormControl">{{ detailInfo.insCompany.companyName }}</span>
+                        </p>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">联系人：</span>
+                            <span class="nzFormControl">{{ detailInfo.insCompany.createUser }}</span>
+                        </p>
+                    </div>
                 </div>
             </div>
 
             <div class="detail-item">
                 <p class="title"><i nz-icon nzType="user" nzTheme="outline"></i>客户信息</p>
                 <div nz-row class="detail-item-content">
-                    <p nz-col class="nzFormItem" nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0"><span class="nzFormLabel">被保险人姓名：</span><span class="nzFormControl">{{ detailInfo.customerInfo.customerName }}</span></p>
-                    <p nz-col class="nzFormItem" nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0"><span class="nzFormLabel">身份证号码：</span><span class="nzFormControl">{{ detailInfo.customerInfo.idCard }}</span></p>
-                    <p nz-col class="nzFormItem" nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0"><span class="nzFormLabel">联系电话：</span><span class="nzFormControl">{{ detailInfo.customerInfo.customerPhone }}</span></p>
-                    <p nz-col class="nzFormItem" nzXs="24" nzSm="24" nzGutter="0"><span class="nzFormLabel">被保险人地址：</span><span class="nzFormControl">{{ detailInfo.customerInfo.customerAddress }}</span></p>
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">被保险人姓名：</span>
+                            <span class="nzFormControl">{{ detailInfo.customerInfo.customerName }}</span>
+                        </p>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">身份证号码：</span>
+                            <span class="nzFormControl">{{ detailInfo.customerInfo.idCard }}</span>
+                        </p>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">联系电话：</span>
+                            <span class="nzFormControl">{{ detailInfo.customerInfo.customerPhone }}</span>
+                        </p>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">被保险人地址：</span>
+                            <span class="nzFormControl">{{ detailInfo.customerInfo.customerAddress }}</span>
+                        </p>
+                    </div>
                 </div>
             </div>
 
             <div class="detail-item">
                 <p class="title"><i nz-icon nzType="info-circle" nzTheme="outline"></i>投保车辆信息</p>
                 <div nz-row class="detail-item-content">
-                    <p nz-col class="nzFormItem" nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0"><span class="nzFormLabel">车牌号码：</span><span class="nzFormControl">{{ detailInfo.carInfo.carNo }}</span></p>
-                    <p nz-col class="nzFormItem" nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0"><span class="nzFormLabel">厂牌型号：</span><span class="nzFormControl">{{ detailInfo.carInfo.brandName }}</span></p>
-                    <p nz-col class="nzFormItem" nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0"><span class="nzFormLabel">核定座位：</span><span class="nzFormControl">{{ detailInfo.carInfo.seatNumber }}</span></p>
-                    <p nz-col class="nzFormItem" nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0"><span class="nzFormLabel">初次登记：</span><span class="nzFormControl">{{ detailInfo.carInfo.registerTime | date:'yyyy-MM-dd HH:mm:ss' }}</span></p>
-                    <p nz-col class="nzFormItem" nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0"><span class="nzFormLabel">使用性质：</span><span class="nzFormControl">{{ detailInfo.carInfo.usageName }}</span></p>
-                    <p nz-col class="nzFormItem" nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0"><span class="nzFormLabel">车架号码：</span><span class="nzFormControl">{{ detailInfo.carInfo.vinNo }}</span></p>
-                    <p nz-col class="nzFormItem" nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0"><span class="nzFormLabel">发动机号：</span><span class="nzFormControl">{{ detailInfo.carInfo.engineNo }}</span></p>
-                    <p nz-col class="nzFormItem" nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0"><span class="nzFormLabel">新车购置价：</span><span class="nzFormControl">{{ detailInfo.carInfo.purchasePrice }}</span></p>
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">车牌号码：</span>
+                            <span class="nzFormControl">{{ detailInfo.carInfo.carNo }}</span>
+                        </p>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">厂牌型号：</span>
+                            <span class="nzFormControl">{{ detailInfo.carInfo.brandName }}</span>
+                        </p>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">核定座位：</span>
+                            <span class="nzFormControl">{{ detailInfo.carInfo.seatNumber }}</span>
+                        </p>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">初次登记：</span>
+                            <span class="nzFormControl">{{ detailInfo.carInfo.registerTime | date:'yyyy-MM-dd HH:mm:ss' }}</span>
+                        </p>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">使用性质：</span>
+                            <span class="nzFormControl">{{ detailInfo.carInfo.usageName }}</span>
+                        </p>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">车架号码：</span>
+                            <span class="nzFormControl">{{ detailInfo.carInfo.vinNo }}</span>
+                        </p>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">发动机号：</span>
+                            <span class="nzFormControl">{{ detailInfo.carInfo.engineNo }}</span>
+                        </p>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">新车购置价：</span>
+                            <span class="nzFormControl">{{ detailInfo.carInfo.purchasePrice }}</span>
+                        </p>
+                    </div>
                 </div>
             </div>
 
@@ -53,7 +123,24 @@
             <div class="detail-item">
                 <p class="title"><i nz-icon nzType="money-collect" nzTheme="outline"></i>投保险种</p>
                 <div class="ins-table-list">
-                    <nz-table #list [nzData]="detailInfo.insType" nzShowPagination="false"  [nzTotal]="detailInfo.insType.length">
+                    <ng-container *ngIf="detailInfo.insType.length > 0; else noInsTypeTpl">
+                        <ng-container *ngFor="let data of detailInfo.insType; let i = index">
+                            <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="8">
+                                <nz-form-item class="nzFormItem">
+                                    <nz-form-label nz-col nzXs="8"  class="nzFormLabel">{{ data.insName }}</nz-form-label>
+                                    <nz-form-control nz-col nzXs="16" class="nzFormControl">
+                                        <span nz-col nzXs="15" class="dataType">{{data.coverage && data.coverage + '元' || '无'}}</span>
+                                        <span nz-col nzXs="9" class="payPremium">{{data.payPremium}}元</span>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                    <ng-template #noInsTypeTpl>
+                        <nz-empty nzNotFoundContent="无投保险种"></nz-empty>
+                    </ng-template>
+
+                    <!-- <nz-table #list [nzData]="detailInfo.insType" nzShowPagination="false"  [nzTotal]="detailInfo.insType.length">
                         <thead>
                             <tr>
                                 <th>投保险种</th>
@@ -68,11 +155,11 @@
                                 <td>{{data.payPremium}}</td>
                             </tr>
                         </tbody>
-                    </nz-table>
+                    </nz-table> -->
                 </div>
             </div>
             
-            <div class="detail-item summation">
+            <div nz-row class="detail-item summation">
                 <p>保险费合计：{{ detailInfo.sumPremium || 0 }}元</p>
             </div>
 
@@ -82,24 +169,24 @@
                     <form nz-form [formGroup]="validateForm">
                         <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
                             <nz-form-item class="nzFormItem">
-                                <nz-form-label nz-col nzXs="8" nzRequired  nzFor="receiptDate" class="nzFormLabel">派送时间</nz-form-label>
-                                <nz-form-control nz-col nzXs="16" nzHasFeedback class="nzFormControl" nzErrorTip="请选择派送时间">
+                                <nz-form-label nz-col nzXs="8" nzFor="receiptDate" class="nzFormLabel">派送时间</nz-form-label>
+                                <nz-form-control nz-col nzXs="16" class="nzFormControl" nzErrorTip="请选择派送时间">
                                     <nz-date-picker [nzFormat]="'yyyy-MM-dd HH:mm:ss'" id="receiptDate" formControlName="receiptDate"></nz-date-picker>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
                         <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
                             <nz-form-item class="nzFormItem">
-                                <nz-form-label nz-col nzXs="8" nzRequired  nzFor="receiptName" class="nzFormLabel">收件人</nz-form-label>
-                                <nz-form-control nz-col nzXs="16" nzHasFeedback class="nzFormControl" nzErrorTip="请选择收件人">
+                                <nz-form-label nz-col nzXs="8" nzFor="receiptName" class="nzFormLabel">收件人</nz-form-label>
+                                <nz-form-control nz-col nzXs="16" class="nzFormControl" nzErrorTip="请选择收件人">
                                     <input nz-input placeholder="请输入收件人" id="receiptName" formControlName="receiptName"/>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
                         <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
                             <nz-form-item class="nzFormItem">
-                                <nz-form-label nz-col nzXs="8" nzRequired  nzFor="receiptPhone" class="nzFormLabel">联系方式</nz-form-label>
-                                <nz-form-control nz-col nzXs="16" nzHasFeedback class="nzFormControl" [nzErrorTip]="receiptPhoneErrorTpl">
+                                <nz-form-label nz-col nzXs="8" nzFor="receiptPhone" class="nzFormLabel">联系方式</nz-form-label>
+                                <nz-form-control nz-col nzXs="16" class="nzFormControl" [nzErrorTip]="receiptPhoneErrorTpl">
                                     <input nz-input placeholder="请输入联系方式" id="receiptPhone" formControlName="receiptPhone"/>
                                 </nz-form-control>
 
@@ -115,8 +202,8 @@
                         </div>
                         <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
                             <nz-form-item class="nzFormItem">
-                                <nz-form-label nz-col nzXs="8" nzRequired  nzFor="sender" class="nzFormLabel">寄件人</nz-form-label>
-                                <nz-form-control nz-col nzXs="16" nzHasFeedback class="nzFormControl" nzErrorTip="请输入寄件人">
+                                <nz-form-label nz-col nzXs="8" nzFor="sender" class="nzFormLabel">寄件人</nz-form-label>
+                                <nz-form-control nz-col nzXs="16" class="nzFormControl" nzErrorTip="请输入寄件人">
                                     <input nz-input placeholder="请输入寄件人" id="sender" formControlName="sender"/>
                                 </nz-form-control>
                             </nz-form-item>
@@ -125,7 +212,7 @@
                             <div nz-row nz-col nzXs="24" nzSm="24" nzGutter="0">
                                 <nz-form-item class="nzFormItem">
                                     <nz-form-label nz-col nzXs="8" nzFor="receiptRemarks" class="nzFormLabel">备注</nz-form-label>
-                                    <nz-form-control nz-col nzXs="16" nzHasFeedback class="nzFormControl" nzErrorTip="请输入备注">
+                                    <nz-form-control nz-col nzXs="16" class="nzFormControl" nzErrorTip="请输入备注">
                                         <textarea nz-input [nzAutosize]="{ minRows: 1, maxRows: 5 }" placeholder="请输入备注" id="receiptRemarks" formControlName="receiptRemarks"></textarea>
                                     </nz-form-control>
                                 </nz-form-item>

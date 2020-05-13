@@ -144,7 +144,7 @@ export class SuccessSubmitDetailComponent implements OnInit, OnDestroy {
             }
 
             return item;
-        });;
+        });
         
         Object.assign(this.detailInfo, {
             insCompany: {

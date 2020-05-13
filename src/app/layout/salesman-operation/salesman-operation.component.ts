@@ -189,6 +189,6 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.mouseHover$.unsubscribe();
         this.mouseClick$.unsubscribe();
-        this.intervalSubscription$.unsubscribe();
+        // this.intervalSubscription$.unsubscribe();
     }
 }
