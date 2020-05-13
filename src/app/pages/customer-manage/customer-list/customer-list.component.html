@@ -16,7 +16,7 @@
         </div>
         <div class="search-list-table">
             <ng-container *ngIf="!isLoading; else skeleton">
-                <nz-table #list [nzData]="customerList" nzShowPagination="false" [nzScroll]="{ x: '1720px' }">
+                <nz-table #list [nzData]="customerList" nzShowPagination="false" [nzScroll]="{ x: '1520px' }">
                     <thead>
                       <tr>
                         <!-- <th nzShowCheckbox
@@ -43,10 +43,10 @@
                         <td>{{data.registerTimeFormat}}</td>
                         <td>{{data.commercialEndTimeFormat}}</td>
                         <td>{{data.compulsoryEndTimeFormat}}</td>
-                        <td>{{data.lastCompanyName || '--'}}</td>
+                        <!-- <td>{{data.lastCompanyName || '--'}}</td> -->
                         <td>{{data.renewalStateName || '--'}}</td>
                         <td>{{data.userName || '--'}}</td>
-                        <td>{{data.updateTimeFormat}}</td>
+                        <!-- <td>{{data.updateTimeFormat}}</td> -->
                         <td>{{data.handleStateName}}</td>
                       </tr>
                     </tbody>

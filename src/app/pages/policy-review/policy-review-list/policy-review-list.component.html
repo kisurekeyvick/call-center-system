@@ -12,7 +12,7 @@
         </div>
         <div class="search-list-table">
             <ng-container *ngIf="!isLoading; else skeleton">
-                <nz-table #list [nzData]="policyReviewList" nzShowPagination="false" [nzScroll]="{ x: '1720px' }">
+                <nz-table #list [nzData]="policyReviewList" nzShowPagination="false" [nzScroll]="{ x: '1520px' }">
                     <thead>
                       <tr>
                         <ng-container *ngFor="let th of tableCfg.thead">
@@ -37,10 +37,10 @@
                         <td>{{data.registerTimeFormat}}</td>
                         <td>{{data.commercialEndTimeFormat}}</td>
                         <td>{{data.compulsoryEndTimeFormat}}</td>
-                        <td>{{data.lastCompanyName || '--'}}</td>
+                        <!-- <td>{{data.lastCompanyName || '--'}}</td> -->
                         <td>{{data.renewalStateName || '--'}}</td>
                         <td>{{data.userName || '--'}}</td>
-                        <td>{{data.updateTimeFormat}}</td>
+                        <!-- <td>{{data.updateTimeFormat}}</td> -->
                         <td>{{data.orderStateName}}</td>
                         <td [nzRight]='true' class="sticky-ele">
                             <a (click)="confirmOutDocInfo(data)">确认出单信息</a>

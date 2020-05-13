@@ -217,10 +217,10 @@ export const tableConfig = {
         { name: '注册日期' },
         { name: '商业险到期时间' },
         { name: '交强险到期时间' },
-        { name: '去年投保公司' },
+        // { name: '去年投保公司' },
         { name: '客户类型' },
         { name: '归属人' },
-        { name: '更新时间' },
+        // { name: '更新时间' },
         { name: '保单状态' },
         { name: '操作', type: 'fixed-right' }
     ]
