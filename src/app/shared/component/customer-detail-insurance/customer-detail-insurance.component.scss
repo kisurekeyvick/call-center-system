@@ -1,3 +1,5 @@
+@import '../../../core/common/common.style.scss';
+
 .customer-detail-insurance-container {
     .ant-table-tbody > tr > td {
         padding: 8px
@@ -5,14 +7,16 @@
 
     .ins-box {
         .nzFormItem {
+            @include specialNzFormItem;
+
             .nzFormControl {
                 .ant-form-item-control {
                     width: 100%;
                 }
 
                 .dataType {
-                    border: 1px solid #d9d9d9;
-                    height: 30px;
+                    border-right: 1px solid #e5e5e5;
+                    height: 35px;
                     padding: 0 11px;
                     text-align: left;
                     border-radius: 4px;
@@ -20,6 +24,10 @@
                     transition: all 0.3s linear;
                     margin-top: 2px;
                 }
+            }
+
+            .nzFormLabel {
+                flex-basis: 180px;
             }
         }
     }
