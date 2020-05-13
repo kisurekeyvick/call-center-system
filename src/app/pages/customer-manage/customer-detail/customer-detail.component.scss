@@ -2,7 +2,7 @@
 
 .customer-detail {
     @include listLayout;
-    min-height: 1500px;
+    min-height: 1050px;
 
     .highlight {
         color: #f5222d;
@@ -87,7 +87,7 @@
     }
 
     .ins-box {
-        margin-bottom: 24px;
+        margin-bottom: 0px;
     }
 
     .customer-detail-form {
@@ -95,49 +95,10 @@
         padding-left: 12px;
 
         .nzFormItem {
-            margin-bottom: 8px;
-            border: 1px solid #e5e5e5;
-            margin-right: 4px;
-            display: flex;
-
-            .ant-form-item-label,
-            .ant-form-item-control {
-                line-height: 35px;
-            }
+            @include specialNzFormItem;
 
             .nzFormLabel {
-                background-color: #f7f7f7;
-                border-right: 1px solid #e5e5e5;
                 flex-basis: 110px;
-                text-align: right;
-            }
-    
-            .nzFormControl {
-                flex: 1;
-                .ant-input {
-                    border: none !important;
-                    height: 30px;
-    
-                    &:focus {
-                        box-shadow: none;
-                    }
-                }
-
-                .ant-input-number-input {
-                    height: 35px;
-                }
-    
-                .ant-input-number {
-                    border: none;
-    
-                    &:focus {
-                        box-shadow: none;
-                    }
-                }
-                
-                .ant-input-number-focused {
-                    box-shadow: none;
-                }
             }
         }
 
@@ -145,9 +106,14 @@
             background: #f0f2f5;
             line-height: 40px;
             padding: 0 12px;
+            margin-bottom: 8px;
 
             i {
                 margin-right: 12px;
+            }
+
+            &.margin-top {
+                margin-top: 4px;
             }
         }
 
