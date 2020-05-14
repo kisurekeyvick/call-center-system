@@ -21,7 +21,7 @@ export const insList: IInsList[] = [
         hasCheckbox: true,
         type: 'text',
         value: {
-            hasCurrentIns: false,
+            hasCurrentIns: true,
             checked: false,
             coverageValue: '',
             payPremium: null
@@ -39,7 +39,7 @@ export const insList: IInsList[] = [
             ]
         },
         value: {
-            hasCurrentIns: false,
+            hasCurrentIns: true,
             checked: false,
             coverageValue: null,
             payPremium: null
@@ -52,7 +52,7 @@ export const insList: IInsList[] = [
         hasCheckbox: true,
         type: 'text',
         value: {
-            hasCurrentIns: false,
+            hasCurrentIns: true,
             checked: false,
             coverageValue: '',
             payPremium: null
@@ -70,7 +70,7 @@ export const insList: IInsList[] = [
             ]
         },
         value: {
-            hasCurrentIns: false,
+            hasCurrentIns: true,
             checked: false,
             coverageValue: null,
             payPremium: null
@@ -88,7 +88,7 @@ export const insList: IInsList[] = [
             ]
         },
         value: {
-            hasCurrentIns: false,
+            hasCurrentIns: true,
             checked: false,
             coverageValue: null,
             payPremium: null
@@ -106,7 +106,7 @@ export const insList: IInsList[] = [
             ]
         },
         value: {
-            hasCurrentIns: false,
+            hasCurrentIns: true,
             checked: false,
             coverageValue: null,
             payPremium: null
@@ -125,7 +125,7 @@ export const insList: IInsList[] = [
             ]
         },
         value: {
-            hasCurrentIns: false,
+            hasCurrentIns: true,
             checked: false,
             materialsType: null,
             payPremium: null
@@ -138,7 +138,7 @@ export const insList: IInsList[] = [
         hasCheckbox: true,
         type: 'text',
         value: {
-            hasCurrentIns: false,
+            hasCurrentIns: true,
             checked: false,
             coverageValue: '',
             payPremium: null
@@ -151,7 +151,7 @@ export const insList: IInsList[] = [
         hasCheckbox: true,
         type: 'text',
         value: {
-            hasCurrentIns: false,
+            hasCurrentIns: true,
             checked: false,
             coverageValue: '',
             payPremium: null
@@ -164,7 +164,7 @@ export const insList: IInsList[] = [
     //     hasCheckbox: false,
     //     type: 'inputNumber',
     //     value: {
-    //         hasCurrentIns: false,
+    //         hasCurrentIns: true,
     //         checked: false,
     //         coverageValue: null,
     //         payPremium: null
@@ -177,7 +177,7 @@ export const insList: IInsList[] = [
         hasCheckbox: true,
         type: 'text',
         value: {
-            hasCurrentIns: false,
+            hasCurrentIns: true,
             checked: false,
             coverageValue: '',
             payPremium: null
@@ -190,7 +190,7 @@ export const insList: IInsList[] = [
         hasCheckbox: true,
         type: 'text',
         value: {
-            hasCurrentIns: false,
+            hasCurrentIns: true,
             checked: false,
             coverageValue: '',
             payPremium: null
@@ -203,7 +203,7 @@ export const insList: IInsList[] = [
         hasCheckbox: true,
         type: 'text',
         value: {
-            hasCurrentIns: false,
+            hasCurrentIns: true,
             checked: false,
             coverageValue: '',
             payPremium: null
@@ -216,7 +216,7 @@ export const insList: IInsList[] = [
     //     hasCheckbox: false,
     //     type: 'text',
     //     value: {
-    //         hasCurrentIns: false,
+    //         hasCurrentIns: true,
     //         checked: false,
     //         coverageValue: '',
     //         payPremium: null
@@ -229,7 +229,7 @@ export const insList: IInsList[] = [
     //     hasCheckbox: false,
     //     type: 'text',
     //     value: {
-    //         hasCurrentIns: false,
+    //         hasCurrentIns: true,
     //         checked: false,
     //         coverageValue: '',
     //         payPremium: null
@@ -242,7 +242,7 @@ export const insList: IInsList[] = [
     //     hasCheckbox: false,
     //     type: 'text',
     //     value: {
-    //         hasCurrentIns: false,
+    //         hasCurrentIns: true,
     //         checked: false,
     //         coverageValue: '',
     //         payPremium: null

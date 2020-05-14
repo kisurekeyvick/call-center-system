@@ -10,7 +10,10 @@ import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { usageList, companyList, insList } from './policy-review-detail.component.config';
-import { findValueName, validPhoneValue } from 'src/app/core/utils/function';
+import { findValueName, validPhoneValue, reversePriceFormat, priceFormat } from 'src/app/core/utils/function';
+import { insList as sharedInsList, IInsList } from 'src/app/shared/component/customer-detail-insurance/customer-detail-insurance.component.config';
+import { dictionary } from 'src/app/shared/dictionary/dictionary';
+import { cloneDeep } from 'lodash';
 
 interface ICommon {
     [key: string]: any;
@@ -34,6 +37,14 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
     validateForm: FormGroup;
     /** 加载的详细信息 */
     loadedDetailInfo: ICommon;
+    /** 表单选项列表 */
+    formList = {
+        insuranceCompanysList: dictionary.get('insuranceCompanys'),
+        usageList: dictionary.get('usage'),
+        carTypeList: dictionary.get('carType')
+    };
+    /** 险种 */
+    orderInsList: IInsList[];
 
     constructor(
         private modalService: NzModalService,
@@ -95,16 +106,51 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
             insType: [],
             sumPremium: ''
         };
+
+        this.orderInsList = [];
     }
 
     ngOnInit() {
         this.validateForm = this.fb.group({
+            /** 投保公司 */
+            companyCode: [null],
+            /** 联系人 */
+            createUser: [null],
+            
+            /** 客户信息 */
+            /** 被保险人姓名 */
+            customerName: [null],
+            /** 身份证号码 */
+            idCard: [null],
+            /** 联系电话 */
+            customerPhone: [null],
+            /** 被保险人地址 */
+            customerAddress: [null],
+
+            /** 投保车辆信息 */
+            /** 车牌号 */
+            carNo: [null],
+            /** 厂牌型号 */
+            brandName: [null],
+            /** 核定座位 */
+            seatNumber: [null],
+            /** 初次登记 */
+            registerTime: [null],
+            /** 使用性质 */
+            usage: [null],
+            /** 车架号码 */
+            vinNo: [null],
+            /** 发动机号 */
+            engineNo: [null],
+            /** 新车购置价 */
+            purchasePrice: [null],
+
             /** 派送信息 */
-            receiptDate: [null, [Validators.required]],
-            receiptName: [null, [Validators.required]],
-            receiptPhone: [null, [Validators.required, this.validPhone]],
-            sender: [null, [Validators.required]],
-            receiptRemarks: [null, [Validators.required]]
+            receiptDate: [null],
+            receiptName: [null],
+            receiptPhone: [null],
+            sender: [null],
+            receiptRemarks: [null]
         });
 
         this.loadPolicyInfo();
@@ -130,6 +176,7 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
                     console.log('获取到的详情', res);
                     this.loadedDetailInfo = res;
                     this.setModuleValue(res);
+                    this.setInsList(res);
                     this.setFormGroupValue(res);
                 }
             });
@@ -146,14 +193,6 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
         const { companyCode, createUser, customerName, idCard, customerPhone, customerAddress,
             carNo, brandName, seatNumber, registerTime, usage, vinNo, engineNo, purchasePrice,
             commercialStartTime, commercialEndTime, compulsoryStartTime, compulsoryEndTime, sumPremium } = customerOrder;
-        
-        this.detailInfo.insType = quoteCommercialInsuranceDetailList.map(item => {
-            if (item.code) {
-                item['insName'] = findValueName(insList, item.code);
-            }
-
-            return item;
-        });
         
         Object.assign(this.detailInfo, {
             insCompany: {
@@ -186,6 +225,35 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
         });
 
     }
+
+    /**
+     * @func
+     * @desc 设置险种列表
+     * @param detailInfo 
+     */
+    setInsList(detailInfo) {
+        const { quoteCommercialInsuranceDetailList } = detailInfo;
+        const copyInsList: IInsList[] = cloneDeep(sharedInsList);
+
+        this.orderInsList = quoteCommercialInsuranceDetailList.map(item => {
+            const target = copyInsList.find((insItem: IInsList) => insItem.code === item.code);
+
+            if (target) {
+                Object.assign(target.value, {
+                    payPremium: item.payPremium,
+                    coverageValue: item.coverage && reversePriceFormat(item.coverage) || '',
+                });
+
+                return target;
+            }
+
+            // if (item.code) {
+            //     item['insName'] = findValueName(insList, item.code);
+            // }
+
+            return item;
+        });
+    }
     
     /**
      * @func
@@ -194,9 +262,43 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
      */
     setFormGroupValue(detailInfo) {
         const { customerOrder } = detailInfo;
-        const { receiptName, receiptPhone, sender, receiptRemarks,
-            receiptDate } = customerOrder;
+        const { receiptName, receiptPhone, sender, receiptRemarks, receiptDate, companyCode, 
+            createUser, customerName, idCard, customerPhone, customerAddress,
+            carNo, brandName, seatNumber, registerTime, usage, vinNo, engineNo, purchasePrice, } = customerOrder;
         this.validateForm.patchValue({
+            /** 投保公司 */
+            companyCode,
+            /** 联系人 */
+            createUser,
+            
+            /** 客户信息 */
+            /** 被保险人姓名 */
+            customerName,
+            /** 身份证号码 */
+            idCard,
+            /** 联系电话 */
+            customerPhone,
+            /** 被保险人地址 */
+            customerAddress,
+
+            /** 投保车辆信息 */
+            /** 车牌号 */
+            carNo,
+            /** 厂牌型号 */
+            brandName,
+            /** 核定座位 */
+            seatNumber,
+            /** 初次登记 */
+            registerTime,
+            /** 使用性质 */
+            usage,
+            /** 车架号码 */
+            vinNo,
+            /** 发动机号 */
+            engineNo,
+            /** 新车购置价 */
+            purchasePrice,
+
             /** 派送时间 */
             receiptDate,
             /** 收件人 */
@@ -236,7 +338,8 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
         }
 
         if (this.validateForm.valid) {
-            const { customerOrder, quoteCommercialInsuranceDetailList, quoteInsurance } = this.loadedDetailInfo;
+            const { customerOrder, quoteInsurance } = this.loadedDetailInfo;
+            const quoteCommercialInsuranceDetailList = this.formatRequestInsValue();
             const params = {
                 customerOrder: {
                     ...customerOrder,
@@ -257,6 +360,27 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
                 }
             });
         }
+    }
+
+    /**
+     * @func
+     * @desc format险种的值
+     */
+    formatRequestInsValue(): Array<any> {
+        let value = [];
+
+        value = this.orderInsList.map((list: IInsList) => {
+            const { coverageValue, materialsType, payPremium } = list.value;
+
+            return {
+                code: list.code,
+                coverage: coverageValue ? priceFormat(coverageValue) : '',
+                payPremium: payPremium,
+                materialsType,
+            };
+        });
+
+        return value;
     }
 
     /**

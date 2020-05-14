@@ -33,7 +33,7 @@
                 <div nz-row class="detail-item-content">
                     <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
                         <p class="nzFormItem">
-                            <span class="nzFormLabel">被保险人姓名：</span>
+                            <span class="nzFormLabel">姓名：</span>
                             <span class="nzFormControl">{{ detailInfo.customerInfo.customerName }}</span>
                         </p>
                     </div>
@@ -49,9 +49,9 @@
                             <span class="nzFormControl">{{ detailInfo.customerInfo.customerPhone }}</span>
                         </p>
                     </div>
-                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                    <div nz-col nzXs="24" nzSm="24" nzGutter="0">
                         <p class="nzFormItem">
-                            <span class="nzFormLabel">被保险人地址：</span>
+                            <span class="nzFormLabel">联系地址：</span>
                             <span class="nzFormControl">{{ detailInfo.customerInfo.customerAddress }}</span>
                         </p>
                     </div>
@@ -59,7 +59,7 @@
             </div>
 
             <div class="detail-item">
-                <p class="title"><i nz-icon nzType="info-circle" nzTheme="outline"></i>投保车辆信息</p>
+                <p class="title"><i nz-icon nzType="info-circle" nzTheme="outline"></i>车辆信息</p>
                 <div nz-row class="detail-item-content">
                     <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
                         <p class="nzFormItem">
@@ -81,7 +81,7 @@
                     </div>
                     <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
                         <p class="nzFormItem">
-                            <span class="nzFormLabel">初次登记：</span>
+                            <span class="nzFormLabel">初登日期：</span>
                             <span class="nzFormControl">{{ detailInfo.carInfo.registerTime | date:'yyyy-MM-dd HH:mm:ss' }}</span>
                         </p>
                     </div>
@@ -93,7 +93,7 @@
                     </div>
                     <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
                         <p class="nzFormItem">
-                            <span class="nzFormLabel">车架号码：</span>
+                            <span class="nzFormLabel">车架号：</span>
                             <span class="nzFormControl">{{ detailInfo.carInfo.vinNo }}</span>
                         </p>
                     </div>

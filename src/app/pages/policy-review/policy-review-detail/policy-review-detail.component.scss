@@ -10,6 +10,7 @@
                 line-height: 40px;
                 padding: 0 12px;
                 margin-bottom: 8px;
+                margin-top: 4px;
 
                 i {
                     margin-right: 12px;
@@ -24,29 +25,11 @@
                 }
             }
 
-            .detail-item-content {
-                margin-bottom: 4px;
-
-                &.send-info {
-                    margin-bottom: 48px;
-                }
-
-                .nzFormItem {
-                    @include specialNzFormItem;
-
-                    .nzFormLabel {
-                        flex-basis: 110px;
-                    }
-
-                    .nzFormLabel,
-                    .nzFormControl {
-                        line-height: 35px;
-                        height: 35px;
-                    }
-
-                    .nzFormControl {
-                        padding: 0px 11px;
-                    }
+            .nzFormItem {
+                @include specialNzFormItem;
+    
+                .nzFormLabel {
+                    flex-basis: 110px;
                 }
             }
 
@@ -105,21 +88,21 @@
     }
 }
 
-:host ::ng-deep .policy-review-detail .send-info .ant-form-item-control {
+:host ::ng-deep .policy-review-detail .ant-form-item-control {
     line-height: 35px;
 }
 
-:host ::ng-deep .policy-review-detail .send-info .ant-select-selection {
+:host ::ng-deep .policy-review-detail .ant-select-selection {
     border: none;
     box-shadow: none;
 }
 
-:host ::ng-deep .policy-review-detail .send-info .ant-calendar-picker {
+:host ::ng-deep .policy-review-detail .ant-calendar-picker {
     width: 100%;
     box-shadow: none;
 }
 
-:host ::ng-deep .policy-review-detail .send-info .ant-input {
+:host ::ng-deep .policy-review-detail .ant-input {
     border: none;
     box-shadow: none;
 }
