@@ -134,6 +134,14 @@
                         </nz-form-control>
                     </nz-form-item>
                 </div>
+                <div nz-row nz-col nzXs="24" nzMd="12" nzGutter="24">
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label nz-col nzXs="6" nzFor="batchNo" class="nzFormLabel">批次号</nz-form-label>
+                        <nz-form-control nz-col nzXs="24" class="nzFormControl">
+                            <input nz-input placeholder="请输入批次号" id="batchNo" formControlName="batchNo"/>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
             </div>
             <div class="modal-btn-group">
                 <button nz-button [nzType]="'default'" (click)="cancel()">取消</button>

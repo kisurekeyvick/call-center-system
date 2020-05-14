@@ -26,6 +26,7 @@
                     <tbody>
                       <tr *ngFor="let data of list.data">
                         <td>{{data.createTime | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+                        <td>{{data.batchNo}}</td>
                         <td>{{data.fileName}}</td>
                         <!--上传成功/失败/总量-->
                         <td>{{data.number}}</td>

@@ -31,10 +31,10 @@ export interface IRuleForm {
     // market: string;
     /** 车牌 */
     carNo: string;
-    /** 批次 */
-    // remark: string;
     /** 是否分配 */
     isDistribution: string;
+    /** 批次 */
+    batchNo: string;
     [key: string]: any;
 }
 
@@ -60,7 +60,8 @@ export const defaultRuleFormValueSource: IDefaultRuleFormValueSourceItem[] = [
     { name: '上年保险公司', key: 'lastCompanyCode', value: '', formatValue: '' },
     { name: '车价', key: 'price', value: [], formatValue: '' },
     { name: '车牌', key: 'carNo', value: '', formatValue: '' },
-    { name: '是否分配', key: 'isDistribution', value: '', formatValue: '' }
+    { name: '是否分配', key: 'isDistribution', value: '', formatValue: '' },
+    { name: '批次号', key: 'batchNo', value: '', formatValue: '' },
 ];
 
 /** 整理默认数据源，变成IRuleForm的对象结构 */

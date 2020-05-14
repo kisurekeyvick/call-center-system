@@ -70,9 +70,9 @@ export class RuleFormModalComponent implements OnInit, OnDestroy {
             // market: [ruleForm.market || null],
             /** 车牌 */
             carNo: [ruleForm.carNo || null, [this.validPlate]],
+            isDistribution: [ruleForm.isDistribution || null],
             /** 批次 */
-            // remark: [ruleForm.remark || null],
-            isDistribution: [ruleForm.isDistribution || null]
+            batchNo: [ruleForm.batchNo || null],
         });
     }
 

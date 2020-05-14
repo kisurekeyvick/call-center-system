@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { jackInTheBoxAnimation, jackInTheBoxOnEnterAnimation } from 'src/app/shared/animate/index';
 import { NzModalService, NzMessageService, NzModalRef } from 'ng-zorro-antd';
 import { IPageChangeInfo, PaginationService } from 'src/app/shared/component/search-list-pagination/pagination';
-import { tableConfig, IData, listValue, IMessage } from './customer-import.component.config';
+import { tableConfig, IData, IMessage } from './customer-import.component.config';
 import { CustomerImportModalComponent } from '../modal/customer-import-modal/customer-import-modal.component';
 import { CustomerService } from '../customer-manage.service';
 import { catchError } from 'rxjs/operators';
