@@ -7,28 +7,14 @@ interface ICommon {
 }
 
 export interface IQueryCustomerParams {
-    /** 品牌 */
-    brandName: string;
-    /** 车牌号 */
+    customerName: string;
     carNo: string;
-    /** 是否在职 */
-    inJob: boolean;
-    /** 是否高端车 */
-    isHigh: boolean;
-    /** 是否过户 */
-    isTransfer: boolean;
-    /** 去年保险公司 */
-    lastCompanyCode: string;
-    /** 指导价 */
-    maxPurchasePrice: number;
-    minPurchasePrice: number;
-    /** 车辆所属 */
-    ownerShip: string;
-    /** 是否是续保车 */
-    renewalState: string;
-    /** 初登日期 */
-    startRegisterTime: number;
-    endRegisterTime: number;
+    companyCode: string;
+    userId: string;
+    commitStartDate: number;
+    commitEndDate: number;
+    orderStartDate: number;
+    orderEndDate: number;
     [key: string]: any;
 }
 

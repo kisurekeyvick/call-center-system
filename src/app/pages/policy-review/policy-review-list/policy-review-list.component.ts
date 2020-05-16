@@ -5,7 +5,8 @@ import { Router } from '@angular/router';
 import LocalStorageService from 'src/app/core/cache/local-storage';
 import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
 import { ISearchListItem, searchListItem, ISearchListModel, IPolicyReviewItem,
-    searchListModel, tableConfig, searchListLayout, renewalStateList, companyList, internalOrderStatusList } from './policy-review-list.component.config';
+    searchListModel, tableConfig, searchListLayout, renewalStateList, companyList, internalOrderStatusList,
+    ISalesman } from './policy-review-list.component.config';
 import { IPageChangeInfo, PaginationService } from 'src/app/shared/component/search-list-pagination/pagination';
 import { ConfirmOutDocModalComponent } from '../modal/confirm-outDoc/confirm-outDoc-modal.component';
 import { PolicyReviewService, IQueryCustomerParams } from '../policy-review.service';
@@ -13,6 +14,7 @@ import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { findValueName } from 'src/app/core/utils/function';
 import * as dayjs from 'dayjs';
+import { ApiService } from 'src/app/api/api.service';
 
 type ITableCfg = typeof tableConfig;
 type pageChangeType = 'pageIndex' | 'pageSize';
@@ -43,18 +45,22 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
     pageInfo: PaginationService;
     /** 是否正在加载 */
     isLoading: boolean;
+    /** 业务员 */
+    salesmenList: ISalesman[];
 
     constructor(
         private modalService: NzModalService,
         private message: NzMessageService,
         private router: Router,
         private localCache: LocalStorageService,
-        private policyReviewService: PolicyReviewService
+        private policyReviewService: PolicyReviewService,
+        private apiService: ApiService
     ) {
         this.searchListItem = [...searchListItem];
         this.searchListModel = {...searchListModel};
         this.searchListLayout = {...searchListLayout};
         this.policyReviewList = [];
+        this.salesmenList = [];
         this.pageInfo = new PaginationService({
             total: 0,
             pageSize: 10,
@@ -63,7 +69,39 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.loadSalesMember();
         this.search();
+    }
+
+    /**
+     * @func
+     * @desc 加载业务员
+     */
+    loadSalesMember() {
+        this.apiService.querySaleman().pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            if (!(res instanceof TypeError)) {
+                this.salesmenList = res.map(item => ({
+                    ...item,
+                    value: item.id
+                }));
+
+                this.rebuildSearchListItem();
+            }
+        });
+    }
+
+    /**
+     * @func
+     * @desc 重新构建searchListItem
+     */
+    rebuildSearchListItem() {
+        const userIdItemIndex = this.searchListItem.findIndex(item => item.key === 'userId');
+
+        if (userIdItemIndex > -1) {
+            this.searchListItem[userIdItemIndex]['config']['options'] = this.salesmenList;
+        }
     }
 
     /**
@@ -89,11 +127,13 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
      * @desc format请求的参数
      */
     formatSearchParams(): IQueryCustomerParams {
-        const { registerTime } = this.searchListModel;
+        const { commitTime, orderTime } = this.searchListModel;
         const params = {
             ...this.searchListModel,
-            startRegisterTime: registerTime[0] && new Date(registerTime[0]).getTime() || null,
-            endRegisterTime: registerTime[1] && new Date(registerTime[1]).getTime() || null,
+            commitStartDate: commitTime[0] && new Date(commitTime[0]).getTime() || null,
+            commitEndDate: commitTime[1] && new Date(commitTime[1]).getTime() || null,
+            orderStartDate: orderTime[0] && new Date(orderTime[0]).getTime() || null,
+            orderEndDate: orderTime[1] && new Date(orderTime[1]).getTime() || null,
         };
 
         return params;
@@ -123,14 +163,17 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
                 if (res.list) {
                     const { list, total } = res;
                     this.policyReviewList = list.map(item => {
-                        const { commercialEndTime, compulsoryEndTime, registerTime, updateTime, orderState } = item;
+                        const { commercialEndTime, compulsoryEndTime, registerTime, updateTime, orderState, orderCommitDate, orderDate } = item;
                         item['renewalStateName'] = findValueName(renewalStateList, item['renewalState']);
-                        item['lastCompanyName'] = findValueName(companyList, item['lastCompanyCode']);
-                        item['commercialEndTimeFormat'] = commercialEndTime && dayjs(commercialEndTime).format('YYYY-MM-DD HH:mm:ss') || '--';
-                        item['compulsoryEndTimeFormat'] = compulsoryEndTime && dayjs(compulsoryEndTime).format('YYYY-MM-DD HH:mm:ss') || '--';
-                        item['registerTimeFormat'] = registerTime && dayjs(registerTime).format('YYYY-MM-DD HH:mm:ss') || '--';
-                        item['updateTimeFormat'] = updateTime && dayjs(updateTime).format('YYYY-MM-DD HH:mm:ss') || '--';
+                        item['companyName'] = findValueName(companyList, item['companyCode']);
+                        item['commercialEndTimeFormat'] = commercialEndTime && dayjs(commercialEndTime).format('YYYY-MM-DD') || '--';
+                        item['compulsoryEndTimeFormat'] = compulsoryEndTime && dayjs(compulsoryEndTime).format('YYYY-MM-DD') || '--';
+                        item['registerTimeFormat'] = registerTime && dayjs(registerTime).format('YYYY-MM-DD') || '--';
+                        item['updateTimeFormat'] = updateTime && dayjs(updateTime).format('YYYY-MM-DD') || '--';
                         item['orderStateName'] = findValueName(internalOrderStatusList, orderState) || '--';
+                        item['orderCommitTimeFormat'] = orderCommitDate && dayjs(orderCommitDate).format('YYYY-MM-DD') || '--';
+                        item['orderDateTimeFormat'] = orderDate && dayjs(orderDate).format('YYYY-MM-DD') || '--';
+
                         return item;
                     });
                     this.pageInfo.total = total;

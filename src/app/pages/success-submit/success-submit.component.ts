@@ -13,6 +13,7 @@ import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { findValueName } from 'src/app/core/utils/function';
 import * as dayjs from 'dayjs';
+import { ApiService } from 'src/app/api/api.service';
 
 type ITableCfg = typeof tableConfig;
 type pageChangeType = 'pageIndex' | 'pageSize';
@@ -51,7 +52,8 @@ export class SuccessSubmitComponent implements OnInit, OnDestroy {
         private modalService: NzModalService,
         private router: Router,
         private localCache: LocalStorageService,
-        private successSubmitService: SuccessSubmitService
+        private successSubmitService: SuccessSubmitService,
+        private apiService: ApiService
     ) {
         this.searchListItem = [...searchListItem];
         this.searchListModel = {...searchListModel};
@@ -66,7 +68,39 @@ export class SuccessSubmitComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.loadSalesMember();
         this.search();
+    }
+
+    /**
+     * @func
+     * @desc 加载业务员
+     */
+    loadSalesMember() {
+        this.apiService.querySaleman().pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            if (!(res instanceof TypeError)) {
+                this.salesmenList = res.map(item => ({
+                    ...item,
+                    value: item.id
+                }));
+
+                this.rebuildSearchListItem();
+            }
+        });
+    }
+
+    /**
+     * @func
+     * @desc 重新构建searchListItem
+     */
+    rebuildSearchListItem() {
+        const userIdItemIndex = this.searchListItem.findIndex(item => item.key === 'userId');
+
+        if (userIdItemIndex > -1) {
+            this.searchListItem[userIdItemIndex]['config']['options'] = this.salesmenList;
+        }
     }
 
     /**
@@ -92,11 +126,13 @@ export class SuccessSubmitComponent implements OnInit, OnDestroy {
      * @desc format请求的参数
      */
     formatSearchParams(): IQueryCustomerParams {
-        const { registerTime } = this.searchListModel;
+        const { commitTime, orderTime } = this.searchListModel;
         const params = {
             ...this.searchListModel,
-            startRegisterTime: registerTime[0] && new Date(registerTime[0]).getTime() || null,
-            endRegisterTime: registerTime[1] && new Date(registerTime[1]).getTime() || null,
+            commitStartDate: commitTime[0] && new Date(commitTime[0]).getTime() || null,
+            commitEndDate: commitTime[1] && new Date(commitTime[1]).getTime() || null,
+            orderStartDate: orderTime[0] && new Date(orderTime[0]).getTime() || null,
+            orderEndDate: orderTime[1] && new Date(orderTime[1]).getTime() || null,
         };
 
         return params;
@@ -128,14 +164,17 @@ export class SuccessSubmitComponent implements OnInit, OnDestroy {
                 if (res.list) {
                     const { list, total } = res;
                     this.successSubmitList = list.map(item => {
-                        const { commercialEndTime, compulsoryEndTime, registerTime, updateTime, orderState } = item;
+                        const { commercialEndTime, compulsoryEndTime, registerTime, updateTime, orderState, orderCommitDate, orderDate } = item;
                         item['renewalStateName'] = findValueName(renewalStateList, item['renewalState']);
-                        item['lastCompanyName'] = findValueName(companyList, item['lastCompanyCode']);
-                        item['commercialEndTimeFormat'] = commercialEndTime && dayjs(commercialEndTime).format('YYYY-MM-DD HH:mm:ss') || '--';
-                        item['compulsoryEndTimeFormat'] = compulsoryEndTime && dayjs(compulsoryEndTime).format('YYYY-MM-DD HH:mm:ss') || '--';
-                        item['registerTimeFormat'] = registerTime && dayjs(registerTime).format('YYYY-MM-DD HH:mm:ss') || '--';
-                        item['updateTimeFormat'] = updateTime && dayjs(updateTime).format('YYYY-MM-DD HH:mm:ss') || '--';
-                        item['orderStateName'] = orderState && findValueName(internalOrderStatusList, orderState) || '--';
+                        item['companyName'] = findValueName(companyList, item['companyCode']);
+                        item['commercialEndTimeFormat'] = commercialEndTime && dayjs(commercialEndTime).format('YYYY-MM-DD') || '--';
+                        item['compulsoryEndTimeFormat'] = compulsoryEndTime && dayjs(compulsoryEndTime).format('YYYY-MM-DD') || '--';
+                        item['registerTimeFormat'] = registerTime && dayjs(registerTime).format('YYYY-MM-DD') || '--';
+                        item['updateTimeFormat'] = updateTime && dayjs(updateTime).format('YYYY-MM-DD') || '--';
+                        item['orderStateName'] = findValueName(internalOrderStatusList, orderState) || '--';
+                        item['orderCommitTimeFormat'] = orderCommitDate && dayjs(orderCommitDate).format('YYYY-MM-DD') || '--';
+                        item['orderDateTimeFormat'] = orderDate && dayjs(orderDate).format('YYYY-MM-DD') || '--';
+
                         return item;
                     });
                     this.pageInfo.total = total;

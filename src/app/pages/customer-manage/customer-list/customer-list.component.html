@@ -16,7 +16,7 @@
         </div>
         <div class="search-list-table">
             <ng-container *ngIf="!isLoading; else skeleton">
-                <nz-table #list [nzData]="customerList" nzShowPagination="false" [nzScroll]="{ x: '1520px' }">
+                <nz-table #list [nzData]="customerList" nzShowPagination="false" [nzScroll]="{ x: '1000px' }">
                     <thead>
                       <tr>
                         <!-- <th nzShowCheckbox
@@ -35,18 +35,15 @@
                     </thead>
                     <tbody>
                       <tr *ngFor="let data of list.data">
-                        <!-- <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[data.id]" (nzCheckedChange)="refreshStatus()"></td> -->
-                        <td [nzLeft]='true'><a (click)="customerDetail(data)">{{data.carNo || '--'}}</a></td>
-                        <td>{{data.customerName || '--'}}</td>
-                        <td>{{data.vinNo || '--'}}</td>
-                        <td>{{data.brandName || '--'}}</td>
+                        <td [nzLeft]='true'><a (click)="customerDetail(data)">{{data.customerName || '--'}}</a></td>
+                        <td>{{data.customerPhone || '--'}}</td>
+                        <td>{{data.carNo || '--'}}</td>
+                        <td>{{data.lastCompanyName || '--'}}</td>
                         <td>{{data.registerTimeFormat}}</td>
-                        <td>{{data.commercialEndTimeFormat}}</td>
                         <td>{{data.compulsoryEndTimeFormat}}</td>
-                        <!-- <td>{{data.lastCompanyName || '--'}}</td> -->
-                        <td>{{data.renewalStateName || '--'}}</td>
-                        <td>{{data.userName || '--'}}</td>
-                        <!-- <td>{{data.updateTimeFormat}}</td> -->
+                        <td>{{data.distributionDateTimeFormat}}</td>
+                        <td>{{data.appointmentTimeFormat}}</td>
+                        <td>{{data.updateTimeFormat}}</td>
                         <td>{{data.handleStateName}}</td>
                       </tr>
                     </tbody>

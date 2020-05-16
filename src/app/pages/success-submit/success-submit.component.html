@@ -28,18 +28,13 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let data of list.data">
-                            <td [nzLeft]="true"><a (click)="showDetail(data)">{{data.carNo || '--'}}</a></td>
-                            <td>{{data.customerName || '--'}}</td>
-                            <td>{{data.vinNo || '--'}}</td>
-                            <td>{{data.brandName || '--'}}</td>
-                            <td>{{data.registerTimeFormat}}</td>
-                            <td>{{data.commercialEndTimeFormat}}</td>
-                            <td>{{data.compulsoryEndTimeFormat}}</td>
-                            <!-- <td>{{data.lastCompanyName || '--'}}</td> -->
-                            <td>{{data.renewalStateName || '--'}}</td>
+                            <td [nzLeft]="true"><a (click)="showDetail(data)">{{data.customerName || '--'}}</a></td>
+                            <td>{{data.carNo || '--'}}</td>
+                            <td>{{data.companyName || '--'}}</td>
                             <td>{{data.userName || '--'}}</td>
-                            <!-- <td>{{data.updateTimeFormat}}</td> -->
+                            <td>{{data.orderCommitTimeFormat}}</td>
                             <td>{{data.orderStateName}}</td>
+                            <td>{{data.orderDateTimeFormat}}</td>
                         </tr>
                     </tbody>
                   </nz-table>

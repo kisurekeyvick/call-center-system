@@ -55,11 +55,19 @@ export class AssignCustomerModalComponent implements OnInit, OnDestroy {
      * @desc 加载可分配的总额数
      */
     loadTotalNumber() {
-        const { registerTime } = this.queryParams;
+        const { registerTime, insuranceTime, distributionTime, appointmentTime, updateTime } = this.queryParams;
         const params = {
             ...this.queryParams,
             startRegisterTime: registerTime[0] && new Date(registerTime[0]).getTime() || null,
             endRegisterTime: registerTime[1] && new Date(registerTime[1]).getTime() || null,
+            insuranceStartDate: insuranceTime[0] && new Date(insuranceTime[0]).getTime() || null,
+            insuranceEndDate: insuranceTime[1] && new Date(insuranceTime[1]).getTime() || null,
+            distributionStartDate: distributionTime[0] && new Date(distributionTime[0]).getTime() || null,
+            distributionEndDate: distributionTime[1] && new Date(distributionTime[1]).getTime() || null,
+            appointmentStartDate: appointmentTime[0] && new Date(appointmentTime[0]).getTime() || null,
+            appointmentEndDate: appointmentTime[1] && new Date(appointmentTime[1]).getTime() || null,
+            updateStartDate: updateTime[0] && new Date(updateTime[0]).getTime() || null,
+            updateEndDate: updateTime[1] && new Date(updateTime[1]).getTime() || null,
         };
 
         this.customerService.queryTotalNumber(params).pipe(

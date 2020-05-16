@@ -46,8 +46,76 @@ export const searchListItem: ISearchListItem[] = [
         grid: commonGrid,
     },
     {
+        id: 6,
+        label: '车牌',
+        key: 'carNo',
+        placeholder: '输入车牌',
+        type: 'text',
+        grid: commonGrid,
+    },
+    {
+        id: 10,
+        label: '上年保险公司',
+        key: 'lastCompanyCode',
+        placeholder: '请选择上年保险公司',
+        type: 'select',
+        grid: commonGrid,
+        config: {
+            options: [
+                ...companyList
+            ]
+        }
+    },
+    {
+        id: 15,
+        label: '投保公司',
+        key: 'companyCode',
+        placeholder: '请选择投保公司',
+        type: 'select',
+        grid: commonGrid,
+        config: {
+            options: [
+                ...companyList
+            ]
+        }
+    },
+    {
+        id: 16,
+        label: '预约级别',
+        key: 'appointmentLevel',
+        placeholder: '请选择预约级别',
+        type: 'select',
+        grid: commonGrid,
+        config: {
+            options: [
+                ...appointmentLevelList
+            ]
+        }
+    },
+    {
+        id: 14,
+        label: '初登日期',
+        key: 'registerTime',
+        type: 'dateRange',
+        grid: commonGrid
+    },
+    {
+        id: 17,
+        label: '保险日期',
+        key: 'insuranceTime',
+        type: 'dateRange',
+        grid: commonGrid
+    },
+    {
+        id: 18,
+        label: '名单发放日',
+        key: 'distributionTime',
+        type: 'dateRange',
+        grid: commonGrid
+    },
+    {
         id: 3,
-        label: '状态',
+        label: '客户状态',
         key: 'handleState',
         placeholder: '请选择状态',
         type: 'select',
@@ -59,183 +127,63 @@ export const searchListItem: ISearchListItem[] = [
         }
     },
     {
-        id: 5,
-        label: '品牌',
-        key: 'brandName',
-        placeholder: '输入品牌',
-        type: 'text',
-        grid: commonGrid,
-    },
-    {
-        id: 6,
-        label: '车牌号',
-        key: 'carNo',
-        placeholder: '输入车牌号',
-        type: 'text',
-        grid: commonGrid,
-    },
-    {
-        id: 7,
-        label: '是否在职',
-        key: 'inJob',
-        placeholder: '请选择是否在职',
-        type: 'select',
-        grid: commonGrid,
-        config: {
-            options: [{ name: '是', value: true }, { name: '否', value: false }]
-        }
-    },
-    {
-        id: 8,
-        label: '是否高端车',
-        key: 'isHigh',
-        placeholder: '请选择是否高端车',
-        type: 'select',
-        grid: commonGrid,
-        config: {
-            options: [{ name: '是', value: true }, { name: '否', value: false }]
-        }
-    },
-    {
-        id: 9,
-        label: '是否过户',
-        key: 'isTransfer',
-        placeholder: '请选择是是否过户',
-        type: 'select',
-        grid: commonGrid,
-        config: {
-            options: [{ name: '是', value: true }, { name: '否', value: false }]
-        }
-    },
-    {
-        id: 10,
-        label: '去年保险公司',
-        key: 'lastCompanyCode',
-        placeholder: '请选择去年保险公司',
-        type: 'select',
-        grid: commonGrid,
-        config: {
-            options: [
-                ...companyList
-            ]
-        }
-    },
-    {
-        id: 11,
-        label: '指导价',
-        placeholder: '',
-        type: 'numberRange',
-        grid: commonGrid,
-        config: {
-            start: {
-                key: 'minPurchasePrice',
-                min: 0,
-                max: Infinity,
-                step: 1
-            },
-            end: {
-                key: 'maxPurchasePrice',
-                min: 0,
-                max: Infinity,
-                step: 1
-            }
-        }
-    },
-    {
-        id: 12,
-        label: '车辆所属',
-        placeholder: '请选择车辆所属',
-        key: 'ownerShip',
-        type: 'select',
-        grid: commonGrid,
-        config: {
-            options: [
-                ...ownerShipList
-            ]
-        }
-    },
-    {
-        id: 13,
-        label: '是否续保车',
-        placeholder: '请选择是否续保车',
-        key: 'renewalState',
-        type: 'select',
-        grid: commonGrid,
-        config: {
-            options: [{ name: '是', value: '1' }, { name: '否', value: '2' }]
-        }
-    },
-    {
-        id: 14,
-        label: '初登日期',
-        key: 'registerTime',
+        id: 19,
+        label: '预约时间',
+        key: 'appointmentTime',
         type: 'dateRange',
         grid: commonGrid
     },
     {
-        id: 15,
-        label: '意向级别',
-        key: 'appointmentLevel',
-        type: 'select',
-        grid: commonGrid,
-        config: {
-            options: [
-                ...appointmentLevelList
-            ]
-        }
+        id: 20,
+        label: '最后操作时间',
+        key: 'updateTime',
+        type: 'dateRange',
+        grid: commonGrid
     }
 ];
 
 export interface ISearchListModel {
     customerName: string;
     customerPhone: string;
-    handleState: string;
-    brandName: string;
     carNo: string;
-    inJob: boolean;
-    isHigh: boolean;
-    isTransfer: boolean;
     lastCompanyCode: string;
-    minPurchasePrice: number;
-    maxPurchasePrice: number;
-    ownerShip: string;
-    renewalState: string;
-    registerTime: string[];
+    companyCode: string;
     appointmentLevel: string;
+    registerTime: string[];
+    insuranceTime: string[];
+    distributionTime: string[];
+    handleState: string;
+    appointmentTime: string[];
+    updateTime: string[];
     [key: string]: any;
 }
 
 export const searchListModel: ISearchListModel = {
     customerName: null,
     customerPhone: null,
-    handleState: null,
-    brandName: null,
     carNo: null,
-    inJob: null,
-    isHigh: null,
-    isTransfer: null,
     lastCompanyCode: null,
-    minPurchasePrice: null,
-    maxPurchasePrice: null,
-    ownerShip: null,
-    renewalState: null,
+    companyCode: null,
     appointmentLevel: null,
-    registerTime: []
+    registerTime: [],
+    insuranceTime: [],
+    distributionTime: [],
+    handleState: null,
+    appointmentTime: [],
+    updateTime: []
 };
 
 export const tableConifg = {
     thead: [
-        { name: '车牌号', type: 'fixed-left' },
-        { name: '客户名称' },
-        { name: '车架号' },
-        { name: '品牌型号' },
-        { name: '注册日期' },
-        { name: '商业险到期时间' },
-        { name: '交强险到期时间' },
-        // { name: '去年投保公司' },
-        { name: '客户类型' },
-        { name: '归属人' },
-        // { name: '更新时间' },
+        { name: '姓名', type: 'fixed-left' },
+        { name: '手机号' },
+        { name: '车牌' },
+        { name: '上年保险公司' },
+        { name: '初登日期' },
+        { name: '保险到期日' },
+        { name: '名单发放日' },
+        { name: '预约时间' },
+        { name: '最后操作时间' },
         { name: '客户状态' }
     ]
 };
@@ -254,5 +202,15 @@ export interface IQueryListItem {
     customerType: string;
     assigneeName: string;
     modifierTime: string;
+    [key: string]: any;
+}
+
+export interface ISalesman {
+    memberId: number;
+    regionId: number;
+    regionName: string;
+    salesmanName: string;
+    teamId: number;
+    teamName: string;
     [key: string]: any;
 }

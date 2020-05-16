@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { jackInTheBoxAnimation, jackInTheBoxOnEnterAnimation } from 'src/app/shared/animate/index';
 import { ISearchListItem, searchListItem, ISearchListModel, ICustomerItem,
-    searchListModel, tableConfig, searchListLayout, companyList, renewalStateList, customerStatusList } from './customer-list.component.config';
+    searchListModel, tableConfig, searchListLayout, companyList, renewalStateList, customerStatusList,
+    ISalesman } from './customer-list.component.config';
 import { IPageChangeInfo, PaginationService } from 'src/app/shared/component/search-list-pagination/pagination';
 import { NzModalService, NzMessageService, NzModalRef } from 'ng-zorro-antd';
 // import { NzModalRef } from 'ng-zorro-antd/modal';
@@ -18,6 +19,7 @@ import { findValueName } from 'src/app/core/utils/function';
 import * as dayjs from 'dayjs';
 import { UtilsService } from 'src/app/core/utils/utils.service';
 import { CustomerImportModalComponent } from '../modal/customer-import-modal/customer-import-modal.component';
+import { ApiService } from 'src/app/api/api.service';
 
 type ITableCfg = typeof tableConfig;
 type pageChangeType = 'pageIndex' | 'pageSize';
@@ -60,20 +62,23 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     confirmModal: NzModalRef;
     /** 当前用户信息 */
     currentUser: ICommon;
-    /** 保险公司 */
-
+    /** 业务员 */
+    salesmenList: ISalesman[];
+    
     constructor(
         private modalService: NzModalService,
         private message: NzMessageService,
         private router: Router,
         private localCache: LocalStorageService,
         private customerService: CustomerService,
-        private utilsService: UtilsService
+        private utilsService: UtilsService,
+        private apiService: ApiService
     ) {
         this.searchListItem = [...searchListItem];
         this.searchListModel = {...searchListModel};
         this.searchListLayout = {...searchListLayout};
         this.customerList = [];
+        this.salesmenList = [];
         this.pageInfo = new PaginationService({
             total: 0,
             pageSize: 10,
@@ -84,9 +89,41 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.loadSalesMember();
         const userCacheInfo = this.localCache.get(LocalStorageItemName.USERPROFILE);
         this.currentUser = userCacheInfo && userCacheInfo['value'] || {};
         this.search();
+    }
+
+    /**
+     * @func
+     * @desc 加载业务员
+     */
+    loadSalesMember() {
+        this.apiService.querySaleman().pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            if (!(res instanceof TypeError)) {
+                this.salesmenList = res.map(item => ({
+                    ...item,
+                    value: item.id
+                }));
+
+                this.rebuildSearchListItem();
+            }
+        });
+    }
+
+    /**
+     * @func
+     * @desc 重新构建searchListItem
+     */
+    rebuildSearchListItem() {
+        const userIdItemIndex = this.searchListItem.findIndex(item => item.key === 'userId');
+
+        if (userIdItemIndex > -1) {
+            this.searchListItem[userIdItemIndex]['config']['options'] = this.salesmenList;
+        }
     }
 
     /**
@@ -112,11 +149,19 @@ export class CustomerListComponent implements OnInit, OnDestroy {
      * @desc format请求的参数
      */
     formatSearchParams(): IQueryCustomerParams {
-        const { registerTime } = this.searchListModel;
+        const { registerTime, insuranceTime, distributionTime, appointmentTime, updateTime } = this.searchListModel;
         const params = {
             ...this.searchListModel,
             startRegisterTime: registerTime[0] && new Date(registerTime[0]).getTime() || null,
             endRegisterTime: registerTime[1] && new Date(registerTime[1]).getTime() || null,
+            insuranceStartDate: insuranceTime[0] && new Date(insuranceTime[0]).getTime() || null,
+            insuranceEndDate: insuranceTime[1] && new Date(insuranceTime[1]).getTime() || null,
+            distributionStartDate: distributionTime[0] && new Date(distributionTime[0]).getTime() || null,
+            distributionEndDate: distributionTime[1] && new Date(distributionTime[1]).getTime() || null,
+            appointmentStartDate: appointmentTime[0] && new Date(appointmentTime[0]).getTime() || null,
+            appointmentEndDate: appointmentTime[1] && new Date(appointmentTime[1]).getTime() || null,
+            updateStartDate: updateTime[0] && new Date(updateTime[0]).getTime() || null,
+            updateEndDate: updateTime[1] && new Date(updateTime[1]).getTime() || null,
         };
 
         return params;
@@ -148,13 +193,14 @@ export class CustomerListComponent implements OnInit, OnDestroy {
                 if (res.list) {
                     const { list, total } = res;
                     this.customerList = list.map(item => {
-                        const { commercialEndTime, compulsoryEndTime, registerTime, updateTime, handleState } = item;
+                        const { distributionDate, appointmentTime, registerTime, updateTime, handleState, compulsoryEndTime } = item;
                         item['renewalStateName'] = findValueName(renewalStateList, item['renewalState']);
                         item['lastCompanyName'] = findValueName(companyList, item['lastCompanyCode']);
-                        item['commercialEndTimeFormat'] = commercialEndTime && dayjs(commercialEndTime).format('YYYY-MM-DD HH:mm:ss') || '--';
-                        item['compulsoryEndTimeFormat'] = compulsoryEndTime && dayjs(compulsoryEndTime).format('YYYY-MM-DD HH:mm:ss') || '--';
-                        item['registerTimeFormat'] = registerTime && dayjs(registerTime).format('YYYY-MM-DD HH:mm:ss') || '--';
-                        item['updateTimeFormat'] = updateTime && dayjs(updateTime).format('YYYY-MM-DD HH:mm:ss') || '--';
+                        item['distributionDateTimeFormat'] = distributionDate && dayjs(distributionDate).format('YYYY-MM-DD') || '--';
+                        item['appointmentTimeFormat'] = appointmentTime && dayjs(appointmentTime).format('YYYY-MM-DD') || '--';
+                        item['registerTimeFormat'] = registerTime && dayjs(registerTime).format('YYYY-MM-DD') || '--';
+                        item['compulsoryEndTimeFormat'] = compulsoryEndTime && dayjs(compulsoryEndTime).format('YYYY-MM-DD') || '--';
+                        item['updateTimeFormat'] = updateTime && dayjs(updateTime).format('YYYY-MM-DD') || '--';
                         item['handleStateName'] = handleState && findValueName(customerStatusList, handleState) || '--';
                         return item;
                     });
