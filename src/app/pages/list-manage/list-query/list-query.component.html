@@ -16,7 +16,7 @@
         </div>
         <div class="search-list-table">
             <ng-container *ngIf="!isLoading; else skeleton">
-              <nz-table #list [nzData]="queryList" nzShowPagination="false" [nzScroll]="{ x: '1520px' }">
+              <nz-table #list [nzData]="queryList" nzShowPagination="false" [nzScroll]="{ x: '1000px' }">
                 <thead>
                   <tr>
                     <ng-container *ngFor="let th of tableCfg.thead">
