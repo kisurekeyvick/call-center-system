@@ -208,6 +208,19 @@ export const insList: IInsList[] = [
             coverageValue: '',
             payPremium: null
         }
+    },
+    {
+        name: '无法找到第三方险',
+        code: 'NoThirdRisk',
+        id: 14,
+        hasCheckbox: true,
+        type: 'text',
+        value: {
+            hasCurrentIns: true,
+            checked: false,
+            coverageValue: '',
+            payPremium: null
+        }
     }
     // {
     //     name: '驾意险',

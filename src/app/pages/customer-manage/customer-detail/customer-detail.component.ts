@@ -624,6 +624,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             const { coverageValue, materialsType, payPremium } = list.value;
 
             return {
+                id: list.id || null,
                 code: list.code,
                 coverage: coverageValue ? priceFormat(coverageValue) : '',
                 payPremium: payPremium,

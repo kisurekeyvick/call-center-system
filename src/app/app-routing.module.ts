@@ -40,6 +40,10 @@ const routes: Routes = [
     loadChildren: () => import('src/app/pages/policy-review/policy-review.module').then(m => m.PolicyReviewModule)
   },
   {
+    path: 'finance',
+    loadChildren: () => import('src/app/pages/financial-report/financial-report.module').then(m => m.FinancialReportModule)
+  },
+  {
     path: '**',
     component: PageNotFoundComponent
   }

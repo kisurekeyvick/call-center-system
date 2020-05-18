@@ -8,7 +8,8 @@
         </nz-breadcrumb>
     </div>
     <div nz-row class="content">
-        <div class="slide-customer-list" *ngIf="canShowDetailFeature">
+        <!-- 暂时注释 -->
+        <!-- <div class="slide-customer-list" *ngIf="canShowDetailFeature">
             <div class="customer-list-count">
                 <nz-tag [nzColor]="'blue'">共计{{ sourceCache ? sourceCache.customerListCache.length : '0' }}条数据</nz-tag>
             </div>
@@ -25,7 +26,7 @@
             <ng-template #nocacheTpl>
                 <nz-empty nzNotFoundContent="无客户"></nz-empty>
             </ng-template>
-        </div>
+        </div> -->
         <div class="customer-detail-form">
             <nz-spin [nzSpinning]="isLoading" [nzIndicator]="indicatorTemplate">
                 <form nz-form [formGroup]="validateForm">

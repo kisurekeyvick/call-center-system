@@ -1,0 +1,5 @@
+@import '../../core/common/common.style.scss';
+
+.financial-report {
+    @include listLayout;
+}

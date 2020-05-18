@@ -1,0 +1,58 @@
+<div class="financial-report" [@jackInTheBox] [@jackInTheBoxOnEnter]>
+    <div nz-row class="container-nav">
+        <nz-breadcrumb nz-page-header-breadcrumb>
+            <nz-breadcrumb-item><a class="route-link" routerLink="/home"><i nz-icon nzType="home" nzTheme="outline"></i>首页</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item>财务报表</nz-breadcrumb-item>
+            <nz-breadcrumb-item>列表</nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </div>
+
+    <div nz-row class="content">
+        <div class="search-list-box">
+            <search-list [searchListLayout]="searchListLayout" [searchListModel]="searchListModel" [searchListItem]="searchListItem" (onSearch)="search()" (onReseat)="reseat()"></search-list>
+        </div>
+        <div class="search-list-menu-group">
+            <button nz-button [nzType]="'primary'" (click)="exportFinancial()"><i nz-icon nzType="download" nzTheme="outline"></i>导出</button>
+        </div>
+        <div class="search-list-table">
+            <ng-container *ngIf="!isLoading; else skeleton">
+                <nz-table #list [nzData]="queryList" nzShowPagination="false" [nzScroll]="{ x: '1000px' }">
+                    <thead>
+                      <tr>
+                        <ng-container *ngFor="let th of tableCfg.thead">
+                            <ng-container *ngIf="th.type === 'fixed-right'">
+                                <th [nzRight]='true' class="sticky-ele">{{ th.name }}</th>
+                            </ng-container>
+                            <ng-container *ngIf="th.type === 'fixed-left'">
+                                <th [nzLeft]='true' class="sticky-ele">{{ th.name }}</th>
+                            </ng-container>
+                            <ng-container *ngIf="!th.type">
+                                <th>{{ th.name }}</th>
+                            </ng-container>
+                        </ng-container>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let data of list.data">
+                        <td [nzLeft]="true" class="sticky-ele">{{data.customerName || '--'}}</td>
+                        <td>{{data.carNo || '--'}}</td>
+                        <td>{{data.companyName || '--'}}</td>
+                        <td>{{data.userName || '--'}}</td>
+                        <td>{{data.orderCommitTimeFormat}}</td>
+                        <td>{{data.orderStateName}}</td>
+                        <td>{{data.orderDateTimeFormat}}</td>
+                      </tr>
+                    </tbody>
+                  </nz-table>
+            </ng-container>
+            <ng-template #skeleton>
+                <nz-skeleton [nzActive]="true"></nz-skeleton>
+                <nz-skeleton [nzActive]="true"></nz-skeleton>
+                <nz-skeleton [nzActive]="true"></nz-skeleton>
+            </ng-template>
+        </div>
+        <div class="search-list-table-pagination">
+            <search-list-pagination [pageInfo]="pageInfo" (onPageChange)="onPageChange($event)"></search-list-pagination>
+        </div>
+    </div>
+</div>
