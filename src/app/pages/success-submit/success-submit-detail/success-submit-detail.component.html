@@ -130,7 +130,7 @@
                                     <nz-form-label nz-col nzXs="8" nzRequired  class="nzFormLabel">{{ data.insName }}</nz-form-label>
                                     <nz-form-control nz-col nzXs="16" class="nzFormControl">
                                         <span nz-col nzXs="15" class="dataType">{{data.coverage && data.coverage + '元' || '无'}}</span>
-                                        <span nz-col nzXs="9" class="payPremium">{{data.payPremium}}元</span>
+                                        <span nz-col nzXs="9" class="payPremium">{{data.payPremium && data.payPremium + '元' || '无'}}</span>
                                     </nz-form-control>
                                 </nz-form-item>
                             </div>
@@ -161,7 +161,24 @@
             </div>
             
             <div nz-row class="detail-item summation">
-                <p>保险费合计：{{ detailInfo.sumPremium || 0 }}元</p>
+                <p class="title"><i nz-icon nzType="money-collect" nzTheme="outline"></i>投保险种</p>
+                <div nz-row class="detail-item-content">
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">商业险金额：</span>
+                            <span class="nzFormControl">{{ detailInfo.commercialSumPremium || 0 }}元</span>
+                        </p>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">交强险金额：</span>
+                            <span class="nzFormControl">{{ detailInfo.compulsorySumPremium || 0 }}元</span>
+                        </p>
+                    </div>
+                </div>
+                <div nz-row class="detail-item-content">
+                    <p>保险费合计：{{ detailInfo.sumPremium || 0 }}元</p>
+                </div>
             </div>
 
             <div class="detail-item">

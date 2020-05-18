@@ -152,8 +152,27 @@
                         </div>
                     </div>
 
-                    <div nz-row class="detail-item summation">
-                        <p>保险费合计：{{ detailInfo.sumPremium || 0 }}元</p>
+                    <div nz-row>
+                        <p class="title"><i nz-icon nzType="transaction" nzTheme="outline"></i>最终报价</p>
+                        <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                            <nz-form-item class="nzFormItem">
+                                <nz-form-label nz-col nzXs="8" nzRequired  nzFor="commercialSumPremium" class="nzFormLabel">商业险金额</nz-form-label>
+                                <nz-form-control nz-col nzXs="16" class="nzFormControl">
+                                    <nz-input-number style="width: 100%;" id="commercialSumPremium" [nzMin]="0" formControlName="commercialSumPremium" [nzStep]="1"></nz-input-number>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                            <nz-form-item class="nzFormItem">
+                                <nz-form-label nz-col nzXs="8" nzRequired  nzFor="compulsorySumPremium" class="nzFormLabel">交强险金额</nz-form-label>
+                                <nz-form-control nz-col nzXs="16" class="nzFormControl">
+                                    <nz-input-number style="width: 100%;" id="compulsorySumPremium" [nzMin]="0" formControlName="compulsorySumPremium" [nzStep]="1"></nz-input-number>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-row nz-col nzXs="24">
+                            <p class="summation">保险费合计：{{ detailInfo.sumPremium || 0 }}元</p>
+                        </div>
                     </div>
 
                     <div nz-row>

@@ -145,6 +145,12 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
             /** 新车购置价 */
             purchasePrice: [null],
 
+            /** 最终报价 */
+            /** 商业险金额 */
+            commercialSumPremium: [null],
+            /** 交强险金额 */
+            compulsorySumPremium: [null],
+
             /** 派送信息 */
             receiptDate: [null],
             receiptName: [null],
@@ -264,7 +270,8 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
         const { customerOrder } = detailInfo;
         const { receiptName, receiptPhone, sender, receiptRemarks, receiptDate, companyCode, 
             createUser, customerName, idCard, customerPhone, customerAddress,
-            carNo, brandName, seatNumber, registerTime, usage, vinNo, engineNo, purchasePrice, } = customerOrder;
+            carNo, brandName, seatNumber, registerTime, usage, vinNo, engineNo, purchasePrice,
+            commercialSumPremium, compulsorySumPremium } = customerOrder;
         this.validateForm.patchValue({
             /** 投保公司 */
             companyCode,
@@ -298,6 +305,12 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
             engineNo,
             /** 新车购置价 */
             purchasePrice,
+
+            /** 最终报价 */
+            /** 商业险金额 */
+            commercialSumPremium,
+            /** 交强险金额 */
+            compulsorySumPremium,
 
             /** 派送时间 */
             receiptDate,

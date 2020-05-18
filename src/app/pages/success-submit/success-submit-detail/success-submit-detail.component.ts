@@ -85,6 +85,10 @@ export class SuccessSubmitDetailComponent implements OnInit, OnDestroy {
             },
             /** 投保险种 */
             insType: [],
+            /** 商业险金额 */
+            commercialSumPremium: '',
+            /** 交强险金额 */
+            compulsorySumPremium: '',
             /** 费用合计 */
             sumPremium: '',
             /** 派送信息 */
@@ -136,7 +140,8 @@ export class SuccessSubmitDetailComponent implements OnInit, OnDestroy {
         const { companyCode, createUser, customerName, idCard, customerPhone, customerAddress,
             carNo, brandName, seatNumber, registerTime, usage, vinNo, engineNo, purchasePrice,
             commercialStartTime, commercialEndTime, compulsoryStartTime, compulsoryEndTime,
-            receiptDate, receiptName, receiptPhone, sender, receiptRemarks, sumPremium } = customerOrder;
+            receiptDate, receiptName, receiptPhone, sender, receiptRemarks, sumPremium,
+            commercialSumPremium, compulsorySumPremium } = customerOrder;
         
         this.detailInfo.insType = quoteCommercialInsuranceDetailList.map(item => {
             if (item.code) {
@@ -173,6 +178,8 @@ export class SuccessSubmitDetailComponent implements OnInit, OnDestroy {
                 compulsoryStartTime,
                 compulsoryEndTime
             },
+            commercialSumPremium,
+            compulsorySumPremium,
             sumPremium,
             receiptInfo: {
                 receiptDate,

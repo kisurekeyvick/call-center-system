@@ -123,7 +123,7 @@ export class KpiAnalysisReportComponent implements OnInit, OnDestroy {
         legendData_salesmen = header;
 
         body.forEach(item => {
-            xAxisData_day.push(`${item.days}月`);
+            xAxisData_day.push(`${item.days}日`);
         });
 
         legendData_salesmen.forEach(salesman => {
