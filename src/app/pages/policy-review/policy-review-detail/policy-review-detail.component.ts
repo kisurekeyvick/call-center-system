@@ -386,6 +386,7 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
             const { coverageValue, materialsType, payPremium } = list.value;
 
             return {
+                id: list.id,
                 code: list.code,
                 coverage: coverageValue ? priceFormat(coverageValue) : '',
                 payPremium: payPremium,

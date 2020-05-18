@@ -6,8 +6,9 @@ import LocalStorageService from 'src/app/core/cache/local-storage';
 import { SuccessSubmitService } from '../success-submit.service';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { usageList, companyList, insList } from './success-submit-detail.component.config';
+import { usageList, companyList } from './success-submit-detail.component.config';
 import { findValueName } from 'src/app/core/utils/function';
+import { insList, IInsList } from 'src/app/shared/component/customer-detail-insurance/customer-detail-insurance.component.config';
 
 interface ICommon {
     [key: string]: any;
@@ -145,11 +146,12 @@ export class SuccessSubmitDetailComponent implements OnInit, OnDestroy {
         
         this.detailInfo.insType = quoteCommercialInsuranceDetailList.map(item => {
             if (item.code) {
-                item['insName'] = findValueName(insList, item.code);
+                const target = insList.filter((list: IInsList) => list.code === item.code)[0];
+                item['insName'] = target && target.name || '';
             }
 
             return item;
-        });
+        }).filter(item => item.payPremium);
         
         Object.assign(this.detailInfo, {
             insCompany: {
