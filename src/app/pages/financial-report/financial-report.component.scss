@@ -2,4 +2,16 @@
 
 .financial-report {
     @include listLayout;
+
+    .search-list-menu-group {
+        text-align: left;
+
+        button {
+            margin-right: 12px;
+        }
+    }
+
+    .search-list-table {
+        @include tableListStyle;
+    }
 }
