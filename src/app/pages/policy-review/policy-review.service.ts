@@ -43,4 +43,9 @@ export class PolicyReviewService {
     operationOrder(params: ICommon): Observable<any> {
         return this.http.post(`api/order/operationOrder`, params);
     }
+
+    /** 礼品列表查询 */
+    queryGiftList(params: ICommon = {}): Observable<any> {
+        return this.http.post(`api/gift/queryAll`, params);
+    }
 }

@@ -9,11 +9,12 @@ import { PolicyReviewService } from '../policy-review.service';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { usageList, companyList, insList } from './policy-review-detail.component.config';
-import { findValueName, validPhoneValue, reversePriceFormat, priceFormat } from 'src/app/core/utils/function';
+import { usageList, companyList, insList, IGiftItem } from './policy-review-detail.component.config';
+import { findValueName, validPhoneValue, reversePriceFormat, priceFormat, numberToFixed } from 'src/app/core/utils/function';
 import { insList as sharedInsList, IInsList } from 'src/app/shared/component/customer-detail-insurance/customer-detail-insurance.component.config';
 import { dictionary } from 'src/app/shared/dictionary/dictionary';
 import { cloneDeep } from 'lodash';
+import * as dayjs from 'dayjs';
 
 interface ICommon {
     [key: string]: any;
@@ -45,6 +46,8 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
     };
     /** 险种 */
     orderInsList: IInsList[];
+    /** 赠品 */
+    giftList: IGiftItem[];
 
     constructor(
         private modalService: NzModalService,
@@ -146,20 +149,34 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
             purchasePrice: [null],
 
             /** 最终报价 */
-            /** 商业险金额 */
             commercialSumPremium: [null],
-            /** 交强险金额 */
+            isDiscount: [null],
+            discount: [null],
+            // clivtaFlag: [null],
             compulsorySumPremium: [null],
+            // travelTaxFlag: [null],
+            taxActual: [null],
+            sumPremium: [null],
+            realSumPremium: [null],
+            drivingPremium: [null],
+            allowancePremium: [null],
+            glassPremium: [null],
+            /** 赠品 */
+            giftId: [null], 
 
             /** 派送信息 */
             receiptDate: [null],
             receiptName: [null],
             receiptPhone: [null],
             sender: [null],
+            giftName: [null],
+            receiptAddress: [null],
             receiptRemarks: [null]
         });
 
-        this.loadPolicyInfo();
+        this.loadGiftList().finally(() => {
+            this.loadPolicyInfo();
+        });
     }
 
     /**
@@ -187,6 +204,30 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
                 }
             });
         }
+    }
+
+    /**
+     * @func
+     * @desc 加载赠品列表数据
+     */
+    loadGiftList() {
+        return new Promise((resolve, reject) => {
+            this.policyReviewService.queryGiftList().pipe(
+                catchError(err => of(err))
+            ).subscribe(res => {
+                if (res instanceof Array) {
+                    this.giftList = res.map(gift => ({
+                        ...gift,
+                        name: gift.giftName,
+                        value: gift.id
+                    }));
+
+                    resolve('success');
+                } else {
+                    reject('err');
+                }
+            });
+        }); 
     }
 
     /**
@@ -240,12 +281,12 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
     setInsList(detailInfo) {
         const { quoteCommercialInsuranceDetailList } = detailInfo;
         const copyInsList: IInsList[] = cloneDeep(sharedInsList);
-
         this.orderInsList = quoteCommercialInsuranceDetailList.map(item => {
             const target = copyInsList.find((insItem: IInsList) => insItem.code === item.code);
 
             if (target) {
                 Object.assign(target.value, {
+                    id: item.id,
                     payPremium: item.payPremium,
                     coverageValue: item.coverage && reversePriceFormat(item.coverage) || '',
                 });
@@ -258,7 +299,7 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
             // }
 
             return item;
-        });
+        }).filter(item => item.value && item.value.payPremium);
     }
     
     /**
@@ -267,11 +308,13 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
      * @param detailInfo 
      */
     setFormGroupValue(detailInfo) {
-        const { customerOrder } = detailInfo;
+        const { customerOrder, quoteInsurance } = detailInfo;
         const { receiptName, receiptPhone, sender, receiptRemarks, receiptDate, companyCode, 
             createUser, customerName, idCard, customerPhone, customerAddress,
             carNo, brandName, seatNumber, registerTime, usage, vinNo, engineNo, purchasePrice,
-            commercialSumPremium, compulsorySumPremium } = customerOrder;
+            commercialSumPremium, compulsorySumPremium, receiptAddress } = customerOrder;
+        const { isDiscount, discount, taxActual, sumPremium, realSumPremium, drivingPremium, 
+            allowancePremium, glassPremium, giftId } = quoteInsurance;
         this.validateForm.patchValue({
             /** 投保公司 */
             companyCode,
@@ -309,8 +352,26 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
             /** 最终报价 */
             /** 商业险金额 */
             commercialSumPremium,
+            /** 是否优惠 */
+            isDiscount,
+            /** 优惠比例 */
+            discount,
             /** 交强险金额 */
             compulsorySumPremium,
+            /** 车船税 */
+            taxActual,
+            /** 开单保费 */
+            sumPremium,
+            /** 实收金额 */
+            realSumPremium,
+            /** 驾意险价格 */
+            drivingPremium,
+            /** 津贴保价格 */
+            allowancePremium,
+            /** 玻璃膜价格 */
+            glassPremium,
+            /** 赠品 */
+            giftId,
 
             /** 派送时间 */
             receiptDate,
@@ -320,6 +381,10 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
             receiptPhone,
             /** 寄件人 */
             sender,
+            /** 赠品名 */
+            giftName: findValueName(this.giftList, giftId),
+            /** 地址 */
+            receiptAddress,
             /** 备注 */
             receiptRemarks
         });
@@ -342,6 +407,117 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
 
     /**
      * @callback
+     * @desc 赠品发生改变
+     */
+    giftChange(giftId: string) {
+        this.validateForm.patchValue({
+            giftName: findValueName(this.giftList, giftId)
+        });
+    }
+
+    /**
+     * @callback
+     * @desc 险种金额发生变化
+     */
+    insItemChange() {
+        /**
+         * 商业险 = 所有险种保费
+         * 开担保费 = 商业险+ 交强险 + 车船税 + 小险种（三个驾意险。津贴保，玻璃膜）
+         * 实收保费 = （商业险+ 交强险）* 折扣 +车船税 + 小险种（三个驾意险。津贴保，玻璃膜）
+         */
+        /** 商业险 */
+        const commercialSumPremium = this.orderInsList.reduce((pre, cur: IInsList) => {
+            pre += (cur.value.payPremium || 0); 
+            return pre;
+        }, 0);
+
+        const { compulsorySumPremium = 0, taxActual = 0, discount = 0, 
+            drivingPremium = 0, allowancePremium = 0, glassPremium = 0 } = this.validateForm.value; 
+
+        /** 开单保费 */
+        const sumPremium = commercialSumPremium + compulsorySumPremium + taxActual + drivingPremium + allowancePremium + glassPremium;
+
+        /** 实收保费 */
+        const realSumPremium = (commercialSumPremium + compulsorySumPremium) * (1 - discount / 100) + taxActual + + drivingPremium + allowancePremium + glassPremium;
+
+        /** 设置值 */
+        this.validateForm.patchValue({
+            /** 商业险金额 */
+            commercialSumPremium: numberToFixed(commercialSumPremium),
+            /** 开单保费 */
+            sumPremium: numberToFixed(sumPremium),
+            /** 实收金额 */
+            realSumPremium: numberToFixed(realSumPremium)
+        });
+    }
+
+    /**
+     * @func
+     * @desc format将要保存的参数
+     */
+    formatRequestParams() {
+        const formValue = this.validateForm.value;
+        const {
+            /** 投保公司 */
+            companyCode,
+            /** 联系人 */
+            createUser,
+            /** 客户信息 */
+            customerName, idCard, customerPhone, customerAddress,
+            /** 车辆信息 */
+            carNo, brandName, vinNo, engineNo, seatNumber, registerTime,
+            usage, carTypeCode, purchasePrice,
+            /** 最终报价 */
+            commercialSumPremium, isDiscount, discount, compulsorySumPremium, taxActual, sumPremium, realSumPremium,
+            drivingPremium, allowancePremium, glassPremium, giftId,
+            /** 保单派送信息 */
+            receiptDate, receiptName, receiptPhone, sender, receiptRemarks, receiptAddress
+        } = formValue;
+
+        /** 赠品信息 */
+        const giftInfo = {
+            giftId: 0,
+            giftName: '',
+            giftNumber: 0,
+            giftPrice: 0,
+            giftTotalPrice: 0
+        };
+
+        if (giftId) {
+            const targetGift: IGiftItem = this.giftList.find(gift => gift.id === giftId);
+
+            Object.assign(giftInfo, {
+                giftId,
+                giftName: targetGift.name,
+                giftNumber: 1,
+                giftPrice: targetGift.giftPrice,
+                giftTotalPrice: targetGift.giftPrice,
+            });
+        }
+
+        const { customerOrder, quoteInsurance } = this.loadedDetailInfo;
+
+        Object.assign(customerOrder, {
+            customerName, customerPhone, customerAddress, idCard,
+            carNo, brandName, vinNo, engineNo, seatNumber, 
+            registerTime: new Date(dayjs(registerTime).format('YYYY-MM-DD')),
+            usage, purchasePrice, carTypeCode, receiptName, receiptPhone, sender, receiptRemarks,
+            receiptDate: new Date(dayjs(receiptDate).format('YYYY-MM-DD'))
+        });
+
+        Object.assign(quoteInsurance, {
+            isDiscount, commercialSumPremium, compulsorySumPremium, taxActual, discount,
+            sumPremium, realSumPremium, drivingPremium, allowancePremium, glassPremium,
+            ...giftInfo, companyCode
+        });
+        
+        return {
+            customerOrder, quoteInsurance
+        };
+    }
+
+    /**
+     * @callback
      * @desc 保存派送信息
      */
     saveSendInfo() {
@@ -351,13 +527,10 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
         }
 
         if (this.validateForm.valid) {
-            const { customerOrder, quoteInsurance } = this.loadedDetailInfo;
             const quoteCommercialInsuranceDetailList = this.formatRequestInsValue();
+            const { customerOrder, quoteInsurance } = this.formatRequestParams();
             const params = {
-                customerOrder: {
-                    ...customerOrder,
-                    ...this.validateForm.value
-                },
+                customerOrder,
                 quoteCommercialInsuranceDetailList,
                 quoteInsurance
             };
@@ -383,10 +556,10 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
         let value = [];
 
         value = this.orderInsList.map((list: IInsList) => {
-            const { coverageValue, materialsType, payPremium } = list.value;
+            const { coverageValue, materialsType, payPremium, id } = list.value;
 
             return {
-                id: list.id,
+                id,
                 code: list.code,
                 coverage: coverageValue ? priceFormat(coverageValue) : '',
                 payPremium: payPremium,

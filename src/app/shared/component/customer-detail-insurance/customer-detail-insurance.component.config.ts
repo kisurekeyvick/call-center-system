@@ -8,7 +8,8 @@ export interface IInsList {
         checked: boolean;
         coverageValue?: string | number,
         materialsType?: string;
-        payPremium: number
+        payPremium: number;
+        id?: number | string;
     };
     [key: string]: any;
 }
