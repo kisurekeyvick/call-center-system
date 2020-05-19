@@ -166,18 +166,71 @@
                     <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
                         <p class="nzFormItem">
                             <span class="nzFormLabel">商业险金额：</span>
-                            <span class="nzFormControl">{{ detailInfo.commercialSumPremium || 0 }}元</span>
+                            <span class="nzFormControl">{{ detailInfo.finalQuotation.commercialSumPremium || 0 }}元</span>
+                        </p>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">是否优惠：</span>
+                            <span class="nzFormControl">
+                                <label nz-checkbox id="isDiscount" [nzDisabled]="true" [(ngModel)]="detailInfo.finalQuotation.isDiscount"></label>
+                            </span>
+                        </p>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">优惠比例(%)：</span>
+                            <span class="nzFormControl">{{ detailInfo.finalQuotation.discount }}</span>
                         </p>
                     </div>
                     <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
                         <p class="nzFormItem">
                             <span class="nzFormLabel">交强险金额：</span>
-                            <span class="nzFormControl">{{ detailInfo.compulsorySumPremium || 0 }}元</span>
+                            <span class="nzFormControl">{{ detailInfo.finalQuotation.compulsorySumPremium }}</span>
                         </p>
                     </div>
-                </div>
-                <div nz-row class="detail-item-content">
-                    <p>保险费合计：{{ detailInfo.sumPremium || 0 }}元</p>
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">车船税：</span>
+                            <span class="nzFormControl">{{ detailInfo.finalQuotation.taxActual }}</span>
+                        </p>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">驾意险价格：</span>
+                            <span class="nzFormControl">{{ detailInfo.finalQuotation.drivingPremium }}</span>
+                        </p>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">津贴保价格：</span>
+                            <span class="nzFormControl">{{ detailInfo.finalQuotation.allowancePremium }}</span>
+                        </p>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">玻璃膜价格：</span>
+                            <span class="nzFormControl">{{ detailInfo.finalQuotation.glassPremium }}</span>
+                        </p>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">赠送礼品：</span>
+                            <span class="nzFormControl">{{ detailInfo.receiptInfo.giftName }}</span>
+                        </p>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">开单保费：</span>
+                            <span class="nzFormControl">{{ detailInfo.finalQuotation.sumPremium }}</span>
+                        </p>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">实收金额：</span>
+                            <span class="nzFormControl">{{ detailInfo.finalQuotation.realSumPremium }}</span>
+                        </p>
+                    </div>
                 </div>
             </div>
 

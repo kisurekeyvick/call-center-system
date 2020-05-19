@@ -6,7 +6,7 @@ import LocalStorageService from 'src/app/core/cache/local-storage';
 import { SuccessSubmitService } from '../success-submit.service';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { usageList, companyList } from './success-submit-detail.component.config';
+import { usageList, companyList, IGiftItem } from './success-submit-detail.component.config';
 import { findValueName } from 'src/app/core/utils/function';
 import { insList, IInsList } from 'src/app/shared/component/customer-detail-insurance/customer-detail-insurance.component.config';
 
@@ -30,6 +30,8 @@ export class SuccessSubmitDetailComponent implements OnInit, OnDestroy {
     detailInfo: ICommon;
     /** 加载的详细信息 */
     loadedDetailInfo: ICommon;
+    /** 赠品 */
+    giftList: IGiftItem[];
 
     constructor(
         private router: Router,
@@ -86,25 +88,50 @@ export class SuccessSubmitDetailComponent implements OnInit, OnDestroy {
             },
             /** 投保险种 */
             insType: [],
-            /** 商业险金额 */
-            commercialSumPremium: '',
-            /** 交强险金额 */
-            compulsorySumPremium: '',
-            /** 费用合计 */
-            sumPremium: '',
+            /** 最终报价 */
+            finalQuotation: {
+                /** 商业险金额 */
+                commercialSumPremium: '',
+                /** 是否优惠 */
+                isDiscount: '',
+                /** 优惠比例 */
+                discount: '',
+                /** 交强险金额 */
+                compulsorySumPremium: '',
+                /** 车船税 */
+                taxActual: '',
+                /** 开单保费 */
+                sumPremium: '',
+                /** 实收金额 */
+                realSumPremium: '',
+                /** 驾意险价格 */
+                drivingPremium: '',
+                /** 津贴保价格 */
+                allowancePremium: '',
+                /** 玻璃膜价格 */
+                glassPremium: '',
+                /** 赠品 */
+                giftId: ''
+            },
             /** 派送信息 */
             receiptInfo: {
                 receiptDate: '',
                 receiptName: '',
                 receiptPhone: '',
                 sender: '',
+                giftName: '',
+                receiptAddress: '',
                 receiptRemarks: ''
             }
         };
+
+        this.giftList = [];
     }
 
     ngOnInit() {
-        this.loadSuccessSubmitItemInfo();
+        this.loadGiftList().finally(() => {
+            this.loadSuccessSubmitItemInfo();
+        });
     }
 
     /**
@@ -133,16 +160,42 @@ export class SuccessSubmitDetailComponent implements OnInit, OnDestroy {
 
     /**
      * @func
+     * @desc 加载赠品列表数据
+     */
+    loadGiftList() {
+        return new Promise((resolve, reject) => {
+            this.successSubmitService.queryGiftList().pipe(
+                catchError(err => of(err))
+            ).subscribe(res => {
+                if (res instanceof Array) {
+                    this.giftList = res.map(gift => ({
+                        ...gift,
+                        name: gift.giftName,
+                        value: gift.id
+                    }));
+
+                    resolve('success');
+                } else {
+                    reject('err');
+                }
+            });
+        }); 
+    }
+
+    /**
+     * @func
      * @desc 设置module值
      * @param detailInfo 
      */
     setModuleValue(detailInfo) {
-        const { customerOrder, quoteCommercialInsuranceDetailList } = detailInfo;
+        const { customerOrder, quoteCommercialInsuranceDetailList, quoteInsurance } = detailInfo;
         const { companyCode, createUser, customerName, idCard, customerPhone, customerAddress,
             carNo, brandName, seatNumber, registerTime, usage, vinNo, engineNo, purchasePrice,
             commercialStartTime, commercialEndTime, compulsoryStartTime, compulsoryEndTime,
-            receiptDate, receiptName, receiptPhone, sender, receiptRemarks, sumPremium,
-            commercialSumPremium, compulsorySumPremium } = customerOrder;
+            receiptDate, receiptName, receiptPhone, sender, receiptRemarks,
+            commercialSumPremium, compulsorySumPremium, receiptAddress } = customerOrder;
+        const { isDiscount, discount, taxActual, sumPremium, realSumPremium, drivingPremium, 
+            allowancePremium, glassPremium, giftId } = quoteInsurance;
         
         this.detailInfo.insType = quoteCommercialInsuranceDetailList.map(item => {
             if (item.code) {
@@ -152,6 +205,8 @@ export class SuccessSubmitDetailComponent implements OnInit, OnDestroy {
 
             return item;
         }).filter(item => item.payPremium);
+
+        console.log('nicefish');
         
         Object.assign(this.detailInfo, {
             insCompany: {
@@ -180,14 +235,26 @@ export class SuccessSubmitDetailComponent implements OnInit, OnDestroy {
                 compulsoryStartTime,
                 compulsoryEndTime
             },
-            commercialSumPremium,
-            compulsorySumPremium,
-            sumPremium,
+            finalQuotation: {
+                commercialSumPremium,
+                isDiscount,
+                discount,
+                compulsorySumPremium,
+                taxActual,
+                sumPremium,
+                realSumPremium,
+                drivingPremium,
+                allowancePremium,
+                glassPremium,
+                giftId
+            },
             receiptInfo: {
                 receiptDate,
                 receiptName,
                 receiptPhone,
                 sender,
+                giftName: findValueName(this.giftList, giftId),
+                receiptAddress,
                 receiptRemarks
             }
         });

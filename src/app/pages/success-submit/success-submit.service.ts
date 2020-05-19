@@ -33,4 +33,9 @@ export class SuccessSubmitService {
     getCustomerOrderDetail(params: ICommon): Observable<any> {
         return this.http.post(`api/order/getCustomerOrderDetail`, params);
     }
+
+    /** 礼品列表查询 */
+    queryGiftList(params: ICommon = {}): Observable<any> {
+        return this.http.post(`api/gift/queryAll`, params);
+    }
 }

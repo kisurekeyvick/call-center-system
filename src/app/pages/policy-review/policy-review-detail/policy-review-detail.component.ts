@@ -111,6 +111,7 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
         };
 
         this.orderInsList = [];
+        this.giftList = [];
     }
 
     ngOnInit() {
