@@ -7,7 +7,9 @@
                         <nz-form-item class="nzFormItem">
                             <nz-form-label nz-col nzXs="6" nzRequired nzFor="appointmentTime" class="nzFormLabel">预约时间</nz-form-label>
                             <nz-form-control nz-col nzXs="18" class="nzFormControl" nzErrorTip="请选择预约时间">
-                                <nz-date-picker style="width: 100%;" [nzFormat]="'yyyy-MM-dd HH:mm:ss'" id="appointmentTime" formControlName="appointmentTime"></nz-date-picker>
+                                <nz-date-picker style="width: 100%;" [nzFormat]="'yyyy-MM-dd HH:mm:ss'" 
+                                [nzShowTime]="{ nzDefaultOpenValue: timeDefaultValue }"
+                                id="appointmentTime" formControlName="appointmentTime"></nz-date-picker>
                             </nz-form-control>
                         </nz-form-item>
                         

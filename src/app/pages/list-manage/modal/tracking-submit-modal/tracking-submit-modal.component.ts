@@ -4,6 +4,7 @@ import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ListManageService } from '../../list-manage.service';
+import setHours from 'date-fns/setHours';
 
 @Component({
     selector: 'tracking-submit-modal',
@@ -23,6 +24,8 @@ export class TrackingSubmitModalComponent implements OnInit, OnDestroy {
     appointmentLevelList: Array<{ name: string; value: string }>;
     /** 加载中 */
     isLoading = false;
+    /** 日期 */
+    timeDefaultValue = setHours(new Date(), 0);
 
     constructor(
         private modal: NzModalRef,
