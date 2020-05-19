@@ -38,7 +38,20 @@
                         <td>{{data.orderStateName}}</td>
                         <td>{{data.orderDateTimeFormat}}</td>
                         <td [nzRight]='true' class="sticky-ele">
-                            <a (click)="confirmOutDocInfo(data)">确认出单信息</a>
+                            <!-- 已经提交 -->
+                            <ng-container *ngIf="data.orderState === '1'">
+                                <a (click)="showDetail(data)">审核</a>
+                            </ng-container>
+                            <!-- 内勤通过 -->
+                            <ng-container *ngIf="data.orderState === '2'">
+                                <a (click)="showDetail(data)">查看</a>
+                                <nz-divider nzType="vertical"></nz-divider>
+                                <a (click)="confirmOutDocInfo(data)">确认出单信息</a>
+                            </ng-container>
+                            <!-- 内勤审评失败 -->
+                            <ng-container *ngIf="data.orderState === '3'">
+                                --
+                            </ng-container>
                         </td>
                       </tr>
                     </tbody>
