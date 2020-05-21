@@ -33,7 +33,7 @@
                     @include specialNzFormItem;
 
                     .nzFormLabel {
-                        flex-basis: 110px;
+                        flex-basis: 90px;
                     }
 
                     .nzFormLabel,
@@ -44,6 +44,11 @@
 
                     .nzFormControl {
                         padding: 0px 11px;
+                        white-space: nowrap;
+
+                        &.scroll-x {
+                            overflow-y: hidden;
+                        }
                     }
                 }
             }

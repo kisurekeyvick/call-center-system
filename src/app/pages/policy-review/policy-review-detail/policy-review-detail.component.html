@@ -142,6 +142,24 @@
 
                     <div nz-row>
                         <p class="title"><i nz-icon nzType="money-collect" nzTheme="outline"></i>投保险种</p>
+                        <div nz-row>
+                            <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                                <nz-form-item class="nzFormItem">
+                                    <nz-form-label nz-col nzXs="8" nzRequired  nzFor="compulsoryTime" class="nzFormLabel">交强险时间</nz-form-label>
+                                    <nz-form-control nz-col nzXs="16" class="nzFormControl">
+                                        <nz-range-picker [nzFormat]="'yyyy-MM-dd 00:00:00'" id="compulsoryTime" formControlName="compulsoryTime" (nzOnCalendarChange)="formControlTimeChange($event, 'compulsoryTime')"></nz-range-picker>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                                <nz-form-item class="nzFormItem">
+                                    <nz-form-label nz-col nzXs="8" nzRequired  nzFor="commercialTime" class="nzFormLabel">商业险时间</nz-form-label>
+                                    <nz-form-control nz-col nzXs="16" class="nzFormControl">
+                                        <nz-range-picker [nzFormat]="'yyyy-MM-dd 00:00:00'" id="commercialTime" formControlName="commercialTime" (nzOnCalendarChange)="formControlTimeChange($event, 'commercialTime')"></nz-range-picker>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
                         <div class="ins-table-list">
                             <ng-container *ngIf="orderInsList.length > 0; else noInsTypeTpl">
                                 <customer-detail-insurance [insList]="orderInsList"></customer-detail-insurance>

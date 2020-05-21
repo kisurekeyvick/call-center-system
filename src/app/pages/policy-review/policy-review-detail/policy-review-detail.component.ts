@@ -164,7 +164,9 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
             glassPremium: [null],
             /** 赠品 */
             giftId: [null], 
-
+            /** 时间信息 */
+            compulsoryTime: [null],
+            commercialTime: [null],
             /** 派送信息 */
             receiptDate: [null],
             receiptName: [null],
@@ -313,7 +315,8 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
         const { receiptName, receiptPhone, sender, receiptRemarks, receiptDate, companyCode, 
             createUser, customerName, idCard, customerPhone, customerAddress,
             carNo, brandName, seatNumber, registerTime, usage, vinNo, engineNo, purchasePrice,
-            commercialSumPremium, compulsorySumPremium, receiptAddress } = customerOrder;
+            commercialSumPremium, compulsorySumPremium, receiptAddress, commercialEndTime, 
+            commercialStartTime, compulsoryEndTime, compulsoryStartTime } = customerOrder;
         const { isDiscount, discount, taxActual, sumPremium, realSumPremium, drivingPremium, 
             allowancePremium, glassPremium, giftId } = quoteInsurance;
         this.validateForm.patchValue({
@@ -374,6 +377,12 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
             /** 赠品 */
             giftId,
 
+            /** 时间信息 */
+            /** 交强险时间 */
+            compulsoryTime: [compulsoryStartTime, compulsoryEndTime],
+            /** 商业险时间 */
+            commercialTime: [commercialStartTime, commercialEndTime],
+
             /** 派送时间 */
             receiptDate,
             /** 收件人 */
@@ -404,6 +413,26 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
         }
 
         return {};
+    }
+
+    /**
+     * @func
+     * @desc 时间发生变化
+     * @param time 
+     */
+    formControlTimeChange(time: Date[], formControlName: string) {
+        if (time.length > 0) {
+            const startTime = dayjs(time[0]);
+            const formatStartTime = dayjs(startTime).format('YYYY/MM/DD');
+            const resetStartTime = new Date(formatStartTime);
+            const formatEndTime = formatStartTime.split('/').map((item: string, index: number) => {
+                return index === 0 && String(Number(item) + 1) || item;
+            }).join('/');
+            const resetEndTime = new Date(formatEndTime);
+            this.validateForm.patchValue({
+                [formControlName]: [resetStartTime, resetEndTime]
+            });
+        }
     }
 
     /**
@@ -471,9 +500,15 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
             /** 最终报价 */
             commercialSumPremium, isDiscount, discount, compulsorySumPremium, taxActual, sumPremium, realSumPremium,
             drivingPremium, allowancePremium, glassPremium, giftId,
+            /** 时间信息 */
+            compulsoryTime, commercialTime,
             /** 保单派送信息 */
             receiptDate, receiptName, receiptPhone, sender, receiptRemarks, receiptAddress
         } = formValue;
+        /** 商业险时间 */
+        const [commercialStartTime = null, commercialEndTime = null] = commercialTime || [];
+        /** 交强险时间 */
+        const [compulsoryStartTime = null, compulsoryEndTime = null] = compulsoryTime || [];
 
         /** 赠品信息 */
         const giftInfo = {
@@ -503,7 +538,8 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
             carNo, brandName, vinNo, engineNo, seatNumber, 
             registerTime: new Date(dayjs(registerTime).format('YYYY-MM-DD')),
             usage, purchasePrice, carTypeCode, receiptName, receiptPhone, sender, receiptRemarks,
-            receiptDate: new Date(dayjs(receiptDate).format('YYYY-MM-DD'))
+            receiptDate: new Date(dayjs(receiptDate).format('YYYY-MM-DD')),
+            commercialEndTime, commercialStartTime, compulsoryEndTime, compulsoryStartTime,
         });
 
         Object.assign(quoteInsurance, {

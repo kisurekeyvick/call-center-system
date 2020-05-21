@@ -70,7 +70,7 @@
                     <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
                         <p class="nzFormItem">
                             <span class="nzFormLabel">厂牌型号：</span>
-                            <span class="nzFormControl">{{ detailInfo.carInfo.brandName }}</span>
+                            <span class="nzFormControl scroll-x">{{ detailInfo.carInfo.brandName }}</span>
                         </p>
                     </div>
                     <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
@@ -122,6 +122,20 @@
 
             <div class="detail-item">
                 <p class="title"><i nz-icon nzType="money-collect" nzTheme="outline"></i>投保险种</p>
+                <div nz-row class="detail-item-content">
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">交强险时间：</span>
+                            <span class="nzFormControl scroll-x">{{ detailInfo.insTime.compulsoryStartTime | date:'yyyy-MM-dd' }}~{{ detailInfo.insTime.compulsoryEndTime | date:'yyyy-MM-dd' }}</span>
+                        </p>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">商业险时间：</span>
+                            <span class="nzFormControl scroll-x">{{ detailInfo.insTime.commercialStartTime | date:'yyyy-MM-dd' }}~{{ detailInfo.insTime.commercialEndTime | date:'yyyy-MM-dd' }}</span>
+                        </p>
+                    </div>
+                </div>
                 <div nz-row class="ins-table-list">
                     <ng-container *ngIf="detailInfo.insType.length > 0; else noInsTypeTpl">
                         <ng-container *ngFor="let data of detailInfo.insType; let i = index">
@@ -240,7 +254,7 @@
                     <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
                         <p class="nzFormItem">
                             <span class="nzFormLabel">派送时间：</span>
-                            <span class="nzFormControl">{{ detailInfo.receiptInfo.receiptDate }}</span>
+                            <span class="nzFormControl">{{ detailInfo.receiptInfo.receiptDate | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                         </p>
                     </div>
                     <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
@@ -264,7 +278,7 @@
                     <div nz-col nzXs="24" nzSm="24" nzGutter="0">
                         <p class="nzFormItem">
                             <span class="nzFormLabel">备注：</span>
-                            <span class="nzFormControl">{{ detailInfo.receiptInfo.receiptRemarks }}</span>
+                            <span class="nzFormControl scroll-x">{{ detailInfo.receiptInfo.receiptRemarks }}</span>
                         </p>
                     </div>
                 </div>
