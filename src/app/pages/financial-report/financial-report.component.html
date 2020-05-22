@@ -17,7 +17,7 @@
                     <nz-form-item class="nzFormItem">
                         <nz-form-label nz-col nzXs="10" class="nzFormLabel" nzFor="customerName">姓名</nz-form-label>
                         <nz-form-control nz-col nzXs="14" class="nzFormControl">
-                            <input nz-input placeholder="请输入姓名" id="customerName" formControlName="customerName"/>
+                            <input nz-input id="customerName" formControlName="customerName"/>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
@@ -25,7 +25,7 @@
                     <nz-form-item class="nzFormItem">
                         <nz-form-label nz-col nzXs="10" class="nzFormLabel" nzFor="carNo">车牌</nz-form-label>
                         <nz-form-control nz-col nzXs="14" class="nzFormControl">
-                            <input nz-input placeholder="请输入车牌" id="carNo" formControlName="carNo"/>
+                            <input nz-input id="carNo" formControlName="carNo"/>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
@@ -33,7 +33,7 @@
                     <nz-form-item class="nzFormItem">
                         <nz-form-label nz-col nzXs="10" class="nzFormLabel" nzFor="companyCode">投保公司</nz-form-label>
                         <nz-form-control nz-col nzXs="14" class="nzFormControl">
-                            <nz-select nzShowSearch nzAllowClear id="companyCode" nzPlaceHolder="请选择投保公司" formControlName="companyCode">
+                            <nz-select nzShowSearch nzAllowClear id="companyCode" formControlName="companyCode">
                                 <nz-option *ngFor="let option of formList.insuranceCompanysList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
                             </nz-select>
                         </nz-form-control>
@@ -43,7 +43,7 @@
                     <nz-form-item class="nzFormItem">
                         <nz-form-label nz-col nzXs="10" class="nzFormLabel" nzFor="userId">业务员</nz-form-label>
                         <nz-form-control nz-col nzXs="14" class="nzFormControl">
-                            <nz-select nzShowSearch nzAllowClear id="userId" nzPlaceHolder="请选择业务员" formControlName="userId">
+                            <nz-select nzShowSearch nzAllowClear id="userId" formControlName="userId">
                                 <nz-option *ngFor="let option of formList.salesmenList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
                             </nz-select>
                         </nz-form-control>

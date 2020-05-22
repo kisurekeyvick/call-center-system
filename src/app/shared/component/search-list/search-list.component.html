@@ -11,7 +11,7 @@
                             </nz-form-label>
                         </ng-container>
                         <nz-form-control class="nzFormControl" nz-col [nzXs]="item?.grid?.control?.nzXs" [nzSm]="item?.grid?.control?.nzSm" [nzMd]="item?.grid?.control?.nzMd" [nzLg]="item?.grid?.control?.nzLg" [nzXl]="item?.grid?.control?.nzXl">
-                            <input nz-input type="text" [placeholder]="item.placeholder" [id]="item.key" 
+                            <input nz-input type="text" [id]="item.key" 
                                 [(ngModel)]="searchListModel[item.key]"
                                 (ngModelChange)="item?.config?.onChange(searchListModel, item.key)" [name]="item.key"
                                 [disabled]="item.disabled"/>
@@ -55,7 +55,6 @@
                         </ng-container>
                         <nz-form-control class="nzFormControl" nz-col [nzXs]="item?.grid?.control?.nzXs" [nzSm]="item?.grid?.control?.nzSm" [nzMd]="item?.grid?.control?.nzMd" [nzLg]="item?.grid?.control?.nzLg" [nzXl]="item?.grid?.control?.nzXl">
                             <nz-select [nzMode]="item.config.mode || 'default'" [nzDisabled]="item.disabled" [name]="item.key" nzShowSearch nzAllowClear 
-                                [nzPlaceHolder]="item.placeholder"
                                 [(ngModel)]="searchListModel[item.key]"
                                 (ngModelChange)="item?.config?.onChange(searchListModel, item.key)"
                                 [nzServerSearch]="item?.config?.serverSearch" 
@@ -98,7 +97,7 @@
                             </nz-form-label>
                         </ng-container>
                         <nz-form-control class="nzFormControl" nz-col [nzXs]="item?.grid?.control?.nzXs" [nzSm]="item?.grid?.control?.nzSm" [nzMd]="item?.grid?.control?.nzMd" [nzLg]="item?.grid?.control?.nzLg" [nzXl]="item?.grid?.control?.nzXl">
-                            <nz-cascader [name]="item.key" [nzPlaceHolder]="item.placeholder"
+                            <nz-cascader [name]="item.key"
                                 [nzLoadData]="item.config.onSearch"  
                                 [(ngModel)]="searchListModel[item.key]" 
                                 (ngModelChange)="handleCascaderChanges($event, i)"></nz-cascader>
