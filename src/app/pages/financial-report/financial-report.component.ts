@@ -11,6 +11,8 @@ import { ApiService } from 'src/app/api/api.service';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { UtilsService } from 'src/app/core/utils/utils.service';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd';
 
 type ITableCfg = typeof tableConfig;
 type pageChangeType = 'pageIndex' | 'pageSize';
@@ -42,17 +44,26 @@ export class FinancialReportComponent implements OnInit, OnDestroy {
     /** 分页 */
     pageInfo: PaginationService;
     /** 业务员 */
-    salesmenList: ISalesman[];
+    // salesmenList: ISalesman[];
+    /** 表单 */
+    validateForm: FormGroup;
+    /** 表单选项列表 */
+    formList = {
+        insuranceCompanysList: [...companyList],
+        salesmenList: []
+    };
 
     constructor(
         private financialReportService: FinancialReportService,
         private apiService: ApiService,
         private utilsService: UtilsService,
+        private fb: FormBuilder,
+        private message: NzMessageService
     ) {
         this.searchListItem = [...searchListItem];
         this.searchListModel = {...searchListModel};
         this.searchListLayout = {...searchListLayout};
-        this.salesmenList = [];
+        // this.salesmenList = [];
         this.queryList = [];
         this.pageInfo = new PaginationService({
             total: 0,
@@ -62,6 +73,40 @@ export class FinancialReportComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.validateForm = this.fb.group({
+            /** 姓名 */
+            customerName: [null],
+            /** 车牌 */
+            carNo: [null],
+            /** 投保公司 */
+            companyCode: [null],
+            /** 业务员 */
+            userId: [null],
+            /** 提交日期 */
+            commitTime: [[]],
+            /** 出单日期 */
+            orderTime: [[]],
+
+            /** 交强险基础比例 */
+            compulsoryRatio: [0.1, [Validators.required]],
+            /** 交强险加投比例 */
+            compulsoryAdditionRatio: [0.1, [Validators.required]],
+            /** 商业险基础比例 */
+            commercialRatio: [0.1, [Validators.required]],
+            /** 商业险加投比例 */
+            commercialAdditionRatio: [0.1, [Validators.required]],
+            /** 驾意险政策 */
+            drivingRatio: [0.1, [Validators.required]],
+            /** 津贴宝政策 */
+            allowanceRatio: [0.1, [Validators.required]],
+            /** 玻璃膜政策 */
+            glassRatio: [0.1, [Validators.required]],
+            /** 基础计算比例 */
+            baseRatio: [1.06, [Validators.required]],
+            /** 奖励 */
+            reward: [1, [Validators.required]]
+        });
+
         this.loadSalesMember();
         // this.search();
     }
@@ -75,44 +120,85 @@ export class FinancialReportComponent implements OnInit, OnDestroy {
             catchError(err => of(err))
         ).subscribe(res => {
             if (!(res instanceof TypeError)) {
-                this.salesmenList = res.map(item => ({
+                this.formList.salesmenList = res.map(item => ({
                     ...item,
                     value: item.id
                 }));
 
-                this.rebuildSearchListItem();
+                // this.rebuildSearchListItem();
             }
         });
     }
 
-    /**
-     * @func
-     * @desc 重新构建searchListItem
-     */
-    rebuildSearchListItem() {
-        const userIdItemIndex = this.searchListItem.findIndex(item => item.key === 'userId');
+    // /**
+    //  * @func
+    //  * @desc 重新构建searchListItem
+    //  */
+    // rebuildSearchListItem() {
+    //     const userIdItemIndex = this.searchListItem.findIndex(item => item.key === 'userId');
 
-        if (userIdItemIndex > -1) {
-            this.searchListItem[userIdItemIndex]['config']['options'] = this.salesmenList;
-        }
-    }
+    //     if (userIdItemIndex > -1) {
+    //         this.searchListItem[userIdItemIndex]['config']['options'] = this.salesmenList;
+    //     }
+    // }
 
     /**
      * @callback
      * @desc 搜索
      */
     search() {
-        const params = this.formatSearchParams();
+        for (const i in this.validateForm.controls) {
+            this.validateForm.controls[i].markAsDirty();
+            this.validateForm.controls[i].updateValueAndValidity();
+        }
 
-        this.loadFinanceList(params);
+        if (this.validateForm.valid) {
+            const params = this.formatSearchParams();
+
+            this.loadFinanceList(params);
+        } else {
+            this.message.warning('红框选项都是必填项，请填写完整');
+        }
     }
 
     /**
      * @callback
      * @desc 重置
      */
-    reseat() {
-        this.searchListModel = {...searchListModel};
+    reset() {
+        // this.searchListModel = {...searchListModel};
+        this.validateForm.patchValue({
+            /** 姓名 */
+            customerName: null,
+            /** 车牌 */
+            carNo: null,
+            /** 投保公司 */
+            companyCode: null,
+            /** 业务员 */
+            userId: null,
+            /** 提交日期 */
+            commitTime: [],
+            /** 出单日期 */
+            orderTime: [],
+            /** 交强险基础比例 */
+            compulsoryRatio: 0.1,
+            /** 交强险加投比例 */
+            compulsoryAdditionRatio: 0.1,
+            /** 商业险基础比例 */
+            commercialRatio: 0.1,
+            /** 商业险加投比例 */
+            commercialAdditionRatio: 0.1,
+            /** 驾意险政策 */
+            drivingRatio: 0.1,
+            /** 津贴宝政策 */
+            allowanceRatio: 0.1,
+            /** 玻璃膜政策 */
+            glassRatio: 0.1,
+            /** 基础计算比例 */
+            baseRatio: 1.06,
+            /** 奖励 */
+            reward: 1
+        });
     }
 
     /**
@@ -120,13 +206,22 @@ export class FinancialReportComponent implements OnInit, OnDestroy {
      * @desc format请求的参数
      */
     formatSearchParams(): IQueryCustomerParams {
-        const { commitTime, orderTime } = this.searchListModel;
+        const { customerName, carNo, companyCode, userId, commitTime, orderTime, 
+            compulsoryRatio, compulsoryAdditionRatio, commercialRatio, commercialAdditionRatio,
+            drivingRatio, allowanceRatio, glassRatio, baseRatio, reward } = this.validateForm.value;
+
         const params = {
-            ...this.searchListModel,
-            commitStartDate: commitTime[0] && new Date(commitTime[0]).getTime() || null,
-            commitEndDate: commitTime[1] && new Date(commitTime[1]).getTime() || null,
-            orderStartDate: orderTime[0] && new Date(orderTime[0]).getTime() || null,
-            orderEndDate: orderTime[1] && new Date(orderTime[1]).getTime() || null,
+            query: {
+                customerName, carNo, companyCode, userId,
+                commitStartDate: commitTime[0] && new Date(commitTime[0]).getTime() || null,
+                commitEndDate: commitTime[1] && new Date(commitTime[1]).getTime() || null,
+                orderStartDate: orderTime[0] && new Date(orderTime[0]).getTime() || null,
+                orderEndDate: orderTime[1] && new Date(orderTime[1]).getTime() || null,
+            },
+            reportParam: {
+                compulsoryRatio, compulsoryAdditionRatio, commercialRatio, commercialAdditionRatio,
+                drivingRatio, allowanceRatio, glassRatio, baseRatio, reward
+            }
         };
 
         return params;
@@ -141,11 +236,14 @@ export class FinancialReportComponent implements OnInit, OnDestroy {
         const { pageIndex, pageSize } = this.pageInfo;
         const requestParam: ICommon = {
             query: {
-                ...params,
+                ...params.query,
                 basePageInfo: {
                     pageNum: pageIndex,
                     pageSize
                 }
+            },
+            reportParam: {
+                ...params.reportParam
             }
         };
 

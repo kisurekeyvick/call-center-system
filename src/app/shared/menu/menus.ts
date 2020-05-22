@@ -30,6 +30,7 @@ export const menus = new Map([
                 { name: '战败原因设置', url: '/system/defeatReason', icon: '', childrens: [] },
                 { name: '赠品管理', url: '/system/giftManagement', icon: '', childrens: [] },
             ] },
+            { name: '财务报表', url: '/finance', icon: 'money-collect', childrens: [] }
         ]
     ]
 ]);

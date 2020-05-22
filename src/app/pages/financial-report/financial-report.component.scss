@@ -11,6 +11,30 @@
         }
     }
 
+    .form-content {
+        .form-btn-group {
+            text-align: right;
+
+            .form-btn {
+                margin-left: 12px;
+
+                i {
+                    margin-right: 3rpx;
+                    float: left;
+                    margin-top: 4px;
+
+                    &.reload-icon {
+                        font-size: 13px;
+                    }
+                }
+            }
+        }
+
+        .nzFormItem {
+            margin-bottom: 12px;
+        }
+    }
+
     .search-list-table {
         @include tableListStyle;
     }

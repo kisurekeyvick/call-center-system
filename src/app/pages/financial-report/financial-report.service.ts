@@ -7,14 +7,27 @@ interface ICommon {
 }
 
 export interface IQueryCustomerParams {
-    customerName: string;
-    carNo: string;
-    companyCode: string;
-    userId: string;
-    commitStartDate: number;
-    commitEndDate: number;
-    orderStartDate: number;
-    orderEndDate: number;
+    query: {
+        customerName: string;
+        carNo: string;
+        companyCode: string;
+        userId: string;
+        commitStartDate: number;
+        commitEndDate: number;
+        orderStartDate: number;
+        orderEndDate: number;
+    };
+    reportParam: {
+        compulsoryRatio: number;
+        compulsoryAdditionRatio: number;
+        commercialRatio: number;
+        commercialAdditionRatio: number;
+        drivingRatio: number;
+        allowanceRatio: number;
+        glassRatio: number;
+        baseRatio: number;
+        reward: number;
+    };
     [key: string]: any;
 }
 

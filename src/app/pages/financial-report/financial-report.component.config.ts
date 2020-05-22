@@ -77,19 +77,6 @@ export const searchListItem: ISearchListItem[] = [
         grid: commonGrid
     },
     {
-        id: 18,
-        label: '审核状态',
-        key: 'handleState',
-        placeholder: '请选择审核状态',
-        type: 'select',
-        grid: commonGrid,
-        config: {
-            options: [
-                ...internalOrderStatusList
-            ]
-        }
-    },
-    {
         id: 19,
         label: '出单日期',
         key: 'orderTime',
@@ -104,7 +91,6 @@ export interface ISearchListModel {
     companyCode: string;
     userId: string;
     commitTime: string[];
-    handleState: string;
     orderTime: string[];
     [key: string]: any;
 }
@@ -115,19 +101,45 @@ export const searchListModel: ISearchListModel = {
     companyCode: null,
     userId: null,
     commitTime: [],
-    handleState: null,
     orderTime: []
 };
 
 export const tableConfig = {
     thead: [
-        { name: '姓名', type: 'fixed-left' },
+        { name: '出单日期', type: 'fixed-left' },
+        { name: '保险到期日' },
+        { name: '初登日期' },
+        { name: '坐席' },
+        { name: '姓名' },
         { name: '车牌' },
-        { name: '保险公司' },
-        { name: '业务员' },
-        { name: '提交日期' },
-        { name: '审核状态' },
-        { name: '出单日期' }
+        { name: 'KPI' },
+        { name: '商业险' },
+        { name: '交强险' },
+        { name: '车船税' },
+        { name: '总保费' },
+        { name: '驾意险' },
+        { name: '津贴保' },
+        { name: '玻璃膜' },
+        { name: '返现' },
+        { name: '公司' },
+        { name: '交强基础' },
+        { name: '交强基础手续费' },
+        { name: '交强加投' },
+        { name: '交强加投手续费' },
+        { name: '商业基础' },
+        { name: '商业基础手续费' },
+        { name: '商业加投' },
+        { name: '商业加投加投手续费' },
+        { name: '合计手续费' },
+        { name: '保单利润' },
+        { name: '驾意险政策' },
+        { name: '驾意险手续费' },
+        { name: '津贴宝政策' },
+        { name: '津贴宝手续费' },
+        { name: '玻璃膜政策' },
+        { name: '玻璃膜手续费' },
+        { name: '奖励' },
+        { name: '合计利润' }
     ]
 };
 
