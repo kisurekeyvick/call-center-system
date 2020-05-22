@@ -63,7 +63,7 @@ export class FinancialReportComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.loadSalesMember();
-        this.search();
+        // this.search();
     }
 
     /**
@@ -140,10 +140,12 @@ export class FinancialReportComponent implements OnInit, OnDestroy {
         this.isLoading = true;
         const { pageIndex, pageSize } = this.pageInfo;
         const requestParam: ICommon = {
-            ...params,
-            basePageInfo: {
-                pageNum: pageIndex,
-                pageSize
+            query: {
+                ...params,
+                basePageInfo: {
+                    pageNum: pageIndex,
+                    pageSize
+                }
             }
         };
 
