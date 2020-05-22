@@ -10,15 +10,9 @@
 
     <div nz-row class="content">
         <div class="detail-box">
-            <div class="detail-item">
+            <!-- <div class="detail-item">
                 <p class="title"><i nz-icon nzType="info-circle" nzTheme="outline"></i>投保公司</p>
                 <div nz-row class="detail-item-content">
-                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
-                        <p class="nzFormItem">
-                            <span class="nzFormLabel">投保公司：</span>
-                            <span class="nzFormControl">{{ detailInfo.insCompany.companyName }}</span>
-                        </p>
-                    </div>
                     <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
                         <p class="nzFormItem">
                             <span class="nzFormLabel">联系人：</span>
@@ -26,7 +20,7 @@
                         </p>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="detail-item">
                 <p class="title"><i nz-icon nzType="user" nzTheme="outline"></i>客户信息</p>
@@ -49,10 +43,16 @@
                             <span class="nzFormControl">{{ detailInfo.customerInfo.customerPhone }}</span>
                         </p>
                     </div>
-                    <div nz-col nzXs="24" nzSm="24" nzGutter="0">
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
                         <p class="nzFormItem">
                             <span class="nzFormLabel">联系地址：</span>
                             <span class="nzFormControl">{{ detailInfo.customerInfo.customerAddress }}</span>
+                        </p>
+                    </div>
+                    <div nz-row nz-col nzXs="24" nzSm="24" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">备注：</span>
+                            <span class="nzFormControl">{{ detailInfo.customerInfo.customerRemark }}</span>
                         </p>
                     </div>
                 </div>
@@ -123,16 +123,22 @@
             <div class="detail-item">
                 <p class="title"><i nz-icon nzType="money-collect" nzTheme="outline"></i>投保险种</p>
                 <div nz-row class="detail-item-content">
-                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="8" nzGutter="0">
                         <p class="nzFormItem">
-                            <span class="nzFormLabel">交强险时间：</span>
-                            <span class="nzFormControl scroll-x">{{ detailInfo.insTime.compulsoryStartTime | date:'yyyy-MM-dd' }}~{{ detailInfo.insTime.compulsoryEndTime | date:'yyyy-MM-dd' }}</span>
+                            <span class="nzFormLabel ins-label">投保公司：</span>
+                            <span class="nzFormControl">{{ detailInfo.insCompany.companyName }}</span>
                         </p>
                     </div>
-                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="8" nzGutter="0">
                         <p class="nzFormItem">
-                            <span class="nzFormLabel">商业险时间：</span>
-                            <span class="nzFormControl scroll-x">{{ detailInfo.insTime.commercialStartTime | date:'yyyy-MM-dd' }}~{{ detailInfo.insTime.commercialEndTime | date:'yyyy-MM-dd' }}</span>
+                            <span class="nzFormLabel ins-label">交强险时间：</span>
+                            <span class="nzFormControl scroll-x">{{ detailInfo.insTime.compulsoryStartTime | date:'yyyy-MM-dd HH:mm:ss' }}~{{ detailInfo.insTime.compulsoryEndTime | date:'yyyy-MM-dd HH:mm:ss' }}</span>
+                        </p>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="8" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel ins-label">商业险时间：</span>
+                            <span class="nzFormControl scroll-x">{{ detailInfo.insTime.commercialStartTime | date:'yyyy-MM-dd HH:mm:ss' }}~{{ detailInfo.insTime.commercialEndTime | date:'yyyy-MM-dd HH:mm:ss' }}</span>
                         </p>
                     </div>
                 </div>
@@ -141,7 +147,7 @@
                         <ng-container *ngFor="let data of detailInfo.insType; let i = index">
                             <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="8">
                                 <nz-form-item class="nzFormItem">
-                                    <nz-form-label nz-col nzXs="8" nzRequired  class="nzFormLabel">{{ data.insName }}</nz-form-label>
+                                    <nz-form-label nz-col nzXs="8" class="nzFormLabel">{{ data.insName }}</nz-form-label>
                                     <nz-form-control nz-col nzXs="16" class="nzFormControl">
                                         <span nz-col nzXs="15" class="dataType">{{data.coverage && data.coverage + '元' || '无'}}</span>
                                         <span nz-col nzXs="9" class="payPremium">{{data.payPremium && data.payPremium + '元' || '无'}}</span>
@@ -272,7 +278,19 @@
                     <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
                         <p class="nzFormItem">
                             <span class="nzFormLabel">寄件人：</span>
-                            <span class="nzFormControl">{{ detailInfo.receiptInfo.nzFormLabel }}</span>
+                            <span class="nzFormControl">{{ detailInfo.receiptInfo.sender }}</span>
+                        </p>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">礼品：</span>
+                            <span class="nzFormControl">{{ detailInfo.receiptInfo.giftName }}</span>
+                        </p>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">地址：</span>
+                            <span class="nzFormControl">{{ detailInfo.receiptInfo.receiptAddress }}</span>
                         </p>
                     </div>
                     <div nz-col nzXs="24" nzSm="24" nzGutter="0">

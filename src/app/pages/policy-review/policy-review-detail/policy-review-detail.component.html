@@ -12,18 +12,8 @@
         <div class="detail-box">
             <nz-spin [nzSpinning]="isLoading" [nzIndicator]="indicatorTemplate">
                 <form nz-form [formGroup]="validateForm">
-                    <div nz-row>
+                    <!-- <div nz-row>
                         <p class="title"><i nz-icon nzType="info-circle" nzTheme="outline"></i>投保公司</p>
-                        <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
-                            <nz-form-item class="nzFormItem">
-                                <nz-form-label nz-col nzXs="8" class="nzFormLabel" nzFor="companyCode">投保公司</nz-form-label>
-                                <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-select nzShowSearch nzAllowClear id="companyCode" nzPlaceHolder="请选择投保公司" formControlName="companyCode">
-                                        <nz-option *ngFor="let option of formList.insuranceCompanysList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
-                                    </nz-select>
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
                         <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" class="nzFormLabel" nzFor="createUser">联系人</nz-form-label>
@@ -32,7 +22,7 @@
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div nz-row>
                         <p class="title"><i nz-icon nzType="user" nzTheme="outline"></i>客户信息</p>
@@ -60,11 +50,19 @@
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
-                        <div nz-row nz-col nzXs="24" nzSm="24" nzGutter="0">
+                        <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" class="nzFormLabel" nzFor="customerAddress">联系地址</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
                                     <input nz-input placeholder="请输入联系地址" id="customerAddress" formControlName="customerAddress"/>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div nz-row nz-col nzXs="24" nzSm="24" nzGutter="0">
+                            <nz-form-item class="nzFormItem">
+                                <nz-form-label nz-col nzXs="8" nzFor="customerRemark" class="nzFormLabel">备注</nz-form-label>
+                                <nz-form-control nz-col nzXs="16" class="nzFormControl">
+                                    <textarea nz-input [nzAutosize]="{ minRows: 1, maxRows: 5 }" placeholder="请输入备注" id="customerRemark" formControlName="customerRemark"></textarea>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -143,19 +141,29 @@
                     <div nz-row>
                         <p class="title"><i nz-icon nzType="money-collect" nzTheme="outline"></i>投保险种</p>
                         <div nz-row>
-                            <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                            <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="8" nzGutter="0">
                                 <nz-form-item class="nzFormItem">
-                                    <nz-form-label nz-col nzXs="8" nzRequired  nzFor="compulsoryTime" class="nzFormLabel">交强险时间</nz-form-label>
+                                    <nz-form-label nz-col nzXs="8" class="nzFormLabel ins-label" nzFor="companyCode">投保公司</nz-form-label>
                                     <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                        <nz-range-picker [nzFormat]="'yyyy-MM-dd 00:00:00'" id="compulsoryTime" formControlName="compulsoryTime" (nzOnCalendarChange)="formControlTimeChange($event, 'compulsoryTime')"></nz-range-picker>
+                                        <nz-select nzShowSearch nzAllowClear id="companyCode" nzPlaceHolder="请选择投保公司" formControlName="companyCode">
+                                            <nz-option *ngFor="let option of formList.insuranceCompanysList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
+                                        </nz-select>
                                     </nz-form-control>
                                 </nz-form-item>
                             </div>
-                            <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
+                            <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="8" nzGutter="0">
                                 <nz-form-item class="nzFormItem">
-                                    <nz-form-label nz-col nzXs="8" nzRequired  nzFor="commercialTime" class="nzFormLabel">商业险时间</nz-form-label>
+                                    <nz-form-label nz-col nzXs="8" nzFor="compulsoryTime" class="nzFormLabel ins-label">交强险时间</nz-form-label>
                                     <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                        <nz-range-picker [nzFormat]="'yyyy-MM-dd 00:00:00'" id="commercialTime" formControlName="commercialTime" (nzOnCalendarChange)="formControlTimeChange($event, 'commercialTime')"></nz-range-picker>
+                                        <nz-range-picker [nzFormat]="'yyyy-MM-dd HH:mm:ss'" id="compulsoryTime" formControlName="compulsoryTime" (nzOnCalendarChange)="formControlTimeChange($event, 'compulsoryTime')"></nz-range-picker>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="8" nzGutter="0">
+                                <nz-form-item class="nzFormItem">
+                                    <nz-form-label nz-col nzXs="8" nzFor="commercialTime" class="nzFormLabel ins-label">商业险时间</nz-form-label>
+                                    <nz-form-control nz-col nzXs="16" class="nzFormControl">
+                                        <nz-range-picker [nzFormat]="'yyyy-MM-dd HH:mm:ss'" id="commercialTime" formControlName="commercialTime" (nzOnCalendarChange)="formControlTimeChange($event, 'commercialTime')"></nz-range-picker>
                                     </nz-form-control>
                                 </nz-form-item>
                             </div>

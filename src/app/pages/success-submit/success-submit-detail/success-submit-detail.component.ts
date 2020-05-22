@@ -55,7 +55,9 @@ export class SuccessSubmitDetailComponent implements OnInit, OnDestroy {
                 /** 联系电话 */
                 customerPhone: '',
                 /** 被保险人地址 */
-                customerAddress: ''
+                customerAddress: '',
+                /** 备注 */
+                customerRemark: ''
             },
             /** 投保车辆信息 */
             carInfo: {
@@ -193,7 +195,7 @@ export class SuccessSubmitDetailComponent implements OnInit, OnDestroy {
             carNo, brandName, seatNumber, registerTime, usage, vinNo, engineNo, purchasePrice,
             commercialStartTime, commercialEndTime, compulsoryStartTime, compulsoryEndTime,
             receiptDate, receiptName, receiptPhone, sender, receiptRemarks,
-            commercialSumPremium, compulsorySumPremium, receiptAddress } = customerOrder;
+            commercialSumPremium, compulsorySumPremium, receiptAddress, customerRemark } = customerOrder;
         const { isDiscount, discount, taxActual, sumPremium, realSumPremium, drivingPremium, 
             allowancePremium, glassPremium, giftId } = quoteInsurance;
         
@@ -217,7 +219,8 @@ export class SuccessSubmitDetailComponent implements OnInit, OnDestroy {
                 customerName,
                 idCard,
                 customerPhone,
-                customerAddress
+                customerAddress,
+                customerRemark
             },
             carInfo: {
                 carNo,

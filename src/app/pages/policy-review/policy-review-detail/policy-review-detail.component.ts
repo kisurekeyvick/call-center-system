@@ -130,6 +130,8 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
             customerPhone: [null],
             /** 被保险人地址 */
             customerAddress: [null],
+            /** 备注 */
+            customerRemark: [null],
 
             /** 投保车辆信息 */
             /** 车牌号 */
@@ -316,7 +318,7 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
             createUser, customerName, idCard, customerPhone, customerAddress,
             carNo, brandName, seatNumber, registerTime, usage, vinNo, engineNo, purchasePrice,
             commercialSumPremium, compulsorySumPremium, receiptAddress, commercialEndTime, 
-            commercialStartTime, compulsoryEndTime, compulsoryStartTime } = customerOrder;
+            commercialStartTime, compulsoryEndTime, compulsoryStartTime, customerRemark } = customerOrder;
         const { isDiscount, discount, taxActual, sumPremium, realSumPremium, drivingPremium, 
             allowancePremium, glassPremium, giftId } = quoteInsurance;
         this.validateForm.patchValue({
@@ -334,6 +336,8 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
             customerPhone,
             /** 被保险人地址 */
             customerAddress,
+            /** 备注 */
+            customerRemark,
 
             /** 投保车辆信息 */
             /** 车牌号 */
@@ -493,7 +497,7 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
             /** 联系人 */
             createUser,
             /** 客户信息 */
-            customerName, idCard, customerPhone, customerAddress,
+            customerName, idCard, customerPhone, customerAddress, customerRemark,
             /** 车辆信息 */
             carNo, brandName, vinNo, engineNo, seatNumber, registerTime,
             usage, carTypeCode, purchasePrice,
@@ -540,6 +544,7 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
             usage, purchasePrice, carTypeCode, receiptName, receiptPhone, sender, receiptRemarks,
             receiptDate: new Date(dayjs(receiptDate).format('YYYY-MM-DD')),
             commercialEndTime, commercialStartTime, compulsoryEndTime, compulsoryStartTime,
+            customerRemark, receiptAddress
         });
 
         Object.assign(quoteInsurance, {

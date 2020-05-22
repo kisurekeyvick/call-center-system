@@ -30,6 +30,10 @@
     
                 .nzFormLabel {
                     flex-basis: 110px;
+
+                    &.ins-label {
+                        flex-basis: 160px;
+                    }
                 }
             }
 
