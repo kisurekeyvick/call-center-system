@@ -17,14 +17,14 @@ export interface ISearchListItem {
 export const searchListLayout = {
     nzXs: '24',  
     nzMd: '12', 
-    nzLg: '12', 
-    nzXl: '8',
+    nzLg: '8',  
+    nzXl: '6',
     nzXXl: '6'
 };
 
 const commonGrid = {
-    label: { nzXs: '24', nzSm: '7', nzMd: '', nzLg: '', nzXl: '' },
-    control: { nzXs: '24', nzSm: '15', nzMd: '', nzLg: '', nzXl: '' }
+    label: { nzXs: '24', nzSm: '10', nzMd: '', nzLg: '', nzXl: '' },
+    control: { nzXs: '24', nzSm: '14', nzMd: '', nzLg: '', nzXl: '' }
 };
 
 export const searchListItem: ISearchListItem[] = [
