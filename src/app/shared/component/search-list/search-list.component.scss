@@ -17,6 +17,11 @@
         }
     }
 
+
+    .ant-form-item-label {
+        line-height: 30px;
+    }
+
     .nzFormItem {
         margin-bottom: 8px;
     }
@@ -30,4 +35,8 @@
             text-align: center;
         }
     }
+}
+
+:host ::ng-deep .search-list-form .ant-form-item-control {
+    line-height: 30px;
 }

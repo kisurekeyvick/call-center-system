@@ -112,7 +112,7 @@
                             </nz-form-label>
                         </ng-container>
                         <nz-form-control class="nzFormControl" nz-col [nzXs]="item?.grid?.control?.nzXs" [nzSm]="item?.grid?.control?.nzSm" [nzMd]="item?.grid?.control?.nzMd" [nzLg]="item?.grid?.control?.nzLg" [nzXl]="item?.grid?.control?.nzXl">
-                            <nz-date-picker [nzStyle]="{'width': '100%'}" [id]="item.key" nzShowTime
+                            <nz-date-picker [nzStyle]="{'width': '100%'}" [id]="item.key" nzShowTime [nzPlaceHolder]="''"
                                 [nzDisabled]="item.disabled" [nzFormat]=" item?.config?.format || 'yyyy-MM-dd'" [name]="item.key"
                                 [(ngModel)]="searchListModel[item.key]"></nz-date-picker>
                         </nz-form-control>
@@ -127,6 +127,7 @@
                         </ng-container>
                         <nz-form-control class="nzFormControl" nz-col [nzXs]="item?.grid?.control?.nzXs" [nzSm]="item?.grid?.control?.nzSm" [nzMd]="item?.grid?.control?.nzMd" [nzLg]="item?.grid?.control?.nzLg" [nzXl]="item?.grid?.control?.nzXl">
                             <nz-range-picker [nzStyle]="{'width': '100%'}" [id]="item.key" nzShowTime 
+                                [nzPlaceHolder]="[]"
                                 [nzDisabled]="item.disabled" [nzFormat]="item?.config?.format || 'yyyy-MM-dd'" [name]="item.key"
                                 [(ngModel)]="searchListModel[item.key]"></nz-range-picker>
                         </nz-form-control>

@@ -7,3 +7,7 @@
         @include tableListStyle;
     }
 }
+
+:host ::ng-deep .success-submit-list {
+    @include deepTableTheadThColor;
+}

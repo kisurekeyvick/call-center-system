@@ -3,8 +3,8 @@
 .customer-detail {
     @include listLayout;
     min-height: 1050px;
-    margin-left: 50px;
-    margin-right: 50px;
+    // margin-left: 50px;
+    // margin-right: 50px;
 
     .highlight {
         color: #f5222d;
@@ -12,6 +12,8 @@
 
     .content {
         display: flex;
+        padding-left: 40px;
+        padding-right: 40px;
     }
 
     .slide-customer-list {
@@ -111,7 +113,8 @@
 
         p.title {
             background: #79b5ec;
-            line-height: 40px;
+            // line-height: 40px;
+            line-height: 30px;
             padding: 0 12px;
             margin-bottom: 8px;
             color: #fff;

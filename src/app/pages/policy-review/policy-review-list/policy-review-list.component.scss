@@ -11,3 +11,7 @@
         @include tableListStyle;
     }
 }
+
+:host ::ng-deep .policy-review-list {
+    @include deepTableTheadThColor;
+}

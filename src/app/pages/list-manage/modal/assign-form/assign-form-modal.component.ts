@@ -23,15 +23,19 @@ export class AssignFormModalComponent implements OnInit, OnDestroy {
     /** table列表配置 */
     tableCfg: ITableCfg = tableConifg;
     /** 可分配总数 */
-    totalNumber: number = 0;
+    totalNumber = 0;
     /** 剩余可分配的总数 */
     lastAssignNumber: number;
 
-    @Input() listCount: number = 0;
+    @Input() listCount = 0;
     /** 业务员列表 */
     @Input() assignMemberList: IAssignMember[] = [];
+    /** 历史业务员列表 */
+    @Input() historyAssignMemberList: IAssignMember[] = [];
     /** 规则设置缓存 */
     @Input() customerQueryReqDto: ICommon;
+    /** 当日业务员已分配的历史总数 */
+    @Input() historyDistributionNum: number;
 
     constructor(
         private modal: NzModalRef,
@@ -53,9 +57,9 @@ export class AssignFormModalComponent implements OnInit, OnDestroy {
     distributionNumChange(assignMember: IAssignMember) {
         /** 当次分配总量 = 数据总分配 - 今日历史已分配 */
         const totalNumber = this.assignMemberList.reduce((pre: number, next: IAssignMember) => {
-            pre = pre + (next.distributionNum || 0);
+            pre = pre + (next.distributionNum || 0) + (next.todayNum || 0);
             return pre;
-        }, 0) - this.listCount;
+        }, 0) - this.historyDistributionNum;
 
         if (totalNumber > this.totalNumber) {
             this.message.error('已超过可配置数额').onClose.subscribe(() => {

@@ -13,7 +13,7 @@
         </div>
         <div class="search-list-table">
             <ng-container *ngIf="!isLoading; else skeleton">
-                <nz-table #list [nzData]="defeatReasonList" [nzShowPagination]="false" [nzFrontPagination]="false" [nzTotal]="defeatReasonList.length">
+                <nz-table #list [nzData]="defeatReasonList" [nzShowPagination]="false" [nzFrontPagination]="false" [nzTotal]="defeatReasonList.length" [nzSize]="'middle'">
                     <thead>
                         <tr>
                             <ng-container *ngFor="let th of tableCfg.thead">

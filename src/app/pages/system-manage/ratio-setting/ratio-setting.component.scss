@@ -7,3 +7,7 @@
         @include tableListStyle;
     }
 }
+
+:host ::ng-deep .ratio-setting-list {
+    @include deepTableTheadThColor;
+}

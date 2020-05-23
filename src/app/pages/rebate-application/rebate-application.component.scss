@@ -19,3 +19,7 @@
         }
     }
 }
+
+:host ::ng-deep .rebate-application-list {
+    @include deepTableTheadThColor;
+}

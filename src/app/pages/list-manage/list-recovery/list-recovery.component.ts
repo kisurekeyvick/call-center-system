@@ -249,12 +249,23 @@ export class ListRecoveryComponent implements OnInit, OnDestroy {
             return;
         }
 
+        const value = this.assignMemberList.map(item => ({
+            ...item,
+            todayNum: item.distributionNum,
+            distributionNum: 0
+        }));
+
         const modal = this.modalService.create({
             nzTitle: '重新分配',
             nzContent: AssignFormModalComponent,
             nzComponentParams: {
                 listCount: this.listCount,
-                assignMemberList: this.assignMemberList,
+                historyDistributionNum: value.reduce((pre, cur) => {
+                    pre = pre + cur.todayNum;
+                    return pre;
+                }, 0),
+                assignMemberList: value,
+                historyAssignMemberList: value,
                 customerQueryReqDto: this.ruleOriginValue
             },
             nzWidth: 900,

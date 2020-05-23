@@ -13,7 +13,7 @@
                 <nz-form-item class="nzFormItem">
                     <nz-form-control class="nzFormControl" nz-col>
                         <span>业务员：</span>
-                        <nz-select style="width: 200px" nzShowSearch nzAllowClear nzPlaceHolder="请选择业务员" [(ngModel)]="salesmenID" (ngModelChange)="salesmamChange(salesmenID)">
+                        <nz-select style="width: 200px" nzShowSearch nzAllowClear [(ngModel)]="salesmenID" (ngModelChange)="salesmamChange(salesmenID)">
                             <nz-option *ngFor="let option of salesmanList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
                         </nz-select>
                     </nz-form-control>

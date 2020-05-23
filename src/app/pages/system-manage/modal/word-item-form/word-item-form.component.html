@@ -4,17 +4,17 @@
             <div nz-row>
                 <div nz-row nz-col>
                     <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="3" nzFor="brief" nzRequired class="nzFormLabel">名称</nz-form-label>
+                        <nz-form-label nz-col nzXs="3" nzFor="brief" class="nzFormLabel">名称</nz-form-label>
                         <nz-form-control nz-col nzXs="21" class="nzFormControl" nzHasFeedback nzErrorTip="请输入名称">
-                            <input nz-input placeholder="请输入名称" id="brief" formControlName="brief"/>
+                            <input nz-input id="brief" formControlName="brief"/>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div nz-row nz-col>
                     <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="3" nzFor="details" nzRequired class="nzFormLabel">内容</nz-form-label>
+                        <nz-form-label nz-col nzXs="3" nzFor="details" class="nzFormLabel">内容</nz-form-label>
                         <nz-form-control nz-col nzXs="21" class="nzFormControl" nzHasFeedback nzErrorTip="请输入内容">
-                            <textarea [nzAutosize]="{ minRows: 6, maxRows: 12 }" nz-input placeholder="请输入内容" id="details" formControlName="details"></textarea>
+                            <textarea [nzAutosize]="{ minRows: 6, maxRows: 12 }" nz-input id="details" formControlName="details"></textarea>
                         </nz-form-control>
                     </nz-form-item>
                 </div>

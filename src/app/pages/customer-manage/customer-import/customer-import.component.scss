@@ -49,3 +49,7 @@
         @include tableListStyle;
     }
 }
+
+:host ::ng-deep .customer-import {
+    @include deepTableTheadThColor;
+}
