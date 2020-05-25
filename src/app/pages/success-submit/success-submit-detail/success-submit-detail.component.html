@@ -149,8 +149,8 @@
                                 <nz-form-item class="nzFormItem">
                                     <nz-form-label nz-col nzXs="8" class="nzFormLabel">{{ data.insName }}</nz-form-label>
                                     <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                        <span nz-col nzXs="15" class="dataType">{{data.coverage && data.coverage + '元' || '无'}}</span>
-                                        <span nz-col nzXs="9" class="payPremium">{{data.payPremium && data.payPremium + '元' || '无'}}</span>
+                                        <span nz-col nzXs="15" class="dataType">{{data.coverage && data.coverage || '无'}}</span>
+                                        <span nz-col nzXs="9" class="payPremium">{{data.payPremium && data.payPremium || '无'}}</span>
                                     </nz-form-control>
                                 </nz-form-item>
                             </div>
@@ -186,7 +186,7 @@
                     <div nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
                         <p class="nzFormItem">
                             <span class="nzFormLabel">商业险金额：</span>
-                            <span class="nzFormControl">{{ detailInfo.finalQuotation.commercialSumPremium || 0 }}元</span>
+                            <span class="nzFormControl">{{ detailInfo.finalQuotation.commercialSumPremium || 0 }}</span>
                         </p>
                     </div>
                     <div nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
@@ -199,8 +199,8 @@
                     </div>
                     <div nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
                         <p class="nzFormItem">
-                            <span class="nzFormLabel">优惠比例(%)：</span>
-                            <span class="nzFormControl">{{ detailInfo.finalQuotation.discount }}</span>
+                            <span class="nzFormLabel">优惠比例：</span>
+                            <span class="nzFormControl">{{ detailInfo.finalQuotation.discount }}%</span>
                         </p>
                     </div>
                     <div nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
