@@ -125,7 +125,7 @@ export class ListRecoveryComponent implements OnInit, OnDestroy {
             nzComponentParams: {
                 ruleForm: this.formatRuleFormValue()
             },
-            nzWidth: 1100,
+            nzWidth: 930,
             nzMaskClosable: false,
             nzFooter: null
         });

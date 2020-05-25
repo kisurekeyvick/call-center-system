@@ -50,7 +50,8 @@ export class FinancialReportComponent implements OnInit, OnDestroy {
     /** 表单选项列表 */
     formList = {
         insuranceCompanysList: [...companyList],
-        salesmenList: []
+        salesmenList: [],
+        tenantCodeList: []
     };
 
     constructor(
@@ -86,6 +87,8 @@ export class FinancialReportComponent implements OnInit, OnDestroy {
             commitTime: [[]],
             /** 出单日期 */
             orderTime: [[]],
+            /** 店铺 */
+            tenantCode: [null],
 
             /** 交强险基础比例 */
             compulsoryRatio: [0.1, [Validators.required]],
@@ -108,6 +111,7 @@ export class FinancialReportComponent implements OnInit, OnDestroy {
         });
 
         this.loadSalesMember();
+        this.loadTenantList();
         // this.search();
     }
 
@@ -129,6 +133,24 @@ export class FinancialReportComponent implements OnInit, OnDestroy {
             }
         });
     }
+
+    /**
+     * @func
+     * @desc 加载店铺
+     */
+    loadTenantList() {
+        this.apiService.queryTenant().pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            if (!(res instanceof TypeError)) {
+                this.formList.tenantCodeList = res.map(item => ({
+                    ...item,
+                    value: item.code
+                }));
+            }
+        });
+    }
+
 
     // /**
     //  * @func
@@ -180,6 +202,8 @@ export class FinancialReportComponent implements OnInit, OnDestroy {
             commitTime: [],
             /** 出单日期 */
             orderTime: [],
+            /** 店铺 */
+            tenantCode: null,
             /** 交强险基础比例 */
             compulsoryRatio: 0.1,
             /** 交强险加投比例 */
@@ -208,11 +232,11 @@ export class FinancialReportComponent implements OnInit, OnDestroy {
     formatSearchParams(): IQueryCustomerParams {
         const { customerName, carNo, companyCode, userId, commitTime, orderTime, 
             compulsoryRatio, compulsoryAdditionRatio, commercialRatio, commercialAdditionRatio,
-            drivingRatio, allowanceRatio, glassRatio, baseRatio, reward } = this.validateForm.value;
+            drivingRatio, allowanceRatio, glassRatio, baseRatio, reward, tenantCode } = this.validateForm.value;
 
         const params = {
             query: {
-                customerName, carNo, companyCode, userId,
+                customerName, carNo, companyCode, userId, tenantCode,
                 commitStartDate: commitTime[0] && new Date(commitTime[0]).getTime() || null,
                 commitEndDate: commitTime[1] && new Date(commitTime[1]).getTime() || null,
                 orderStartDate: orderTime[0] && new Date(orderTime[0]).getTime() || null,

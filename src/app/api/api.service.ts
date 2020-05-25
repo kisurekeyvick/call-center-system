@@ -102,4 +102,12 @@ export class ApiService {
     updatePWD(params: ICommon): Observable<any> {
         return this.http.post(`api/user/update-pwd`, params);
     }
+
+    /**
+     * @func
+     * @desc 公共接口 店铺
+     */
+    queryTenant(params: ICommon = {}): Observable<any> {
+        return this.http.get(`api/tenant/list`, params);
+    }
 }

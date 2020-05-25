@@ -69,6 +69,7 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.loadTenantList();
         this.loadSalesMember();
         this.search();
     }
@@ -88,6 +89,26 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
                 }));
 
                 this.rebuildSearchListItem();
+            }
+        });
+    }
+
+    /**
+     * @func
+     * @desc 加载店铺
+     */
+    loadTenantList() {
+        this.apiService.queryTenant().pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            if (!(res instanceof TypeError)) {
+                const tenantList = res.map(item => ({
+                    ...item,
+                    value: item.code
+                }));
+
+                const listItem = this.searchListItem.find(item => item.key === 'tenantCode');
+                listItem && (listItem.config.options = tenantList);
             }
         });
     }

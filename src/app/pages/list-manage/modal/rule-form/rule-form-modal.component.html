@@ -4,24 +4,24 @@
             <div nz-row>
                 <div nz-row nz-col  nzXs="24" nzMd="12" nzLg="8" nzXl="6" nzGutter="0">
                     <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="10" nzFor="firstRegisterDate" class="nzFormLabel">初登日期</nz-form-label>
-                        <nz-form-control nz-col nzXs="14" class="nzFormControl">
+                        <nz-form-label nz-col nzXs="11" nzFor="firstRegisterDate" class="nzFormLabel">初登日期</nz-form-label>
+                        <nz-form-control nz-col nzXs="13" class="nzFormControl">
                             <nz-range-picker [nzFormat]="'yyyy-MM-dd'" [nzPlaceHolder]="[]" id="firstRegisterDate" formControlName="firstRegisterDate"></nz-range-picker>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div nz-row nz-col  nzXs="24" nzMd="12" nzLg="8" nzXl="6" nzGutter="0">
                     <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="10" nzFor="brandName" class="nzFormLabel">厂牌型号</nz-form-label>
-                        <nz-form-control nz-col nzXs="14" class="nzFormControl">
+                        <nz-form-label nz-col nzXs="11" nzFor="brandName" class="nzFormLabel">厂牌型号</nz-form-label>
+                        <nz-form-control nz-col nzXs="13" class="nzFormControl">
                             <input nz-input id="brandName" formControlName="brandName"/>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div nz-row nz-col  nzXs="24" nzMd="12" nzLg="8" nzXl="6" nzGutter="0">
                     <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="10" nzFor="ownerShip" class="nzFormLabel">车辆所属</nz-form-label>
-                        <nz-form-control nz-col nzXs="14" class="nzFormControl">
+                        <nz-form-label nz-col nzXs="11" nzFor="ownerShip" class="nzFormLabel">车辆所属</nz-form-label>
+                        <nz-form-control nz-col nzXs="13" class="nzFormControl">
                             <nz-select nzShowSearch nzAllowClear id="ownerShip" formControlName="ownerShip">
                                 <nz-option *ngFor="let option of formList.ownerShipList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
                             </nz-select>
@@ -30,8 +30,8 @@
                 </div>
                 <div nz-row nz-col  nzXs="24" nzMd="12" nzLg="8" nzXl="6" nzGutter="0">
                     <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="10" nzFor="isTransfer" class="nzFormLabel">是否过户车</nz-form-label>
-                        <nz-form-control nz-col nzXs="14" class="nzFormControl">
+                        <nz-form-label nz-col nzXs="11" nzFor="isTransfer" class="nzFormLabel">是否过户车</nz-form-label>
+                        <nz-form-control nz-col nzXs="13" class="nzFormControl">
                             <nz-select nzShowSearch nzAllowClear id="isTransfer" formControlName="isTransfer">
                                 <nz-option *ngFor="let option of formList.isTransferList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
                             </nz-select>
@@ -40,8 +40,8 @@
                 </div>
                 <div nz-row nz-col  nzXs="24" nzMd="12" nzLg="8" nzXl="6" nzGutter="0">
                     <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="10" nzFor="renewalState" class="nzFormLabel">是否续保</nz-form-label>
-                        <nz-form-control nz-col nzXs="14" class="nzFormControl">
+                        <nz-form-label nz-col nzXs="11" nzFor="renewalState" class="nzFormLabel">是否续保</nz-form-label>
+                        <nz-form-control nz-col nzXs="13" class="nzFormControl">
                             <nz-select nzShowSearch nzAllowClear id="renewalState" formControlName="renewalState">
                                 <nz-option *ngFor="let option of formList.isRenewalList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
                             </nz-select>
@@ -60,8 +60,8 @@
                 </div> -->
                 <div nz-row nz-col  nzXs="24" nzMd="12" nzLg="8" nzXl="6" nzGutter="0">
                     <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="10" nzFor="inJob" class="nzFormLabel">是否在职续保</nz-form-label>
-                        <nz-form-control nz-col nzXs="14" class="nzFormControl">
+                        <nz-form-label nz-col nzXs="11" nzFor="inJob" class="nzFormLabel">是否在职续保</nz-form-label>
+                        <nz-form-control nz-col nzXs="13" class="nzFormControl">
                             <nz-select nzShowSearch nzAllowClear id="inJob" formControlName="inJob">
                                 <nz-option *ngFor="let option of formList.inJobList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
                             </nz-select>
@@ -70,8 +70,8 @@
                 </div>
                 <div nz-row nz-col  nzXs="24" nzMd="12" nzLg="8" nzXl="6" nzGutter="0">
                     <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="10" nzFor="isHigh" class="nzFormLabel">是否高端车</nz-form-label>
-                        <nz-form-control nz-col nzXs="14" class="nzFormControl">
+                        <nz-form-label nz-col nzXs="11" nzFor="isHigh" class="nzFormLabel">是否高端车</nz-form-label>
+                        <nz-form-control nz-col nzXs="13" class="nzFormControl">
                             <nz-select nzShowSearch nzAllowClear id="isHigh" formControlName="isHigh">
                                 <nz-option *ngFor="let option of formList.isHighList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
                             </nz-select>
@@ -88,8 +88,8 @@
                 </div> -->
                 <div nz-row nz-col  nzXs="24" nzMd="12" nzLg="8" nzXl="6" nzGutter="0">
                     <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="10" nzFor="lastCompanyCode" class="nzFormLabel">上年保险公司</nz-form-label>
-                        <nz-form-control nz-col nzXs="14" class="nzFormControl">
+                        <nz-form-label nz-col nzXs="11" nzFor="lastCompanyCode" class="nzFormLabel">上年保险公司</nz-form-label>
+                        <nz-form-control nz-col nzXs="13" class="nzFormControl">
                             <nz-select nzShowSearch nzAllowClear id="lastCompanyCode" formControlName="lastCompanyCode">
                                 <nz-option *ngFor="let option of formList.insuranceCompanysList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
                             </nz-select>
@@ -98,12 +98,12 @@
                 </div>
                 <div nz-row nz-col  nzXs="24" nzMd="12" nzLg="8" nzXl="6" nzGutter="0">
                     <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="8" nzFor="priceBegin" class="nzFormLabel">车价</nz-form-label>
-                        <nz-form-control nz-col nzXs="16" class="nzFormControl price">
+                        <nz-form-label nz-col nzXs="11" nzFor="priceBegin" class="nzFormLabel">车价</nz-form-label>
+                        <nz-form-control nz-col nzXs="13" class="nzFormControl price">
                             <div nz-row nz-col nzSpan="11">
                                 <nz-input-number style="width: 100%;" id="minPurchasePrice" formControlName="minPurchasePrice" [nzStep]="1"></nz-input-number>
                             </div>
-                            <div nz-row nz-col nzSpan="2" style="text-align: center;">—</div>
+                            <div nz-row nz-col nzSpan="2" style="text-align: center;"> — </div>
                             <div nz-row nz-col nzSpan="11">
                                 <nz-input-number style="width: 100%;" id="maxPurchasePrice" formControlName="maxPurchasePrice" [nzStep]="1"></nz-input-number>
                             </div>
@@ -112,8 +112,8 @@
                 </div>
                 <div nz-row nz-col  nzXs="24" nzMd="12" nzLg="8" nzXl="6" nzGutter="0">
                     <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="10" nzFor="carNo" class="nzFormLabel">车牌</nz-form-label>
-                        <nz-form-control nz-col nzXs="14" nzHasFeedback [nzErrorTip]="carNoErrorTpl" class="nzFormControl">
+                        <nz-form-label nz-col nzXs="11" nzFor="carNo" class="nzFormLabel">车牌</nz-form-label>
+                        <nz-form-control nz-col nzXs="13" nzHasFeedback [nzErrorTip]="carNoErrorTpl" class="nzFormControl">
                             <input nz-input id="carNo" formControlName="carNo"/>
                             <ng-template #carNoErrorTpl let-control>
                                 <ng-container *ngIf="control.hasError('confirm')">
@@ -125,8 +125,8 @@
                 </div>
                 <div nz-row nz-col  nzXs="24" nzMd="12" nzLg="8" nzXl="6" nzGutter="0">
                     <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="10" nzFor="isDistribution" class="nzFormLabel">是否分配</nz-form-label>
-                        <nz-form-control nz-col nzXs="14" class="nzFormControl">
+                        <nz-form-label nz-col nzXs="11" nzFor="isDistribution" class="nzFormLabel">是否分配</nz-form-label>
+                        <nz-form-control nz-col nzXs="13" class="nzFormControl">
                             <!-- <input nz-input id="isDistribution" placeholder="请输入车牌" formControlName="isDistribution"/> -->
                             <nz-select nzShowSearch nzAllowClear id="isDistribution" formControlName="isDistribution">
                                 <nz-option *ngFor="let option of formList.distributionList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
@@ -136,8 +136,8 @@
                 </div>
                 <div nz-row nz-col  nzXs="24" nzMd="12" nzLg="8" nzXl="6" nzGutter="0">
                     <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="10" nzFor="batchNo" class="nzFormLabel">批次号</nz-form-label>
-                        <nz-form-control nz-col nzXs="14" class="nzFormControl">
+                        <nz-form-label nz-col nzXs="11" nzFor="batchNo" class="nzFormLabel">批次号</nz-form-label>
+                        <nz-form-control nz-col nzXs="13" class="nzFormControl">
                             <input nz-input id="batchNo" formControlName="batchNo"/>
                         </nz-form-control>
                     </nz-form-item>

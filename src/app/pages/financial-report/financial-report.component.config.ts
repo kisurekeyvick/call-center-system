@@ -82,6 +82,17 @@ export const searchListItem: ISearchListItem[] = [
         key: 'orderTime',
         type: 'dateRange',
         grid: commonGrid
+    },
+    {
+        id: 20,
+        label: '店铺',
+        key: 'tenantCode',
+        type: 'select',
+        grid: commonGrid,
+        config: {
+            options: [
+            ]
+        }
     }
 ];
 
@@ -92,6 +103,7 @@ export interface ISearchListModel {
     userId: string;
     commitTime: string[];
     orderTime: string[];
+    tenantCode: string;
     [key: string]: any;
 }
 
@@ -101,7 +113,8 @@ export const searchListModel: ISearchListModel = {
     companyCode: null,
     userId: null,
     commitTime: [],
-    orderTime: []
+    orderTime: [],
+    tenantCode: ''
 };
 
 export const tableConfig = {

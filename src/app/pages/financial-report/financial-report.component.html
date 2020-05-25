@@ -17,7 +17,7 @@
                     <nz-form-item class="nzFormItem">
                         <nz-form-label nz-col nzXs="10" class="nzFormLabel" nzFor="customerName">姓名</nz-form-label>
                         <nz-form-control nz-col nzXs="14" class="nzFormControl">
-                            <input nz-input id="customerName" formControlName="customerName"/>
+                            <input nz-input [nzSize]="'small'" id="customerName" formControlName="customerName"/>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
@@ -25,7 +25,7 @@
                     <nz-form-item class="nzFormItem">
                         <nz-form-label nz-col nzXs="10" class="nzFormLabel" nzFor="carNo">车牌</nz-form-label>
                         <nz-form-control nz-col nzXs="14" class="nzFormControl">
-                            <input nz-input id="carNo" formControlName="carNo"/>
+                            <input nz-input [nzSize]="'small'" id="carNo" formControlName="carNo"/>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
@@ -33,7 +33,7 @@
                     <nz-form-item class="nzFormItem">
                         <nz-form-label nz-col nzXs="10" class="nzFormLabel" nzFor="companyCode">投保公司</nz-form-label>
                         <nz-form-control nz-col nzXs="14" class="nzFormControl">
-                            <nz-select nzShowSearch nzAllowClear id="companyCode" formControlName="companyCode">
+                            <nz-select nzShowSearch [nzSize]="'small'" nzAllowClear id="companyCode" formControlName="companyCode">
                                 <nz-option *ngFor="let option of formList.insuranceCompanysList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
                             </nz-select>
                         </nz-form-control>
@@ -43,7 +43,7 @@
                     <nz-form-item class="nzFormItem">
                         <nz-form-label nz-col nzXs="10" class="nzFormLabel" nzFor="userId">业务员</nz-form-label>
                         <nz-form-control nz-col nzXs="14" class="nzFormControl">
-                            <nz-select nzShowSearch nzAllowClear id="userId" formControlName="userId">
+                            <nz-select nzShowSearch [nzSize]="'small'" nzAllowClear id="userId" formControlName="userId">
                                 <nz-option *ngFor="let option of formList.salesmenList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
                             </nz-select>
                         </nz-form-control>
@@ -53,7 +53,7 @@
                     <nz-form-item class="nzFormItem">
                         <nz-form-label nz-col nzXs="10" class="nzFormLabel" nzFor="commitTime">提交日期</nz-form-label>
                         <nz-form-control nz-col nzXs="14" class="nzFormControl">
-                            <nz-range-picker [nzFormat]="'yyyy-MM-dd'" id="commitTime" formControlName="commitTime"></nz-range-picker>
+                            <nz-range-picker [nzSize]="'small'" [nzPlaceHolder]="[]" [nzFormat]="'yyyy-MM-dd'" id="commitTime" formControlName="commitTime"></nz-range-picker>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
@@ -61,7 +61,7 @@
                     <nz-form-item class="nzFormItem">
                         <nz-form-label nz-col nzXs="10" class="nzFormLabel" nzFor="orderTime">出单日期</nz-form-label>
                         <nz-form-control nz-col nzXs="14" class="nzFormControl">
-                            <nz-range-picker [nzFormat]="'yyyy-MM-dd'" id="orderTime" formControlName="orderTime"></nz-range-picker>
+                            <nz-range-picker [nzSize]="'small'" [nzPlaceHolder]="[]" [nzFormat]="'yyyy-MM-dd'" id="orderTime" formControlName="orderTime"></nz-range-picker>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
@@ -69,7 +69,7 @@
                     <nz-form-item class="nzFormItem">
                         <nz-form-label nz-col nzXs="10" class="nzFormLabel" nzFor="compulsoryRatio">交强险基础比例</nz-form-label>
                         <nz-form-control nz-col nzXs="14" class="nzFormControl">
-                            <nz-input-number style="width: 100%;" id="compulsoryRatio" [nzMin]="0" formControlName="compulsoryRatio"></nz-input-number>
+                            <nz-input-number [nzSize]="'small'" style="width: 100%;" id="compulsoryRatio" [nzMin]="0" formControlName="compulsoryRatio"></nz-input-number>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
@@ -77,7 +77,7 @@
                     <nz-form-item class="nzFormItem">
                         <nz-form-label nz-col nzXs="10" class="nzFormLabel" nzFor="compulsoryAdditionRatio">交强险加投比例</nz-form-label>
                         <nz-form-control nz-col nzXs="14" class="nzFormControl">
-                            <nz-input-number style="width: 100%;" id="compulsoryAdditionRatio" [nzMin]="0" formControlName="compulsoryAdditionRatio"></nz-input-number>
+                            <nz-input-number [nzSize]="'small'" style="width: 100%;" id="compulsoryAdditionRatio" [nzMin]="0" formControlName="compulsoryAdditionRatio"></nz-input-number>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
@@ -85,7 +85,7 @@
                     <nz-form-item class="nzFormItem">
                         <nz-form-label nz-col nzXs="10" class="nzFormLabel" nzFor="commercialRatio">商业险基础比例</nz-form-label>
                         <nz-form-control nz-col nzXs="14" class="nzFormControl">
-                            <nz-input-number style="width: 100%;" id="commercialRatio" [nzMin]="0" formControlName="commercialRatio"></nz-input-number>
+                            <nz-input-number [nzSize]="'small'" style="width: 100%;" id="commercialRatio" [nzMin]="0" formControlName="commercialRatio"></nz-input-number>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
@@ -93,7 +93,7 @@
                     <nz-form-item class="nzFormItem">
                         <nz-form-label nz-col nzXs="10" class="nzFormLabel" nzFor="commercialAdditionRatio">商业险加投比例</nz-form-label>
                         <nz-form-control nz-col nzXs="14" class="nzFormControl">
-                            <nz-input-number style="width: 100%;" id="commercialAdditionRatio" [nzMin]="0" formControlName="commercialAdditionRatio"></nz-input-number>
+                            <nz-input-number [nzSize]="'small'" style="width: 100%;" id="commercialAdditionRatio" [nzMin]="0" formControlName="commercialAdditionRatio"></nz-input-number>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
@@ -101,7 +101,7 @@
                     <nz-form-item class="nzFormItem">
                         <nz-form-label nz-col nzXs="10" class="nzFormLabel" nzFor="drivingRatio">驾意险政策</nz-form-label>
                         <nz-form-control nz-col nzXs="14" class="nzFormControl">
-                            <nz-input-number style="width: 100%;" id="drivingRatio" [nzMin]="0" formControlName="drivingRatio"></nz-input-number>
+                            <nz-input-number [nzSize]="'small'" style="width: 100%;" id="drivingRatio" [nzMin]="0" formControlName="drivingRatio"></nz-input-number>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
@@ -109,7 +109,7 @@
                     <nz-form-item class="nzFormItem">
                         <nz-form-label nz-col nzXs="10" class="nzFormLabel" nzFor="allowanceRatio">津贴宝政策</nz-form-label>
                         <nz-form-control nz-col nzXs="14" class="nzFormControl">
-                            <nz-input-number style="width: 100%;" id="allowanceRatio" [nzMin]="0" formControlName="allowanceRatio"></nz-input-number>
+                            <nz-input-number [nzSize]="'small'" style="width: 100%;" id="allowanceRatio" [nzMin]="0" formControlName="allowanceRatio"></nz-input-number>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
@@ -117,7 +117,7 @@
                     <nz-form-item class="nzFormItem">
                         <nz-form-label nz-col nzXs="10" class="nzFormLabel" nzFor="glassRatio">玻璃膜政策</nz-form-label>
                         <nz-form-control nz-col nzXs="14" class="nzFormControl">
-                            <nz-input-number style="width: 100%;" id="glassRatio" [nzMin]="0" formControlName="glassRatio"></nz-input-number>
+                            <nz-input-number [nzSize]="'small'" style="width: 100%;" id="glassRatio" [nzMin]="0" formControlName="glassRatio"></nz-input-number>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
@@ -125,7 +125,7 @@
                     <nz-form-item class="nzFormItem">
                         <nz-form-label nz-col nzXs="10" class="nzFormLabel" nzFor="baseRatio">基础计算比例</nz-form-label>
                         <nz-form-control nz-col nzXs="14" class="nzFormControl">
-                            <nz-input-number style="width: 100%;" id="baseRatio" [nzMin]="0" formControlName="baseRatio"></nz-input-number>
+                            <nz-input-number [nzSize]="'small'" style="width: 100%;" id="baseRatio" [nzMin]="0" formControlName="baseRatio"></nz-input-number>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
@@ -133,7 +133,17 @@
                     <nz-form-item class="nzFormItem">
                         <nz-form-label nz-col nzXs="10" class="nzFormLabel" nzFor="reward">奖励</nz-form-label>
                         <nz-form-control nz-col nzXs="14" class="nzFormControl">
-                            <nz-input-number style="width: 100%;" id="reward" [nzMin]="0" formControlName="reward"></nz-input-number>
+                            <nz-input-number [nzSize]="'small'" style="width: 100%;" id="reward" [nzMin]="0" formControlName="reward"></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-row nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label nz-col nzXs="10" class="nzFormLabel" nzFor="userId">店铺</nz-form-label>
+                        <nz-form-control nz-col nzXs="14" class="nzFormControl">
+                            <nz-select nzShowSearch [nzSize]="'small'" nzAllowClear id="tenantCode" formControlName="tenantCode">
+                                <nz-option *ngFor="let option of formList.tenantCodeList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
+                            </nz-select>
                         </nz-form-control>
                     </nz-form-item>
                 </div>

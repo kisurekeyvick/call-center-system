@@ -32,10 +32,18 @@
 
         .nzFormItem {
             margin-bottom: 8px;
+
+            .nzFormLabel {
+                line-height: 25px;
+            }
         }
     }
 
     .search-list-table {
         @include tableListStyle;
     }
+}
+
+:host ::ng-deep .financial-report .form-content .ant-form-item-control {
+    line-height: 25px;
 }

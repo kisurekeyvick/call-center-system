@@ -95,6 +95,17 @@ export const searchListItem: ISearchListItem[] = [
         key: 'orderTime',
         type: 'dateRange',
         grid: commonGrid
+    },
+    {
+        id: 20,
+        label: '店铺',
+        key: 'tenantCode',
+        type: 'select',
+        grid: commonGrid,
+        config: {
+            options: [
+            ]
+        }
     }
 ];
 

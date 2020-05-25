@@ -117,7 +117,7 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
             nzComponentParams: {
                 ruleForm: this.formatRuleFormValue()
             },
-            nzWidth: 1100,
+            nzWidth: 930,
             nzMaskClosable: false,
             nzFooter: null
         });

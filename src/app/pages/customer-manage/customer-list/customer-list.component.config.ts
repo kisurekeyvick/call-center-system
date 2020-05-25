@@ -152,7 +152,7 @@ export const searchListItem: ISearchListItem[] = [
             options: [
             ]
         }
-    },
+    }
     // {
     //     id: 5,
     //     label: '品牌',

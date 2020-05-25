@@ -12,6 +12,7 @@ import * as dayjs from 'dayjs';
 import { Router } from '@angular/router';
 import LocalStorageService from 'src/app/core/cache/local-storage';
 import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
+import { ApiService } from 'src/app/api/api.service';
 
 type ITableCfg = typeof tableConifg;
 type pageChangeType = 'pageIndex' | 'pageSize';
@@ -48,7 +49,8 @@ export class ListQueryComponent implements OnInit, OnDestroy {
         private modalService: NzModalService,
         private listManageService: ListManageService,
         private router: Router,
-        private localCache: LocalStorageService
+        private localCache: LocalStorageService,
+        private apiService: ApiService
     ) {
         this.searchListItem = [...searchListItem];
         this.searchListModel = {...searchListModel};
