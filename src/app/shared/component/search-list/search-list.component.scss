@@ -1,6 +1,6 @@
 .search-list-form {
     .form-action {
-        text-align: right;
+        text-align: center;
 
         .form-btn {
             margin-left: 12px;
@@ -19,7 +19,7 @@
 
 
     .ant-form-item-label {
-        line-height: 30px;
+        line-height: 25px;
     }
 
     .nzFormItem {
@@ -38,5 +38,5 @@
 }
 
 :host ::ng-deep .search-list-form .ant-form-item-control {
-    line-height: 30px;
+    line-height: 25px;
 }

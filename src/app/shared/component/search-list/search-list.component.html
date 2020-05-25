@@ -11,7 +11,8 @@
                             </nz-form-label>
                         </ng-container>
                         <nz-form-control class="nzFormControl" nz-col [nzXs]="item?.grid?.control?.nzXs" [nzSm]="item?.grid?.control?.nzSm" [nzMd]="item?.grid?.control?.nzMd" [nzLg]="item?.grid?.control?.nzLg" [nzXl]="item?.grid?.control?.nzXl">
-                            <input nz-input type="text" [id]="item.key" 
+                            <input nz-input type="text" [id]="item.key"
+                                [nzSize]="'small'"
                                 [(ngModel)]="searchListModel[item.key]"
                                 (ngModelChange)="item?.config?.onChange(searchListModel, item.key)" [name]="item.key"
                                 [disabled]="item.disabled"/>
@@ -27,6 +28,7 @@
                         </ng-container>
                         <nz-form-control class="nzFormControl" nz-col [nzXs]="item?.grid?.control?.nzXs" [nzSm]="item?.grid?.control?.nzSm" [nzMd]="item?.grid?.control?.nzMd" [nzLg]="item?.grid?.control?.nzLg" [nzXl]="item?.grid?.control?.nzXl">
                             <nz-input-number [disabled]="item.disabled" [id]="item.key" style="width: 100%"
+                                [nzSize]="'small'"
                                 [(ngModel)]="searchListModel[item.key]" 
                                 (ngModelChange)="item?.config?.onChange(searchListModel, item.key)" [name]="item.key"></nz-input-number>
                         </nz-form-control>
@@ -55,6 +57,7 @@
                         </ng-container>
                         <nz-form-control class="nzFormControl" nz-col [nzXs]="item?.grid?.control?.nzXs" [nzSm]="item?.grid?.control?.nzSm" [nzMd]="item?.grid?.control?.nzMd" [nzLg]="item?.grid?.control?.nzLg" [nzXl]="item?.grid?.control?.nzXl">
                             <nz-select [nzMode]="item.config.mode || 'default'" [nzDisabled]="item.disabled" [name]="item.key" nzShowSearch nzAllowClear 
+                                [nzSize]="'small'"
                                 [(ngModel)]="searchListModel[item.key]"
                                 (ngModelChange)="item?.config?.onChange(searchListModel, item.key)"
                                 [nzServerSearch]="item?.config?.serverSearch" 
@@ -79,11 +82,11 @@
                         <nz-form-control class="nzFormControl" nz-col [nzXs]="item?.grid?.control?.nzXs" [nzSm]="item?.grid?.control?.nzSm" [nzMd]="item?.grid?.control?.nzMd" [nzLg]="item?.grid?.control?.nzLg" [nzXl]="item?.grid?.control?.nzXl">
                             <div nz-row class="numberRange-control">
                                 <div class="input-number" nz-col nzSpan="11" >
-                                    <nz-input-number style="width: 100%" [(ngModel)]="searchListModel[item.config.start.key]" [name]="item.config.start.key"></nz-input-number>
+                                    <nz-input-number style="width: 100%" [nzSize]="'small'" [(ngModel)]="searchListModel[item.config.start.key]" [name]="item.config.start.key"></nz-input-number>
                                 </div>
                                 <div class="input-number-center" nz-col nzSpan="2" >-</div>
                                 <div class="input-number" nz-col nzSpan="11" >
-                                    <nz-input-number style="width: 100%" [(ngModel)]="searchListModel[item.config.end.key]" [name]="item.config.end.key"></nz-input-number>
+                                    <nz-input-number style="width: 100%" [nzSize]="'small'" [(ngModel)]="searchListModel[item.config.end.key]" [name]="item.config.end.key"></nz-input-number>
                                 </div>
                             </div>
                         </nz-form-control>
@@ -113,6 +116,7 @@
                         </ng-container>
                         <nz-form-control class="nzFormControl" nz-col [nzXs]="item?.grid?.control?.nzXs" [nzSm]="item?.grid?.control?.nzSm" [nzMd]="item?.grid?.control?.nzMd" [nzLg]="item?.grid?.control?.nzLg" [nzXl]="item?.grid?.control?.nzXl">
                             <nz-date-picker [nzStyle]="{'width': '100%'}" [id]="item.key" nzShowTime [nzPlaceHolder]="''"
+                                [nzSize]="'small'"
                                 [nzDisabled]="item.disabled" [nzFormat]=" item?.config?.format || 'yyyy-MM-dd'" [name]="item.key"
                                 [(ngModel)]="searchListModel[item.key]"></nz-date-picker>
                         </nz-form-control>
@@ -127,7 +131,7 @@
                         </ng-container>
                         <nz-form-control class="nzFormControl" nz-col [nzXs]="item?.grid?.control?.nzXs" [nzSm]="item?.grid?.control?.nzSm" [nzMd]="item?.grid?.control?.nzMd" [nzLg]="item?.grid?.control?.nzLg" [nzXl]="item?.grid?.control?.nzXl">
                             <nz-range-picker [nzStyle]="{'width': '100%'}" [id]="item.key" nzShowTime 
-                                [nzPlaceHolder]="[]"
+                                [nzPlaceHolder]="[]" [nzSize]="'small'"
                                 [nzDisabled]="item.disabled" [nzFormat]="item?.config?.format || 'yyyy-MM-dd'" [name]="item.key"
                                 [(ngModel)]="searchListModel[item.key]"></nz-range-picker>
                         </nz-form-control>
@@ -142,6 +146,7 @@
                         </ng-container>
                         <nz-form-control class="nzFormControl" nz-col [nzXs]="item?.grid?.control?.nzXs" [nzSm]="item?.grid?.control?.nzSm" [nzMd]="item?.grid?.control?.nzMd" [nzLg]="item?.grid?.control?.nzLg" [nzXl]="item?.grid?.control?.nzXl">
                             <nz-month-picker [nzStyle]="{'width': '100%'}" [id]="item.key" nzShowTime
+                                [nzSize]="'small'"
                                 [nzDisabled]="item.disabled" [nzFormat]=" item?.config?.format || 'yyyy-MM-dd'" [name]="item.key"
                                 [(ngModel)]="searchListModel[item.key]"></nz-month-picker>
                         </nz-form-control>

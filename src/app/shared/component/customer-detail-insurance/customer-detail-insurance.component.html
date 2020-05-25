@@ -14,11 +14,11 @@
                                     <nz-input-number style="width: 100%" nzPlaceHolder="" [(ngModel)]="data.value.coverageValue" [name]="data.code"></nz-input-number>
                                 </ng-container>
                                 <ng-container *ngSwitchCase="'autocomplete'">
-                                    <input nz-input [(ngModel)]="data.value.coverageValue" placeholder="请选择" [nzAutocomplete]="auto" [name]="data.code + 'coverageValue'"/>
+                                    <input nz-input [(ngModel)]="data.value.coverageValue" [nzAutocomplete]="auto" [name]="data.code + 'coverageValue'"/>
                                     <nz-autocomplete [nzDataSource]="data.config.options" #auto></nz-autocomplete>
                                 </ng-container>
                                 <ng-container *ngSwitchCase="'select-glass'">
-                                    <nz-select nzShowSearch nzAllowClear nzPlaceHolder="请选择" [(ngModel)]="data.value.materialsType" [name]="data.code + i">
+                                    <nz-select nzShowSearch nzAllowClear [(ngModel)]="data.value.materialsType" [name]="data.code + i">
                                         <nz-option *ngFor="let option of data.config.options" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
                                     </nz-select>
                                 </ng-container>

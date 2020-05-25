@@ -12,8 +12,8 @@
 
     .content {
         display: flex;
-        padding-left: 40px;
-        padding-right: 40px;
+        padding-left: 80px;
+        padding-right: 80px;
     }
 
     .slide-customer-list {
@@ -116,7 +116,7 @@
             // line-height: 40px;
             line-height: 30px;
             padding: 0 12px;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
             color: #fff;
 
             i {
@@ -148,7 +148,7 @@
 }
 
 :host ::ng-deep .customer-detail .customer-detail-form .ant-form-item-control {
-    line-height: 35px;
+    line-height: 30px;
 }
 
 :host ::ng-deep .customer-detail .customer-detail-form .ant-select-selection {

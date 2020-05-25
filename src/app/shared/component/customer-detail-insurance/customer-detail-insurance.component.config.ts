@@ -60,7 +60,7 @@ export const insList: IInsList[] = [
         }
     },
     {
-        name: '车上人员责任险(司机)',
+        name: '人员责任险(司机)',
         code: 'DriverRisk',
         id: 4,
         hasCheckbox: true,
@@ -78,7 +78,7 @@ export const insList: IInsList[] = [
         }
     },
     {
-        name: '车上人员责任险(乘客)',
+        name: '人员责任险(乘客)',
         code: 'PassengerRisk',
         id: 5,
         hasCheckbox: true,

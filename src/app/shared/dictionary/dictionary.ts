@@ -167,8 +167,8 @@ export const dictionary = new Map([
         'planDetail', [
             { name: '车辆损失险', value: 'CarDamageRisk' },
             { name: '第三者责任保险', value: 'ThirdPartyRisk' },
-            { name: '车上人员责任险（司机）', value: 'DriverRisk' },
-            { name: '车上人员责任险（乘客）', value: 'PassengerRisk' },
+            { name: '人员责任险（司机）', value: 'DriverRisk' },
+            { name: '人员责任险（乘客）', value: 'PassengerRisk' },
             { name: '盗抢险', value: 'TheftProtectionRisk' },
             { name: '车身划痕损失险', value: 'ScratchRisk' },
             { name: '玻璃单独破碎险', value: 'GlassRisk' },

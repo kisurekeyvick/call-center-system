@@ -7,8 +7,8 @@
 
     .content {
         margin-bottom: 48px;
-        padding-left: 40px;
-        padding-right: 40px;
+        padding-left: 80px;
+        padding-right: 80px;
         
         .detail-box {
             p.title {
@@ -16,7 +16,7 @@
                 // line-height: 40px;
                 line-height: 30px;
                 padding: 0 12px;
-                margin-bottom: 8px;
+                margin-bottom: 4px;
                 margin-top: 4px;
                 background: #79b5ec;
                 color: #fff;
@@ -57,20 +57,20 @@
         
                         .dataType {
                             border-right: 1px solid #e5e5e5;
-                            height: 35px;
+                            height: 30px;
                             padding: 0 11px;
                             text-align: left;
                             border-radius: 0px;
                             outline: 0;
                             transition: all 0.3s linear;
                             margin-top: 2px;
-                            line-height: 35px;
+                            line-height: 30px;
                         }
 
                         .payPremium {
                             padding: 0 11px;
-                            height: 35px;
-                            line-height: 35px;
+                            height: 30px;
+                            line-height: 30px;
                         }
                     }
         
@@ -100,7 +100,7 @@
 }
 
 :host ::ng-deep .policy-review-detail .ant-form-item-control {
-    line-height: 35px;
+    line-height: 30px;
 }
 
 :host ::ng-deep .policy-review-detail .ant-select-selection {
