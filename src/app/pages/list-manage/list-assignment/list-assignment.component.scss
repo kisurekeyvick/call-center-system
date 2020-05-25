@@ -85,3 +85,7 @@
         }
     }
 }
+
+:host ::ng-deep .list-assignment-list {
+    @include deepTableTheadThColor;
+}

@@ -7,7 +7,7 @@
             <p class="title">1.请选择需要分配的业务员</p>
             <div class="employees-list-table">
                 <ng-container *ngIf="!isLoading; else skeleton">
-                    <nz-table #list [nzData]="employeesList" nzShowPagination="false" nzFrontPagination="false" [nzTotal]="employeesList.length">
+                    <nz-table #list [nzData]="employeesList" nzShowPagination="false" nzFrontPagination="false" [nzTotal]="employeesList.length" [nzSize]="'middle'">
                         <thead>
                           <tr>
                             <!-- <th nzShowCheckbox

@@ -14,3 +14,7 @@
         @include modal-btn-group;
     }
 }
+
+:host ::ng-deep .assign-form-modal-container {
+    @include deepTableTheadThColor;
+}

@@ -5,7 +5,8 @@ export const tableConifg = {
         { name: '首播已处理' },
         { name: '预约未处理' },
         { name: '预约已处理' },
-        { name: '今日分配' }
+        { name: '今日分配' },
+        { name: '数量' }
     ]
 };
 

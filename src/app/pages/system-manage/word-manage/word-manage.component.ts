@@ -86,7 +86,7 @@ export class WordManageComponent implements OnInit, OnDestroy {
     deleteWord(word: IWordItem) {
         this.modalService.confirm({
             nzTitle: '提示',
-            nzContent: `您确定删除话术"${word.name}"吗?`,
+            nzContent: `您确定删除话术"${word.brief}"吗?`,
             nzOnOk: () => {
                 const params = {
                     idList: [word.id]

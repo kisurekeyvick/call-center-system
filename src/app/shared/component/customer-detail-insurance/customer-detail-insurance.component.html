@@ -11,10 +11,10 @@
                                    {{ data.value.coverageValue }}
                                 </ng-container>
                                 <ng-container *ngSwitchCase="'inputNumber'">
-                                    <nz-input-number style="width: 100%" nzPlaceHolder="请输入" [(ngModel)]="data.value.coverageValue" [name]="data.code"></nz-input-number>
+                                    <nz-input-number style="width: 100%" nzPlaceHolder="" [(ngModel)]="data.value.coverageValue" [name]="data.code"></nz-input-number>
                                 </ng-container>
                                 <ng-container *ngSwitchCase="'autocomplete'">
-                                    <input nz-input [(ngModel)]="data.value.coverageValue" placeholder="请输入或选择" [nzAutocomplete]="auto" [name]="data.code + 'coverageValue'"/>
+                                    <input nz-input [(ngModel)]="data.value.coverageValue" placeholder="请选择" [nzAutocomplete]="auto" [name]="data.code + 'coverageValue'"/>
                                     <nz-autocomplete [nzDataSource]="data.config.options" #auto></nz-autocomplete>
                                 </ng-container>
                                 <ng-container *ngSwitchCase="'select-glass'">
@@ -25,7 +25,7 @@
                             </ng-container>   
                         </span>
                         <span nz-col nzXs="9" class="payPremium">
-                            <nz-input-number style="width: 100%" nzPlaceHolder="请输入" [(ngModel)]="data.value.payPremium" (ngModelChange)="payPremiumChange()" [name]="data.code + 'payPremium'"></nz-input-number>
+                            <nz-input-number style="width: 100%" nzPlaceHolder="" [(ngModel)]="data.value.payPremium" (ngModelChange)="payPremiumChange()" [name]="data.code + 'payPremium'"></nz-input-number>
                         </span>
                     </nz-form-control>
                 </nz-form-item>

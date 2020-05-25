@@ -7,3 +7,7 @@
         @include tableListStyle;
     }
 }
+
+:host ::ng-deep .list-query-list {
+    @include deepTableTheadThColor;
+}

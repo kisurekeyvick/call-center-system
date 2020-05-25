@@ -7,3 +7,7 @@
         @include tableListStyle;
     }
 }
+
+:host ::ng-deep .defeat-reason-list {
+    @include deepTableTheadThColor;
+}

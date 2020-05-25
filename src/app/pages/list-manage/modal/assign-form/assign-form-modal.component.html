@@ -5,7 +5,7 @@
             <p class="title">回收名单数：<span class="highlight">{{ listCount }}</span></p>
             <div class="salesman-list-table">
               <nz-table #list [nzData]="assignMemberList" [nzShowPagination]="false" [nzFrontPagination]="false" [nzTotal]="assignMemberList.length" 
-              [nzScroll]="{ y: '500px' }">
+              [nzSize]="'middle'">
                   <thead>
                     <tr>
                       <ng-container *ngFor="let th of tableCfg.thead">
@@ -20,6 +20,7 @@
                       <td>{{data.firstCallAlreadyNum}}</td>
                       <td>{{data.appointmentNum}}</td>
                       <td>{{data.appointmentHandleNum}}</td>
+                      <td>{{data.todayNum}}</td>
                       <td>
                           <nz-input-number [(ngModel)]="data.distributionNum" (ngModelChange)="distributionNumChange(data)" [nzMin]="0" [nzStep]="1"></nz-input-number>
                       </td>

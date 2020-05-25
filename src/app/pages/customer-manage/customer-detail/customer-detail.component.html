@@ -39,17 +39,17 @@
                         <p class="title"><i nz-icon nzType="user" nzTheme="outline"></i>客户信息</p>
                         <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
                             <nz-form-item class="nzFormItem">
-                                <nz-form-label nz-col nzXs="8" nzRequired  nzFor="customerName" class="nzFormLabel">姓名</nz-form-label>
+                                <nz-form-label nz-col nzXs="8" nzFor="customerName" class="nzFormLabel">姓名</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" nzHasFeedback class="nzFormControl">
-                                    <input nz-input placeholder="请输入姓名" id="customerName" formControlName="customerName"/>
+                                    <input nz-input id="customerName" formControlName="customerName"/>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
                         <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
                             <nz-form-item class="nzFormItem">
-                                <nz-form-label nz-col nzXs="8" nzRequired  nzFor="idCard" class="nzFormLabel">身份证</nz-form-label>
+                                <nz-form-label nz-col nzXs="8" nzFor="idCard" class="nzFormLabel">身份证</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" nzHasFeedback class="nzFormControl" [nzErrorTip]="idCardErrorTpl">
-                                    <input nz-input placeholder="请输入身份证" id="idCard" formControlName="idCard"/>
+                                    <input nz-input id="idCard" formControlName="idCard"/>
                                 </nz-form-control>
 
                                 <ng-template #idCardErrorTpl let-control>
@@ -64,9 +64,9 @@
                         </div>
                         <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
                             <nz-form-item class="nzFormItem">
-                                <nz-form-label nz-col nzXs="8" nzRequired nzFor="customerPhone" class="nzFormLabel">联系电话</nz-form-label>
+                                <nz-form-label nz-col nzXs="8" nzFor="customerPhone" class="nzFormLabel">联系电话</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" nzHasFeedback class="nzFormControl" [nzErrorTip]="phoneErrorTpl">
-                                    <input nz-input placeholder="请输入姓名" id="customerPhone" formControlName="customerPhone"/>
+                                    <input nz-input id="customerPhone" formControlName="customerPhone"/>
                                 </nz-form-control>
 
                                 <ng-template #phoneErrorTpl let-control>
@@ -91,7 +91,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzFor="customerAddress" class="nzFormLabel">联系地址</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <input nz-input placeholder="请输入联系地址" id="customerAddress" formControlName="customerAddress"/>
+                                    <input nz-input id="customerAddress" formControlName="customerAddress"/>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -99,7 +99,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzFor="customerRemark" class="nzFormLabel">备注</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <textarea nz-input [nzAutosize]="{ minRows: 1, maxRows: 5 }" placeholder="请输入备注" id="customerRemark" formControlName="customerRemark"></textarea>
+                                    <textarea nz-input [nzAutosize]="{ minRows: 1, maxRows: 5 }" id="customerRemark" formControlName="customerRemark"></textarea>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -108,9 +108,9 @@
                         <p class="title margin-top"><i nz-icon nzType="info-circle" nzTheme="outline"></i>车辆信息</p>
                         <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
                             <nz-form-item class="nzFormItem">
-                                <nz-form-label nz-col nzXs="8" nzRequired  nzFor="carNo" class="nzFormLabel">车牌</nz-form-label>
+                                <nz-form-label nz-col nzXs="8" nzFor="carNo" class="nzFormLabel">车牌</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" nzHasFeedback class="nzFormControl" [nzErrorTip]="carNoErrorTpl">
-                                    <input nz-input placeholder="请输入车牌" id="carNo" formControlName="carNo"/>
+                                    <input nz-input id="carNo" formControlName="carNo"/>
                                 </nz-form-control>
 
                                 <ng-template #carNoErrorTpl let-control>
@@ -127,7 +127,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzFor="brandName" class="nzFormLabel">品牌型号</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <input nz-input placeholder="请输入品牌型号" id="brandName" formControlName="brandName"/>
+                                    <input nz-input id="brandName" formControlName="brandName"/>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -135,7 +135,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzFor="vinNo" class="nzFormLabel">车架号</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <input nz-input placeholder="请输入车架号" id="vinNo" formControlName="vinNo"/>
+                                    <input nz-input id="vinNo" formControlName="vinNo"/>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -143,7 +143,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzFor="engineNo" class="nzFormLabel">发动机号</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <input nz-input placeholder="请输入发动机号" id="engineNo" formControlName="engineNo"/>
+                                    <input nz-input id="engineNo" formControlName="engineNo"/>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -159,7 +159,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzFor="registerTime" class="nzFormLabel">初登日期</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-date-picker style="width: 100%;" [nzFormat]="'yyyy-MM-dd'" id="registerTime" formControlName="registerTime"></nz-date-picker>
+                                    <nz-date-picker style="width: 100%;" [nzFormat]="'yyyy-MM-dd'" [nzPlaceHolder]="''" id="registerTime" formControlName="registerTime"></nz-date-picker>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -167,7 +167,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzFor="validityDate" class="nzFormLabel">年检有效期</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-date-picker [nzFormat]="'yyyy-MM-dd'" id="validityDate" formControlName="validityDate"></nz-date-picker>
+                                    <nz-date-picker [nzFormat]="'yyyy-MM-dd'" [nzPlaceHolder]="''" [nzPlaceHolder]="''" id="validityDate" formControlName="validityDate"></nz-date-picker>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -175,7 +175,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzFor="lastCompanyCode" class="nzFormLabel">上年投保公司</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-select nzShowSearch nzAllowClear id="lastCompanyCode" nzPlaceHolder="请选择上年投保公司" formControlName="lastCompanyCode">
+                                    <nz-select nzShowSearch nzAllowClear id="lastCompanyCode" formControlName="lastCompanyCode">
                                         <nz-option *ngFor="let option of formList.insuranceCompanysList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
                                     </nz-select>
                                 </nz-form-control>
@@ -185,7 +185,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzFor="usage" class="nzFormLabel">使用性质</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-select nzShowSearch nzAllowClear id="usage" nzPlaceHolder="请选择使用性质" formControlName="usage">
+                                    <nz-select nzShowSearch nzAllowClear id="usage" formControlName="usage">
                                         <nz-option *ngFor="let option of formList.usageList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
                                     </nz-select>
                                 </nz-form-control>
@@ -195,7 +195,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzFor="carTypeCode" class="nzFormLabel">车辆种类</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-select nzShowSearch nzAllowClear id="carTypeCode" nzPlaceHolder="请选择车辆种类" formControlName="carTypeCode">
+                                    <nz-select nzShowSearch nzAllowClear id="carTypeCode" formControlName="carTypeCode">
                                         <nz-option *ngFor="let option of formList.carTypeList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
                                     </nz-select>
                                 </nz-form-control>
@@ -216,7 +216,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzFor="companyCode" class="nzFormLabel ins-label">保险公司</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-select nzShowSearch nzAllowClear id="companyCode" nzPlaceHolder="请选择保险公司" formControlName="companyCode">
+                                    <nz-select nzShowSearch nzAllowClear id="companyCode" formControlName="companyCode">
                                         <nz-option *ngFor="let option of formList.insuranceCompanysList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
                                     </nz-select>
                                 </nz-form-control>
@@ -326,7 +326,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzFor="giftId" class="nzFormLabel">赠送礼品</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-select nzShowSearch nzAllowClear id="giftId" nzPlaceHolder="请选择赠送礼品" formControlName="giftId" (ngModelChange)="giftChange($event)">
+                                    <nz-select nzShowSearch nzAllowClear id="giftId" formControlName="giftId" (ngModelChange)="giftChange($event)">
                                         <nz-option *ngFor="let option of giftList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
                                     </nz-select>
                                 </nz-form-control>
@@ -355,7 +355,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzFor="receiptDate" class="nzFormLabel">派送时间</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-date-picker [nzFormat]="'yyyy-MM-dd'" id="receiptDate" formControlName="receiptDate"></nz-date-picker>
+                                    <nz-date-picker [nzFormat]="'yyyy-MM-dd'" [nzPlaceHolder]="''" id="receiptDate" formControlName="receiptDate"></nz-date-picker>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -363,7 +363,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzFor="receiptName" class="nzFormLabel">收件人</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <input nz-input placeholder="请输入收件人" id="receiptName" formControlName="receiptName"/>
+                                    <input nz-input id="receiptName" formControlName="receiptName"/>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -371,7 +371,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzFor="receiptPhone" class="nzFormLabel">联系方式</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <input nz-input placeholder="请输入联系方式" id="receiptPhone" formControlName="receiptPhone"/>
+                                    <input nz-input id="receiptPhone" formControlName="receiptPhone"/>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -379,13 +379,13 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzFor="sender" class="nzFormLabel">寄件人</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <input nz-input placeholder="请输入寄件人" id="sender" formControlName="sender"/>
+                                    <input nz-input id="sender" formControlName="sender"/>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
                         <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="6" nzXXl="6" nzGutter="0">
                             <nz-form-item class="nzFormItem">
-                                <nz-form-label nz-col nzXs="8" nzRequired  nzFor="giftName" class="nzFormLabel">礼品</nz-form-label>
+                                <nz-form-label nz-col nzXs="8" nzFor="giftName" class="nzFormLabel">礼品</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
                                     <input nz-input readonly id="giftName" formControlName="giftName"/>
                                 </nz-form-control>
@@ -395,7 +395,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzFor="receiptAddress" class="nzFormLabel">地址</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <textarea nz-input [nzAutosize]="{ minRows: 1, maxRows: 5 }" placeholder="请输入地址" id="receiptAddress" formControlName="receiptAddress"></textarea>
+                                    <textarea nz-input [nzAutosize]="{ minRows: 1, maxRows: 5 }" id="receiptAddress" formControlName="receiptAddress"></textarea>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -403,7 +403,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzFor="receiptRemarks" class="nzFormLabel">备注</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <textarea nz-input [nzAutosize]="{ minRows: 1, maxRows: 5 }" placeholder="请输入备注" id="receiptRemarks" formControlName="receiptRemarks"></textarea>
+                                    <textarea nz-input [nzAutosize]="{ minRows: 1, maxRows: 5 }" id="receiptRemarks" formControlName="receiptRemarks"></textarea>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>

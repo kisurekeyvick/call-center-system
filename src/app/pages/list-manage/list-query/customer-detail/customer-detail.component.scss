@@ -10,6 +10,8 @@
 
     .content {
         display: flex;
+        padding-left: 40px;
+        padding-right: 40px;
     }
 
     .slide-customer-list {
@@ -108,10 +110,12 @@
         }
 
         p.title {
-            background: #f0f2f5;
-            line-height: 40px;
+            background: #79b5ec;
+            // line-height: 40px;
+            line-height: 30px;
             padding: 0 12px;
             margin-bottom: 8px;
+            color: #fff;
 
             i {
                 margin-right: 12px;

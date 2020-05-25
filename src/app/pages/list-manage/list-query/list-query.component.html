@@ -12,11 +12,11 @@
             <search-list [searchListLayout]="searchListLayout" [searchListModel]="searchListModel" [searchListItem]="searchListItem" (onSearch)="search()" (onReseat)="reseat()"></search-list>
         </div>
         <div class="search-list-menu-group">
-            <button nz-button [nzType]="'primary'" (click)="addCustomer()"><i nz-icon nzType="plus" nzTheme="outline"></i>新增</button>
+            <button nz-button [nzType]="'danger'" (click)="addCustomer()"><i nz-icon nzType="plus" nzTheme="outline"></i>新增</button>
         </div>
         <div class="search-list-table">
             <ng-container *ngIf="!isLoading; else skeleton">
-              <nz-table #list [nzData]="queryList" nzShowPagination="false" [nzScroll]="{ x: '1000px' }">
+              <nz-table #list [nzData]="queryList" nzShowPagination="false" [nzSize]="'middle'" [nzScroll]="{ x: '1100px' }">
                 <thead>
                   <tr>
                     <ng-container *ngFor="let th of tableCfg.thead">

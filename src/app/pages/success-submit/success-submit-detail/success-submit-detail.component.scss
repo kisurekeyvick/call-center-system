@@ -2,16 +2,23 @@
 
 .success-submit-detail {
     @include listLayout;
+    // margin-left: 50px;
+    // margin-right: 50px;
 
     .content {
         margin-bottom: 48px;
+        padding-left: 40px;
+        padding-right: 40px;
 
         .detail-box {
             p.title {
                 background: #f0f2f5;
-                line-height: 40px;
+                // line-height: 40px;
+                line-height: 30px;
                 padding: 0 12px;
                 margin-bottom: 8px;
+                background: #79b5ec;
+                color: #fff;
 
                 i {
                     margin-right: 12px;

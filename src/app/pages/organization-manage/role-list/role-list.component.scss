@@ -40,3 +40,7 @@
         text-align: right;
     }
 }
+
+:host ::ng-deep .organization-role-list {
+    @include deepTableTheadThColor;
+}

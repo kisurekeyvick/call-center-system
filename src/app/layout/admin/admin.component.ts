@@ -43,6 +43,7 @@ export class AppAdminLayoutComponent implements OnInit, OnDestroy {
         this.isCollapsed = false;
         this.user = {
             pic: defaultUserPic,
+            name: ''
         };
         this.canShowSalesmanOperation = false;
     }
@@ -79,13 +80,14 @@ export class AppAdminLayoutComponent implements OnInit, OnDestroy {
      */
     readUserInfoCache() {
         const cacheValue = this.localCache.get(LocalStorageItemName.USERPROFILE);
-        const userInfo = cacheValue && cacheValue.value || null;
+        const userInfo: any = cacheValue && cacheValue.value || null;
 
         this.showSalesmanOperation(userInfo);
         /** 这边暂时用mock数据 */
         if (userInfo) {
-            const { menus } = userInfo;
+            const { menus, name } = userInfo;
             this.layoutMenus = menus;
+            this.user.name = name;
         }
         // this.layoutMenus = menus.get('admin');
     }

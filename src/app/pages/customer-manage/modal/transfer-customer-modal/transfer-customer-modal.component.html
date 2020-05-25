@@ -4,7 +4,7 @@
             <p class="title">请选择接收数据的人员</p>
             <div class="employees-list-table">
                 <ng-container *ngIf="!isLoading; else skeleton">
-                    <nz-table #list [nzData]="employeesList" nzShowPagination="false">
+                    <nz-table #list [nzData]="employeesList" nzShowPagination="false" [nzSize]="'middle'">
                         <thead>
                           <tr>
                             <th nzShowCheckbox

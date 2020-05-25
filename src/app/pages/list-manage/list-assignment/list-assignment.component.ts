@@ -173,8 +173,6 @@ export class ListAssignmentComponent implements OnInit, OnDestroy {
             return pre;
         }, 0) - this.historyDistributionNum;
 
-        console.log('nice fish', totalNumber);
-
         if (totalNumber > this.totalNumber) {
             this.message.error('已超过可配置数额').onClose.subscribe(() => {
                 assignMember.distributionNum = 0;

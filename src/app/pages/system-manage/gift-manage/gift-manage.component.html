@@ -16,7 +16,7 @@
         </div>
         <div class="search-list-table">
             <ng-container *ngIf="!isLoading; else skeleton">
-                <nz-table #list [nzData]="giftList" [nzShowPagination]="false" [nzFrontPagination]="false" [nzTotal]="giftList.length">
+                <nz-table #list [nzData]="giftList" [nzShowPagination]="false" [nzFrontPagination]="false" [nzTotal]="giftList.length" [nzSize]="'middle'">
                   <thead>
                     <tr>
                         <th

@@ -19,3 +19,7 @@
         width: 150px;
     }
 }
+
+:host ::ng-deep .organization-employees-list {
+    @include deepTableTheadThColor;
+}

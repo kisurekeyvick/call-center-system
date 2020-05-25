@@ -4,17 +4,17 @@
             <div nz-row>
                 <div nz-row nz-col nzXs="24" nzGutter="24">
                     <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="6" nzRequired nzFor="giftName" class="nzFormLabel">赠品名称</nz-form-label>
+                        <nz-form-label nz-col nzXs="6" nzFor="giftName" class="nzFormLabel">赠品名称</nz-form-label>
                         <nz-form-control nz-col nzXs="18" class="nzFormControl" nzHasFeedback nzErrorTip="请输入赠品名称">
-                            <input nz-input placeholder="请输入赠品名称" id="giftName" formControlName="giftName"/>
+                            <input nz-input id="giftName" formControlName="giftName"/>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div nz-row nz-col nzXs="24" nzGutter="24">
                     <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="6" nzRequired nzFor="giftPrice" class="nzFormLabel">赠品价格(元)</nz-form-label>
+                        <nz-form-label nz-col nzXs="6" nzFor="giftPrice" class="nzFormLabel">赠品价格(元)</nz-form-label>
                         <nz-form-control nz-col nzXs="18" class="nzFormControl" nzHasFeedback nzErrorTip="请输入赠品价格">
-                            <nz-input-number style="width: 100%;" placeholder="请输入赠品价格" id="giftPrice" formControlName="giftPrice" [nzStep]="0.0000000001"></nz-input-number>
+                            <nz-input-number style="width: 100%;" id="giftPrice" formControlName="giftPrice" [nzStep]="0.0000000001"></nz-input-number>
                         </nz-form-control>
                     </nz-form-item>
                 </div>

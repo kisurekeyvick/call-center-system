@@ -4,9 +4,9 @@
             <div nz-row>
                 <div nz-row nz-col>
                     <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="4" nzFor="companyCode" nzRequired class="nzFormLabel">保险公司</nz-form-label>
+                        <nz-form-label nz-col nzXs="4" nzFor="companyCode" class="nzFormLabel">保险公司</nz-form-label>
                         <nz-form-control nz-col nzXs="20" class="nzFormControl" nzErrorTip="请选择保险公司">
-                            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="请选择保险公司" formControlName="companyCode">
+                            <nz-select nzShowSearch nzAllowClear formControlName="companyCode">
                                 <nz-option *ngFor="let option of companyList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
                               </nz-select>
                         </nz-form-control>
@@ -14,9 +14,9 @@
                 </div>
                 <div nz-row nz-col>
                     <nz-form-item class="nzFormItem">
-                        <nz-form-label nz-col nzXs="4" nzFor="discountUpperLimit" nzRequired class="nzFormLabel">返利比率</nz-form-label>
+                        <nz-form-label nz-col nzXs="4" nzFor="discountUpperLimit" class="nzFormLabel">返利比率</nz-form-label>
                         <nz-form-control nz-col nzXs="20" class="nzFormControl" nzErrorTip="请输入返利比率">
-                            <nz-input-number style="width: 100%;" id="discountUpperLimit" nzPlaceHolder="请输入返利比率" [nzMin]="0" [nzMax]="100" [nzStep]="1" formControlName="discountUpperLimit"></nz-input-number>
+                            <nz-input-number style="width: 100%;" id="discountUpperLimit" [nzMin]="0" [nzMax]="100" [nzStep]="1" formControlName="discountUpperLimit"></nz-input-number>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
