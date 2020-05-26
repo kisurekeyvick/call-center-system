@@ -91,19 +91,19 @@ export class FinancialReportComponent implements OnInit, OnDestroy {
             tenantCode: [null],
 
             /** 交强险基础比例 */
-            compulsoryRatio: [0.1, [Validators.required]],
+            compulsoryRatio: [0.04, [Validators.required]],
             /** 交强险加投比例 */
-            compulsoryAdditionRatio: [0.1, [Validators.required]],
+            compulsoryAdditionRatio: [0.26, [Validators.required]],
             /** 商业险基础比例 */
-            commercialRatio: [0.1, [Validators.required]],
+            commercialRatio: [0.2, [Validators.required]],
             /** 商业险加投比例 */
             commercialAdditionRatio: [0.1, [Validators.required]],
             /** 驾意险政策 */
-            drivingRatio: [0.1, [Validators.required]],
+            drivingRatio: [0.3, [Validators.required]],
             /** 津贴宝政策 */
-            allowanceRatio: [0.1, [Validators.required]],
+            allowanceRatio: [0.3, [Validators.required]],
             /** 玻璃膜政策 */
-            glassRatio: [0.1, [Validators.required]],
+            glassRatio: [0.3, [Validators.required]],
             /** 基础计算比例 */
             baseRatio: [1.06, [Validators.required]],
             /** 奖励 */
