@@ -23,7 +23,9 @@ export class RuleFormModalComponent implements OnInit, OnDestroy {
         // isOnlyCompulsoryList: dictionary.get('isOnlyCompulsory'),
         insuranceCompanysList: dictionary.get('insuranceCompanys'),
         ownerShipList: dictionary.get('category'),
-        distributionList: [{ name: '已经分配', value: '1' }, { name: '未分配', value: '2' }]
+        distributionList: [{ name: '已经分配', value: '1' }, { name: '未分配', value: '2' }],
+        appointmentLevelList: dictionary.get('appointmentLevel'),
+        customerStatusList: dictionary.get('customerStatus')
     };
 
     @Input() ruleForm: IRuleForm = {...defaultRuleForm()};
@@ -73,6 +75,10 @@ export class RuleFormModalComponent implements OnInit, OnDestroy {
             isDistribution: [ruleForm.isDistribution || null],
             /** 批次 */
             batchNo: [ruleForm.batchNo || null],
+            /** 客户状态 */
+            handleState: [ruleForm.handleState || null],
+            /** 客户预约类型 */
+            appointmentLevel: [ruleForm.appointmentLevel || null]
         });
     }
 
@@ -138,6 +144,14 @@ export class RuleFormModalComponent implements OnInit, OnDestroy {
 
             if (target.key === 'isDistribution') {
                 return this.formList.distributionList.find(list => list.value === value).name;
+            }
+
+            if (target.key === 'handleState') {
+                return this.formList.customerStatusList.find(list => list.value === value).name;
+            }
+
+            if (target.key === 'appointmentLevel') {
+                return this.formList.appointmentLevelList.find(list => list.value === value).name;
             }
 
             return value;

@@ -111,6 +111,12 @@
                 tr.follow-item {
                     cursor: pointer;
                 }
+                
+                tr.selected {
+                    td {
+                        background-color: #e6f7ff;
+                    }
+                }
             }
 
             i.special {
@@ -145,4 +151,8 @@
             }
         }
     }
+}
+
+:host ::ng-deep .salesman-operation .ant-table-body {
+    margin: 0;
 }

@@ -38,6 +38,8 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
     intervalSubscription$: Subscription;
     /** 当前处于选中的tanIndex */
     selectedIndex: number;
+    /** 当前选中的id */
+    currentSelectedId: number;
 
     constructor(
         private appService: AppService,
@@ -52,6 +54,7 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
         this.remind = {...defaultRemidVal};
         this.calendarList = [];
         this.selectedIndex = 0;
+        this.currentSelectedId = this.readCustomerDataCacheID();
         // this.intervalSubscription$ = this.intervalSource.subscribe(() => {
         //     this.loadTrackingList();
         //     this.loadFirstCallList();
@@ -128,7 +131,10 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
             catchError(err => of(err))
         ).subscribe(res => {
             if (res instanceof Array) {
-                this.trackingList = res;
+                this.trackingList = res.map(item => ({
+                    ...item,
+                    selected: this.currentSelectedId === item.id
+                }));
             }
         });
     }
@@ -142,7 +148,10 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
             catchError(err => of(err))
         ).subscribe(res => {
             if (res instanceof Array) {
-                this.firstCallList = res;
+                this.firstCallList = res.map(item => ({
+                    ...item,
+                    selected: this.currentSelectedId === item.id
+                }));
             }
         });
     }
@@ -171,6 +180,23 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
     }
 
     /**
+     * @func
+     * @desc 读取客户详情缓存数据
+     */
+    readCustomerDataCacheID(): number {
+        const customerDetailCache = this.localCache.get(LocalStorageItemName.CUSTOMERDETAIL);
+
+        if (customerDetailCache) {
+            const { currentCustomer } = customerDetailCache.value;
+            const { id } = currentCustomer;
+
+            return id;
+        }
+
+        return null;
+    }
+
+    /**
      * @callback
      * @desc 客户详情
      * @param trackItem 
@@ -181,6 +207,10 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
             customerListCache: source,
             currentCustomer: item
         };
+
+        source.forEach(listItem => {
+            listItem.selected = item.id === listItem.id;
+        });
 
         this.localCache.set(LocalStorageItemName.CUSTOMERDETAIL, cache);
         this.router.navigate(['/listManage/query', 'quickLink', { id: item.id }]);

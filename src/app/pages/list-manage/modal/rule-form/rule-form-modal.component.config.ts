@@ -35,6 +35,10 @@ export interface IRuleForm {
     isDistribution: string;
     /** 批次 */
     batchNo: string;
+    /** 客户状态 */
+    handleState: string;
+    /** 客户预约类型 */
+    appointmentLevel: string;
     [key: string]: any;
 }
 
@@ -62,6 +66,8 @@ export const defaultRuleFormValueSource: IDefaultRuleFormValueSourceItem[] = [
     { name: '车牌', key: 'carNo', value: '', formatValue: '' },
     { name: '是否分配', key: 'isDistribution', value: '', formatValue: '' },
     { name: '批次号', key: 'batchNo', value: '', formatValue: '' },
+    { name: '客户状态', key: 'handleState', value: '', formatValue: '' },
+    { name: '客户预约类型', key: 'appointmentLevel', value: '', formatValue: '' },
 ];
 
 /** 整理默认数据源，变成IRuleForm的对象结构 */

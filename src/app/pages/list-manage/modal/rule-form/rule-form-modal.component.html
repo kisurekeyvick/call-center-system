@@ -142,6 +142,26 @@
                         </nz-form-control>
                     </nz-form-item>
                 </div>
+                <div nz-row nz-col  nzXs="24" nzMd="12" nzLg="8" nzXl="6" nzGutter="0">
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label nz-col nzXs="11" nzFor="handleState" class="nzFormLabel">客户状态</nz-form-label>
+                        <nz-form-control nz-col nzXs="13" class="nzFormControl">
+                            <nz-select nzShowSearch nzAllowClear id="handleState" formControlName="handleState">
+                                <nz-option *ngFor="let option of formList.customerStatusList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-row nz-col  nzXs="24" nzMd="12" nzLg="8" nzXl="6" nzGutter="0">
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label nz-col nzXs="11" nzFor="appointmentLevel" class="nzFormLabel">客户预约类型</nz-form-label>
+                        <nz-form-control nz-col nzXs="13" class="nzFormControl">
+                            <nz-select nzShowSearch nzAllowClear id="appointmentLevel" formControlName="appointmentLevel">
+                                <nz-option *ngFor="let option of formList.appointmentLevelList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
             </div>
             <div class="modal-btn-group">
                 <button nz-button [nzType]="'default'" (click)="cancel()">取消</button>

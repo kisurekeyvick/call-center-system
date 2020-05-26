@@ -177,13 +177,42 @@
                     </thead>
                     <tbody>
                       <tr *ngFor="let data of list.data">
-                        <td [nzLeft]="true" class="sticky-ele">{{data.customerName || '--'}}</td>
+                        <td>{{data.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>{{data.compulsoryEndTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>{{data.registerTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>{{data.createUser || '--'}}</td>
+                        <td>{{data.customerName || '--'}}</td>
                         <td>{{data.carNo || '--'}}</td>
-                        <td>{{data.companyName || '--'}}</td>
-                        <td>{{data.userName || '--'}}</td>
-                        <td>{{data.orderCommitTimeFormat}}</td>
-                        <td>{{data.orderStateName}}</td>
-                        <td>{{data.orderDateTimeFormat}}</td>
+                        <td>{{data.commercialSumPremium}}</td>
+                        <td>{{data.compulsorySumPremium}}</td>
+                        <td>{{data.taxActual}}</td>
+                        <td>{{data.totalPremium}}</td>
+                        <td>{{data.drivingPremium}}</td>
+                        <td>{{data.allowancePremium}}</td>
+                        <td>{{data.glassPremium}}</td>
+                        <td>{{data.cashBack}}</td>
+                        <td>{{data.companyName}}</td>
+                        <td>{{data.compulsoryRatio}}</td>
+                        <td>{{data.compulsoryHandlingFee}}</td>
+                        <td>{{data.compulsoryAdditionRatio}}</td>
+                        <td>{{data.compulsoryAdditionHandlingFee}}</td>
+                        <td>{{data.commercialRatio}}</td>
+                        <td>{{data.commercialHandlingFee}}</td>
+                        <td>{{data.commercialAdditionRatio}}</td>
+                        <td>{{data.commercialAdditionHandlingFee}}</td>
+                        <td>{{data.totalHandlingFee}}</td>
+                        <td>{{data.policyProfit}}</td>
+                        <td>{{data.drivingRatio}}</td>
+                        <td>{{data.drivingPolicy}}</td>
+                        <td>{{data.drivingHandlingFee}}</td>
+                        <td>{{data.allowanceRatio}}</td>
+                        <td>{{data.allowancePolicy}}</td>
+                        <td>{{data.allowanceHandlingFee}}</td>
+                        <td>{{data.glassRatio}}</td>
+                        <td>{{data.glassPolicy}}</td>
+                        <td>{{data.glassHandlingFee}}</td>
+                        <td>{{data.reward}}</td>
+                        <td>{{data.totalProfit}}</td>
                       </tr>
                     </tbody>
                   </nz-table>
