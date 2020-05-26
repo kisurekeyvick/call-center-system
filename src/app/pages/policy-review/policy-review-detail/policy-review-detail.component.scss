@@ -97,6 +97,102 @@
             right: 30px;
         }
     }
+
+    /* 隐藏的表单 */
+    #policy-review-detail-form {
+        .detail-box {
+            p.title {
+                background: #f0f2f5;
+                // line-height: 40px;
+                line-height: 30px;
+                padding: 0 12px;
+                margin-bottom: 4px;
+                background: #79b5ec;
+                color: #fff;
+
+                i {
+                    margin-right: 12px;
+                }
+            }
+
+            .detail-item.summation {
+                p {
+                    text-align: center;
+                    line-height: 40px;
+                    margin-bottom: 4px;
+                }
+            }
+
+            .detail-item-content {
+                margin-bottom: 4px;
+
+                .nzFormItem {
+                    @include specialNzFormItem;
+
+                    .nzFormLabel {
+                        flex-basis: 90px;
+                        
+                        &.ins-label {
+                            flex-basis: 160px;
+                        }
+                    }
+
+                    .nzFormLabel,
+                    .nzFormControl {
+                        line-height: 30px;
+                        height: 30px;
+                    }
+
+                    .nzFormControl {
+                        padding: 0px 11px;
+                        white-space: nowrap;
+
+                        &.scroll-x {
+                            overflow-y: hidden;
+                        }
+                    }
+                }
+            }
+
+            .ins-table-list {
+                @include tableListStyle;
+                margin-top: -4px;
+                margin-bottom: 4px;
+
+                .nzFormItem {
+                    @include specialNzFormItem;
+        
+                    .nzFormControl {
+                        .ant-form-item-control {
+                            width: 100%;
+                        }
+        
+                        .dataType {
+                            border-right: 1px solid #e5e5e5;
+                            height: 30px;
+                            padding: 0 11px;
+                            text-align: left;
+                            border-radius: 0px;
+                            outline: 0;
+                            transition: all 0.3s linear;
+                            margin-top: 2px;
+                            line-height: 30px;
+                        }
+
+                        .payPremium {
+                            padding: 0 11px;
+                            height: 30px;
+                            line-height: 30px;
+                        }
+                    }
+        
+                    .nzFormLabel {
+                        flex-basis: 160px;
+                    }
+                }
+            }
+        }
+    }
 }
 
 :host ::ng-deep .policy-review-detail .ant-form-item-control {

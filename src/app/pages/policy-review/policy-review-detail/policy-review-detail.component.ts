@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, DoCheck } from '@angular/core';
 import { jackInTheBoxAnimation, jackInTheBoxOnEnterAnimation } from 'src/app/shared/animate/index';
 import { Router } from '@angular/router';
 import { NzModalService, NzMessageService, NzModalRef } from 'ng-zorro-antd';
@@ -6,10 +6,10 @@ import { RegisterAgainModalComponent } from '../modal/register-again/register-ag
 import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
 import LocalStorageService from 'src/app/core/cache/local-storage';
 import { PolicyReviewService } from '../policy-review.service';
-import { of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { of, Subject } from 'rxjs';
+import { catchError, debounceTime } from 'rxjs/operators';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { usageList, companyList, insList, IGiftItem } from './policy-review-detail.component.config';
+import { usageList, companyList, insList, IGiftItem, customerDetailInfo } from './policy-review-detail.component.config';
 import { findValueName, validPhoneValue, reversePriceFormat, priceFormat, numberToFixed } from 'src/app/core/utils/function';
 import { insList as sharedInsList, IInsList } from 'src/app/shared/component/customer-detail-insurance/customer-detail-insurance.component.config';
 import { dictionary } from 'src/app/shared/dictionary/dictionary';
@@ -20,6 +20,8 @@ interface ICommon {
     [key: string]: any;
 }
 
+type IDetailInfo = typeof customerDetailInfo;
+
 @Component({
     selector: 'policy-review-detail',
     templateUrl: './policy-review-detail.component.html',
@@ -29,11 +31,9 @@ interface ICommon {
         jackInTheBoxOnEnterAnimation({duration: 900})
     ]
 })
-export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
+export class PolicyReviewDetailComponent implements OnInit, OnDestroy, DoCheck {
     /** 是否正在加载 */
     isLoading: boolean;
-    /** 详情信息 */
-    detailInfo: ICommon;
     /** 表单 */
     validateForm: FormGroup;
     /** 加载的详细信息 */
@@ -48,6 +48,10 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
     orderInsList: IInsList[];
     /** 赠品 */
     giftList: IGiftItem[];
+    /** 详情信息 */
+    detailInfo: IDetailInfo;
+    /** 开始更新静态保单数据 */
+    uploadDetailInfo$: Subject<boolean> = new Subject();
 
     constructor(
         private modalService: NzModalService,
@@ -56,60 +60,9 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
         private localCache: LocalStorageService,
         private policyReviewService: PolicyReviewService,
         private fb: FormBuilder,
+        private el: ElementRef
     ) {
-        this.detailInfo = {
-            /** 投保公司 */
-            insCompany: {
-                /** 投保公司 */
-                companyName: '',
-                /** 联系人 */
-                createUser: ''
-            },
-            /** 客户信息 */
-            customerInfo: {
-                /** 被保险人姓名 */
-                customerName: '',
-                /** 身份证号码 */
-                idCard: '',
-                /** 联系电话 */
-                customerPhone: '',
-                /** 被保险人地址 */
-                customerAddress: ''
-            },
-            /** 投保车辆信息 */
-            carInfo: {
-                /** 车牌号 */
-                carNo: '',
-                /** 厂牌型号 */
-                brandName: '',
-                /** 核定座位 */
-                seatNumber: '',
-                /** 初次登记 */
-                registerTime: '',
-                /** 使用性质 */
-                usage: '',
-                usageName: '',
-                /** 车架号码 */
-                vinNo: '',
-                /** 发动机号 */
-                engineNo: '',
-                /** 新车购置价 */
-                purchasePrice: ''
-            },
-            /** 保险期间 */
-            insTime: {
-                /** 商业险 */
-                commercialStartTime: '',
-                commercialEndTime: '',
-                /** 交强险 */
-                compulsoryStartTime: '',
-                compulsoryEndTime: ''
-            },
-            /** 投保险种 */
-            insType: [],
-            sumPremium: ''
-        };
-
+        this.detailInfo = cloneDeep(customerDetailInfo);
         this.orderInsList = [];
         this.giftList = [];
     }
@@ -182,6 +135,17 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
         this.loadGiftList().finally(() => {
             this.loadPolicyInfo();
         });
+
+        this.uploadDetailInfo$.pipe(
+            debounceTime(1000)
+        ).subscribe((res: boolean) => {
+            console.log('开始更新数据了');
+            res && this.setModuleValue();
+        })
+    }
+
+    ngDoCheck() {
+        this.uploadDetailInfo$.next(true);
     }
 
     /**
@@ -203,9 +167,10 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
                 if (!(res instanceof TypeError)) {
                     console.log('获取到的详情', res);
                     this.loadedDetailInfo = res;
-                    this.setModuleValue(res);
                     this.setInsList(res);
-                    this.setFormGroupValue(res);
+                    this.setFormGroupValue(res).then(() => {
+                        this.setModuleValue();
+                    });
                 }
             });
         }
@@ -238,34 +203,48 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
     /**
      * @func
      * @desc 设置module值
-     * @param detailInfo 
      */
-    setModuleValue(detailInfo) {
-        const { customerOrder, quoteCommercialInsuranceDetailList } = detailInfo;
-        const { companyCode, createUser, customerName, idCard, customerPhone, customerAddress,
+    setModuleValue() {
+        const { 
+            /** 客户信息 */
+            customerName, idCard, customerPhone, customerAddress, customerRemark,
+            /** 车辆信息 */
             carNo, brandName, seatNumber, registerTime, usage, vinNo, engineNo, purchasePrice,
-            commercialStartTime, commercialEndTime, compulsoryStartTime, compulsoryEndTime, sumPremium } = customerOrder;
-        
+            /** 保险期间 */
+            compulsoryTime, commercialTime, companyCode,
+            /** 最终报价 */
+            commercialSumPremium, isDiscount, discount, compulsorySumPremium, taxActual, sumPremium,
+            realSumPremium, drivingPremium, allowancePremium, glassPremium, giftId,
+            /** 派送信息 */
+            receiptDate, receiptName, receiptPhone, sender, receiptAddress, receiptRemarks
+        } = this.validateForm.value;
+       
+        /** 商业险时间 */
+        const [commercialStartTime = null, commercialEndTime = null] = commercialTime || [];
+        /** 交强险时间 */
+        const [compulsoryStartTime = null, compulsoryEndTime = null] = compulsoryTime || [];
+
         Object.assign(this.detailInfo, {
-            insCompany: {
-                createUser,
-                companyName: findValueName(companyList, companyCode)
-            },
             customerInfo: {
                 customerName,
                 idCard,
                 customerPhone,
-                customerAddress
+                customerAddress,
+                customerRemark
             },
             carInfo: {
                 carNo,
                 brandName,
                 seatNumber,
                 registerTime,
+                usage,
                 usageName: findValueName(usageList, usage),
                 vinNo,
                 engineNo,
                 purchasePrice
+            },
+            insCompany: {
+                companyName: findValueName(companyList, companyCode)
             },
             insTime: {
                 commercialStartTime,
@@ -273,7 +252,29 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
                 compulsoryStartTime,
                 compulsoryEndTime
             },
-            sumPremium
+            insType: this.formatRequestInsValue(),
+            finalQuotation: {
+                commercialSumPremium,
+                isDiscount,
+                discount,
+                compulsorySumPremium,
+                taxActual,
+                sumPremium,
+                realSumPremium,
+                drivingPremium,
+                allowancePremium,
+                glassPremium,
+                giftId
+            },
+            receiptInfo: {
+                receiptDate,
+                receiptName,
+                receiptPhone,
+                sender,
+                giftName: findValueName(this.giftList, giftId),
+                receiptAddress,
+                receiptRemarks
+            }
         });
 
     }
@@ -312,7 +313,7 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
      * @desc 设置表单详情信息
      * @param detailInfo 
      */
-    setFormGroupValue(detailInfo) {
+    setFormGroupValue(detailInfo): Promise<boolean> {
         const { customerOrder, quoteInsurance } = detailInfo;
         const { receiptName, receiptPhone, sender, receiptRemarks, receiptDate, companyCode, 
             createUser, customerName, idCard, customerPhone, customerAddress,
@@ -402,6 +403,8 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
             /** 备注 */
             receiptRemarks
         });
+
+        return Promise.resolve(true);
     }
 
     /**
@@ -602,6 +605,7 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
 
             return {
                 id,
+                insName: list.name,
                 code: list.code,
                 coverage: coverageValue ? priceFormat(coverageValue) : '',
                 payPremium: payPremium,
@@ -661,6 +665,20 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy {
             }
         });
     }
+
+    // /**
+    //  * @callback
+    //  * @desc 打印订单
+    //  */
+    // print() {
+    //     const content = this.el.nativeElement.querySelector('.policy-review-detail-form');
+    //     const WindowPrt = window.open('', '_blank', 'left=0,top=0,width=1300,height=1000,toolbar=0,scrollbars=0,status=0');
+    //     WindowPrt.document.write(content.innerHTML);
+    //     WindowPrt.document.close();
+    //     WindowPrt.focus();
+    //     WindowPrt.print();
+    //     WindowPrt.close();
+    // }
 
     /**
      * @callback

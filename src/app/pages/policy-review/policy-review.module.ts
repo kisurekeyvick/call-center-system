@@ -3,12 +3,14 @@ import { PolicyReviewRoutingModule, routedComponents, entriedComponents } from '
 import { AppShareModule } from 'src/app/shared/share.module';
 import { PolicyReviewService } from './policy-review.service';
 import { CommonModule } from '@angular/common';
+import { NgxPrintModule } from 'src/app/core/print/ngx-print.module';
 
 @NgModule({
     imports: [
         PolicyReviewRoutingModule,
         AppShareModule,
-        CommonModule
+        CommonModule,
+        NgxPrintModule
     ],
     declarations: [
         ...routedComponents
