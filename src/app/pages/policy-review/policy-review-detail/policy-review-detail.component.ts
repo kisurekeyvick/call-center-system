@@ -9,7 +9,7 @@ import { PolicyReviewService } from '../policy-review.service';
 import { of, Subject } from 'rxjs';
 import { catchError, debounceTime } from 'rxjs/operators';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { usageList, companyList, insList, IGiftItem, customerDetailInfo } from './policy-review-detail.component.config';
+import { usageList, companyList, insList, IGiftItem, customerDetailInfo, printFormStyle } from './policy-review-detail.component.config';
 import { findValueName, validPhoneValue, reversePriceFormat, priceFormat, numberToFixed } from 'src/app/core/utils/function';
 import { insList as sharedInsList, IInsList } from 'src/app/shared/component/customer-detail-insurance/customer-detail-insurance.component.config';
 import { dictionary } from 'src/app/shared/dictionary/dictionary';
@@ -52,6 +52,8 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy, DoCheck {
     detailInfo: IDetailInfo;
     /** 开始更新静态保单数据 */
     uploadDetailInfo$: Subject<boolean> = new Subject();
+    /** 打印的表单的样式 */
+    printFormStyle = printFormStyle;
 
     constructor(
         private modalService: NzModalService,
@@ -139,7 +141,6 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy, DoCheck {
         this.uploadDetailInfo$.pipe(
             debounceTime(1000)
         ).subscribe((res: boolean) => {
-            console.log('开始更新数据了');
             res && this.setModuleValue();
         })
     }
@@ -723,5 +724,7 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy, DoCheck {
         this.router.navigate(['/policyReview/list']);
     }
 
-    ngOnDestroy() {}
+    ngOnDestroy() {
+        this.uploadDetailInfo$ && this.uploadDetailInfo$.unsubscribe();
+    }
 }
