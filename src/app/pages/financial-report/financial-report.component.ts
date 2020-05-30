@@ -91,21 +91,21 @@ export class FinancialReportComponent implements OnInit, OnDestroy {
             tenantCode: [null],
 
             /** 交强险基础比例 */
-            compulsoryRatio: [0.04, [Validators.required]],
+            compulsoryRatio: [4, [Validators.required]],
             /** 交强险加投比例 */
-            compulsoryAdditionRatio: [0.26, [Validators.required]],
+            compulsoryAdditionRatio: [26, [Validators.required]],
             /** 商业险基础比例 */
-            commercialRatio: [0.2, [Validators.required]],
+            commercialRatio: [20, [Validators.required]],
             /** 商业险加投比例 */
-            commercialAdditionRatio: [0.1, [Validators.required]],
+            commercialAdditionRatio: [10, [Validators.required]],
             /** 驾意险政策 */
-            drivingRatio: [0.3, [Validators.required]],
+            drivingRatio: [30, [Validators.required]],
             /** 津贴宝政策 */
-            allowanceRatio: [0.3, [Validators.required]],
+            allowanceRatio: [30, [Validators.required]],
             /** 玻璃膜政策 */
-            glassRatio: [0.3, [Validators.required]],
+            glassRatio: [30, [Validators.required]],
             /** 基础计算比例 */
-            baseRatio: [1.06, [Validators.required]],
+            baseRatio: [106, [Validators.required]],
             /** 奖励 */
             reward: [1, [Validators.required]]
         });
@@ -205,21 +205,21 @@ export class FinancialReportComponent implements OnInit, OnDestroy {
             /** 店铺 */
             tenantCode: null,
             /** 交强险基础比例 */
-            compulsoryRatio: 0.1,
+            compulsoryRatio: 4,
             /** 交强险加投比例 */
-            compulsoryAdditionRatio: 0.1,
+            compulsoryAdditionRatio: 26,
             /** 商业险基础比例 */
-            commercialRatio: 0.1,
+            commercialRatio: 20,
             /** 商业险加投比例 */
-            commercialAdditionRatio: 0.1,
+            commercialAdditionRatio: 10,
             /** 驾意险政策 */
-            drivingRatio: 0.1,
+            drivingRatio: 30,
             /** 津贴宝政策 */
-            allowanceRatio: 0.1,
+            allowanceRatio: 30,
             /** 玻璃膜政策 */
-            glassRatio: 0.1,
+            glassRatio: 30,
             /** 基础计算比例 */
-            baseRatio: 1.06,
+            baseRatio: 106,
             /** 奖励 */
             reward: 1
         });
@@ -243,8 +243,15 @@ export class FinancialReportComponent implements OnInit, OnDestroy {
                 orderEndDate: orderTime[1] && new Date(orderTime[1]).getTime() || null,
             },
             reportParam: {
-                compulsoryRatio, compulsoryAdditionRatio, commercialRatio, commercialAdditionRatio,
-                drivingRatio, allowanceRatio, glassRatio, baseRatio, reward
+                compulsoryRatio: compulsoryRatio / 100, 
+                compulsoryAdditionRatio: compulsoryAdditionRatio / 100, 
+                commercialRatio: commercialRatio / 100, 
+                commercialAdditionRatio: commercialAdditionRatio / 100,
+                drivingRatio: drivingRatio / 100, 
+                allowanceRatio: allowanceRatio / 100, 
+                glassRatio: glassRatio / 100, 
+                baseRatio: baseRatio / 100, 
+                reward
             }
         };
 

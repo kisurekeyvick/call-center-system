@@ -9,7 +9,7 @@ import { PolicyReviewService } from '../policy-review.service';
 import { of, Subject, Observable, fromEvent, Subscription } from 'rxjs';
 import { catchError, debounceTime } from 'rxjs/operators';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { usageList, companyList, insList, IGiftItem, customerDetailInfo } from './policy-review-detail.component.config';
+import { usageList, companyList, insList, IGiftItem, customerDetailInfo, printFormStyle } from './policy-review-detail.component.config';
 import { findValueName, validPhoneValue, reversePriceFormat, priceFormat, numberToFixed } from 'src/app/core/utils/function';
 import { insList as sharedInsList, IInsList } from 'src/app/shared/component/customer-detail-insurance/customer-detail-insurance.component.config';
 import { dictionary } from 'src/app/shared/dictionary/dictionary';
@@ -54,6 +54,8 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy, DoCheck {
     uploadDetailInfo$: Subject<boolean> = new Subject();
     /** 页面popstate */
     popstate$: Subscription;
+    /** 打印的表单的样式 */
+    printFormStyle = printFormStyle;
 
     constructor(
         private modalService: NzModalService,
@@ -757,5 +759,6 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy, DoCheck {
 
     ngOnDestroy() {
         this.popstate$ && this.popstate$.unsubscribe();
+        this.uploadDetailInfo$ && this.uploadDetailInfo$.unsubscribe();
     }
 }

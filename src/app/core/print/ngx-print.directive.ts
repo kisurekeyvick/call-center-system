@@ -20,6 +20,10 @@ export class NgxPrintDirective {
    */
   @Input() printTitle: string;
 
+  @Input() printPopupWinConfig: string = 'top=0,left=0,height=auto,width=auto';
+
+  @Input() printFormStyle: string = '';
+
   /**
    *
    *
@@ -126,7 +130,7 @@ public returnStyleValues() {
     links = this.getElementTag('link');
 
     printContents = document.getElementById(this.printSectionId).innerHTML;
-    popupWin = window.open("", "_blank", "top=0,left=0,height=auto,width=auto");
+    popupWin = window.open("", "_blank", this.printPopupWinConfig);
     popupWin.document.open();
     popupWin.document.write(`
       <html>
@@ -136,6 +140,7 @@ public returnStyleValues() {
           ${this.returnStyleSheetLinkTags()}
           ${styles}
           ${links}
+          <style>${this.printFormStyle}</style>
         </head>
         <body>
           ${printContents}

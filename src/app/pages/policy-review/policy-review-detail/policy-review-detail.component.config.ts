@@ -102,3 +102,146 @@ export const customerDetailInfo = {
         receiptRemarks: ''
     }
 };
+
+export const printFormStyle = `
+.policy-review-detail #policy-review-detail-form .detail-box p.title {
+    background: #f0f2f5;
+    line-height: 30px;
+    padding: 0 12px;
+    margin-bottom: 4px;
+    background: #79b5ec;
+    color: #fff;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box p.title i {
+    margin-right: 12px;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .detail-item.summation p {
+    text-align: center;
+    line-height: 40px;
+    margin-bottom: 4px;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .detail-item-content {
+    margin-bottom: 4px;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .detail-item-content .nzFormItem {
+    margin-bottom: 1px;
+    border: 1px solid #e5e5e5;
+    margin-right: 1px;
+    display: flex;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .detail-item-content .nzFormItem .ant-form-item-label,
+  .policy-review-detail #policy-review-detail-form .detail-box .detail-item-content .nzFormItem .ant-form-item-control {
+    line-height: 30px;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .detail-item-content .nzFormItem .nzFormLabel {
+    background-color: #e5edf7;
+    border-right: 1px solid #e5e5e5;
+    text-align: right;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .detail-item-content .nzFormItem .nzFormControl {
+    flex: 1;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .detail-item-content .nzFormItem .nzFormControl .ant-input {
+    border: none !important;
+    height: 30px;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .detail-item-content .nzFormItem .nzFormControl .ant-input:focus {
+    box-shadow: none;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .detail-item-content .nzFormItem .nzFormControl .ant-input-number-input {
+    height: 35px;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .detail-item-content .nzFormItem .nzFormControl .ant-input-number {
+    border: none;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .detail-item-content .nzFormItem .nzFormControl .ant-input-number:focus {
+    box-shadow: none;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .detail-item-content .nzFormItem .nzFormControl .ant-input-number-focused {
+    box-shadow: none;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .detail-item-content .nzFormItem .nzFormLabel {
+    flex-basis: 90px;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .detail-item-content .nzFormItem .nzFormLabel.ins-label {
+    flex-basis: 160px;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .detail-item-content .nzFormItem .nzFormLabel,
+  .policy-review-detail #policy-review-detail-form .detail-box .detail-item-content .nzFormItem .nzFormControl {
+    line-height: 30px;
+    height: 30px;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .detail-item-content .nzFormItem .nzFormControl {
+    padding: 0px 11px;
+    white-space: nowrap;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .detail-item-content .nzFormItem .nzFormControl.scroll-x {
+    overflow-y: hidden;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .ins-table-list {
+    margin-top: -4px;
+    margin-bottom: 4px;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .ins-table-list .ant-table-tbody tr:nth-child(2n) td {
+    background-color: #e5edf7;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .ins-table-list .nzFormItem {
+    margin-bottom: 1px;
+    border: 1px solid #e5e5e5;
+    margin-right: 1px;
+    display: flex;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .ins-table-list .nzFormItem .ant-form-item-label,
+  .policy-review-detail #policy-review-detail-form .detail-box .ins-table-list .nzFormItem .ant-form-item-control {
+    line-height: 30px;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .ins-table-list .nzFormItem .nzFormLabel {
+    background-color: #e5edf7;
+    border-right: 1px solid #e5e5e5;
+    text-align: right;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .ins-table-list .nzFormItem .nzFormControl {
+    flex: 1;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .ins-table-list .nzFormItem .nzFormControl .ant-input {
+    border: none !important;
+    height: 30px;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .ins-table-list .nzFormItem .nzFormControl .ant-input:focus {
+    box-shadow: none;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .ins-table-list .nzFormItem .nzFormControl .ant-input-number-input {
+    height: 35px;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .ins-table-list .nzFormItem .nzFormControl .ant-input-number {
+    border: none;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .ins-table-list .nzFormItem .nzFormControl .ant-input-number:focus {
+    box-shadow: none;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .ins-table-list .nzFormItem .nzFormControl .ant-input-number-focused {
+    box-shadow: none;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .ins-table-list .nzFormItem .nzFormControl .ant-form-item-control {
+    width: 100%;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .ins-table-list .nzFormItem .nzFormControl .dataType {
+    border-right: 1px solid #e5e5e5;
+    height: 30px;
+    padding: 0 11px;
+    text-align: left;
+    border-radius: 0px;
+    outline: 0;
+    transition: all 0.3s linear;
+    margin-top: 2px;
+    line-height: 30px;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .ins-table-list .nzFormItem .nzFormControl .payPremium {
+    padding: 0 11px;
+    height: 30px;
+    line-height: 30px;
+  }
+  .policy-review-detail #policy-review-detail-form .detail-box .ins-table-list .nzFormItem .nzFormLabel {
+    flex-basis: 160px;
+  }
+`;
