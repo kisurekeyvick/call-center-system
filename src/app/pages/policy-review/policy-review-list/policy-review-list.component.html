@@ -10,11 +10,21 @@
         <div class="search-list-box">
             <search-list [searchListLayout]="searchListLayout" [searchListModel]="searchListModel" [searchListItem]="searchListItem" (onSearch)="search()" (onReseat)="reseat()"></search-list>
         </div>
+        <div class="search-list-menu-group">
+            <button nz-button [nzType]="'primary'" (click)="print()" [disabled]="!canPrint"><i nz-icon nzType="printer" nzTheme="outline"></i>打印</button>
+            <!-- <button nz-button [nzType]="'danger'" [disabled]="!canDeleteCustomer" (click)="deleteCustomer()"><i nz-icon nzType="delete" nzTheme="outline"></i>删除</button> -->
+        </div>
         <div class="search-list-table">
             <ng-container *ngIf="!isLoading; else skeleton">
                 <nz-table #list [nzData]="policyReviewList" nzShowPagination="false" [nzScroll]="{ x: '1000px' }" [nzSize]="'middle'">
                     <thead>
                       <tr>
+                        <th
+                            nzShowCheckbox
+                            [(nzChecked)]="isAllDisplayDataChecked"
+                            [nzIndeterminate]="isIndeterminate"
+                            (nzCheckedChange)="checkAllList($event)"
+                        ></th>
                         <ng-container *ngFor="let th of tableCfg.thead">
                             <ng-container *ngIf="th.type === 'fixed-right'">
                                 <th [nzRight]='true' class="sticky-ele">{{ th.name }}</th>
@@ -30,6 +40,11 @@
                     </thead>
                     <tbody>
                       <tr *ngFor="let data of list.data">
+                        <td
+                            nzShowCheckbox
+                            [(nzChecked)]="mapOfCheckedId[data.id]"
+                            (nzCheckedChange)="refreshStatus()"
+                        ></td>
                         <td [nzLeft]="true" class="sticky-ele"><a (click)="showDetail(data)">{{data.customerName || '--'}}</a></td>
                         <td>{{data.carNo || '--'}}</td>
                         <td>{{data.companyName || '--'}}</td>
@@ -65,6 +80,55 @@
         </div>
         <div class="search-list-table-pagination">
             <search-list-pagination [pageInfo]="pageInfo" (onPageChange)="onPageChange($event)"></search-list-pagination>
+        </div>
+
+        <div class="print-box" style="display: none;">
+            <ng-container *ngFor="let item of printList">
+                <div nz-row class="print-item">
+                    <div nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">派送时间：</span>
+                            <span class="nzFormControl">{{ item.receiptDate | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        </p>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">收件人：</span>
+                            <span class="nzFormControl">{{ item.receiptName }}</span>
+                        </p>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">联系方式：</span>
+                            <span class="nzFormControl">{{ item.receiptPhone }}</span>
+                        </p>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">寄件人：</span>
+                            <span class="nzFormControl">{{ item.sender }}</span>
+                        </p>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">礼品：</span>
+                            <span class="nzFormControl">{{ item.giftName }}</span>
+                        </p>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">地址：</span>
+                            <span class="nzFormControl">{{ item.receiptAddress }}</span>
+                        </p>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">备注：</span>
+                            <span class="nzFormControl scroll-x">{{ item.receiptRemarks }}</span>
+                        </p>
+                    </div>
+                </div>
+            </ng-container>
         </div>
     </div>
 </div>

@@ -169,3 +169,87 @@ export interface ISalesman {
     teamName: string;
     [key: string]: any;
 }
+
+export const printStyle = `
+.print-item {
+    margin-bottom: 24px;
+    display: block;
+    border: 1px solid #ddd;
+  }
+
+  .print-item::after {
+        clear: both;
+        overflow: hidden;
+        content: '';
+        display:block;
+        height: 0;
+        content: '';
+    }
+
+  .print-item > div {
+      width: 50%;
+      flex: 0 0 auto;
+    float: left;
+  }
+
+  .nzFormItem {
+    display: flex;
+    margin: 0;
+  }
+  .nzFormItem .ant-form-item-label,
+  .nzFormItem .ant-form-item-control {
+    line-height: 30px;
+  }
+  .nzFormItem .nzFormLabel {
+    background-color: #e5edf7;
+    text-align: right;
+    border-bottom: 1px solid #ddd;
+  }
+  .nzFormItem .nzFormControl {
+    flex: 1;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .print-item > div:last-child .nzFormLabel,
+  .print-item > div:last-child .nzFormControl {
+      border: none;
+  }
+
+  .nzFormItem .nzFormControl .ant-input {
+    border: none !important;
+    height: 30px;
+  }
+  .nzFormItem .nzFormControl .ant-input:focus {
+    box-shadow: none;
+  }
+  .nzFormItem .nzFormControl .ant-input-number-input {
+    height: 35px;
+  }
+  .nzFormItem .nzFormControl .ant-input-number {
+    border: none;
+  }
+  .nzFormItem .nzFormControl .ant-input-number:focus {
+    box-shadow: none;
+  }
+  .nzFormItem .nzFormControl .ant-input-number-focused {
+    box-shadow: none;
+  }
+  .nzFormItem .nzFormLabel {
+    flex-basis: 90px;
+  }
+  .nzFormItem .nzFormLabel.ins-label {
+    flex-basis: 160px;
+  }
+  .nzFormItem .nzFormLabel,
+  .nzFormItem .nzFormControl {
+    line-height: 30px;
+    height: 30px;
+  }
+  .nzFormItem .nzFormControl {
+    padding: 0px 11px;
+    white-space: nowrap;
+  }
+  .nzFormItem .nzFormControl.scroll-x {
+    overflow-y: hidden;
+  }
+`;

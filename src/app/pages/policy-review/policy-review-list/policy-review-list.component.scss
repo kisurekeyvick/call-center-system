@@ -10,6 +10,39 @@
     .search-list-table {
         @include tableListStyle;
     }
+
+    .print-box {
+        .print-item {
+            margin-bottom: 24px;
+        }
+
+        .nzFormItem {
+            @include specialNzFormItem;
+
+            .nzFormLabel {
+                flex-basis: 90px;
+                
+                &.ins-label {
+                    flex-basis: 160px;
+                }
+            }
+
+            .nzFormLabel,
+            .nzFormControl {
+                line-height: 30px;
+                height: 30px;
+            }
+
+            .nzFormControl {
+                padding: 0px 11px;
+                white-space: nowrap;
+
+                &.scroll-x {
+                    overflow-y: hidden;
+                }
+            }
+        }
+    }
 }
 
 :host ::ng-deep .policy-review-list {

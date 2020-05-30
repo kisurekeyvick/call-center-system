@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
 import { jackInTheBoxAnimation, jackInTheBoxOnEnterAnimation } from 'src/app/shared/animate/index';
 import { NzModalService, NzMessageService, NzModalRef } from 'ng-zorro-antd';
 import { Router } from '@angular/router';
@@ -6,7 +6,7 @@ import LocalStorageService from 'src/app/core/cache/local-storage';
 import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
 import { ISearchListItem, searchListItem, ISearchListModel, IPolicyReviewItem,
     searchListModel, tableConfig, searchListLayout, renewalStateList, companyList, internalOrderStatusList,
-    ISalesman } from './policy-review-list.component.config';
+    ISalesman, printStyle } from './policy-review-list.component.config';
 import { IPageChangeInfo, PaginationService } from 'src/app/shared/component/search-list-pagination/pagination';
 import { ConfirmOutDocModalComponent } from '../modal/confirm-outDoc/confirm-outDoc-modal.component';
 import { PolicyReviewService, IQueryCustomerParams } from '../policy-review.service';
@@ -47,6 +47,15 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
     isLoading: boolean;
     /** 业务员 */
     salesmenList: ISalesman[];
+    /** 是否可以打印 */
+    canPrint: boolean = false;
+    /** 是否全部选中 */
+    isAllDisplayDataChecked: boolean = false;
+    isIndeterminate: boolean = false;
+    /** 选中记录 */
+    mapOfCheckedId: { [key: string]: boolean } = {};
+    /** 当前要打印的数据 */
+    printList: IPolicyReviewItem[];
 
     constructor(
         private modalService: NzModalService,
@@ -54,7 +63,8 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
         private router: Router,
         private localCache: LocalStorageService,
         private policyReviewService: PolicyReviewService,
-        private apiService: ApiService
+        private apiService: ApiService,
+        private el: ElementRef
     ) {
         this.searchListItem = [...searchListItem];
         this.searchListModel = {...searchListModel};
@@ -66,6 +76,7 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
             pageSize: 10,
             pageIndex: 1
         });
+        this.printList = [];
     }
 
     ngOnInit() {
@@ -219,6 +230,39 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
     }
 
     /**
+     * @callback
+     * @desc 打印
+     */
+    print() {
+        const content = this.el.nativeElement.querySelector('.print-box');
+        const WindowPrt = window.open('', '_blank', 'left=0,top=0,width=1000,height=auto,toolbar=0,scrollbars=0,status=0');
+        WindowPrt.document.write(`
+            <html>
+                <head>
+                    <style>${printStyle}</style>
+                </head>
+                <body>
+                    ${content.innerHTML}
+                    <script defer>
+                        function triggerPrint(event) {
+                            window.removeEventListener('load', triggerPrint, false);
+                            setTimeout(function() {
+                                window.print();
+                                setTimeout(function() { window.close(); }, 0);
+                            }, 0});
+                        }
+                        window.addEventListener('load', triggerPrint, false);
+                    </script>
+                </body>
+            </html>
+        `);
+        // WindowPrt.document.close();
+        // WindowPrt.focus();
+        // WindowPrt.print();
+        // WindowPrt.close();
+    }
+
+    /**
      * @func
      * @desc 设置搜索参数字段的值
      * @param searchListModel 
@@ -325,6 +369,40 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
 
         const params = this.formatSearchParams();
         this.loadReviewList(params, property);
+    }
+
+    /**
+     * @callback
+     * @desc 选中列表中的数据
+     * @param value 
+     */
+    checkAllList(value: boolean) {
+        this.policyReviewList.forEach(item => (this.mapOfCheckedId[item.id] = value));
+        this.refreshStatus();
+    }
+
+    refreshStatus() {
+        this.isAllDisplayDataChecked = this.policyReviewList.every(item => this.mapOfCheckedId[item.id]);
+        this.isIndeterminate = this.policyReviewList.some(item => this.mapOfCheckedId[item.id]) && !this.isAllDisplayDataChecked;
+        this.computedCanPrint();
+        this.updatePrintListData();
+    }
+
+    /**
+     * @func
+     * @desc 计算canDeleteGift的值
+     */
+    computedCanPrint() {
+        this.canPrint = this.policyReviewList.some(item => this.mapOfCheckedId[item.id]);
+    }
+
+    /**
+     * @func
+     * @desc 更新将要打印的数据
+     */
+    updatePrintListData() {
+        this.printList = this.policyReviewList.filter(item => this.mapOfCheckedId[item.id]);
+        console.log(this.printList);
     }
 
     ngOnDestroy() {}
