@@ -69,6 +69,7 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.setSearchListModelValue();
         this.loadTenantList();
         this.loadSalesMember();
         this.search();
@@ -218,6 +219,62 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
     }
 
     /**
+     * @func
+     * @desc 设置搜索参数字段的值
+     * @param searchListModel 
+     */
+    setSearchListModelValue() {
+        const cacheValue = this.readPolicyReviewSearchParams();
+
+        if (cacheValue) {
+            const { searchParams, pageInfo } = cacheValue;
+            Object.assign(this.searchListModel, {
+                ...searchParams
+            });
+
+            const { total, pageSize, pageIndex } = pageInfo;
+            this.pageInfo.total = total;
+            this.pageInfo.pageSize = pageSize;
+            this.pageInfo.pageIndex = pageIndex;
+        }
+    }
+
+    /**
+     * @func
+     * @desc 缓存保单审核查询条件
+     */
+    savePolicyReviewSearchParams() {
+        const cache = {
+            searchParams: {
+                ...this.searchListModel
+            },
+            pageInfo: {
+                ...this.pageInfo
+            },
+            canRead: false
+        };
+
+        this.localCache.set(LocalStorageItemName.POLICYREVIEWSEARCHPARAMS, cache);
+    }
+
+    /**
+     * @func
+     * @desc 读取保单审核查询条件缓存
+     */
+    readPolicyReviewSearchParams() {
+        const cache = this.localCache.get(LocalStorageItemName.POLICYREVIEWSEARCHPARAMS);
+        const { canRead = false } = cache && cache['value'] || {};
+
+        if (canRead) {
+            /** 移除缓存 */
+            this.localCache.remove(LocalStorageItemName.POLICYREVIEWSEARCHPARAMS);
+            return cache['value'];
+        }
+
+        return null;
+    }
+
+    /**
      * @callback
      * @desc 展示详情信息
      * @param policyReviewItem 
@@ -229,6 +286,7 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
         };
 
         this.localCache.set(LocalStorageItemName.POLICYREVIEW, cache);
+        this.savePolicyReviewSearchParams();
         this.router.navigate(['/policyReview/list/detail']);
     }
 

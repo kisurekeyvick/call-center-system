@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
 import LocalStorageService from 'src/app/core/cache/local-storage';
 import { SuccessSubmitService } from '../success-submit.service';
-import { of } from 'rxjs';
+import { of, fromEvent, Subscription } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { usageList, companyList, IGiftItem } from './success-submit-detail.component.config';
 import { findValueName } from 'src/app/core/utils/function';
@@ -32,6 +32,8 @@ export class SuccessSubmitDetailComponent implements OnInit, OnDestroy {
     loadedDetailInfo: ICommon;
     /** 赠品 */
     giftList: IGiftItem[];
+    /** 页面popstate */
+    popstate$: Subscription;
 
     constructor(
         private router: Router,
@@ -131,8 +133,15 @@ export class SuccessSubmitDetailComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.listenPopStateChange();
         this.loadGiftList().finally(() => {
             this.loadSuccessSubmitItemInfo();
+        });
+    }
+
+    listenPopStateChange() {
+        this.popstate$ = fromEvent(window, 'popstate').subscribe(() => {
+            this.changeSearchParamsCache();
         });
     }
 
@@ -261,7 +270,25 @@ export class SuccessSubmitDetailComponent implements OnInit, OnDestroy {
                 receiptRemarks
             }
         });
+    }
 
+    /**
+     * @func
+     * @desc 修改缓存的查询条件
+     */
+    changeSearchParamsCache() {
+        /** 详情在返回列表页之前，需要重新定义一下缓存，将canRead字段设置为true可读 */
+        const cache = this.localCache.get(LocalStorageItemName.SUCCESSSUBMISEARCHPARAMS);
+        const { canRead = null } = cache && cache['value'] || {};
+
+        if (canRead === false) {
+            const cacheAgain = {
+                ...cache['value'],
+                canRead: true
+            };
+
+            this.localCache.set(LocalStorageItemName.SUCCESSSUBMISEARCHPARAMS, cacheAgain);
+        }
     }
 
     /**
@@ -269,8 +296,12 @@ export class SuccessSubmitDetailComponent implements OnInit, OnDestroy {
      * @desc 关闭
      */
     back() {
+        this.changeSearchParamsCache();
+
         this.router.navigate(['/successSubmit/list']);
     }
 
-    ngOnDestroy() {}
+    ngOnDestroy() {
+        this.popstate$ && this.popstate$.unsubscribe();
+    }
 }

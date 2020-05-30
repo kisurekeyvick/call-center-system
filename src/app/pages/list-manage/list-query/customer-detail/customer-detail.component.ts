@@ -8,7 +8,7 @@ import { ISourceCache, ICustomerItem, IDefeatReasonItem, IGiftItem, insList, IIn
 import { dictionary } from 'src/app/shared/dictionary/dictionary';
 import { ListManageService } from '../../list-manage.service';
 import { catchError } from 'rxjs/operators';
-import { of, Subject } from 'rxjs';
+import { of, Subject, fromEvent, Subscription } from 'rxjs';
 import { DefeatSubmitModalComponent } from '../../modal/defeat-submit-modal/defeat-submit-modal.component';
 import { validIDCardValue, validPhoneValue, validCarNoValue, priceFormat, reversePriceFormat, numberToFixed, findValueName } from 'src/app/core/utils/function';
 import { TrackingSubmitModalComponent } from '../../modal/tracking-submit-modal/tracking-submit-modal.component';
@@ -66,6 +66,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
     pageOrigin: string;
     /** 是否展示侧边快捷栏 */
     canShowDetailFeature: boolean;
+    /** 页面popstate */
+    popstate$: Subscription;
 
     constructor(
         private modalService: NzModalService,
@@ -168,6 +170,14 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             if (res === true) {
                 this.successSubmitAction();
             }
+        });
+
+        this.listenPopStateChange();
+    }
+
+    listenPopStateChange() {
+        this.popstate$ = fromEvent(window, 'popstate').subscribe(() => {
+            this.changeSearchParamsCache();
         });
     }
 
@@ -907,14 +917,36 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
     }
 
     /**
+     * @func
+     * @desc 修改缓存的查询条件
+     */
+    changeSearchParamsCache() {
+        /** 详情在返回列表页之前，需要重新定义一下缓存，将canRead字段设置为true可读 */
+        const cache = this.localCache.get(LocalStorageItemName.LISTMANAGESEARCHPARAMS);
+        const { canRead = false } = cache && cache['value'] || {};
+
+        if (!canRead) {
+            const cacheAgain = {
+                ...cache['value'],
+                canRead: true
+            };
+
+            this.localCache.set(LocalStorageItemName.LISTMANAGESEARCHPARAMS, cacheAgain);
+        }
+    }
+
+    /**
      * @callback
      * @desc 返回列表页
      */
     back() {
+        this.changeSearchParamsCache();
+
         this.router.navigate(['/listManage/query']);
     }
 
     ngOnDestroy() {
         this.successSubmitSubject$.unsubscribe();
+        this.popstate$ && this.popstate$.unsubscribe();
     }
 }

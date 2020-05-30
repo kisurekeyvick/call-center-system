@@ -89,6 +89,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.setSearchListModelValue();
         this.loadSalesMember();
         const userCacheInfo = this.localCache.get(LocalStorageItemName.USERPROFILE);
         this.currentUser = userCacheInfo && userCacheInfo['value'] || {};
@@ -386,6 +387,62 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     }
 
     /**
+     * @func
+     * @desc 设置搜索参数字段的值
+     * @param searchListModel 
+     */
+    setSearchListModelValue() {
+        const cacheValue = this.readCustomerSearchParams();
+
+        if (cacheValue) {
+            const { searchParams, pageInfo } = cacheValue;
+            Object.assign(this.searchListModel, {
+                ...searchParams
+            });
+
+            const { total, pageSize, pageIndex } = pageInfo;
+            this.pageInfo.total = total;
+            this.pageInfo.pageSize = pageSize;
+            this.pageInfo.pageIndex = pageIndex;
+        }
+    }
+
+    /**
+     * @func
+     * @desc 缓存保单审核查询条件
+     */
+    saveCustomerSearchParams() {
+        const cache = {
+            searchParams: {
+                ...this.searchListModel
+            },
+            pageInfo: {
+                ...this.pageInfo
+            },
+            canRead: false
+        };
+
+        this.localCache.set(LocalStorageItemName.CUSTOMERSEARCHPARAMS, cache);
+    }
+
+    /**
+     * @func
+     * @desc 读取保单审核查询条件缓存
+     */
+    readCustomerSearchParams() {
+        const cache = this.localCache.get(LocalStorageItemName.CUSTOMERSEARCHPARAMS);
+        const { canRead = false } = cache && cache['value'] || {};
+
+        if (canRead) {
+            /** 移除缓存 */
+            this.localCache.remove(LocalStorageItemName.CUSTOMERSEARCHPARAMS);
+            return cache['value'];
+        }
+
+        return null;
+    }
+
+    /**
      * @callback
      * @desc 展示客户详情信息
      * @param customer 
@@ -398,6 +455,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
         };
 
         this.localCache.set(LocalStorageItemName.CUSTOMERDETAIL, cache);
+        this.saveCustomerSearchParams();
         this.router.navigate(['/customer/list', 'detail']);
     }
 

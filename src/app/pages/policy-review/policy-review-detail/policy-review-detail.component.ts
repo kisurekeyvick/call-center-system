@@ -6,7 +6,7 @@ import { RegisterAgainModalComponent } from '../modal/register-again/register-ag
 import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
 import LocalStorageService from 'src/app/core/cache/local-storage';
 import { PolicyReviewService } from '../policy-review.service';
-import { of, Subject } from 'rxjs';
+import { of, Subject, Observable, fromEvent, Subscription } from 'rxjs';
 import { catchError, debounceTime } from 'rxjs/operators';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { usageList, companyList, insList, IGiftItem, customerDetailInfo } from './policy-review-detail.component.config';
@@ -52,6 +52,8 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy, DoCheck {
     detailInfo: IDetailInfo;
     /** 开始更新静态保单数据 */
     uploadDetailInfo$: Subject<boolean> = new Subject();
+    /** 页面popstate */
+    popstate$: Subscription;
 
     constructor(
         private modalService: NzModalService,
@@ -139,13 +141,20 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy, DoCheck {
         this.uploadDetailInfo$.pipe(
             debounceTime(1000)
         ).subscribe((res: boolean) => {
-            console.log('开始更新数据了');
             res && this.setModuleValue();
-        })
+        });
+
+        this.listenPopStateChange();
     }
 
     ngDoCheck() {
         this.uploadDetailInfo$.next(true);
+    }
+
+    listenPopStateChange() {
+        this.popstate$ = fromEvent(window, 'popstate').subscribe(() => {
+            this.changeSearchParamsCache();
+        });
     }
 
     /**
@@ -637,7 +646,8 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy, DoCheck {
         modal.afterClose.subscribe((res: string) => {
             if (res === 'success') {
                 this.message.create('success', `通过成功`);
-                this.loadPolicyInfo();
+                this.back();
+                // this.loadPolicyInfo();
             }
         });
     }
@@ -703,9 +713,10 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy, DoCheck {
                             this.message.warning(res.message);
                         } else {
                             this.message.create('success', '退单成功');
+                            this.back();
                         }
 
-                        this.loadPolicyInfo();
+                        // this.loadPolicyInfo();
                     }
                 });
             },
@@ -716,12 +727,35 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy, DoCheck {
     }
 
     /**
+     * @func
+     * @desc 修改缓存的查询条件
+     */
+    changeSearchParamsCache() {
+        /** 详情在返回列表页之前，需要重新定义一下缓存，将canRead字段设置为true可读 */
+        const cache = this.localCache.get(LocalStorageItemName.POLICYREVIEWSEARCHPARAMS);
+        const { canRead = null } = cache && cache['value'] || {};
+
+        if (canRead === false) {
+            const cacheAgain = {
+                ...cache['value'],
+                canRead: true
+            };
+
+            this.localCache.set(LocalStorageItemName.POLICYREVIEWSEARCHPARAMS, cacheAgain);
+        }
+    }
+
+    /**
      * @callback
      * @desc 关闭
      */
     back() {
+        this.changeSearchParamsCache();
+
         this.router.navigate(['/policyReview/list']);
     }
 
-    ngOnDestroy() {}
+    ngOnDestroy() {
+        this.popstate$ && this.popstate$.unsubscribe();
+    }
 }

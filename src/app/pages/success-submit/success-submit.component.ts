@@ -68,6 +68,7 @@ export class SuccessSubmitComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.setSearchListModelValue();
         this.loadSalesMember();
         this.search();
     }
@@ -189,6 +190,62 @@ export class SuccessSubmitComponent implements OnInit, OnDestroy {
     }
 
     /**
+     * @func
+     * @desc 设置搜索参数字段的值
+     * @param searchListModel 
+     */
+    setSearchListModelValue() {
+        const cacheValue = this.readSuccesssubmitSearchParams();
+
+        if (cacheValue) {
+            const { searchParams, pageInfo } = cacheValue;
+            Object.assign(this.searchListModel, {
+                ...searchParams
+            });
+
+            const { total, pageSize, pageIndex } = pageInfo;
+            this.pageInfo.total = total;
+            this.pageInfo.pageSize = pageSize;
+            this.pageInfo.pageIndex = pageIndex;
+        }
+    }
+
+    /**
+     * @func
+     * @desc 缓存保单审核查询条件
+     */
+    saveSuccesssubmitSearchParams() {
+        const cache = {
+            searchParams: {
+                ...this.searchListModel
+            },
+            pageInfo: {
+                ...this.pageInfo
+            },
+            canRead: false
+        };
+
+        this.localCache.set(LocalStorageItemName.SUCCESSSUBMISEARCHPARAMS, cache);
+    }
+
+    /**
+     * @func
+     * @desc 读取保单审核查询条件缓存
+     */
+    readSuccesssubmitSearchParams() {
+        const cache = this.localCache.get(LocalStorageItemName.SUCCESSSUBMISEARCHPARAMS);
+        const { canRead = false } = cache && cache['value'] || {};
+
+        if (canRead) {
+            /** 移除缓存 */
+            this.localCache.remove(LocalStorageItemName.SUCCESSSUBMISEARCHPARAMS);
+            return cache['value'];
+        }
+
+        return null;
+    }
+
+    /**
      * @callback
      * @desc 展示详情信息
      * @param policyReviewItem 
@@ -200,6 +257,7 @@ export class SuccessSubmitComponent implements OnInit, OnDestroy {
         };
 
         this.localCache.set(LocalStorageItemName.SUCCESSSUBMITREVIEW, cache);
+        this.saveSuccesssubmitSearchParams();
         this.router.navigate(['/successSubmit/list/detail']);
     }
 
