@@ -256,10 +256,10 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
                 </body>
             </html>
         `);
-        // WindowPrt.document.close();
-        // WindowPrt.focus();
-        // WindowPrt.print();
-        // WindowPrt.close();
+        WindowPrt.document.close();
+        WindowPrt.focus();
+        WindowPrt.print();
+        WindowPrt.close();
     }
 
     /**
