@@ -187,7 +187,7 @@ export const printStyle = `
     }
 
   .print-item > div {
-      width: 50%;
+      width: 100%;
       flex: 0 0 auto;
     float: left;
   }
@@ -243,13 +243,13 @@ export const printStyle = `
   .nzFormItem .nzFormLabel,
   .nzFormItem .nzFormControl {
     line-height: 30px;
-    height: 30px;
+    min-height: 30px;
   }
   .nzFormItem .nzFormControl {
     padding: 0px 11px;
     white-space: nowrap;
   }
   .nzFormItem .nzFormControl.scroll-x {
-    overflow-y: hidden;
+    white-space: normal;
   }
 `;

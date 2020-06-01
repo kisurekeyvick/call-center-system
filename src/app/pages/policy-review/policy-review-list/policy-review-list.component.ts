@@ -235,7 +235,7 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
      */
     print() {
         const content = this.el.nativeElement.querySelector('.print-box');
-        const WindowPrt = window.open('', '_blank', 'left=0,top=0,width=1000,height=auto,toolbar=0,scrollbars=0,status=0');
+        const WindowPrt = window.open('', '_blank', 'left=0,top=0,width=600,height=auto,toolbar=0,scrollbars=0,status=0');
         WindowPrt.document.write(`
             <html>
                 <head>
