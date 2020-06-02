@@ -88,18 +88,24 @@
                     <div class="table-div thead">
                         <span>车主</span>
                         <span>车牌号</span>
-                        <span>礼品</span>
+                        <span>保险公司</span>
                         <span>联系电话</span>
                         <span>业务</span>
                     </div>
                     <div class="table-div tbody">
                         <span>{{ item.customerName }}</span>
                         <span>{{ item.carNo }}</span>
-                        <span>{{ item.giftName }}</span>
+                        <span>{{ item.companyName }}</span>
                         <span>{{ item.receiptPhone }}</span>
                         <span>{{ item.userName }}</span>
                     </div>
 
+                    <div class="table-tr" nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">礼品：</span>
+                            <span class="nzFormControl">{{ item.giftName }}</span>
+                        </p>
+                    </div>
                     <div class="table-tr" nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
                         <p class="nzFormItem">
                             <span class="nzFormLabel">派送地址：</span>
