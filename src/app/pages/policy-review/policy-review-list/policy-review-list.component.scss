@@ -9,6 +9,10 @@
 
     .search-list-table {
         @include tableListStyle;
+
+        .confirm-order-info {
+            color: #ff4d4f;
+        }
     }
 
     .print-box {

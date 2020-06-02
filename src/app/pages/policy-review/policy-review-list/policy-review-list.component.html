@@ -61,7 +61,7 @@
                             <ng-container *ngIf="data.orderState === '2'">
                                 <a (click)="showDetail(data)">查看</a>
                                 <nz-divider nzType="vertical"></nz-divider>
-                                <a (click)="confirmOutDocInfo(data)">确认出单信息</a>
+                                <a (click)="confirmOutDocInfo(data)" class="confirm-order-info">确认出单信息</a>
                             </ng-container>
                             <!-- 内勤审评失败 -->
                             <ng-container *ngIf="data.orderState === '3'">
@@ -85,45 +85,36 @@
         <div class="print-box" style="display: none;">
             <ng-container *ngFor="let item of printList">
                 <div nz-row class="print-item">
-                    <div nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
-                        <p class="nzFormItem">
-                            <span class="nzFormLabel">派送时间：</span>
-                            <span class="nzFormControl">{{ item.receiptDate | date:'yyyy-MM-dd'}}</span>
-                        </p>
+                    <div class="table-div thead">
+                        <span>车主</span>
+                        <span>车牌号</span>
+                        <span>礼品</span>
+                        <span>联系电话</span>
+                        <span>业务</span>
                     </div>
-                    <div nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
-                        <p class="nzFormItem">
-                            <span class="nzFormLabel">收件人：</span>
-                            <span class="nzFormControl">{{ item.receiptName }}</span>
-                        </p>
+                    <div class="table-div tbody">
+                        <span>{{ item.customerName }}</span>
+                        <span>{{ item.carNo }}</span>
+                        <span>{{ item.giftName }}</span>
+                        <span>{{ item.receiptPhone }}</span>
+                        <span>{{ item.userName }}</span>
                     </div>
-                    <div nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
+
+                    <div class="table-tr" nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
                         <p class="nzFormItem">
-                            <span class="nzFormLabel">联系方式：</span>
-                            <span class="nzFormControl">{{ item.receiptPhone }}</span>
-                        </p>
-                    </div>
-                    <div nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
-                        <p class="nzFormItem">
-                            <span class="nzFormLabel">寄件人：</span>
-                            <span class="nzFormControl">{{ item.sender }}</span>
-                        </p>
-                    </div>
-                    <div nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
-                        <p class="nzFormItem">
-                            <span class="nzFormLabel">礼品：</span>
-                            <span class="nzFormControl">{{ item.giftName }}</span>
-                        </p>
-                    </div>
-                    <div nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
-                        <p class="nzFormItem">
-                            <span class="nzFormLabel">地址：</span>
+                            <span class="nzFormLabel">派送地址：</span>
                             <span class="nzFormControl">{{ item.receiptAddress }}</span>
                         </p>
                     </div>
-                    <div nz-col nzXs="24" nzSm="24" nzGutter="0">
+                    <div class="table-tr" nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
                         <p class="nzFormItem">
-                            <span class="nzFormLabel">备注：</span>
+                            <span class="nzFormLabel">派送日期：</span>
+                            <span class="nzFormControl">{{ item.receiptDate | date:'yyyy-MM-dd'}}</span>
+                        </p>
+                    </div>
+                    <div class="table-tr" nz-col nzXs="24" nzSm="24" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">派送备注：</span>
                             <span class="nzFormControl scroll-x">{{ item.receiptRemarks }}</span>
                         </p>
                     </div>

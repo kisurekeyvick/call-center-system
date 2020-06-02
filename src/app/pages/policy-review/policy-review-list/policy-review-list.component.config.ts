@@ -172,24 +172,41 @@ export interface ISalesman {
 
 export const printStyle = `
 .print-item {
-    margin-bottom: 24px;
     display: block;
-    border: 1px solid #ddd;
+    border: 1px solid #000;
+    width: 600px;
+    margin: 0 auto;
+    margin-bottom: 24px;
   }
 
   .print-item::after {
-        clear: both;
-        overflow: hidden;
-        content: '';
-        display:block;
-        height: 0;
-        content: '';
-    }
+      clear: both;
+      overflow: hidden;
+      content: '';
+      display:block;
+      height: 0;
+      content: '';
+  }
 
-  .print-item > div {
+  .print-item > div.table-tr,
+  .print-item > div.table-div {
       width: 100%;
       flex: 0 0 auto;
+      float: left;
+  }
+
+  div.table-div span {
+    width: 119px;
+    display:inline-block;
+    border-bottom: 1px solid #000;
+    line-height: 29px;
+    height: 29px;
     float: left;
+    text-align: center;
+  }
+
+  div.table-div > span:not(:last-child) {
+    border-right: 1px solid #000;
   }
 
   .nzFormItem {
@@ -201,18 +218,13 @@ export const printStyle = `
     line-height: 30px;
   }
   .nzFormItem .nzFormLabel {
-    background-color: #e5edf7;
-    text-align: right;
-    border-bottom: 1px solid #ddd;
+    text-align: center;
+    border-bottom: 1px solid #000;
+    border-right: 1px solid #000;
   }
   .nzFormItem .nzFormControl {
     flex: 1;
-    border-bottom: 1px solid #ddd;
-  }
-
-  .print-item > div:last-child .nzFormLabel,
-  .print-item > div:last-child .nzFormControl {
-      border: none;
+    border-bottom: 1px solid #000;
   }
 
   .nzFormItem .nzFormControl .ant-input {
@@ -235,7 +247,7 @@ export const printStyle = `
     box-shadow: none;
   }
   .nzFormItem .nzFormLabel {
-    flex-basis: 90px;
+    flex-basis: 119px;
   }
   .nzFormItem .nzFormLabel.ins-label {
     flex-basis: 160px;
@@ -251,5 +263,10 @@ export const printStyle = `
   }
   .nzFormItem .nzFormControl.scroll-x {
     white-space: normal;
+  }
+
+  .print-item > div.table-tr:last-child .nzFormLabel,
+  .print-item > div.table-tr:last-child .nzFormControl{
+    border-bottom: 0;
   }
 `;
