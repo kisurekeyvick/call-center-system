@@ -195,6 +195,18 @@ export const printStyle = `
       float: left;
   }
 
+  .print-item > div.table-tr.gift {
+    width: 240px;
+  }
+
+  .print-item > div.table-tr.gift .nzFormItem {
+    border-right: 1px solid #000;
+  }
+
+  .print-item > div.table-tr.date {
+    width: 360px;
+  }
+
   div.table-div span {
     width: 119px;
     display:inline-block;

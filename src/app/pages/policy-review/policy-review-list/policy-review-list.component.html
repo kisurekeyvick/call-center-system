@@ -100,22 +100,22 @@
                         <span>{{ item.userName }}</span>
                     </div>
 
-                    <div class="table-tr" nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
+                    <div class="table-tr gift" nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
                         <p class="nzFormItem">
                             <span class="nzFormLabel">礼品：</span>
                             <span class="nzFormControl">{{ item.giftName }}</span>
+                        </p>
+                    </div>
+                    <div class="table-tr date" nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
+                        <p class="nzFormItem">
+                            <span class="nzFormLabel">派送日期：</span>
+                            <span class="nzFormControl">{{ item.receiptDate | date:'yyyy-MM-dd'}}</span>
                         </p>
                     </div>
                     <div class="table-tr" nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
                         <p class="nzFormItem">
                             <span class="nzFormLabel">派送地址：</span>
                             <span class="nzFormControl">{{ item.receiptAddress }}</span>
-                        </p>
-                    </div>
-                    <div class="table-tr" nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
-                        <p class="nzFormItem">
-                            <span class="nzFormLabel">派送日期：</span>
-                            <span class="nzFormControl">{{ item.receiptDate | date:'yyyy-MM-dd'}}</span>
                         </p>
                     </div>
                     <div class="table-tr" nz-col nzXs="24" nzSm="24" nzGutter="0">
