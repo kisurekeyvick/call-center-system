@@ -139,6 +139,8 @@ export const tableConfig = {
         { name: '提交日期' },
         { name: '审核状态' },
         { name: '出单日期' },
+        { name: '打印状态' },
+        { name: '付款状态' },
         { name: '操作', type: 'fixed-right' }
     ]
 };

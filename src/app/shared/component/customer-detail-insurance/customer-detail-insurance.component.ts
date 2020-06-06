@@ -7,7 +7,7 @@ import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angu
 })
 export class CustomerDetailInsuranceComponent implements OnInit, OnDestroy {
     @Input() insList: any[] = [];
-
+    @Input() showCheckbox: boolean = false;
     @Output() onPayPremiumChange: EventEmitter<any> = new EventEmitter<any>();
 
     constructor() {

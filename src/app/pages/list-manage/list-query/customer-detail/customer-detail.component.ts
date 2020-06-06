@@ -635,11 +635,12 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
     formatRequestInsValue(): Array<any> {
         let value = [];
         value = this.insList.filter(list => list.value.hasCurrentIns).map((list: IInsList) => {
-            const { coverageValue, materialsType, payPremium } = list.value;
+            const { coverageValue, materialsType, payPremium, checked } = list.value;
 
             return {
                 id: list.id || null,
                 code: list.code,
+                checked,
                 coverage: coverageValue ? priceFormat(coverageValue) : '',
                 payPremium: payPremium,
                 materialsType,
@@ -859,6 +860,44 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             },
             nzOnCancel: () => {
                 this.message.info('您已取消操作');
+            }
+        });
+    }
+
+    /**
+     * @func
+     * @desc 
+     */
+    formatInsParams(): Array<any> {
+        let insList = this.formatRequestInsValue();
+        console.log('hello kisure');
+        insList = insList.filter(ins => ins.checked);
+
+        return insList;
+    }
+
+    /**
+     * @callback
+     * @desc 报价
+     */
+    quote() {
+        const params = {
+            ...this.formatRequestParams(),
+            quoteCommercialInsuranceDetailList: this.formatInsParams()
+        };
+
+        this.isLoading = true;
+        this.customerService.quote(params).pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            this.isLoading = false;
+
+            if (!(res instanceof TypeError)) {
+                if (res.code !== '30000' || res.code !== '30010') {
+                    this.message.error(res.message || res.desc);
+                } else {
+                    this.message.success('报价成功');
+                }
             }
         });
     }

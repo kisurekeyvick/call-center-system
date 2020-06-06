@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 /** 环境地址列表 */
 export const environment = {
-  SERVER_URL: 'http://281e42459f.zicp.vip:23081/',
+  SERVER_URL: 'http://281e42459f.zicp.vip:80/',
   appCode: '',
   production: false,
   envType: 'dev'

@@ -52,6 +52,8 @@
                         <td>{{data.orderCommitTimeFormat}}</td>
                         <td>{{data.orderStateName}}</td>
                         <td>{{data.orderDateTimeFormat}}</td>
+                        <td>{{data.isPrint ? '已打印' : '未打印'}}</td>
+                        <td>{{data.isPay ? '已付款' : '未付款'}}</td>
                         <td [nzRight]='true' class="sticky-ele">
                             <!-- 已经提交 -->
                             <ng-container *ngIf="data.orderState === '1'">
@@ -62,6 +64,10 @@
                                 <a (click)="showDetail(data)">查看</a>
                                 <nz-divider nzType="vertical"></nz-divider>
                                 <a (click)="confirmOutDocInfo(data)" class="confirm-order-info">确认出单信息</a>
+                                <ng-container *ngIf="!data.isPay">
+                                    <nz-divider nzType="vertical"></nz-divider>
+                                    <a (click)="confirmPayment(data)">确认付款</a>
+                                </ng-container>
                             </ng-container>
                             <!-- 内勤审评失败 -->
                             <ng-container *ngIf="data.orderState === '3'">

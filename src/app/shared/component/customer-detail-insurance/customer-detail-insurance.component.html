@@ -3,7 +3,15 @@
         <ng-container *ngFor="let data of insList; let i = index">
             <div nz-row nz-col nzXs="24" nzSm="24" nzLg="12" nzXl="8">
                 <nz-form-item class="nzFormItem">
-                    <nz-form-label nz-col nzXs="8" nzFor="customerName" class="nzFormLabel">{{ data.name }}</nz-form-label>
+                    <nz-form-label nz-col nzXs="8" nzFor="customerName" class="nzFormLabel checkbox-label-box">
+                        <ng-container *ngIf="showCheckbox; else labelTpl">
+                            <label nz-checkbox [name]="data.code + 'label' + i"
+                                [(ngModel)]="data.value.checked" >{{ data.name }}</label>
+                        </ng-container>
+                        <ng-template #labelTpl>
+                            {{ data.name }}
+                        </ng-template>
+                    </nz-form-label>
                     <nz-form-control nz-col nzXs="16" class="nzFormControl">
                         <span nz-col nzXs="15" class="dataType">
                             <ng-container [ngSwitch]="data.type">
