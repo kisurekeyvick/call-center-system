@@ -325,7 +325,7 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy, DoCheck {
      * @param detailInfo 
      */
     setFormGroupValue(detailInfo): Promise<boolean> {
-        const { customerOrder, quoteInsurance } = detailInfo;
+        const { customerOrder, quoteInsurance = {} } = detailInfo;
         const { receiptName, receiptPhone, sender, receiptRemarks, receiptDate, companyCode, 
             createUser, customerName, idCard, customerPhone, customerAddress,
             carNo, brandName, seatNumber, registerTime, usage, vinNo, engineNo, purchasePrice,

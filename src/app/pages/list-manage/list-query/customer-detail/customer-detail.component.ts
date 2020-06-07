@@ -4,7 +4,8 @@ import { NzModalService, NzMessageService, NzModalRef } from 'ng-zorro-antd';
 import LocalStorageService from 'src/app/core/cache/local-storage';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
-import { ISourceCache, ICustomerItem, IDefeatReasonItem, IGiftItem, insList, IInsList } from './customer-detail.component.config';
+import { ISourceCache, ICustomerItem, IDefeatReasonItem, IGiftItem, insList, IInsList,
+    IQuoteInsurance, ICommercialInsurance } from './customer-detail.component.config';
 import { dictionary } from 'src/app/shared/dictionary/dictionary';
 import { ListManageService } from '../../list-manage.service';
 import { catchError } from 'rxjs/operators';
@@ -866,14 +867,14 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
 
     /**
      * @func
-     * @desc 
+     * @desc 重新整理险种参数，取出未选中的险种
      */
     formatInsParams(): Array<any> {
-        let insList = this.formatRequestInsValue();
-        console.log('hello kisure');
-        insList = insList.filter(ins => ins.checked);
+        let insListVal = this.formatRequestInsValue();
 
-        return insList;
+        insListVal = insListVal.filter(ins => ins.checked);
+
+        return insListVal;
     }
 
     /**
@@ -897,7 +898,32 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                     this.message.error(res.message || res.desc);
                 } else {
                     this.message.success('报价成功');
+                    const { commercialInsurance } = res.result;
+                    this.setQuoteInfoToInsModel(commercialInsurance);
+                    this.saveSubmit();
                 }
+            }
+        });
+    }
+
+    /**
+     * @func
+     * @desc 将获取的报价信息 存储到inslist中
+     * @param commercialInsurance 
+     */
+    setQuoteInfoToInsModel(commercialInsurance: ICommercialInsurance) {
+        const { insurances } = commercialInsurance;
+        
+        insurances.forEach(insItem => {
+            const insListIndex = this.insList.findIndex(item => item.code === insItem.code);
+            if (insListIndex > 0) {
+                const { value } = this.insList[insListIndex];
+                const { payPremium, coverage } = insItem;
+                this.insList[insListIndex].value = {
+                    ...value,
+                    payPremium: +(payPremium),
+                    coverageValue: coverage
+                };
             }
         });
     }
@@ -964,7 +990,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         const cache = this.localCache.get(LocalStorageItemName.LISTMANAGESEARCHPARAMS);
         const { canRead = false } = cache && cache['value'] || {};
 
-        if (!canRead) {
+        if (!canRead && cache) {
             const cacheAgain = {
                 ...cache['value'],
                 canRead: true
