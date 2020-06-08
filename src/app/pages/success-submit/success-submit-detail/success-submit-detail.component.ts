@@ -199,7 +199,7 @@ export class SuccessSubmitDetailComponent implements OnInit, OnDestroy {
      * @param detailInfo 
      */
     setModuleValue(detailInfo) {
-        const { customerOrder, quoteCommercialInsuranceDetailList, quoteInsurance } = detailInfo;
+        const { customerOrder, quoteCommercialInsuranceDetailList, quoteInsurance = {} } = detailInfo;
         const { companyCode, createUser, customerName, idCard, customerPhone, customerAddress,
             carNo, brandName, seatNumber, registerTime, usage, vinNo, engineNo, purchasePrice,
             commercialStartTime, commercialEndTime, compulsoryStartTime, compulsoryEndTime,

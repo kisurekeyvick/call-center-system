@@ -40,3 +40,24 @@ export interface IGiftItem {
     [key: string]: any;
 }
 
+export interface IQuoteInsurance {
+    code: string;
+    kindCode: string;
+    name: string;
+    coverage: string;
+    quantity: string;
+    rate: string;
+    standardPremium: string;
+    disCount: string;
+    payPremium: string;
+    netPremium: string;
+}
+
+export interface ICommercialInsurance {
+    commercialStartTime: string;
+    commercialEndTime: string;
+    sumBenchPremium: string;
+    disCount: string;
+    sumPremium: string;
+    insurances: IQuoteInsurance[];
+}

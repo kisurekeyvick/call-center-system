@@ -84,7 +84,7 @@ export class ListManageService {
     }
 
     /** 报价 */
-    quote(params: ICommon): Observable<any> {
+    quote(params: ICommon = {}): Observable<any> {
         return this.http.post(`api/quote/quote`, params);
     }
 }

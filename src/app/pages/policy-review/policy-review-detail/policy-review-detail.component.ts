@@ -124,8 +124,8 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy, DoCheck {
             /** 赠品 */
             giftId: [null], 
             /** 时间信息 */
-            compulsoryTime: [null],
-            commercialTime: [null],
+            compulsoryTime: [new Date(0, 0, 0, 0, 0, 0), new Date(0, 0, 0, 0, 0, 0)],
+            commercialTime: [new Date(0, 0, 0, 0, 0, 0), new Date(0, 0, 0, 0, 0, 0)],
             /** 派送信息 */
             receiptDate: [null],
             receiptName: [null],
@@ -325,7 +325,7 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy, DoCheck {
      * @param detailInfo 
      */
     setFormGroupValue(detailInfo): Promise<boolean> {
-        const { customerOrder, quoteInsurance } = detailInfo;
+        const { customerOrder, quoteInsurance = {} } = detailInfo;
         const { receiptName, receiptPhone, sender, receiptRemarks, receiptDate, companyCode, 
             createUser, customerName, idCard, customerPhone, customerAddress,
             carNo, brandName, seatNumber, registerTime, usage, vinNo, engineNo, purchasePrice,

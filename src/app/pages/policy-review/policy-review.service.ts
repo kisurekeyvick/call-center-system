@@ -49,7 +49,7 @@ export class PolicyReviewService {
         return this.http.post(`api/gift/queryAll`, params);
     }
 
-    /** 更新打印 更新付款 */
+    /** 更新打印/付款 */
     updateBatchCustomerOrder(params: ICommon = {}): Observable<any> {
         return this.http.post(`api/order/updateBatchCustomerOrder`, params);
     }

@@ -371,15 +371,12 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
             nzOnOk: () => {
                 const params = {
                     idList: [policyReviewItem.id],
-                    type: 1
+                    type: '1'
                 };
 
-                this.isLoading = true;
                 this.policyReviewService.updateBatchCustomerOrder(params).pipe(
                     catchError(err => of(err))
                 ).subscribe(res => {
-                    this.isLoading = false;
-
                     if (!(res instanceof TypeError)) {
                         this.message.create('success', '确认成功');
                         this.pageInfo.pageIndex = 1;
