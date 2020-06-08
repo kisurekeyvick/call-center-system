@@ -82,4 +82,9 @@ export class ListManageService {
     queryImportList(params: ICommon): Observable<any> {
         return this.http.get(`api/customer/import-list`, { params });
     }
+
+    /** 报价 */
+    quote(params: ICommon): Observable<any> {
+        return this.http.post(`api/quote/quote`, params);
+    }
 }

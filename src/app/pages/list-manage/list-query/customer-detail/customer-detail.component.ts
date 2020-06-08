@@ -365,6 +365,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                             hasCurrentIns: true,
                             coverageValue: insItem.coverage && reversePriceFormat(insItem.coverage) || '',
                             payPremium: insItem.payPremium,
+                            checked: insItem.payPremium && true || false,
                             materialsType: insItem.materialsType
                         });
                     }
@@ -545,20 +546,6 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * @callback
-     * @desc 险种的check状态
-     * @param id 
-     * @param checked 
-     */
-    onInsItemChecked(id: number, checked: boolean) {
-        if (checked) {
-            this.setOfCheckedId.add(id);
-        } else {
-            this.setOfCheckedId.delete(id);
-        }
-    }
-
-    /**
      * @func
      * @desc format将要保存的参数
      */
@@ -635,11 +622,12 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
     formatRequestInsValue(): Array<any> {
         let value = [];
         value = this.insList.filter(list => list.value.hasCurrentIns).map((list: IInsList) => {
-            const { coverageValue, materialsType, payPremium } = list.value;
+            const { coverageValue, materialsType, payPremium, checked } = list.value;
 
             return {
                 id: list.id || null,
                 code: list.code,
+                checked,
                 coverage: coverageValue ? priceFormat(coverageValue) : '',
                 payPremium: payPremium,
                 materialsType,
@@ -647,6 +635,16 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         });
 
         return value;
+    }
+
+    /**
+     * @func
+     * @desc format 报价险种
+     */
+    formatQuoteInsValue(): Array<any> {
+        let insList = this.formatRequestInsValue();
+        insList = insList.filter(ins => ins.checked);
+        return insList;
     }
 
     /**
@@ -859,6 +857,33 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             },
             nzOnCancel: () => {
                 this.message.info('您已取消操作');
+            }
+        });
+    }
+
+    /**
+     * @callback
+     * @desc 报价
+     */
+    quote() {
+        const params = {
+            ...this.formatRequestParams(),
+            quoteCommercialInsuranceDetailList: this.formatQuoteInsValue()
+        };
+
+        console.log('请求的参数', params);
+        this.isLoading = true;
+        this.customerService.quote(params).pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            this.isLoading = false;
+
+            if (!(res instanceof TypeError)) {
+                if (res.code !== '30000') {
+                    this.message.error(res.message || res.desc);
+                } else {
+                    this.message.success('报价成功');
+                }
             }
         });
     }

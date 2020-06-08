@@ -33,3 +33,14 @@
         }
     }
 }
+
+:host ::ng-deep .customer-detail-insurance-container .component-customer-detail-insurance-label {
+    label>label {
+        width: 100%;
+
+        span.ant-checkbox {
+            float: left;
+            margin: 9px 0 0 10px;
+        }
+    }
+}

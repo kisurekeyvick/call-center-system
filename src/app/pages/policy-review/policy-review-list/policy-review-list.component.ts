@@ -360,6 +360,37 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
     }
 
     /**
+     * @callback
+     * @desc 确认付款
+     * @param policyReviewItem 
+     */
+    confirmPayment(policyReviewItem: IPolicyReviewItem) {
+        this.modalService.confirm({
+            nzTitle: '提示',
+            nzContent: '是否确认付款？',
+            nzOnOk: () => {
+                const params = {
+                    idList: [policyReviewItem.id],
+                    type: 1
+                };
+
+                this.isLoading = true;
+                this.policyReviewService.updateBatchCustomerOrder(params).pipe(
+                    catchError(err => of(err))
+                ).subscribe(res => {
+                    this.isLoading = false;
+
+                    if (!(res instanceof TypeError)) {
+                        this.message.create('success', '确认成功');
+                        this.pageInfo.pageIndex = 1;
+                        this.search();
+                    }
+                });
+            }
+        });
+    }
+
+    /**
      * @func
      * @desc 分页发生变化
      */
@@ -402,7 +433,6 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
      */
     updatePrintListData() {
         this.printList = this.policyReviewList.filter(item => this.mapOfCheckedId[item.id]);
-        console.log(this.printList);
     }
 
     ngOnDestroy() {}

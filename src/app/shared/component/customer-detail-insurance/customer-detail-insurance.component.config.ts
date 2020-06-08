@@ -171,19 +171,19 @@ export const insList: IInsList[] = [
     //         payPremium: null
     //     }
     // },
-    {
-        name: '新增设备损失险',
-        code: 'NewEquipmentCoverage',
-        id: 11,
-        hasCheckbox: true,
-        type: 'text',
-        value: {
-            hasCurrentIns: true,
-            checked: false,
-            coverageValue: '',
-            payPremium: null
-        }
-    },
+    // {
+    //     name: '新增设备损失险',
+    //     code: 'NewEquipmentCoverage',
+    //     id: 11,
+    //     hasCheckbox: true,
+    //     type: 'text',
+    //     value: {
+    //         hasCurrentIns: true,
+    //         checked: false,
+    //         coverageValue: '',
+    //         payPremium: null
+    //     }
+    // },
     {
         name: '不计免赔险',
         code: 'ExcludingDeductibleRiskRegardless',
