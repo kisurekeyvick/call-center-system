@@ -22,7 +22,7 @@
                                 </ng-container>
                                 <ng-container *ngSwitchCase="'autocomplete'">
                                     <input nz-input [(ngModel)]="data.value.coverageValue" [nzAutocomplete]="auto" [name]="data.code + 'coverageValue'"/>
-                                    <nz-autocomplete [nzDataSource]="data.config.options" #auto></nz-autocomplete>
+                                    <nz-autocomplete [nzWidth]="100" [nzDataSource]="data.config.options" #auto></nz-autocomplete>
                                 </ng-container>
                                 <ng-container *ngSwitchCase="'select-glass'">
                                     <nz-select nzShowSearch nzAllowClear [(ngModel)]="data.value.materialsType" [name]="data.code + i">

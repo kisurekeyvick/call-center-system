@@ -39,7 +39,7 @@
                     flex-basis: 110px;
 
                     &.ins-label {
-                        flex-basis: 160px;
+                        flex-basis: 145px;
                     }
                 }
             }
@@ -133,7 +133,7 @@
                         flex-basis: 90px;
                         
                         &.ins-label {
-                            flex-basis: 160px;
+                            flex-basis: 145px;
                         }
                     }
 
@@ -216,4 +216,11 @@
 
 :host ::ng-deep .policy-review-detail .nzFormControl-isDiscount .ant-form-item-control {
     padding-left: 12px;
+}
+
+:host ::ng-deep .policy-review-detail .nzFormControl textarea {
+    margin-bottom: 1px;
+    // max-height: 29px !important;
+    min-height: 29px !important;
+    line-height: 27px;
 }

@@ -104,7 +104,7 @@
                 flex-basis: 110px;
 
                 &.ins-label {
-                    flex-basis: 160px;
+                    flex-basis: 145px;
                 }
             }
         }
@@ -170,7 +170,7 @@
 
 :host ::ng-deep .customer-detail .customer-detail-form .nzFormControl textarea {
     margin-bottom: 1px;
-    max-height: 29px !important;
+    // max-height: 29px !important;
     min-height: 29px !important;
     line-height: 27px;
 }

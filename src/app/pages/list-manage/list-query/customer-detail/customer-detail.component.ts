@@ -141,8 +141,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                 /** 赠品 */
                 giftId: [null], 
                 /** 时间信息 */
-                compulsoryTime: [new Date(0, 0, 0, 0, 0, 0), new Date(0, 0, 0, 0, 0, 0)],
-                commercialTime: [new Date(0, 0, 0, 0, 0, 0), new Date(0, 0, 0, 0, 0, 0)],
+                compulsoryTime: [],
+                commercialTime: [],
                 /** 保单派送信息 */
                 receiptDate: [null],
                 receiptName: [null],
@@ -489,6 +489,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             this.validateForm.patchValue({
                 [formControlName]: [resetStartTime, resetEndTime]
             });
+            console.log('设置的值：', 'resetStartTime:', resetStartTime, 'resetEndTime:', resetEndTime);
         }
     }
 
