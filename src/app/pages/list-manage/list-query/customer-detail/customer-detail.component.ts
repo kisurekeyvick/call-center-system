@@ -512,7 +512,6 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
      * @desc 险种保费发生变化
      */
     payPremiumChange() {
-        console.log('险种金额计算开始');
         this.insItemChange();
     }
 
