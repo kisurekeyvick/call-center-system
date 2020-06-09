@@ -5,7 +5,7 @@ import LocalStorageService from 'src/app/core/cache/local-storage';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LocalStorageItemName } from 'src/app/core/cache/cache-menu';
 import { ISourceCache, ICustomerItem, IDefeatReasonItem, IGiftItem, insList, IInsList,
-    IQuoteInsurance, ICommercialInsurance } from './customer-detail.component.config';
+    IQuoteInsurance, ICommercialInsurance, IQuoteCommercialInsuranceDetailListItem } from './customer-detail.component.config';
 import { dictionary } from 'src/app/shared/dictionary/dictionary';
 import { ListManageService } from '../../list-manage.service';
 import { catchError } from 'rxjs/operators';
@@ -69,6 +69,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
     canShowDetailFeature: boolean;
     /** 页面popstate */
     popstate$: Subscription;
+    /** 报价信息 */
+    quoteInfo: string;
 
     constructor(
         private modalService: NzModalService,
@@ -94,6 +96,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         this.isLoading = false;
         this.formType = 'add';
         this.canShowDetailFeature = false;
+        this.quoteInfo = '';
     }
 
     ngOnInit() {
@@ -225,6 +228,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                 this.cacheCustomerInfo = res;
                 !this.cacheCustomerInfo.quoteInsurance && (this.cacheCustomerInfo.quoteInsurance = {});
                 this.setInsuranceListValue(res);
+                const { quoteInfo } = res['customer'];
+                this.quoteInfo = quoteInfo;
                 this.setFormGroupValue(res);
             }
 
@@ -489,7 +494,6 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             this.validateForm.patchValue({
                 [formControlName]: [resetStartTime, resetEndTime]
             });
-            console.log('设置的值：', 'resetStartTime:', resetStartTime, 'resetEndTime:', resetEndTime);
         }
     }
 
@@ -508,6 +512,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
      * @desc 险种保费发生变化
      */
     payPremiumChange() {
+        console.log('险种金额计算开始');
         this.insItemChange();
     }
 
@@ -603,7 +608,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             validityDate: new Date(dayjs(validityDate).format('YYYY-MM-DD')), 
             commercialEndTime, commercialStartTime, compulsoryEndTime, compulsoryStartTime,
             usage, purchasePrice, carTypeCode, receiptName, receiptPhone, sender, receiptRemarks,
-            receiptDate: new Date(dayjs(receiptDate).format('YYYY-MM-DD'))
+            receiptDate: new Date(dayjs(receiptDate).format('YYYY-MM-DD')),
+            quoteInfo: this.quoteInfo
         });
 
         params.quoteCommercialInsuranceDetailList = this.formatRequestInsValue();
@@ -882,12 +888,17 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             this.isLoading = false;
 
             if (!(res instanceof TypeError)) {
-                if (res.code !== '30000' || res.code !== '30010') {
-                    this.message.error(res.message || res.desc);
-                } else {
+                if (['30000', '30010'].includes(res.code)) {
                     this.message.success('报价成功');
-                    const { commercialInsurance } = res.result;
-                    this.setQuoteInfoToInsModel(commercialInsurance);
+                    const { customerVo } = res.result;
+                    const { quoteCommercialInsuranceDetailList, customer, quoteInsurance } = customerVo;
+                    this.quoteInfo = res.desc;
+                    this.setQuoteInfoToInsModel(quoteCommercialInsuranceDetailList || []);
+                    this.setQuoteInfoToFormControl(customer, quoteInsurance);
+                    this.saveSubmit();
+                } else {
+                    this.message.error(res.message || res.desc);
+                    this.quoteInfo = res.desc;
                     this.saveSubmit();
                 }
             }
@@ -896,21 +907,43 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
 
     /**
      * @func
+     * @desc 填充相关的表单数据
+     * @param customer 
+     */
+    setQuoteInfoToFormControl(customer, quoteInsurance) {
+        const { commercialStartTime, commercialEndTime, compulsoryStartTime, compulsoryEndTime } = customer;
+        const { taxActual, commercialSumPremium, compulsorySumPremium } = quoteInsurance;
+        this.validateForm.patchValue({
+             /** 时间信息 */
+            /** 交强险时间 */
+            compulsoryTime: [compulsoryStartTime, compulsoryEndTime],
+            /** 商业险时间 */
+            commercialTime: [commercialStartTime, commercialEndTime],
+            /** 车船税 */
+            taxActual,
+            /** 商业险 */
+            commercialSumPremium,
+            /**交强险 */
+            compulsorySumPremium
+        });
+    }
+
+    /**
+     * @func
      * @desc 将获取的报价信息 存储到inslist中
      * @param commercialInsurance 
      */
-    setQuoteInfoToInsModel(commercialInsurance: ICommercialInsurance) {
-        const { insurances } = commercialInsurance;
-        
-        insurances.forEach(insItem => {
+    setQuoteInfoToInsModel(quoteCommercialInsuranceDetailList: IQuoteCommercialInsuranceDetailListItem[]) {
+        quoteCommercialInsuranceDetailList.forEach(insItem => {
             const insListIndex = this.insList.findIndex(item => item.code === insItem.code);
-            if (insListIndex > 0) {
+            if (insListIndex > -1) {
                 const { value } = this.insList[insListIndex];
                 const { payPremium, coverage } = insItem;
                 this.insList[insListIndex].value = {
                     ...value,
                     payPremium: +(payPremium),
-                    coverageValue: coverage
+                    coverageValue: coverage,
+                    checked: true
                 };
             }
         });

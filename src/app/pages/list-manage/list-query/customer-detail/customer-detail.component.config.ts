@@ -61,3 +61,12 @@ export interface ICommercialInsurance {
     sumPremium: string;
     insurances: IQuoteInsurance[];
 }
+
+export interface IQuoteCommercialInsuranceDetailListItem {
+    id: number;
+    code: string;
+    name: string;
+    coverage: number;
+    quantity: number;
+    payPremium: number;
+}

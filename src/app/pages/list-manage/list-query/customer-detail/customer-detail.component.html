@@ -236,6 +236,16 @@
                         <div nz-row nz-col nzXs="24" nzSm="24">
                             <customer-detail-insurance [showCheckbox]="true" [insList]="insList" (onPayPremiumChange)="payPremiumChange()"></customer-detail-insurance>
                         </div>
+                        <div nz-row nz-col nzXs="24" nzSm="24" *ngIf="quoteInfo">
+                            <nz-form-item class="nzFormItem quoteInfo-box">
+                                <nz-form-label nz-col nzXs="8" nzFor="commercialTime" class="nzFormLabel ins-label">
+                                    <i nz-icon nzType="carry-out" nzTheme="outline" style="padding: 7px 5px 0 0"></i>报价结果
+                                </nz-form-label>
+                                <nz-form-control nz-col nzXs="16" class="nzFormControl">
+                                    <span class="quoteInfo-span">{{ quoteInfo }}</span>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
                     </div>
                     <div nz-row>
                         <p class="title margin-top"><i nz-icon nzType="transaction" nzTheme="outline"></i>最终报价</p>
