@@ -119,7 +119,8 @@ export const searchListModel: ISearchListModel = {
 
 export const tableConfig = {
     thead: [
-        { name: '出单日期', type: 'fixed-left' },
+        { name: '客户ID', type: 'fixed-left' },
+        { name: '出单日期'},
         { name: '保险到期日' },
         { name: '初登日期' },
         { name: '坐席' },

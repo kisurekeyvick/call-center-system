@@ -177,6 +177,7 @@
                     </thead>
                     <tbody>
                       <tr *ngFor="let data of list.data">
+                        <td><a (click)="setOrderFinanceParams(data)">{{data.customerId || '--'}}</a></td>
                         <td>{{data.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                         <td>{{data.compulsoryEndTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                         <td>{{data.registerTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>

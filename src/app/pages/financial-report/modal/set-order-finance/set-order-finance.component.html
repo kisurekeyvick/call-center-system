@@ -1,0 +1,84 @@
+<div class="set-order-finance-form-modal-container">
+    <div nz-row class="model-content">
+        <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+            <div nz-row>
+                <div nz-row nz-col  nzXs="24" nzMd="12" nzLg="8" nzXl="8" nzGutter="0">
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label nz-col nzXs="11" nzFor="compulsoryRatio" class="nzFormLabel">交强险基础比例</nz-form-label>
+                        <nz-form-control nz-col nzXs="13" class="nzFormControl">
+                            <nz-input-number style="width: 100%;" id="compulsoryAdditionRatio" [nzMin]="0" formControlName="compulsoryAdditionRatio"></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-row nz-col  nzXs="24" nzMd="12" nzLg="8" nzXl="8" nzGutter="0">
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label nz-col nzXs="11" nzFor="compulsoryAdditionRatio" class="nzFormLabel">交强险加投比例</nz-form-label>
+                        <nz-form-control nz-col nzXs="13" class="nzFormControl">
+                            <nz-input-number style="width: 100%;" id="compulsoryAdditionRatio" [nzMin]="0" formControlName="compulsoryAdditionRatio"></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-row nz-col  nzXs="24" nzMd="12" nzLg="8" nzXl="8" nzGutter="0">
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label nz-col nzXs="11" nzFor="commercialRatio" class="nzFormLabel">商业险基础比例</nz-form-label>
+                        <nz-form-control nz-col nzXs="13" class="nzFormControl">
+                            <nz-input-number style="width: 100%;" id="commercialRatio" [nzMin]="0" formControlName="commercialRatio"></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-row nz-col  nzXs="24" nzMd="12" nzLg="8" nzXl="8" nzGutter="0">
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label nz-col nzXs="11" nzFor="commercialAdditionRatio" class="nzFormLabel">商业险加投比例</nz-form-label>
+                        <nz-form-control nz-col nzXs="13" class="nzFormControl">
+                            <nz-input-number style="width: 100%;" id="commercialAdditionRatio" [nzMin]="0" formControlName="commercialAdditionRatio"></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-row nz-col  nzXs="24" nzMd="12" nzLg="8" nzXl="8" nzGutter="0">
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label nz-col nzXs="11" nzFor="drivingRatio" class="nzFormLabel">驾意险政策</nz-form-label>
+                        <nz-form-control nz-col nzXs="13" class="nzFormControl">
+                            <nz-input-number style="width: 100%;" id="drivingRatio" [nzMin]="0" formControlName="drivingRatio"></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-row nz-col  nzXs="24" nzMd="12" nzLg="8" nzXl="8" nzGutter="0">
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label nz-col nzXs="11" nzFor="allowanceRatio" class="nzFormLabel">津贴宝政策</nz-form-label>
+                        <nz-form-control nz-col nzXs="13" class="nzFormControl">
+                            <nz-input-number style="width: 100%;" id="allowanceRatio" [nzMin]="0" formControlName="allowanceRatio"></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-row nz-col  nzXs="24" nzMd="12" nzLg="8" nzXl="8" nzGutter="0">
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label nz-col nzXs="11" nzFor="glassRatio" class="nzFormLabel">玻璃膜政策</nz-form-label>
+                        <nz-form-control nz-col nzXs="13" class="nzFormControl">
+                            <nz-input-number style="width: 100%;" id="glassRatio" [nzMin]="0" formControlName="glassRatio"></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-row nz-col  nzXs="24" nzMd="12" nzLg="8" nzXl="8" nzGutter="0">
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label nz-col nzXs="11" nzFor="baseRatio" class="nzFormLabel">基础计算比例</nz-form-label>
+                        <nz-form-control nz-col nzXs="13" class="nzFormControl">
+                            <nz-input-number style="width: 100%;" id="baseRatio" [nzMin]="0" formControlName="baseRatio"></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+                <div nz-row nz-col  nzXs="24" nzMd="12" nzLg="8" nzXl="8" nzGutter="0">
+                    <nz-form-item class="nzFormItem">
+                        <nz-form-label nz-col nzXs="11" nzFor="reward" class="nzFormLabel">奖励</nz-form-label>
+                        <nz-form-control nz-col nzXs="13" class="nzFormControl">
+                            <nz-input-number style="width: 100%;" id="reward" [nzMin]="0" formControlName="reward"></nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </div>
+            <div class="modal-btn-group">
+                <button nz-button [nzType]="'default'" (click)="cancel()">取消</button>
+                <button nz-button [nzType]="'primary'">保存</button>
+            </div>
+        </form>
+    </div>
+</div>

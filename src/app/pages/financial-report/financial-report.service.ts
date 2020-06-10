@@ -46,4 +46,9 @@ export class FinancialReportService {
     exportFinanceReport(params: ICommon = {}): Observable<any> {
         return this.http.post(`api/finance/export`, params);
     }
+
+    /** 设置订单财务参数 */
+    setOrderFinance(params: ICommon = {}): Observable<any> {
+        return this.http.post(`api/finance/order-finance`, params);
+    }
 }
