@@ -126,14 +126,16 @@
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
+
                         <div nz-row nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
                             <nz-form-item class="nzFormItem">
-                                <nz-form-label nz-col nzXs="8" nzFor="vinNo" class="nzFormLabel">车架号</nz-form-label>
+                                <nz-form-label nz-col nzXs="8" nzFor="purchasePrice" class="nzFormLabel">新车购置价</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <input nz-input [nzSize]="'small'" id="vinNo" formControlName="vinNo"/>
+                                    <nz-input-number [nzSize]="'small'" style="width: 100%;" id="purchasePrice" [nzMin]="1" formControlName="purchasePrice" [nzStep]="1"></nz-input-number>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
+
                         <div nz-row nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzFor="engineNo" class="nzFormLabel">发动机号</nz-form-label>
@@ -142,6 +144,9 @@
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
+
+
+
                         <div nz-row nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzFor="seatNumber" class="nzFormLabel">核定座位</nz-form-label>
@@ -196,11 +201,29 @@
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
-                        <div nz-row nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
+                        
+                        <div nz-row nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="12" nzXXl="12" nzGutter="0">
                             <nz-form-item class="nzFormItem">
-                                <nz-form-label nz-col nzXs="8" nzFor="purchasePrice" class="nzFormLabel">新车购置价</nz-form-label>
+                                <nz-form-label nz-col nzXs="8" nzFor="vinNo" class="nzFormLabel">车架号</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-input-number [nzSize]="'small'" style="width: 100%;" id="purchasePrice" [nzMin]="1" formControlName="purchasePrice" [nzStep]="1"></nz-input-number>
+                                    <nz-input-group [nzSuffix]="suffixIconSearch">
+                                        <input nz-input [nzSize]="'small'" id="vinNo" formControlName="vinNo"/>
+                                    </nz-input-group>
+                                    <ng-template #suffixIconSearch>
+                                        <button nz-button nzType="primary" [nzSize]="'small'" nzSearch (click)="loadCarInfo()"><i nz-icon nzType="search"></i></button>
+                                      </ng-template>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+
+                        <div nz-row nz-col nzXs="24" nzSm="24" nzGutter="0">
+                            <nz-form-item class="nzFormItem">
+                                <nz-form-label nz-col nzXs="8" nzFor="engineNo" class="nzFormLabel">厂牌车型</nz-form-label>
+                                <nz-form-control nz-col nzXs="16" class="nzFormControl">
+                                    <!-- <input nz-input [nzSize]="'small'" id="engineNo" formControlName="engineNo"/> -->
+                                    <nz-select nzShowSearch [nzSize]="'small'" nzAllowClear id="modelCode" formControlName="modelCode">
+                                        <nz-option *ngFor="let option of formList.modelCodeList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
+                                    </nz-select>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>

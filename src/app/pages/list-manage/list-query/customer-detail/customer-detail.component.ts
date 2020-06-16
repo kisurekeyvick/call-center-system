@@ -40,6 +40,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         insuranceCompanysList: dictionary.get('insuranceCompanys'),
         usageList: dictionary.get('usage'),
         carTypeList: dictionary.get('carType'),
+        modelCodeList: []
     };
     /** 需要保存的参数 */
     otherFormParams: ICommon;
@@ -118,6 +119,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                 brandName: [null],
                 vinNo: [null],
                 engineNo: [null],
+                /** 厂牌车型 */
+                modelCode: [null],
                 seatNumber: [null],
                 registerTime: [null],
                 validityDate: [null],
@@ -258,7 +261,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         let { customer, quoteInsurance } = detailInfo;
         !customer && (customer = {});
         const { customerName, customerPhone, customerAddress, customerRemark, idCard, otherContact,
-            carNo, brandName, vinNo, engineNo, seatNumber, registerTime, lastCompanyCode,
+            carNo, brandName, vinNo, engineNo, modelCode, seatNumber, registerTime, lastCompanyCode,
             validityDate, commercialEndTime, commercialStartTime, compulsoryEndTime, compulsoryStartTime,
             usage, purchasePrice, carTypeCode, receiptName, receiptPhone, sender, receiptRemarks,
             receiptDate, receiptAddress } = customer;
@@ -291,6 +294,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             vinNo,
             /** 发动机 */
             engineNo,
+            /** 厂牌车型 */
+            modelCode,
             /** 核定座位 */
             seatNumber,
             /** 初登日期 */
@@ -420,6 +425,41 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
 
     /**
      * @callback
+     * @desc 加载车型 
+     */
+    loadCarInfo() {
+        const { vinNo, companyCode } = this.validateForm.value;
+        const params = {
+            vinNo,
+            companyCode
+        };
+
+        this.isLoading = true;
+        this.customerService.carInfo(params).pipe(
+            catchError(err => of(err))
+        ).subscribe(res => {
+            this.isLoading = false;
+
+            if (!(res instanceof TypeError)) {
+                if (res.code === '50000') {
+                    res.message && this.message.error(res.message);
+                    return;
+                }
+
+                const { carInfoResultList } = res.result;
+                this.formList.modelCodeList = carInfoResultList.map(item => {
+                    return {
+                        ...item,
+                        name: item.display,
+                        value: item.modelCode
+                    };
+                });
+            }
+        });
+    }
+
+    /**
+     * @callback
      * @desc 添加赠品
      */
     chooseGift() {
@@ -494,7 +534,6 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             this.validateForm.patchValue({
                 [formControlName]: [resetStartTime, resetEndTime]
             });
-            console.log('设置的值：', 'resetStartTime:', resetStartTime, 'resetEndTime:', resetEndTime);
         }
     }
 
@@ -562,7 +601,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             /** 客户信息 */
             customerName, idCard, customerPhone, otherContact, customerAddress, customerRemark,
             /** 车辆信息 */
-            carNo, brandName, vinNo, engineNo, seatNumber, registerTime, validityDate, lastCompanyCode,
+            carNo, brandName, vinNo, engineNo, modelCode, seatNumber, registerTime, validityDate, lastCompanyCode,
             usage, carTypeCode, purchasePrice,
             /** 最终报价 */
             commercialSumPremium, isDiscount, discount, compulsorySumPremium, taxActual, sumPremium, realSumPremium,
@@ -603,7 +642,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         
         Object.assign(params.customer, {
             customerName, customerPhone, customerAddress, customerRemark, idCard, otherContact,
-            carNo, brandName, vinNo, engineNo, seatNumber, 
+            carNo, brandName, vinNo, engineNo, modelCode, seatNumber,
             registerTime: new Date(dayjs(registerTime).format('YYYY-MM-DD')), lastCompanyCode,
             validityDate: new Date(dayjs(validityDate).format('YYYY-MM-DD')), 
             commercialEndTime, commercialStartTime, compulsoryEndTime, compulsoryStartTime,
@@ -891,10 +930,10 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                 if (['30000', '30010'].includes(res.code)) {
                     this.message.success('报价成功');
                     const { customerVo } = res.result;
-                    const { quoteCommercialInsuranceDetailList, customer } = customerVo;
-                    this.setQuoteInfoToTime(customer);
+                    const { quoteCommercialInsuranceDetailList, customer, quoteInsurance } = customerVo;
                     this.quoteInfo = res.desc;
                     this.setQuoteInfoToInsModel(quoteCommercialInsuranceDetailList || []);
+                    this.setQuoteInfoToFormControl(customer, quoteInsurance);
                     this.saveSubmit();
                 } else {
                     this.message.error(res.message || res.desc);
@@ -907,17 +946,24 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
 
     /**
      * @func
-     * @desc 设置时间
+     * @desc 填充相关的表单数据
      * @param customer 
      */
-    setQuoteInfoToTime(customer) {
+    setQuoteInfoToFormControl(customer, quoteInsurance) {
         const { commercialStartTime, commercialEndTime, compulsoryStartTime, compulsoryEndTime } = customer;
+        const { taxActual, commercialSumPremium, compulsorySumPremium } = quoteInsurance;
         this.validateForm.patchValue({
              /** 时间信息 */
             /** 交强险时间 */
             compulsoryTime: [compulsoryStartTime, compulsoryEndTime],
             /** 商业险时间 */
-            commercialTime: [commercialStartTime, commercialEndTime]
+            commercialTime: [commercialStartTime, commercialEndTime],
+            /** 车船税 */
+            taxActual,
+            /** 商业险 */
+            commercialSumPremium,
+            /** 交强险 */
+            compulsorySumPremium
         });
     }
 
@@ -929,7 +975,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
     setQuoteInfoToInsModel(quoteCommercialInsuranceDetailList: IQuoteCommercialInsuranceDetailListItem[]) {
         quoteCommercialInsuranceDetailList.forEach(insItem => {
             const insListIndex = this.insList.findIndex(item => item.code === insItem.code);
-            if (insListIndex > 0) {
+            if (insListIndex > -1) {
                 const { value } = this.insList[insListIndex];
                 const { payPremium, coverage } = insItem;
                 this.insList[insListIndex].value = {

@@ -12,7 +12,8 @@ import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { UtilsService } from 'src/app/core/utils/utils.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NzMessageService } from 'ng-zorro-antd';
+import { NzMessageService, NzModalService } from 'ng-zorro-antd';
+import { SetOrderFinanceFormModalComponent } from './modal/set-order-finance/set-order-finance.component';
 
 type ITableCfg = typeof tableConfig;
 type pageChangeType = 'pageIndex' | 'pageSize';
@@ -59,7 +60,8 @@ export class FinancialReportComponent implements OnInit, OnDestroy {
         private apiService: ApiService,
         private utilsService: UtilsService,
         private fb: FormBuilder,
-        private message: NzMessageService
+        private message: NzMessageService,
+        private modalService: NzModalService
     ) {
         this.searchListItem = [...searchListItem];
         this.searchListModel = {...searchListModel};
@@ -336,6 +338,32 @@ export class FinancialReportComponent implements OnInit, OnDestroy {
         };
 
         this.utilsService.downloadFile(params);
+    }
+
+    /**
+     * @callback
+     * @desc 设置订单财务参数
+     * @param queryListItem 
+     */
+    setOrderFinanceParams(queryListItem: IQueryListItem) {
+        const modal = this.modalService.create({
+            nzTitle: '设置订单财务参数',
+            nzContent: SetOrderFinanceFormModalComponent,
+            nzComponentParams: {
+                orderItem: queryListItem
+            },
+            nzWidth: 930,
+            nzMaskClosable: false,
+            nzFooter: null
+        });
+
+        modal.afterClose.subscribe((res: string) => {
+            if (res === 'success') {
+                this.message.create('success', `设置成功`);
+                this.pageInfo.pageIndex = 1;
+                this.search();
+            }
+        });
     }
 
     ngOnDestroy() {}

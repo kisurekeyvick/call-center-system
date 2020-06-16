@@ -86,8 +86,8 @@ export class ApiService {
      * @func
      * @desc 获取业务员
      */
-    querySaleman(): Observable<any> {
-        return this.http.get(`api/user/sale-man`, {});
+    querySaleman(params: ICommon = { tenantCode: '' }): Observable<any> {
+        return this.http.get(`api/user/sale-man`, { params });
     }
 
     /** 话术列表查询 */

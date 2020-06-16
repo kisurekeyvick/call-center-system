@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { FinancialReportComponent } from './financial-report.component';
+import { SetOrderFinanceFormModalComponent } from './modal/set-order-finance/set-order-finance.component';
 
 export const routedComponents = [
-    FinancialReportComponent
+    FinancialReportComponent,
+    SetOrderFinanceFormModalComponent
 ];
 
 export const entriedComponents = [
-
+    SetOrderFinanceFormModalComponent
 ];
 
 const routes: Routes = [

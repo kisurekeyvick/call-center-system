@@ -1,0 +1,12 @@
+@import '../../../../core/common/common.style.scss';
+
+.set-order-finance-form-modal-container {
+    .modal-btn-group {
+        @include modal-btn-group;
+        margin-top: 16px;
+    }
+
+    .nzFormItem {
+        margin-bottom: 8px;
+    }
+}

@@ -66,7 +66,7 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
         private apiService: ApiService,
         private el: ElementRef
     ) {
-        this.searchListItem = [...searchListItem];
+        this.searchListItem = this.rebuildNewSearchListItem([...searchListItem]);
         this.searchListModel = {...searchListModel};
         this.searchListLayout = {...searchListLayout};
         this.policyReviewList = [];
@@ -82,8 +82,33 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.setSearchListModelValue();
         this.loadTenantList();
-        this.loadSalesMember();
         this.search();
+    }
+
+    /**
+     * @func
+     * @desc 重新构造搜索功能
+     * @param searchListItem 
+     */
+    rebuildNewSearchListItem(searchList: ISearchListItem[]): ISearchListItem[] {
+        const tenantCodeItemIndex = searchList.findIndex(item => item.key === 'tenantCode');
+
+        if (tenantCodeItemIndex > -1) {
+            searchList[tenantCodeItemIndex]['config']['onChange'] = this.tenantCodeChange;
+        }
+
+        return searchList;
+    }
+
+
+    /**
+     * @callback
+     * @desc 店铺发生改变
+     * @param searchListModel 
+     * @param key 
+     */
+    tenantCodeChange = (searchListModelVal: ISearchListModel, key: string) => {
+        this.loadSalesMember();
     }
 
     /**
@@ -91,7 +116,11 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
      * @desc 加载业务员
      */
     loadSalesMember() {
-        this.apiService.querySaleman().pipe(
+        const params = {
+            tenantCode: this.searchListModel.tenantCode
+        };
+
+        this.apiService.querySaleman(params).pipe(
             catchError(err => of(err))
         ).subscribe(res => {
             if (!(res instanceof TypeError)) {
@@ -100,7 +129,7 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
                     value: item.id
                 }));
 
-                this.rebuildSearchListItem();
+                this.rebuildUserIdSearchListItem();
             }
         });
     }
@@ -129,7 +158,7 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
      * @func
      * @desc 重新构建searchListItem
      */
-    rebuildSearchListItem() {
+    rebuildUserIdSearchListItem() {
         const userIdItemIndex = this.searchListItem.findIndex(item => item.key === 'userId');
 
         if (userIdItemIndex > -1) {

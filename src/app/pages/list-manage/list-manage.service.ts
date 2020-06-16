@@ -87,4 +87,9 @@ export class ListManageService {
     quote(params: ICommon = {}): Observable<any> {
         return this.http.post(`api/quote/quote`, params);
     }
+
+    /** 查询车型 */
+    carInfo(params: ICommon = {}): Observable<any> {
+        return this.http.post(`api/quote/carInfo`, params);
+    }
 }

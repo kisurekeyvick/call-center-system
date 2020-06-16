@@ -217,7 +217,8 @@ export class ListRecoveryComponent implements OnInit, OnDestroy {
             nzOnOk: () => {
                 const params = {
                     customerQueryReqDto: {
-                        ...this.ruleOriginValue
+                        ...this.ruleOriginValue,
+                        userId: this.salesmenID
                     },
                     toOriginal: true,
                     distributionCustomerDtoList: []
@@ -252,7 +253,7 @@ export class ListRecoveryComponent implements OnInit, OnDestroy {
         const value = this.assignMemberList.map(item => ({
             ...item,
             todayNum: item.distributionNum,
-            distributionNum: 0
+            distributionNum: 0,
         }));
 
         const modal = this.modalService.create({
@@ -266,7 +267,10 @@ export class ListRecoveryComponent implements OnInit, OnDestroy {
                 }, 0),
                 assignMemberList: value,
                 historyAssignMemberList: value,
-                customerQueryReqDto: this.ruleOriginValue
+                customerQueryReqDto: {
+                    ...this.ruleOriginValue, 
+                    userId: this.salesmenID
+                }
             },
             nzWidth: 900,
             nzMaskClosable: false,
