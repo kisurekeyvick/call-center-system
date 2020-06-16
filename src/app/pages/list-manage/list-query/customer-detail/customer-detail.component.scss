@@ -107,6 +107,18 @@
                     flex-basis: 145px;
                 }
             }
+
+            &.quoteInfo-box {
+                .nzFormLabel {
+                    &.ins-label {
+                        background-color: #ffa39e;
+
+                        label {
+                            color: #faad14;
+                        }
+                    }
+                }
+            }
         }
 
         p.title {
@@ -142,6 +154,10 @@
                 margin: 0 6px;
             }
         }
+    }
+
+    .quoteInfo-span {
+        padding: 1px 7px;
     }
 }
 
