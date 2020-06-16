@@ -119,12 +119,11 @@ export const searchListModel: ISearchListModel = {
 
 export const tableConfig = {
     thead: [
-        { name: '客户ID', type: 'fixed-left' },
+        { name: '姓名', type: 'fixed-left' },
         { name: '出单日期'},
         { name: '保险到期日' },
         { name: '初登日期' },
         { name: '坐席' },
-        { name: '姓名' },
         { name: '车牌' },
         { name: '商业险' },
         { name: '交强险' },

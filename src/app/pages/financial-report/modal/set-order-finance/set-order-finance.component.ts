@@ -30,15 +30,15 @@ export class SetOrderFinanceFormModalComponent implements OnInit, OnDestroy {
         this.validateForm = this.fb.group({
             orderId: [orderId, null],
             customerId: [null],
-            compulsoryRatio: [null],
-            compulsoryAdditionRatio: [null],
-            commercialRatio: [null],
-            commercialAdditionRatio: [null],
-            drivingRatio: [null],
-            allowanceRatio: [null],
-            glassRatio: [null],
-            baseRatio: [null],
-            reward: [null]
+            compulsoryRatio: [4],
+            compulsoryAdditionRatio: [26],
+            commercialRatio: [20],
+            commercialAdditionRatio: [10],
+            drivingRatio: [30],
+            allowanceRatio: [30],
+            glassRatio: [30],
+            baseRatio: [106],
+            reward: [1]
         });
     }
 
