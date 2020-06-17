@@ -26,19 +26,20 @@ export class SetOrderFinanceFormModalComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        const { orderId } = this.orderItem;
+        const { orderId, compulsoryRatio, compulsoryAdditionRatio, commercialRatio,
+            commercialAdditionRatio, drivingRatio, allowanceRatio, glassRatio, baseRatio, reward } = this.orderItem;
         this.validateForm = this.fb.group({
             orderId: [orderId, null],
             customerId: [null],
-            compulsoryRatio: [4],
-            compulsoryAdditionRatio: [26],
-            commercialRatio: [20],
-            commercialAdditionRatio: [10],
-            drivingRatio: [30],
-            allowanceRatio: [30],
-            glassRatio: [30],
-            baseRatio: [106],
-            reward: [1]
+            compulsoryRatio: [compulsoryRatio || 4],
+            compulsoryAdditionRatio: [compulsoryAdditionRatio || 26],
+            commercialRatio: [commercialRatio || 20],
+            commercialAdditionRatio: [commercialAdditionRatio || 10],
+            drivingRatio: [drivingRatio || 30],
+            allowanceRatio: [allowanceRatio || 30],
+            glassRatio: [glassRatio || 30],
+            baseRatio: [baseRatio || 106],
+            reward: [reward || 1]
         });
     }
 

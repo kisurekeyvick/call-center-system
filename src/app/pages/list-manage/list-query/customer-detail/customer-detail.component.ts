@@ -460,6 +460,23 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
 
     /**
      * @callback
+     * @desc 厂牌车型发生变化
+     */
+    modelCodeChange() {
+        const { modelCodeList } = this.formList;
+        const { modelCode } = this.validateForm.value;
+        const target = modelCodeList.find(item => item.modelCode === modelCode);
+        
+        if (target) {
+            const { seatNumber, purchasePrice } = target;
+            this.validateForm.patchValue({
+                seatNumber, purchasePrice
+            });
+        }
+    }
+
+    /**
+     * @callback
      * @desc 添加赠品
      */
     chooseGift() {
@@ -688,39 +705,49 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
      * @callback
      * @desc 
      */
-    saveSubmit() {
-        for (const i in this.validateForm.controls) {
-            this.validateForm.controls[i].markAsDirty();
-            this.validateForm.controls[i].updateValueAndValidity();
-        }
-  
-        if (this.validateForm.valid) {
-            const params = {
-                ...this.formatRequestParams()
-            };
+    saveSubmit(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            for (const i in this.validateForm.controls) {
+                this.validateForm.controls[i].markAsDirty();
+                this.validateForm.controls[i].updateValueAndValidity();
+            }
+      
+            if (this.validateForm.valid) {
+                const params = {
+                    ...this.formatRequestParams()
+                };
+    
+                this.isLoading = true;
+                this.customerService.saveCustomer(params).pipe(
+                    catchError(err => of(err))
+                ).subscribe(res => {
+                    if (!(res instanceof TypeError)) {
+                        if (res.code === '200') {
+                            /** 如果当前操作是成功提交，则重新展示页面数据 */
+                            if (this.currentAction === 'successSubmit') {
+                                this.sourceCache && this.showDetailForm(this.sourceCache.currentCustomer);
+                            } else {
+                                this.message.success('保存成功');
+                            }
 
-            this.isLoading = true;
-            this.customerService.saveCustomer(params).pipe(
-                catchError(err => of(err))
-            ).subscribe(res => {
-                if (!(res instanceof TypeError)) {
-                    if (res.code === '200') {
-                        /** 如果当前操作是成功提交，则重新展示页面数据 */
-                        if (this.currentAction === 'successSubmit') {
-                            this.sourceCache && this.showDetailForm(this.sourceCache.currentCustomer);
+                            resolve('success');
                         } else {
-                            this.message.success('保存成功');
+                            /** 如果保存失败，也需要重置action */
+                            this.currentAction = '';
+                            this.message.error(res.message);
+
+                            reject('error');
                         }
                     } else {
-                        /** 如果保存失败，也需要重置action */
-                        this.currentAction = '';
-                        this.message.error(res.message);
+                        reject('error');
                     }
-                }
-
-                this.isLoading = false;
-            });
-        }
+    
+                    this.isLoading = false;
+                });
+            } else {
+                reject('error');
+            }
+        });
     }
 
     /**
@@ -728,27 +755,29 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
      * @desc 跟踪提交
      */
     trackSubmit() {
-        const { customer } = this.cacheCustomerInfo;
-        const { customerId, appointmentLevel, appointmentTime } = customer;
-
-        const modal = this.modalService.create({
-            nzTitle: '跟踪提交',
-            nzContent: TrackingSubmitModalComponent,
-            nzComponentParams: {
-                customerId,
-                appointmentLevel,
-                appointmentTime
-            },
-            nzWidth: 550,
-            nzMaskClosable: false,
-            nzFooter: null
-        });
-
-        modal.afterClose.subscribe((res) => {
-            if (res === 'success') {
-                this.message.create('success', `提交成功`);
-                this.switchToNextCustomer();
-            }
+        this.saveSubmit().then(res => {
+            const { customer } = this.cacheCustomerInfo;
+            const { customerId, appointmentLevel, appointmentTime } = customer;
+    
+            const modal = this.modalService.create({
+                nzTitle: '跟踪提交',
+                nzContent: TrackingSubmitModalComponent,
+                nzComponentParams: {
+                    customerId,
+                    appointmentLevel,
+                    appointmentTime
+                },
+                nzWidth: 550,
+                nzMaskClosable: false,
+                nzFooter: null
+            });
+    
+            modal.afterClose.subscribe((res) => {
+                if (res === 'success') {
+                    this.message.create('success', `提交成功`);
+                    this.switchToNextCustomer();
+                }
+            });
         });
     }
 
@@ -833,29 +862,31 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
      * @desc 失败提交
      */
     defeatSubmit() {
-        const { customer } = this.cacheCustomerInfo;
-        const { customerId } = customer;
-
-        const modal = this.modalService.create({
-            nzTitle: '失败提交',
-            nzContent: DefeatSubmitModalComponent,
-            nzComponentParams: {
-                defeatReasonList: this.defeatReasonList.map(item => ({
-                    ...item,
-                    name: item.defeatReason,
-                    value: item.id
-                })),
-                customerId
-            },
-            nzMaskClosable: false,
-            nzFooter: null
-        });
-
-        modal.afterClose.subscribe((res) => {
-            if (res === 'success') {
-                this.message.create('success', `提交成功`);
-                this.switchToNextCustomer();
-            }
+        this.saveSubmit().then(res => {
+            const { customer } = this.cacheCustomerInfo;
+            const { customerId } = customer;
+    
+            const modal = this.modalService.create({
+                nzTitle: '失败提交',
+                nzContent: DefeatSubmitModalComponent,
+                nzComponentParams: {
+                    defeatReasonList: this.defeatReasonList.map(item => ({
+                        ...item,
+                        name: item.defeatReason,
+                        value: item.id
+                    })),
+                    customerId
+                },
+                nzMaskClosable: false,
+                nzFooter: null
+            });
+    
+            modal.afterClose.subscribe((res) => {
+                if (res === 'success') {
+                    this.message.create('success', `提交成功`);
+                    this.switchToNextCustomer();
+                }
+            });
         });
     }
 
@@ -864,37 +895,39 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
      * @desc 无效提交
      */
     invalidSubmit() {
-        this.modalService.confirm({
-            nzTitle: '提示',
-            nzContent: '您确认无效提交吗？',
-            nzOnOk: () => {
-                const { customer } = this.cacheCustomerInfo;
-                const { customerId } = customer;
-        
-                const params = {
-                    operationCode: '5',
-                    customerId
-                };
-        
-                this.isLoading = true;
-                this.customerService.operationCustomer(params).pipe(
-                    catchError(err => of(err))
-                ).subscribe(res => {
-                    if (!(res instanceof TypeError)) {
-                        if (res.code !== '200') {
-                            this.message.error(res.message);
-                        } else {
-                            this.message.success('提交成功');
-                            this.switchToNextCustomer();
+        this.saveSubmit().then(res => {
+            this.modalService.confirm({
+                nzTitle: '提示',
+                nzContent: '您确认无效提交吗？',
+                nzOnOk: () => {
+                    const { customer } = this.cacheCustomerInfo;
+                    const { customerId } = customer;
+            
+                    const params = {
+                        operationCode: '5',
+                        customerId
+                    };
+            
+                    this.isLoading = true;
+                    this.customerService.operationCustomer(params).pipe(
+                        catchError(err => of(err))
+                    ).subscribe(res => {
+                        if (!(res instanceof TypeError)) {
+                            if (res.code !== '200') {
+                                this.message.error(res.message);
+                            } else {
+                                this.message.success('提交成功');
+                                this.switchToNextCustomer();
+                            }
                         }
-                    }
-        
-                    this.isLoading = false;
-                });
-            },
-            nzOnCancel: () => {
-                this.message.info('您已取消操作');
-            }
+            
+                        this.isLoading = false;
+                    });
+                },
+                nzOnCancel: () => {
+                    this.message.info('您已取消操作');
+                }
+            });
         });
     }
 

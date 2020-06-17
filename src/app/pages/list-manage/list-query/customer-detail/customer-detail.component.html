@@ -145,8 +145,6 @@
                             </nz-form-item>
                         </div>
 
-
-
                         <div nz-row nz-col nzXs="24" nzSm="12" nzLg="8" nzXl="6" nzXXl="6" nzGutter="0">
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzFor="seatNumber" class="nzFormLabel">核定座位</nz-form-label>
@@ -218,10 +216,10 @@
 
                         <div nz-row nz-col nzXs="24" nzSm="24" nzGutter="0">
                             <nz-form-item class="nzFormItem">
-                                <nz-form-label nz-col nzXs="8" nzFor="engineNo" class="nzFormLabel">厂牌车型</nz-form-label>
+                                <nz-form-label nz-col nzXs="8" nzFor="modelCode" class="nzFormLabel">厂牌车型</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
                                     <!-- <input nz-input [nzSize]="'small'" id="engineNo" formControlName="engineNo"/> -->
-                                    <nz-select nzShowSearch [nzSize]="'small'" nzAllowClear id="modelCode" formControlName="modelCode">
+                                    <nz-select nzShowSearch [nzSize]="'small'" nzAllowClear id="modelCode" formControlName="modelCode" (ngModelChange)="modelCodeChange()">
                                         <nz-option *ngFor="let option of formList.modelCodeList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
                                     </nz-select>
                                 </nz-form-control>
