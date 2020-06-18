@@ -11,12 +11,45 @@
         <div class="search-list-box">
             <search-list [searchListLayout]="searchListLayout" [searchListModel]="searchListModel" [searchListItem]="searchListItem" (onSearch)="search()" (onReseat)="reseat()"></search-list>
         </div>
-        <ng-container *ngIf="!exitData">
+
+        <ng-container *ngIf="!isLoading; else skeleton">
+            <nz-table #list [nzData]="tableData.body" [nzShowPagination]="false" [nzFrontPagination]="false" [nzTotal]="tableData.body.length" [nzSize]="'middle'" [nzScroll]="{ x: '1100px' }">
+                <thead>
+                    <tr>
+                        <th>排名</th>
+                        <ng-container *ngFor="let th of tableData.header">
+                            <th>{{ th.ranking }}</th>
+                        </ng-container>
+                    </tr>
+                    <tr>
+                        <th>姓名 日期</th>
+                        <ng-container *ngFor="let th of tableData.header">
+                            <th>{{ th.userName }}</th>
+                        </ng-container>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of list.data">
+                        <td>{{ data.days }}月</td>
+                        <ng-container *ngFor="let column of data.columns">
+                            <td>{{ column.value }}</td>
+                        </ng-container>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </ng-container>
+        <ng-template #skeleton>
+            <nz-skeleton [nzActive]="true"></nz-skeleton>
+            <nz-skeleton [nzActive]="true"></nz-skeleton>
+            <nz-skeleton [nzActive]="true"></nz-skeleton>
+        </ng-template>
+
+        <!-- <ng-container *ngIf="!exitData">
             <nz-empty nzNotFoundContent="暂无数据，请选择日期查询"></nz-empty>
         </ng-container>
         <nz-spin [nzSpinning]="isLoading" [nzIndicator]="indicatorTemplate">
             <div id="echartsContainer" style="width: 100%;min-height: 650px;"></div>
         </nz-spin>
-        <ng-template #indicatorTemplate><i nz-icon nzType="loading"></i></ng-template>
+        <ng-template #indicatorTemplate><i nz-icon nzType="loading"></i></ng-template> -->
     </div>
 </div>

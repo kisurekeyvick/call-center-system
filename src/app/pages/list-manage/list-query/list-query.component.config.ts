@@ -183,6 +183,7 @@ export const tableConifg = {
         { name: '保险到期日' },
         { name: '名单发放日' },
         { name: '预约时间' },
+        { name: '业务员' },
         { name: '最后操作时间' },
         { name: '客户状态' }
     ]

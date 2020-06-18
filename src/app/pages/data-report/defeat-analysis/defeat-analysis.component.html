@@ -13,7 +13,7 @@
         </nz-spin>
         <ng-template #indicatorTemplate><i nz-icon nzType="loading"></i></ng-template> -->
         <ng-container *ngIf="!isLoading; else skeleton">
-            <nz-table #list [nzData]="sourceList" nzShowPagination="false" [nzSize]="'middle'" [nzScroll]="{ x: '1100px' }">
+            <nz-table #list [nzData]="sourceList" nzShowPagination="false" [nzTotal]="sourceList.length" [nzSize]="'middle'" [nzScroll]="{ x: '1100px' }">
                 <thead>
                     <tr>
                         <th [nzWidth]="'100px'">
@@ -45,6 +45,6 @@
             <nz-skeleton [nzActive]="true"></nz-skeleton>
             <nz-skeleton [nzActive]="true"></nz-skeleton>
             <nz-skeleton [nzActive]="true"></nz-skeleton>
-          </ng-template>
+        </ng-template>
     </div>
 </div>
