@@ -11,6 +11,38 @@
         <div class="search-list-box">
             <search-list [searchListLayout]="searchListLayout" [searchListModel]="searchListModel" [searchListItem]="searchListItem" (onSearch)="search()" (onReseat)="reseat()"></search-list>
         </div>
+
+        <ng-container *ngIf="!isLoading; else skeleton">
+            <nz-table #list [nzData]="sourceList" nzShowPagination="false" [nzSize]="'middle'" [nzScroll]="{ x: '1100px' }">
+                <thead>
+                    <tr>
+                        <ng-container *ngFor="let th of tableCfg">
+                            <th>{{ th.name }}</th>
+                        </ng-container>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of list.data">
+                        <td>{{ data.userName }}</td>
+                        <td>{{ data.renewalNumber }}</td>
+                        <td>{{ data.renewalNewNumber }}</td>
+                        <td>{{ data.firstCallNumber }}</td>
+                        <td>{{ data.appointmentNumber }}</td>
+                        <td>{{ data.successNumber }}</td>
+                        <td>{{ data.failNumber }}</td>
+                        <td>{{ data.invalidNumber }}</td>
+                        <td>{{ data.onlyCompulsoryNumber }}</td>
+                        <td>{{ data.rate }}</td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </ng-container>
+        <ng-template #skeleton>
+            <nz-skeleton [nzActive]="true"></nz-skeleton>
+            <nz-skeleton [nzActive]="true"></nz-skeleton>
+            <nz-skeleton [nzActive]="true"></nz-skeleton>
+          </ng-template>
+
         <nz-spin [nzSpinning]="isLoading" [nzIndicator]="indicatorTemplate">
             <div id="echartsContainer" style="width: 100%;min-height: 650px;"></div>
         </nz-spin>

@@ -2,4 +2,8 @@
 
 .success-submit-analysis-report {
     @include listLayout;
+
+    .search-list-box {
+        margin-bottom: 12px !important;
+    }
 }

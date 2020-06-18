@@ -8,9 +8,43 @@
     </div>
 
     <div nz-row class="content">
-        <nz-spin [nzSpinning]="isLoading" [nzIndicator]="indicatorTemplate">
+        <!-- <nz-spin [nzSpinning]="isLoading" [nzIndicator]="indicatorTemplate">
             <div id="echartsContainer" style="width: 100%;min-height: 650px;"></div>
         </nz-spin>
-        <ng-template #indicatorTemplate><i nz-icon nzType="loading"></i></ng-template>
+        <ng-template #indicatorTemplate><i nz-icon nzType="loading"></i></ng-template> -->
+        <ng-container *ngIf="!isLoading; else skeleton">
+            <nz-table #list [nzData]="sourceList" nzShowPagination="false" [nzSize]="'middle'" [nzScroll]="{ x: '1100px' }">
+                <thead>
+                    <tr>
+                        <th [nzWidth]="'100px'">
+                            业务员
+                        </th>
+                        <th>
+                            战败缘由
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of list.data">
+                        <td>{{ data.userName }}</td>
+                        <td>
+                            <ng-container *ngIf="data?.failReasonList?.length > 0;else nodata">
+                                <ng-container *ngFor="let failReason of data.failReasonList">
+                                    <nz-tag [nzColor]="'blue'">{{ failReason.failReason }}:{{ failReason.number }}</nz-tag>
+                                </ng-container>
+                            </ng-container>
+                            <ng-template #nodata>
+                                <span>暂无</span>
+                            </ng-template>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </ng-container>
+        <ng-template #skeleton>
+            <nz-skeleton [nzActive]="true"></nz-skeleton>
+            <nz-skeleton [nzActive]="true"></nz-skeleton>
+            <nz-skeleton [nzActive]="true"></nz-skeleton>
+          </ng-template>
     </div>
 </div>

@@ -4,6 +4,7 @@ import { DataReportService } from '../data-report.service';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import * as echarts from 'echarts'
+import { ISource } from './defeat-analysis.component.config';
 
 @Component({
     selector: 'defeat-analysis-report',
@@ -19,12 +20,13 @@ export class DefeatAnalysisReportComponent implements OnInit, OnDestroy {
     isLoading: boolean;
     /** chartDOM容器 */
     // chartDOM: HTMLDivElement ;
+    sourceList: ISource[];
 
     constructor(
         private dataReportService: DataReportService,
         private el: ElementRef
     ) {
-
+        this.sourceList = [];
     }
 
     ngOnInit() {
@@ -45,7 +47,8 @@ export class DefeatAnalysisReportComponent implements OnInit, OnDestroy {
             this.isLoading = false;
             
             if (!(res instanceof TypeError)) {
-                this.buildEchartReport(res);
+                this.sourceList = res;
+                // this.buildEchartReport(res);
             }
         });
     }

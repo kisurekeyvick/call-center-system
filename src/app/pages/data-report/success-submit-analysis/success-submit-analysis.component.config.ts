@@ -1,5 +1,9 @@
 export const kpiParams = [
     {
+        name: '业务员',
+        code: ''
+    },
+    {
         name: '续保数', 
         code: 'renewalNumber',
     }, {
@@ -69,3 +73,17 @@ export interface ISearchListModel {
 export const searchListModel: ISearchListModel = {
     time: [],
 };
+
+export interface ISource {
+    appointmentNumber: number;
+    failNumber: number;
+    firstCallNumber: number;
+    invalidNumber: number;
+    onlyCompulsoryNumber: number;
+    rate: number;
+    renewalNewNumber: number;
+    renewalNumber: number;
+    successNumber: number;
+    userId: number;
+    userName: string;
+}

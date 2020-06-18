@@ -5,11 +5,13 @@ import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import * as echarts from 'echarts';
 import { kpiParams, ISearchListItem, ISearchListModel, searchListItem,
-    searchListModel, searchListLayout } from './success-submit-analysis.component.config';
+    searchListModel, searchListLayout, ISource } from './success-submit-analysis.component.config';
 
 interface ICommon {
     [key: string]: any;
 }
+
+type ITableHead = typeof kpiParams;
 
 @Component({
     selector: 'success-submit-analysis-report',
@@ -27,6 +29,10 @@ export class SuccessSubmitAnalysisReportComponent implements OnInit, OnDestroy {
     searchListItem: ISearchListItem[];
     searchListModel: ISearchListModel;
     searchListLayout: ICommon;
+    /** table数据 */
+    sourceList: ISource[];
+    /** table列表配置 */
+    tableCfg: ITableHead = kpiParams;
 
     constructor(
         private dataReportService: DataReportService,
@@ -35,6 +41,7 @@ export class SuccessSubmitAnalysisReportComponent implements OnInit, OnDestroy {
         this.searchListItem = [...searchListItem];
         this.searchListModel = {...searchListModel};
         this.searchListLayout = {...searchListLayout};
+        this.sourceList = [];
     }
 
     ngOnInit() {
@@ -85,7 +92,8 @@ export class SuccessSubmitAnalysisReportComponent implements OnInit, OnDestroy {
             this.isLoading = false;
 
             if (!(res instanceof TypeError)) {
-                this.buildEchartReport(res);
+                // this.buildEchartReport(res);
+                this.sourceList = res;
             }
         });
     }
