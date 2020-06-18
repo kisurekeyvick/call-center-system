@@ -30,7 +30,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let data of list.data">
-                        <td>{{ data.days }}月</td>
+                        <td>{{ data.days }}日</td>
                         <ng-container *ngFor="let column of data.columns">
                             <td>{{ column.value }}</td>
                         </ng-container>

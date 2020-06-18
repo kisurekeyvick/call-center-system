@@ -13,7 +13,7 @@
         </div>
 
         <ng-container *ngIf="!isLoading; else skeleton">
-            <nz-table #list [nzData]="sourceList" [nzShowPagination]="false" [nzFrontPagination]="false"【nzTotal]="sourceList.length" [nzSize]="'middle'" [nzScroll]="{ x: '1100px' }">
+            <nz-table #list [nzData]="sourceList" [nzShowPagination]="false" [nzFrontPagination]="false" [nzTotal]="sourceList.length" [nzSize]="'middle'" [nzScroll]="{ x: '1100px' }">
                 <thead>
                     <tr>
                         <ng-container *ngFor="let th of tableCfg">
