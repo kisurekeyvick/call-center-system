@@ -70,8 +70,8 @@ export class DefeatAnalysisReportComponent implements OnInit, OnDestroy {
             this.isLoading = false;
             
             if (!(res instanceof TypeError)) {
-                // this.formatResponseData(res);
-                this.sourceList = res;
+                this.formatResponseData(res);
+                // this.sourceList = res;
                 // this.buildEchartReport(res);
             }
         });
@@ -82,25 +82,25 @@ export class DefeatAnalysisReportComponent implements OnInit, OnDestroy {
      * @desc 整理请求参数
      * @param source 
      */
-    // formatResponseData(source: ISource[]) {
-    //     this.sourceList = source.map((sourceItem: ISource) => {
-    //         sourceItem['failReasonList'] = this.defeatReasonList.map(listItem => {
-    //             const { defeatReason } = listItem;
-    //             const target = sourceItem.failReasonList.find(reason => reason.failReason === defeatReason);
+    formatResponseData(source: ISource[]) {
+        this.sourceList = source.map((sourceItem: ISource) => {
+            sourceItem['failReasonList'] = this.defeatReasonList.map(listItem => {
+                const { defeatReason } = listItem;
+                const target = sourceItem.failReasonList.find(reason => reason.failReason === defeatReason);
 
-    //             if (target) {
-    //                 return target;
-    //             }
+                if (target) {
+                    return target;
+                }
 
-    //             return {
-    //                 failReason: defeatReason,
-    //                 number: 0
-    //             };
-    //         });
+                return {
+                    failReason: defeatReason,
+                    number: 0
+                };
+            });
 
-    //         return sourceItem;
-    //     });
-    // }
+            return sourceItem;
+        });
+    }
 
     /**
      * @func
