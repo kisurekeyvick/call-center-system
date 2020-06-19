@@ -4,6 +4,7 @@ import { DataReportService } from '../data-report.service';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import * as echarts from 'echarts'
+import { ISource } from './statistic-work.component.config';
 
 @Component({
     selector: 'statistic-work-report',
@@ -19,6 +20,7 @@ export class StatisticWorkReportComponent implements OnInit, OnDestroy {
     isLoading: boolean;
     /** chartDOM容器 */
     // chartDOM: HTMLDivElement ;
+    sourceList: ISource[];
 
     constructor(
         private dataReportService: DataReportService,
@@ -45,7 +47,8 @@ export class StatisticWorkReportComponent implements OnInit, OnDestroy {
             this.isLoading = false;
 
             if (!(res instanceof TypeError)) {
-                this.buildEchartReport(res);
+                // this.buildEchartReport(res);
+                this.sourceList = res;
             }
         });
     }

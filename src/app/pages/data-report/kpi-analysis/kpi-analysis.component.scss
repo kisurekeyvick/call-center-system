@@ -3,3 +3,7 @@
 .kpi-analysis-report {
     @include listLayout;
 }
+
+:host ::ng-deep .kpi-analysis-report {
+    @include deepTableTheadThColor;
+}

@@ -8,9 +8,57 @@
     </div>
 
     <div nz-row class="content">
-        <nz-spin [nzSpinning]="isLoading" [nzIndicator]="indicatorTemplate">
+        <!-- <nz-spin [nzSpinning]="isLoading" [nzIndicator]="indicatorTemplate">
             <div id="echartsContainer" style="width: 100%;min-height: 650px;"></div>
         </nz-spin>
-        <ng-template #indicatorTemplate><i nz-icon nzType="loading"></i></ng-template>
+        <ng-template #indicatorTemplate><i nz-icon nzType="loading"></i></ng-template> -->
+        <ng-container *ngIf="!isLoading; else skeleton">
+            <nz-table #list [nzData]="sourceList" nzShowPagination="false" nzBordered [nzTotal]="sourceList.length" [nzSize]="'middle'" [nzScroll]="{ x: '1100px' }">
+                <thead>
+                    <tr>
+                        <th [nzWidth]="'100px'">
+                            业务员
+                        </th>
+                        <th [nzWidth]="'450px'">
+                            客户等级
+                        </th>
+                        <th>
+                            人数
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of list.data">
+                        <td>{{ data.userName }}</td>
+                        <ng-container *ngIf="data?.customerStatisticsList?.length > 0;else nodata">
+                            <td colspan="2" class="customerStatisticsList-td" style="padding: 0;">
+                                <nz-table #list [nzData]="data.customerStatisticsList" nzShowPagination="false" [nzBordered]="false" [nzTotal]="data.customerStatisticsList.length" [nzSize]="'middle'">
+                                    <thead style="display: none;">
+                                        <tr>
+                                            <th [nzWidth]="'450px'"></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let customer of data.customerStatisticsList">
+                                            <td>{{ customer.levelName }}</td>
+                                            <td>{{ customer.number }}人</td>
+                                        </tr>
+                                    </tbody>
+                                </nz-table>
+                            </td>
+                        </ng-container>
+                        <ng-template #nodata>
+                            <td colspan="2"><span>暂无</span></td>
+                        </ng-template>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </ng-container>
+        <ng-template #skeleton>
+            <nz-skeleton [nzActive]="true"></nz-skeleton>
+            <nz-skeleton [nzActive]="true"></nz-skeleton>
+            <nz-skeleton [nzActive]="true"></nz-skeleton>
+        </ng-template>
     </div>
 </div>

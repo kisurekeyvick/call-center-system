@@ -3,3 +3,21 @@
 .statistic-work-report {
     @include listLayout;
 }
+
+:host ::ng-deep .statistic-work-report {
+    @include deepTableTheadThColor;
+
+    .customerStatisticsList-td {
+        thead.ant-table-thead {
+            display: none;
+        }
+
+        .ant-table-body > table {
+            border: none !important;
+        }
+
+        .ant-table-tbody > tr:last-child > td {
+            border-bottom: none !important;
+        }
+    }
+}

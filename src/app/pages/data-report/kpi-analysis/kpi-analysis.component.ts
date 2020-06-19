@@ -47,7 +47,7 @@ export class KpiAnalysisReportComponent implements OnInit, OnDestroy {
         // this.search();
         this.tableData = {
             header: [],
-            body: [{}]
+            body: []
         };
     }
 

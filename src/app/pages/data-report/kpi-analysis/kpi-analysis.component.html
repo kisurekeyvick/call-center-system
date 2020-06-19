@@ -13,8 +13,8 @@
         </div>
 
         <ng-container *ngIf="!isLoading; else skeleton">
-            <nz-table #list [nzData]="tableData.body" [nzShowPagination]="false" [nzFrontPagination]="false" [nzTotal]="tableData.body.length" [nzSize]="'middle'" [nzScroll]="{ x: '1100px' }">
-                <thead>
+            <nz-table #list [nzData]="tableData.body" [nzShowPagination]="false" nzBordered [nzFrontPagination]="false" [nzTotal]="tableData.body.length" [nzSize]="'middle'" [nzScroll]="{ x: '1100px' }">
+                <thead *ngIf="tableData.body.length > 0">
                     <tr>
                         <th>排名</th>
                         <ng-container *ngFor="let th of tableData.header">

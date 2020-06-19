@@ -147,7 +147,7 @@
                         <nz-form-control class="nzFormControl" nz-col [nzXs]="item?.grid?.control?.nzXs" [nzSm]="item?.grid?.control?.nzSm" [nzMd]="item?.grid?.control?.nzMd" [nzLg]="item?.grid?.control?.nzLg" [nzXl]="item?.grid?.control?.nzXl">
                             <nz-month-picker [nzStyle]="{'width': '100%'}" [id]="item.key" nzShowTime
                                 [nzSize]="'small'"
-                                [nzDisabled]="item.disabled" [nzFormat]=" item?.config?.format || 'yyyy-MM-dd'" [name]="item.key"
+                                [nzDisabled]="item.disabled" [nzFormat]=" item?.config?.format || 'yyyy-MM'" [name]="item.key"
                                 [(ngModel)]="searchListModel[item.key]"></nz-month-picker>
                         </nz-form-control>
                     </nz-form-item>

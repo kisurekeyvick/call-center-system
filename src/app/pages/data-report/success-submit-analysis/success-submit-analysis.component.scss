@@ -7,3 +7,7 @@
         margin-bottom: 12px !important;
     }
 }
+
+:host ::ng-deep .success-submit-analysis-report {
+    @include deepTableTheadThColor;
+}
