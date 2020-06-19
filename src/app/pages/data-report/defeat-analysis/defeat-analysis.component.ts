@@ -4,7 +4,7 @@ import { DataReportService } from '../data-report.service';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import * as echarts from 'echarts'
-import { ISource } from './defeat-analysis.component.config';
+import { ISource, IDefeatReasonItem, IFailReasonItem } from './defeat-analysis.component.config';
 
 @Component({
     selector: 'defeat-analysis-report',
@@ -20,18 +20,41 @@ export class DefeatAnalysisReportComponent implements OnInit, OnDestroy {
     isLoading: boolean;
     /** chartDOM容器 */
     // chartDOM: HTMLDivElement ;
+    /** table数据 */
     sourceList: ISource[];
+    /** 战败原因 */
+    defeatReasonList: IDefeatReasonItem[];
 
     constructor(
         private dataReportService: DataReportService,
         private el: ElementRef
     ) {
         this.sourceList = [];
+        this.defeatReasonList = [];
     }
 
     ngOnInit() {
         // this.chartDOM = this.el.nativeElement.querySelector('#echartsContainer');
-        this.loadFailReasonReport();
+        this.queryTotalDefeatReasonList().then(() => {
+            this.loadFailReasonReport();
+        });
+    }
+
+    /**
+     * @func
+     * @desc 查询所有的战败原因
+     */
+    queryTotalDefeatReasonList() {
+        return new Promise((resolve) => {
+            this.dataReportService.queryTotalDefeatReasonList().pipe(
+                catchError(err => of(err))
+            ).subscribe(res => {
+                if (!(res instanceof TypeError)) {
+                    this.defeatReasonList = res;
+                    resolve(res);
+                }
+            });
+        });
     }
 
     /**
@@ -47,11 +70,37 @@ export class DefeatAnalysisReportComponent implements OnInit, OnDestroy {
             this.isLoading = false;
             
             if (!(res instanceof TypeError)) {
+                // this.formatResponseData(res);
                 this.sourceList = res;
                 // this.buildEchartReport(res);
             }
         });
     }
+
+    /**
+     * @func
+     * @desc 整理请求参数
+     * @param source 
+     */
+    // formatResponseData(source: ISource[]) {
+    //     this.sourceList = source.map((sourceItem: ISource) => {
+    //         sourceItem['failReasonList'] = this.defeatReasonList.map(listItem => {
+    //             const { defeatReason } = listItem;
+    //             const target = sourceItem.failReasonList.find(reason => reason.failReason === defeatReason);
+
+    //             if (target) {
+    //                 return target;
+    //             }
+
+    //             return {
+    //                 failReason: defeatReason,
+    //                 number: 0
+    //             };
+    //         });
+
+    //         return sourceItem;
+    //     });
+    // }
 
     /**
      * @func

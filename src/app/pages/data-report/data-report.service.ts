@@ -31,4 +31,9 @@ export class DataReportService {
     querySuccessRate(params: ICommon = {}): Observable<any> {
         return this.http.post(`api/report/successRate`, params);
     }
+
+    /** 战败原因列表查询 */
+    queryTotalDefeatReasonList(params: ICommon = {}): Observable<any> {
+        return this.http.post(`api/defeatreason/queryAll`, params);
+    }
 }

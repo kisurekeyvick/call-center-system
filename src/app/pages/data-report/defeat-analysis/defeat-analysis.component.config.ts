@@ -8,3 +8,10 @@ export interface ISource {
     userId: number;
     failReasonList: IFailReasonItem[];
 }
+
+export interface IDefeatReasonItem {
+    id?: number;
+    defeatReason: string;
+    isDelete?: string;
+    [key: string]: any;
+}
