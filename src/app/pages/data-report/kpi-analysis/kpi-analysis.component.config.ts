@@ -50,10 +50,19 @@ export interface IChartData {
         }>;
     }>;
     header: Array<{
-        ranking: number;
-        userId: number;
         userName: string;
-        realSumPremium: number;
+        ranking?: number;
+        userId?: number;
         [key: string]: any;
     }>;
+}
+
+export interface ITableData {
+    header: Array<{
+        userName: string;
+        ranking?: number;
+        userId?: number;
+        [key: string]: any;
+    }>;
+    body: Array<any>;
 }

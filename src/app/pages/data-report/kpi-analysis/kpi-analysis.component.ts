@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import * as echarts from 'echarts';
 import { ISearchListItem, ISearchListModel, searchListItem,
-    searchListModel, searchListLayout, IChartData } from './kpi-analysis.component.config';
+    searchListModel, searchListLayout, IChartData, ITableData } from './kpi-analysis.component.config';
 import { NzMessageService } from 'ng-zorro-antd';
 
 interface ICommon {
@@ -30,6 +30,7 @@ export class KpiAnalysisReportComponent implements OnInit, OnDestroy {
     searchListLayout: ICommon;
     /** 是否存在数据 */
     exitData: boolean;
+    tableData: ITableData;
 
     constructor(
         private dataReportService: DataReportService,
@@ -44,6 +45,10 @@ export class KpiAnalysisReportComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         // this.search();
+        this.tableData = {
+            header: [],
+            body: [{}]
+        };
     }
 
     /**
@@ -97,11 +102,23 @@ export class KpiAnalysisReportComponent implements OnInit, OnDestroy {
 
             if (!(res instanceof TypeError)) {
                 res.header.length > 0 && (this.exitData = true) || (this.exitData = false);
-                this.buildEchartReport(res);
+                // this.buildEchartReport(res);
+                this.formatReportData(res);
             } else {
                 this.exitData = false;
             }
         });
+    }
+
+    /**
+     * @func
+     * @desc 构建table数据
+     * @param res 
+     */
+    formatReportData(res: IChartData) {
+        const { body, header } = res;
+        this.tableData.header = header;
+        this.tableData.body = body;
     }
 
     /**
