@@ -23,7 +23,7 @@ const routes: Routes = [
         pathMatch: 'full'
     },
     {
-        path: 'customerStatistics', //'workStatistic', 
+        path: 'customerStatistics', // 'workStatistic', 
         component: StatisticWorkReportComponent,
         data: {
             title: '客户分布统计'

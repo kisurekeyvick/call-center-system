@@ -8,3 +8,16 @@ export interface ISource {
     userName: string;
     customerStatisticsList: ICustomerStatisticsItem[];
 }
+
+export interface ITableBodyItem {
+    userInfo: Array<{
+        userName: string;
+        number: number;
+    }>;
+    [key: string]: any;
+}
+
+export interface ITable {
+    head: Array<{  userName: string }>;
+    body: ITableBodyItem[];
+}

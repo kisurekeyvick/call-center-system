@@ -3,8 +3,8 @@ import { jackInTheBoxAnimation, jackInTheBoxOnEnterAnimation } from 'src/app/sha
 import { DataReportService } from '../data-report.service';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import * as echarts from 'echarts'
-import { ISource, IDefeatReasonItem, IFailReasonItem } from './defeat-analysis.component.config';
+import * as echarts from 'echarts';
+import { ISource, IDefeatReasonItem, ITableBodyItem, ITable } from './defeat-analysis.component.config';
 
 @Component({
     selector: 'defeat-analysis-report',
@@ -21,7 +21,7 @@ export class DefeatAnalysisReportComponent implements OnInit, OnDestroy {
     /** chartDOM容器 */
     // chartDOM: HTMLDivElement ;
     /** table数据 */
-    sourceList: ISource[];
+    tableList: ITable;
     /** 战败原因 */
     defeatReasonList: IDefeatReasonItem[];
 
@@ -29,7 +29,10 @@ export class DefeatAnalysisReportComponent implements OnInit, OnDestroy {
         private dataReportService: DataReportService,
         private el: ElementRef
     ) {
-        this.sourceList = [];
+        this.tableList = {
+            head: [],
+            body: []
+        };
         this.defeatReasonList = [];
     }
 
@@ -71,8 +74,6 @@ export class DefeatAnalysisReportComponent implements OnInit, OnDestroy {
             
             if (!(res instanceof TypeError)) {
                 this.formatResponseData(res);
-                // this.sourceList = res;
-                // this.buildEchartReport(res);
             }
         });
     }
@@ -83,23 +84,23 @@ export class DefeatAnalysisReportComponent implements OnInit, OnDestroy {
      * @param source 
      */
     formatResponseData(source: ISource[]) {
-        this.sourceList = source.map((sourceItem: ISource) => {
-            sourceItem['failReasonList'] = this.defeatReasonList.map(listItem => {
-                const { defeatReason } = listItem;
-                const target = sourceItem.failReasonList.find(reason => reason.failReason === defeatReason);
+        this.tableList.body = this.defeatReasonList.map(defeat => {
+            const { defeatReason } = defeat;
+            const item = {
+                defeatReason,
+                userInfo: []
+            };
 
-                if (target) {
-                    return target;
-                }
-
-                return {
-                    failReason: defeatReason,
-                    number: 0
-                };
+            source.forEach((sourceItem: ISource) => {
+                const { userName, failReasonList } = sourceItem;
+                const target = (failReasonList || []).find(failReason => failReason.failReason === defeatReason);
+                item['userInfo'].push({ userName, number: target && target.number || 0 });
             });
 
-            return sourceItem;
+            return item;
         });
+
+        this.tableList.head = source.map((sourceItem: ISource) => ({ userName: sourceItem.userName}));
     }
 
     /**

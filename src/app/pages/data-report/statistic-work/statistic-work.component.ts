@@ -3,8 +3,9 @@ import { jackInTheBoxAnimation, jackInTheBoxOnEnterAnimation } from 'src/app/sha
 import { DataReportService } from '../data-report.service';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import * as echarts from 'echarts'
-import { ISource } from './statistic-work.component.config';
+import * as echarts from 'echarts';
+import { ISource, ITable, ITableBodyItem } from './statistic-work.component.config';
+import { dictionary } from 'src/app/shared/dictionary/dictionary';
 
 @Component({
     selector: 'statistic-work-report',
@@ -20,13 +21,18 @@ export class StatisticWorkReportComponent implements OnInit, OnDestroy {
     isLoading: boolean;
     /** chartDOM容器 */
     // chartDOM: HTMLDivElement ;
-    sourceList: ISource[];
+    tableList: ITable;
+    /** 预约级别 */
+    appointmentLevelList = dictionary.get('appointmentLevel');
 
     constructor(
         private dataReportService: DataReportService,
         private el: ElementRef
     ) {
-
+        this.tableList = {
+            head: [],
+            body: []
+        };
     }
 
     ngOnInit() {
@@ -48,9 +54,34 @@ export class StatisticWorkReportComponent implements OnInit, OnDestroy {
 
             if (!(res instanceof TypeError)) {
                 // this.buildEchartReport(res);
-                this.sourceList = res;
+                this.formatResponseData(res);
             }
         });
+    }
+
+    /**
+     * @func
+     * @desc 整合返回的参数
+     * @param source 
+     */
+    formatResponseData(source: ISource[]) {
+        this.tableList.body = this.appointmentLevelList.map((level: { name: string; value: string; }) => {
+            const { value } = level;
+            const item = {
+                customerLevel: value,
+                userInfo: []
+            };
+
+            source.forEach((sourceItem: ISource) => {
+                const { userName, customerStatisticsList } = sourceItem;
+                const target = (customerStatisticsList || []).find(staticItem => staticItem.levelName === value);
+                item.userInfo.push({ userName, number: target && target.number || 0 });
+            });
+
+            return item;
+        });
+
+        this.tableList.head = source.map((sourceItem: ISource) => ({ userName: sourceItem.userName}));
     }
 
     /**
