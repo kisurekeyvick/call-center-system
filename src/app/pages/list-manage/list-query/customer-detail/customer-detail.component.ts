@@ -786,9 +786,18 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
      * @desc 成功提交
      */
     successSubmit() {
-        /** this.currentAction 是一个标识，在loadDetailCustomerForm方法中会做判断，用于发送给subject */
-        this.currentAction = 'successSubmit';
-        this.saveSubmit();
+        this.modalService.confirm({
+            nzTitle: '提示',
+            nzContent: '您确认成功提交吗？',
+            nzOnOk: () => {
+                /** this.currentAction 是一个标识，在loadDetailCustomerForm方法中会做判断，用于发送给subject */
+                this.currentAction = 'successSubmit';
+                this.saveSubmit();
+            },
+            nzOnCancel: () => {
+                this.message.info('您已取消操作');
+            }
+        });
     }
 
     /**

@@ -33,6 +33,17 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log(`
+            我们可以做什么?
+            ：PC端管理系统(ERP/SaaS等)、微信小程序、H5移动端、微信公众号
+
+            如果您对我们感兴趣，请联系我们！
+            前端工程师："kisure"  Email:zttaijue1207@163.com  Tel：13795387286
+            后端工程师："杨恒"    Email:965253469@qq.com      Tel：18516740125
+
+            期待与您的合作，谢谢！
+        `);
+
         this.appService.loginSubject.subscribe((res: ILoginSubject) => {
             const { needLogin, url } = res;
             this.needLogin = needLogin;
