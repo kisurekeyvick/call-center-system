@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
 
     ngOnInit() {
         console.log(`
-            我们可以做什么?
+            %c我们可以做什么?
             ：PC端管理系统(ERP/SaaS等)、微信小程序、H5移动端、微信公众号
 
             如果您对我们感兴趣，请联系我们！
@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
             后端工程师："杨恒"    Email:965253469@qq.com      Tel：18516740125
 
             期待与您的合作，谢谢！
-        `);
+        `, 'color:red');
 
         this.appService.loginSubject.subscribe((res: ILoginSubject) => {
             const { needLogin, url } = res;
