@@ -29,6 +29,7 @@
                     <tbody>
                         <tr *ngFor="let data of list.data">
                             <td [nzLeft]="true"><a (click)="showDetail(data)">{{data.customerName || '--'}}</a></td>
+                            <td>{{data.customerPhone}}</td>
                             <td>{{data.carNo || '--'}}</td>
                             <td>{{data.companyName || '--'}}</td>
                             <td>{{data.userName || '--'}}</td>

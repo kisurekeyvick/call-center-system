@@ -46,6 +46,7 @@
                             (nzCheckedChange)="refreshStatus()"
                         ></td>
                         <td [nzLeft]="true" class="sticky-ele"><a (click)="showDetail(data)">{{data.customerName || '--'}}</a></td>
+                        <td>{{data.customerPhone}}</td>
                         <td>{{data.carNo || '--'}}</td>
                         <td>{{data.companyName || '--'}}</td>
                         <td>{{data.userName || '--'}}</td>
