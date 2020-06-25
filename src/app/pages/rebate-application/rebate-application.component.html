@@ -50,7 +50,10 @@
                         </td>
                     </tr>
                   </tbody>
-              </nz-table>
+                </nz-table>
+                <div class="allpremium">
+                    <nz-tag [nzColor]="'blue'">{{ allpremium }}</nz-tag>
+                </div>
               </ng-container>
               <ng-template #skeleton>
                 <nz-skeleton [nzActive]="true"></nz-skeleton>

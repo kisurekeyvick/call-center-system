@@ -46,6 +46,8 @@ export class SuccessSubmitComponent implements OnInit, OnDestroy {
     isLoading: boolean;
     /** 业务员 */
     salesmenList: ISalesman[];
+    /** 保费总额 */
+    allpremium: number | string;
 
     constructor(
         private message: NzMessageService,
@@ -163,7 +165,7 @@ export class SuccessSubmitComponent implements OnInit, OnDestroy {
 
             if (!(res instanceof TypeError)) {
                 if (res.list) {
-                    const { list, total } = res;
+                    const { list, total, allpremium } = res;
                     this.successSubmitList = list.map(item => {
                         const { commercialEndTime, compulsoryEndTime, registerTime, updateTime, orderState, orderCommitDate, orderDate } = item;
                         item['renewalStateName'] = findValueName(renewalStateList, item['renewalState']);
@@ -179,6 +181,7 @@ export class SuccessSubmitComponent implements OnInit, OnDestroy {
                         return item;
                     });
                     this.pageInfo.total = total;
+                    this.allpremium = allpremium;
                 } else {
                     this.successSubmitList = [];
                     this.pageInfo.total = 0;
@@ -268,8 +271,9 @@ export class SuccessSubmitComponent implements OnInit, OnDestroy {
     onPageChange(changeInfo: IPageChangeInfo) {
         const property = changeInfo.type;
         this.pageInfo[property] = changeInfo.value;
+        const params = this.formatSearchParams();
 
-        this.loadSuccessSubmitList({}, property);
+        this.loadSuccessSubmitList(params, property);
     }
 
     ngOnDestroy() {}

@@ -5,6 +5,10 @@
 
     .search-list-table {
         @include tableListStyle;
+
+        .allpremium {
+            text-align: right;
+        }
     }
 }
 

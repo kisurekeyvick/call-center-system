@@ -35,9 +35,13 @@
                             <td>{{data.orderCommitTimeFormat}}</td>
                             <td>{{data.orderStateName}}</td>
                             <td>{{data.orderDateTimeFormat}}</td>
+                            <td>{{data.realSumPremium}}</td>
                         </tr>
                     </tbody>
                   </nz-table>
+                  <div class="allpremium">
+                    <nz-tag [nzColor]="'blue'">{{ allpremium }}</nz-tag>
+                </div>
             </ng-container>
             <ng-template #skeleton>
                 <nz-skeleton [nzActive]="true"></nz-skeleton>

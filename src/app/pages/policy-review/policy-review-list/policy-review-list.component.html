@@ -54,6 +54,7 @@
                         <td>{{data.orderDateTimeFormat}}</td>
                         <td>{{data.isPrint ? '已打印' : '未打印'}}</td>
                         <td>{{data.isPay ? '已付款' : '未付款'}}</td>
+                        <td>{{data.realSumPremium}}</td>
                         <td [nzRight]='true' class="sticky-ele">
                             <!-- 已经提交 -->
                             <ng-container *ngIf="data.orderState === '1'">
@@ -76,7 +77,10 @@
                         </td>
                       </tr>
                     </tbody>
-                  </nz-table>
+                </nz-table>
+                <div class="allpremium">
+                    <nz-tag [nzColor]="'blue'">{{ allpremium }}</nz-tag>
+                </div>
             </ng-container>
             <ng-template #skeleton>
                 <nz-skeleton [nzActive]="true"></nz-skeleton>

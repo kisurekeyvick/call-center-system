@@ -141,6 +141,7 @@ export const tableConfig = {
         { name: '出单日期' },
         { name: '打印状态' },
         { name: '付款状态' },
+        { name: '总保费' },
         { name: '操作', type: 'fixed-right' }
     ]
 };

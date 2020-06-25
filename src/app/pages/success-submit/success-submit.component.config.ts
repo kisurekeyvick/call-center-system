@@ -127,7 +127,8 @@ export const tableConfig = {
         { name: '业务员' },
         { name: '提交日期' },
         { name: '审核状态' },
-        { name: '出单日期' }
+        { name: '出单日期' },
+        { name: '总保费' }
     ]
 };
 
