@@ -95,6 +95,14 @@ export const searchListItem: ISearchListItem[] = [
         key: 'orderTime',
         type: 'dateRange',
         grid: commonGrid
+    },
+    {
+        id: 20,
+        label: '手机号',
+        key: 'customerPhone',
+        placeholder: '请输入手机号',
+        type: 'text',
+        grid: commonGrid,
     }
 ];
 
@@ -106,6 +114,7 @@ export interface ISearchListModel {
     commitTime: string[];
     handleState: string;
     orderTime: string[];
+    customerPhone: string;
     [key: string]: any;
 }
 
@@ -116,12 +125,14 @@ export const searchListModel: ISearchListModel = {
     userId: null,
     commitTime: [],
     handleState: null,
-    orderTime: []
+    orderTime: [],
+    customerPhone: null
 };
 
 export const tableConfig = {
     thead: [
         { name: '姓名', type: 'fixed-left' },
+        { name: '手机号' },
         { name: '车牌' },
         { name: '保险公司' },
         { name: '业务员' },

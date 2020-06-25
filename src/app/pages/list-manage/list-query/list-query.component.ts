@@ -84,6 +84,7 @@ export class ListQueryComponent implements OnInit, OnDestroy {
      * @desc 重置
      */
     reseat() {
+        this.pageInfo.pageIndex = 1;
         this.searchListModel = {...searchListModel};
     }
 

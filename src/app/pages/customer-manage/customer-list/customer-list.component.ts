@@ -142,6 +142,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
      * @desc 重置搜索内容
      */
     reseat() {
+        this.pageInfo.pageIndex = 1;
         this.searchListModel = {...searchListModel};
     }
 
