@@ -3,7 +3,7 @@ import { jackInTheBoxAnimation, jackInTheBoxOnEnterAnimation } from 'src/app/sha
 import { DataReportService } from '../data-report.service';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import * as echarts from 'echarts';
+// import * as echarts from 'echarts';
 import { kpiParams, ISearchListItem, ISearchListModel, searchListItem,
     searchListModel, searchListLayout, ISource } from './success-submit-analysis.component.config';
 
@@ -103,87 +103,87 @@ export class SuccessSubmitAnalysisReportComponent implements OnInit, OnDestroy {
      * @desc 构建echart报表
      * @param res 
      */
-    buildEchartReport(res: Array<any>) {
-        const dom: HTMLDivElement = this.el.nativeElement.querySelector('#echartsContainer');
-        const myChart = echarts.init(dom);
-        /** X轴展示业务员 */
-        let xAxisData_salesmen = [];
-        /** 顶部展示各个KPI项 */
-        const legendData_rateParams = [...kpiParams];
-        /** 根据客户各个KPI项，展示每个业务员的战绩 */
-        const seriesData = [];
+    // buildEchartReport(res: Array<any>) {
+    //     const dom: HTMLDivElement = this.el.nativeElement.querySelector('#echartsContainer');
+    //     const myChart = echarts.init(dom);
+    //     /** X轴展示业务员 */
+    //     let xAxisData_salesmen = [];
+    //     /** 顶部展示各个KPI项 */
+    //     const legendData_rateParams = [...kpiParams];
+    //     /** 根据客户各个KPI项，展示每个业务员的战绩 */
+    //     const seriesData = [];
 
-        xAxisData_salesmen = res.map(item => ({
-            name: item.userName,
-            userId: item.userId
-        }));
+    //     xAxisData_salesmen = res.map(item => ({
+    //         name: item.userName,
+    //         userId: item.userId
+    //     }));
 
-        legendData_rateParams.forEach(kpi => {
-            const { name, code } = kpi;
-            const result = {
-                name, stack: '总量', data: []
-            };
+    //     legendData_rateParams.forEach(kpi => {
+    //         const { name, code } = kpi;
+    //         const result = {
+    //             name, stack: '总量', data: []
+    //         };
 
-            res.forEach(item => {
-                result.data.push(item[code]);
-            });
+    //         res.forEach(item => {
+    //             result.data.push(item[code]);
+    //         });
 
-            seriesData.push(result);
-        });
+    //         seriesData.push(result);
+    //     });
         
 
-        const options: any = {
-            title: {
-                text: '业务员排名'
-            },
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {
-                    type: 'cross',
-                    label: {
-                        backgroundColor: '#6a7985'
-                    }
-                },
-                // formatter: (params: any, ticket: string, callback: (ticket: string, html: string) => {}) => {
-                //     let str = `${params[0] && params[0]['axisValue'] || ''}`;
-                //     (params as Array<any>).forEach(param => {
-                //         str += `<br />"${param.seriesName}"，共计${param.value}个`;
-                //     });
-                //     return str;
-                // }
-            },
-            legend: {
-                data: (legendData_rateParams.map(kpi => kpi.name) as String[])
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
-            },
-            toolbox: {
-                feature: {
-                    saveAsImage: {}
-                }
-            },
-            xAxis: {
-                type: 'category',
-                boundaryGap: false,
-                data: (xAxisData_salesmen.map(salesman => salesman.name) as String[])
-            },
-            yAxis: {
-                type: 'value'
-            },
-            series: seriesData.map(serie => ({
-                name: serie.name,
-                type: 'line',
-                areaStyle: {},
-                data: serie.data
-            }))
-        };
+    //     const options: any = {
+    //         title: {
+    //             text: '业务员排名'
+    //         },
+    //         tooltip: {
+    //             trigger: 'axis',
+    //             axisPointer: {
+    //                 type: 'cross',
+    //                 label: {
+    //                     backgroundColor: '#6a7985'
+    //                 }
+    //             },
+    //             // formatter: (params: any, ticket: string, callback: (ticket: string, html: string) => {}) => {
+    //             //     let str = `${params[0] && params[0]['axisValue'] || ''}`;
+    //             //     (params as Array<any>).forEach(param => {
+    //             //         str += `<br />"${param.seriesName}"，共计${param.value}个`;
+    //             //     });
+    //             //     return str;
+    //             // }
+    //         },
+    //         legend: {
+    //             data: (legendData_rateParams.map(kpi => kpi.name) as String[])
+    //         },
+    //         grid: {
+    //             left: '3%',
+    //             right: '4%',
+    //             bottom: '3%',
+    //             containLabel: true
+    //         },
+    //         toolbox: {
+    //             feature: {
+    //                 saveAsImage: {}
+    //             }
+    //         },
+    //         xAxis: {
+    //             type: 'category',
+    //             boundaryGap: false,
+    //             data: (xAxisData_salesmen.map(salesman => salesman.name) as String[])
+    //         },
+    //         yAxis: {
+    //             type: 'value'
+    //         },
+    //         series: seriesData.map(serie => ({
+    //             name: serie.name,
+    //             type: 'line',
+    //             areaStyle: {},
+    //             data: serie.data
+    //         }))
+    //     };
 
-        myChart.setOption(options);
-    }
+    //     myChart.setOption(options);
+    // }
 
     ngOnDestroy() {}
 }

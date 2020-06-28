@@ -3,7 +3,7 @@ import { jackInTheBoxAnimation, jackInTheBoxOnEnterAnimation } from 'src/app/sha
 import { DataReportService } from '../data-report.service';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import * as echarts from 'echarts';
+// import * as echarts from 'echarts';
 import { ISource, ITable, ITableBodyItem } from './statistic-work.component.config';
 import { dictionary } from 'src/app/shared/dictionary/dictionary';
 
@@ -89,104 +89,104 @@ export class StatisticWorkReportComponent implements OnInit, OnDestroy {
      * @desc 构建echart报表
      * @param res 
      */
-    buildEchartReport(res: Array<any>) {
-        const dom: HTMLDivElement = this.el.nativeElement.querySelector('#echartsContainer');
-        const myChart = echarts.init(dom);
-        /** X轴展示业务员 */
-        const xAxisData_salesmen = [];
-        /** 顶部展示客户级别 */
-        const legendData_customerLevel = [];
-        /** 根据客户级别，展示每个业务员的数量 */
-        const seriesData = [];
+    // buildEchartReport(res: Array<any>) {
+    //     const dom: HTMLDivElement = this.el.nativeElement.querySelector('#echartsContainer');
+    //     const myChart = echarts.init(dom);
+    //     /** X轴展示业务员 */
+    //     const xAxisData_salesmen = [];
+    //     /** 顶部展示客户级别 */
+    //     const legendData_customerLevel = [];
+    //     /** 根据客户级别，展示每个业务员的数量 */
+    //     const seriesData = [];
 
-        res.forEach(item => {
-            xAxisData_salesmen.push({
-                name: item.userName,
-                userId: item.userId
-            });
+    //     res.forEach(item => {
+    //         xAxisData_salesmen.push({
+    //             name: item.userName,
+    //             userId: item.userId
+    //         });
 
-            (item.customerStatisticsList || []).forEach(list => {
-                const seriesIndex = legendData_customerLevel.findIndex(level => level.name === list.levelName);
-                /** 如果不存在，则push进去 */
-                if (seriesIndex === -1) {
-                    legendData_customerLevel.push({
-                        name: list.levelName
-                    });
-                }
-            });
-        });
+    //         (item.customerStatisticsList || []).forEach(list => {
+    //             const seriesIndex = legendData_customerLevel.findIndex(level => level.name === list.levelName);
+    //             /** 如果不存在，则push进去 */
+    //             if (seriesIndex === -1) {
+    //                 legendData_customerLevel.push({
+    //                     name: list.levelName
+    //                 });
+    //             }
+    //         });
+    //     });
 
-        legendData_customerLevel.forEach(level => {
-            const { name } = level;
-            const result = {
-                name, stack: '总量', data: []
-            };
+    //     legendData_customerLevel.forEach(level => {
+    //         const { name } = level;
+    //         const result = {
+    //             name, stack: '总量', data: []
+    //         };
 
-            res.forEach(item => {
-                const levelNameItem = (item.customerStatisticsList || []).find(list => list.levelName === name);
+    //         res.forEach(item => {
+    //             const levelNameItem = (item.customerStatisticsList || []).find(list => list.levelName === name);
 
-                if (levelNameItem) {
-                    result.data.push(levelNameItem.number);
-                } else {
-                    result.data.push(0);
-                }
-            });
+    //             if (levelNameItem) {
+    //                 result.data.push(levelNameItem.number);
+    //             } else {
+    //                 result.data.push(0);
+    //             }
+    //         });
 
-            seriesData.push(result);
-        });
+    //         seriesData.push(result);
+    //     });
 
-        const options: any = {
-            title: {
-                text: '客户分布详情'
-            },
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {
-                    type: 'cross',
-                    label: {
-                        backgroundColor: '#6a7985'
-                    }
-                },
-                formatter: (params: any, ticket: string, callback: (ticket: string, html: string) => {}) => {
-                    let str = `${params[0] && params[0]['axisValue'] || ''}`;
-                    (params as Array<any>).forEach(param => {
-                        str += `<br />客户级别："${param.seriesName}"，共计${param.value}个`;
-                    });
-                    return str;
-                }
-            },
-            legend: {
-                data: (legendData_customerLevel.map(reason => reason.name) as String[])
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
-            },
-            toolbox: {
-                feature: {
-                    saveAsImage: {}
-                }
-            },
-            xAxis: {
-                type: 'category',
-                boundaryGap: false,
-                data: (xAxisData_salesmen.map(salesman => salesman.name) as String[])
-            },
-            yAxis: {
-                type: 'value'
-            },
-            series: seriesData.map(serie => ({
-                name: serie.name,
-                type: 'line',
-                areaStyle: {},
-                data: serie.data
-            }))
-        };
+    //     const options: any = {
+    //         title: {
+    //             text: '客户分布详情'
+    //         },
+    //         tooltip: {
+    //             trigger: 'axis',
+    //             axisPointer: {
+    //                 type: 'cross',
+    //                 label: {
+    //                     backgroundColor: '#6a7985'
+    //                 }
+    //             },
+    //             formatter: (params: any, ticket: string, callback: (ticket: string, html: string) => {}) => {
+    //                 let str = `${params[0] && params[0]['axisValue'] || ''}`;
+    //                 (params as Array<any>).forEach(param => {
+    //                     str += `<br />客户级别："${param.seriesName}"，共计${param.value}个`;
+    //                 });
+    //                 return str;
+    //             }
+    //         },
+    //         legend: {
+    //             data: (legendData_customerLevel.map(reason => reason.name) as String[])
+    //         },
+    //         grid: {
+    //             left: '3%',
+    //             right: '4%',
+    //             bottom: '3%',
+    //             containLabel: true
+    //         },
+    //         toolbox: {
+    //             feature: {
+    //                 saveAsImage: {}
+    //             }
+    //         },
+    //         xAxis: {
+    //             type: 'category',
+    //             boundaryGap: false,
+    //             data: (xAxisData_salesmen.map(salesman => salesman.name) as String[])
+    //         },
+    //         yAxis: {
+    //             type: 'value'
+    //         },
+    //         series: seriesData.map(serie => ({
+    //             name: serie.name,
+    //             type: 'line',
+    //             areaStyle: {},
+    //             data: serie.data
+    //         }))
+    //     };
 
-        myChart.setOption(options);
-    }
+    //     myChart.setOption(options);
+    // }
 
     ngOnDestroy() {}
 }

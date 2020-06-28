@@ -9,10 +9,6 @@
         button {
             margin-right: 12px;
         }
-
-        .allpremium {
-            text-align: right;
-        }
     }
 
     .search-list-table {
@@ -20,6 +16,11 @@
 
         .remark-icon {
             cursor: pointer;
+        }
+
+        .allpremium {
+            text-align: right;
+            margin: 12px 0 0 0;
         }
     }
 }

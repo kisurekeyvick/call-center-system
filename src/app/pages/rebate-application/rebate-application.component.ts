@@ -44,7 +44,7 @@ export class RebateApplicationComponent implements OnInit, OnDestroy {
     /** 申请人(业务员) */
     salesmenList: ICommon[];
     /** 保费总额 */
-    allpremium: number | string;
+    allPremium: number | string;
 
     constructor(
         private message: NzMessageService,
@@ -154,7 +154,7 @@ export class RebateApplicationComponent implements OnInit, OnDestroy {
             this.isLoading = false;
 
             if (!(res instanceof TypeError)) {
-                const { list, total, allpremium } = res;
+                const { list, total, allPremium } = res;
                 const salesmenList = this.salesmenList.map(item => ({
                     name: item.name,
                     value: item.value
@@ -169,7 +169,7 @@ export class RebateApplicationComponent implements OnInit, OnDestroy {
                 });
 
                 this.pageInfo.total = total;
-                this.allpremium = allpremium;
+                this.allPremium = allPremium;
                 pageChangeType === 'pageSize' && (this.pageInfo.pageIndex = 1);
             }
         });
