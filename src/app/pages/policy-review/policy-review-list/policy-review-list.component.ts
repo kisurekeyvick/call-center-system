@@ -57,7 +57,7 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
     /** 当前要打印的数据 */
     printList: IPolicyReviewItem[];
     /** 保费总额 */
-    allpremium: number | string;
+    allPremium: number | string;
 
     constructor(
         private modalService: NzModalService,
@@ -226,7 +226,7 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
 
             if (!(res instanceof TypeError)) {
                 if (res.list) {
-                    const { list, total, allpremium } = res;
+                    const { list, total, allPremium } = res;
                     this.policyReviewList = list.map(item => {
                         const { commercialEndTime, compulsoryEndTime, registerTime, updateTime, orderState, orderCommitDate, orderDate } = item;
                         item['renewalStateName'] = findValueName(renewalStateList, item['renewalState']);
@@ -242,7 +242,7 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
                         return item;
                     });
                     this.pageInfo.total = total;
-                    this.allpremium = allpremium;
+                    this.allPremium = allPremium;
                 } else {
                     this.policyReviewList = [];
                     this.pageInfo.total = 0;
