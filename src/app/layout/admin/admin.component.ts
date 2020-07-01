@@ -49,8 +49,12 @@ export class AppAdminLayoutComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.appService.showSalesmanOperation.subscribe((res: boolean) => {
-            this.canShowSalesmanOperation = res;
+        this.appService.showSalesmanOperation.subscribe((res: {
+            canShow: boolean;
+            canListenClick: boolean;
+        }) => {
+            const { canShow } = res;
+            this.canShowSalesmanOperation = canShow;
         });
 
         this.readUserInfoCache();

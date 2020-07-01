@@ -16,6 +16,7 @@ import { TrackingSubmitModalComponent } from '../../modal/tracking-submit-modal/
 import { Router, ActivatedRoute } from '@angular/router';
 import { cloneDeep } from 'lodash';
 import * as dayjs from 'dayjs';
+import { AppService } from 'src/app/app.service';
 
 interface ICommon {
     [key: string]: any;
@@ -80,7 +81,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         private fb: FormBuilder,
         private customerService: ListManageService,
         private activatedRoute: ActivatedRoute,
-        private router: Router
+        private router: Router,
+        private appService: AppService
     ) {
         this.readCache();
         this.otherFormParams = {
@@ -180,6 +182,11 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         });
 
         this.listenPopStateChange();
+
+        this.appService.showSalesmanOperation.next({
+            canShow: true,
+            canListenClick: false
+        });
     }
 
     listenPopStateChange() {
@@ -1115,5 +1122,9 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.successSubmitSubject$.unsubscribe();
         this.popstate$ && this.popstate$.unsubscribe();
+        this.appService.showSalesmanOperation.next({
+            canShow: false,
+            canListenClick: true
+        });
     }
 }

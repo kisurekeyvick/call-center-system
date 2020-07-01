@@ -21,6 +21,8 @@ interface ICommon {
 export class SalesmanOperationComponent implements OnInit, OnDestroy {
     /** 展示细节 */
     showDetail: boolean;
+    /** 是否能监听全局点击事件 */
+    canListenClick: boolean;
     /** tracking展示列表 */
     trackingList: ITrackingListItem[];
     /** 首播展示列表 */
@@ -49,6 +51,7 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
         private localCache: LocalStorageService
     ) {
         this.showDetail = false;
+        this.canListenClick = true;
         this.trackingList = [];
         this.firstCallList = [];
         this.remind = {...defaultRemidVal};
@@ -60,6 +63,14 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
         //     this.loadFirstCallList();
         //     this.loadCalendarList();
         // });
+        this.appService.showSalesmanOperation.subscribe((res: {
+            canShow: boolean;
+            canListenClick: boolean;
+        }) => {
+            const { canShow, canListenClick } = res;
+            this.showDetail = canShow;
+            this.canListenClick = canListenClick;
+        });
     }
 
     ngOnInit() {
@@ -92,10 +103,12 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
         this.mouseClick$ = fromEvent(window, 'click').pipe(
             debounceTime(100)
         ).subscribe((res: MouseEvent) => {
-            const boundaryDomClassName = 'salesman-operation';
-            const currentClickNode = res.target;
-            const inScope = this.isDomInScope(currentClickNode as HTMLElement, boundaryDomClassName);
-            !inScope && (this.showDetail = false);
+            if (this.canListenClick) {
+                const boundaryDomClassName = 'salesman-operation';
+                const currentClickNode = res.target;
+                const inScope = this.isDomInScope(currentClickNode as HTMLElement, boundaryDomClassName);
+                !inScope && (this.showDetail = false);
+            }
         });
     }
 
