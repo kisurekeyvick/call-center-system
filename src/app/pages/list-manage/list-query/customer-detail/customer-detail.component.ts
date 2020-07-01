@@ -1123,7 +1123,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
         this.successSubmitSubject$.unsubscribe();
         this.popstate$ && this.popstate$.unsubscribe();
         this.appService.showSalesmanOperation.next({
-            canShow: false,
+            canShow: true,
             canListenClick: true
         });
     }
