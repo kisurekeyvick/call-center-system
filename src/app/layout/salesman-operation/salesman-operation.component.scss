@@ -90,8 +90,8 @@
         z-index: 999;
         border-radius: 5px;
         background-color: #fff;
-        padding: 4px;
-        width: 250px;
+        padding: 2px;
+        width: 270px;
         box-shadow: 0 2px 8px rgba(0,0,0,.09);
         animation: bounceIn 1s;
 
@@ -153,6 +153,13 @@
     }
 }
 
-:host ::ng-deep .salesman-operation .ant-table-body {
-    margin: 0;
+:host ::ng-deep .salesman-operation {
+    .ant-table-body {
+        margin: 0;
+    }
+
+    .ant-table-small > .ant-table-content > .ant-table-scroll > .ant-table-body > table > .ant-table-tbody > tr > td {
+        padding: 2px;
+        white-space: nowrap;
+    }
 }
