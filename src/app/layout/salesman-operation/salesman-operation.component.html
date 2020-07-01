@@ -13,7 +13,7 @@
             <nz-tabset [nzTabPosition]="'top'" [nzSelectedIndex]="selectedIndex" (nzSelectChange)="tabSelectChange($event)" [nzType]="'card'" [nzAnimated]="true">
                 <nz-tab nzTitle="预约跟踪">
                     <div class="trackingList-box" *ngIf="selectedIndex === 0">
-                        <nz-table #list [nzSize]="'small'" [nzData]="trackingList" [nzShowPagination]="false" [nzFrontPagination]="false" [nzTotal]="trackingList.length" [nzScroll]="{ x: '400px' }">
+                        <nz-table #list [nzSize]="'small'" [nzData]="trackingList" [nzShowPagination]="false" [nzFrontPagination]="false" [nzTotal]="trackingList.length" [nzScroll]="{ x: '500px' }">
                             <tbody>
                               <tr *ngFor="let data of list.data; let i = index" [ngClass]="{'follow-item': true, 'selected': data.selected}" (click)="customerDetail(data, trackingList)">
                                 <td>{{i + 1}}</td>
@@ -28,7 +28,7 @@
                 </nz-tab>
                 <nz-tab nzTitle="首播">
                     <div class="firstCallList-box" *ngIf="selectedIndex === 1">
-                        <nz-table #list [nzSize]="'small'" [nzData]="firstCallList" [nzShowPagination]="false" [nzFrontPagination]="false" [nzTotal]="trackingList.length">
+                        <nz-table #list [nzSize]="'small'" [nzData]="firstCallList" [nzShowPagination]="false" [nzFrontPagination]="false" [nzTotal]="trackingList.length" [nzScroll]="{ x: '500px' }">
                             <tbody>
                               <tr *ngFor="let data of list.data; let i = index" [ngClass]="{'follow-item': true, 'selected': data.selected}" (click)="customerDetail(data, firstCallList)">
                                 <td>
