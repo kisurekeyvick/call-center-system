@@ -783,6 +783,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                 if (res === 'success') {
                     this.message.create('success', `提交成功`);
                     this.switchToNextCustomer();
+                    this.appService.loadSalesmanOperationData.next(true);
                 }
             });
         });
@@ -800,6 +801,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                 /** this.currentAction 是一个标识，在loadDetailCustomerForm方法中会做判断，用于发送给subject */
                 this.currentAction = 'successSubmit';
                 this.saveSubmit();
+                this.appService.loadSalesmanOperationData.next(true);
             },
             nzOnCancel: () => {
                 this.message.info('您已取消操作');
@@ -901,6 +903,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                 if (res === 'success') {
                     this.message.create('success', `提交成功`);
                     this.switchToNextCustomer();
+                    this.appService.loadSalesmanOperationData.next(true);
                 }
             });
         });
@@ -934,6 +937,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                             } else {
                                 this.message.success('提交成功');
                                 this.switchToNextCustomer();
+                                this.appService.loadSalesmanOperationData.next(true);
                             }
                         }
             

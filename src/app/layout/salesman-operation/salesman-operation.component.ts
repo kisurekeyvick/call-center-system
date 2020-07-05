@@ -13,6 +13,12 @@ interface ICommon {
     [key: string]: any;
 }
 
+interface ILoadingHistory {
+    tracking: boolean;
+    firstCall: boolean;
+    calendar: boolean;
+}
+
 @Component({
     selector: 'salesman-operation',
     templateUrl: './salesman-operation.component.html',
@@ -42,6 +48,10 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
     selectedIndex: number;
     /** 当前选中的id */
     currentSelectedId: number;
+    /** 加载中 */
+    isLoading: boolean;
+    /** 加载记录 */
+    loadingHistory: ILoadingHistory;
 
     constructor(
         private appService: AppService,
@@ -58,6 +68,12 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
         this.calendarList = [];
         this.selectedIndex = 0;
         this.currentSelectedId = this.readCustomerDataCacheID();
+        this.isLoading = false;
+        this.loadingHistory = {
+            tracking: false,
+            firstCall: false,
+            calendar: false
+        };
         // this.intervalSubscription$ = this.intervalSource.subscribe(() => {
         //     this.loadTrackingList();
         //     this.loadFirstCallList();
@@ -71,6 +87,10 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
             this.showDetail = canShow;
             this.canListenClick = canListenClick;
         });
+
+        this.appService.loadSalesmanOperationData.subscribe((res: boolean) => {
+            res && this.loadSomeListValue();
+        });
     }
 
     ngOnInit() {
@@ -83,9 +103,22 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
      * @desc 加载数据
      */
     loadSomeListValue() {
+        this.isLoading = true;
         this.loadTrackingList();
         this.loadFirstCallList();
         this.loadCalendarList();
+    }
+
+    /**
+     * @func
+     * @desc 计算是否展示loading
+     */
+    calculateLoading(): boolean {
+        if (this.loadingHistory.calendar || this.loadingHistory.firstCall || this.loadingHistory.tracking) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -140,6 +173,7 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
      * @desc 加载预约跟踪数据
      */
     loadTrackingList() {
+        this.loadingHistory.tracking = true;
         this.apiService.appointmentTrack().pipe(
             catchError(err => of(err))
         ).subscribe(res => {
@@ -149,6 +183,9 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
                     selected: this.currentSelectedId === item.id
                 }));
             }
+
+            this.loadingHistory.tracking = false;
+            this.isLoading = this.calculateLoading();
         });
     }
 
@@ -157,6 +194,7 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
      * @desc 加载首播
      */
     loadFirstCallList() {
+        this.loadingHistory.firstCall = true;
         this.apiService.queryFirstCall().pipe(
             catchError(err => of(err))
         ).subscribe(res => {
@@ -166,6 +204,9 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
                     selected: this.currentSelectedId === item.id
                 }));
             }
+
+            this.loadingHistory.firstCall = false;
+            this.isLoading = this.calculateLoading();
         });
     }
 
@@ -174,12 +215,16 @@ export class SalesmanOperationComponent implements OnInit, OnDestroy {
      * @desc 加载预约日历
      */
     loadCalendarList() {
+        this.loadingHistory.calendar = true;
         this.apiService.appointmentCalendar().pipe(
             catchError(err => of(err))
         ).subscribe(res => {
             if (res instanceof Array) {
                 this.calendarList = res;
             }
+
+            this.loadingHistory.calendar = false;
+            this.isLoading = this.calculateLoading();
         });
     }
 
