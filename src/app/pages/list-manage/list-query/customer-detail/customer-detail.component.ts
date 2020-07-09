@@ -635,7 +635,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             /** 时间信息 */
             compulsoryTime, commercialTime,
             /** 保单派送信息 */
-            receiptDate, receiptName, receiptPhone, sender, receiptRemarks
+            receiptDate, receiptName, receiptPhone, sender, receiptRemarks, receiptAddress
         } = formValue;
         /** 商业险时间 */
         const [commercialStartTime = null, commercialEndTime = null] = commercialTime || [];
@@ -670,8 +670,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             registerTime: new Date(dayjs(registerTime).format('YYYY-MM-DD')), lastCompanyCode,
             validityDate: new Date(dayjs(validityDate).format('YYYY-MM-DD')), 
             commercialEndTime, commercialStartTime, compulsoryEndTime, compulsoryStartTime,
-            usage, purchasePrice, carTypeCode, receiptName, receiptPhone, sender, receiptRemarks,
-            receiptDate: new Date(dayjs(receiptDate).format('YYYY-MM-DD')),
+            usage, purchasePrice, carTypeCode, receiptName, receiptPhone, sender, receiptRemarks, 
+            receiptAddress, receiptDate: new Date(dayjs(receiptDate).format('YYYY-MM-DD')),
             quoteInfo: this.quoteInfo
         });
 

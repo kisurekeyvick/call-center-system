@@ -1,6 +1,6 @@
 {
     "/api":{
-      "target":"http://281e42459f.zicp.vip:23081/",
+      "target":"http://b9kkid4w.xiaomy.net/",
       "secure":false,
       "pathRewrite": {
         "^/api": ""
