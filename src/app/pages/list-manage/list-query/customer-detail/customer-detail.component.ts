@@ -1004,7 +1004,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
      */
     setQuoteInfoToFormControl(customer, quoteInsurance) {
         const { commercialStartTime, commercialEndTime, compulsoryStartTime, compulsoryEndTime } = customer;
-        const { taxActual, commercialSumPremium, compulsorySumPremium } = quoteInsurance;
+        const { taxActual, commercialSumPremium, compulsorySumPremium, realSumPremium, sumPremium } = quoteInsurance;
         this.validateForm.patchValue({
              /** 时间信息 */
             /** 交强险时间 */
@@ -1016,7 +1016,11 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             /** 商业险 */
             commercialSumPremium,
             /** 交强险 */
-            compulsorySumPremium
+            compulsorySumPremium,
+            /** 实收金额 */
+            realSumPremium,
+            /** 开单保费 */
+            sumPremium
         });
     }
 
