@@ -36,7 +36,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzFor="customerName" class="nzFormLabel">姓名</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <input nz-input [nzSize]="'small'" id="customerName" formControlName="customerName"/>
+                                    <input nz-input disabled="formType !== 'add'" [nzSize]="'small'" id="customerName" formControlName="customerName"/>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -44,7 +44,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzFor="idCard" class="nzFormLabel">身份证</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl" [nzErrorTip]="idCardErrorTpl">
-                                    <input nz-input [nzSize]="'small'" id="idCard" formControlName="idCard"/>
+                                    <input nz-input disabled="formType !== 'add'" [nzSize]="'small'" id="idCard" formControlName="idCard"/>
                                 </nz-form-control>
 
                                 <ng-template #idCardErrorTpl let-control>
@@ -61,7 +61,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzFor="customerPhone" class="nzFormLabel">联系电话</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl" [nzErrorTip]="phoneErrorTpl">
-                                    <input nz-input [nzSize]="'small'" id="customerPhone" formControlName="customerPhone"/>
+                                    <input nz-input disabled="formType !== 'add'" [nzSize]="'small'" id="customerPhone" formControlName="customerPhone"/>
                                 </nz-form-control>
 
                                 <ng-template #phoneErrorTpl let-control>
@@ -86,7 +86,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzFor="customerAddress" class="nzFormLabel">联系地址</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <input nz-input [nzSize]="'small'" id="customerAddress" formControlName="customerAddress"/>
+                                    <input nz-input disabled="formType !== 'add'" [nzSize]="'small'" id="customerAddress" formControlName="customerAddress"/>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -122,7 +122,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzFor="brandName" class="nzFormLabel">品牌型号</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <input nz-input [nzSize]="'small'" id="brandName" formControlName="brandName"/>
+                                    <input nz-input disabled="formType !== 'add'" [nzSize]="'small'" id="brandName" formControlName="brandName"/>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -140,7 +140,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzFor="engineNo" class="nzFormLabel">发动机号</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <input nz-input [nzSize]="'small'" id="engineNo" formControlName="engineNo"/>
+                                    <input nz-input disabled="formType !== 'add'" [nzSize]="'small'" id="engineNo" formControlName="engineNo"/>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -157,7 +157,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzFor="registerTime" class="nzFormLabel">初登日期</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-date-picker [nzSize]="'small'" style="width: 100%;" [nzFormat]="'yyyy-MM-dd'" [nzPlaceHolder]="''" id="registerTime" formControlName="registerTime"></nz-date-picker>
+                                    <nz-date-picker disabled="formType !== 'add'" [nzSize]="'small'" style="width: 100%;" [nzFormat]="'yyyy-MM-dd'" [nzPlaceHolder]="''" id="registerTime" formControlName="registerTime"></nz-date-picker>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -204,11 +204,11 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzFor="vinNo" class="nzFormLabel">车架号</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-input-group [nzSuffix]="suffixIconSearch">
-                                        <input nz-input [nzSize]="'small'" id="vinNo" formControlName="vinNo"/>
+                                    <nz-input-group  [nzSuffix]="suffixIconSearch">
+                                        <input nz-input disabled="formType !== 'add'" [nzSize]="'small'" id="vinNo" formControlName="vinNo"/>
                                     </nz-input-group>
                                     <ng-template #suffixIconSearch>
-                                        <button nz-button nzType="primary" [nzSize]="'small'" nzSearch (click)="loadCarInfo()"><i nz-icon nzType="search"></i></button>
+                                        <button disabled="formType !== 'add'" nz-button nzType="primary" [nzSize]="'small'" nzSearch (click)="loadCarInfo()"><i nz-icon nzType="search"></i></button>
                                       </ng-template>
                                 </nz-form-control>
                             </nz-form-item>
