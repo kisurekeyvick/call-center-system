@@ -147,7 +147,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
                 allowancePremium: [null],
                 glassPremium: [null],
                 /** 赠品 */
-                giftId: [null], 
+                giftId: [[]], 
                 /** 时间信息 */
                 compulsoryTime: [],
                 commercialTime: [],
@@ -565,9 +565,15 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
      * @callback
      * @desc 赠品发生改变
      */
-    giftChange(giftId: string) {
+    giftChange(giftId: number[]) {
+        const giftNameStr: string = giftId.reduce((pre, cur, index: number) => {
+            const str: string = findValueName(this.giftList, cur);
+            pre += `${index === 0 ? '' : '、'}${str}`;
+            return pre;
+        }, '');
+
         this.validateForm.patchValue({
-            giftName: findValueName(this.giftList, giftId)
+            giftName: giftNameStr
         });
     }
 

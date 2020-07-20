@@ -75,7 +75,7 @@ export class ListQueryComponent implements OnInit, OnDestroy {
      */
     search() {
         const params = this.formatSearchParams();
-
+        this.pageInfo.pageIndex = 1;
         this.loadQqueryList(params);
     }
 

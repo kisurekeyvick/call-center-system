@@ -174,7 +174,7 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
      */
     search() {
         const params = this.formatSearchParams();
-
+        this.pageInfo.pageIndex = 1;
         this.loadReviewList(params);
     }
 

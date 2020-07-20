@@ -133,7 +133,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
      */
     search() {
         const params = this.formatSearchParams();
-
+        this.pageInfo.pageIndex = 1;
         this.loadCustomerList(params);
     }
 

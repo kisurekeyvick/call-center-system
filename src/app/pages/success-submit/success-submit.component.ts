@@ -112,7 +112,7 @@ export class SuccessSubmitComponent implements OnInit, OnDestroy {
      */
     search() {
         const params = this.formatSearchParams();
-
+        this.pageInfo.pageIndex = 1;
         this.loadSuccessSubmitList(params);
     }
 
