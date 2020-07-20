@@ -254,7 +254,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             receiptDate, receiptAddress } = customer;
         !quoteInsurance && (quoteInsurance = {});
         const { isDiscount, commercialSumPremium, compulsorySumPremium, taxActual, discount,
-            sumPremium, realSumPremium, drivingPremium, allowancePremium, glassPremium, giftId, companyCode } = quoteInsurance;
+            sumPremium, realSumPremium, drivingPremium, allowancePremium, glassPremium, giftId, giftName, giftTotalPrice, companyCode } = quoteInsurance;
         const roleInfo = this.localCache.get(LocalStorageItemName.USERPROFILE);
         const { name } = roleInfo && roleInfo['value'] || { name: '' };
         this.validateForm.patchValue({
@@ -321,7 +321,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             /** 玻璃膜价格 */
             glassPremium,
             /** 赠品 */
-            giftId,
+            giftId: giftId.split('-').map(i => Number(i)),
+            giftTotalPrice,
 
             /** 时间信息 */
             /** 交强险时间 */
@@ -339,7 +340,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             /** 寄件人 */
             sender: sender || name,
             /** 赠品名 */
-            giftName: findValueName(this.giftList, giftId),
+            // giftName: findValueName(this.giftList, giftId),
+            giftName,
             /** 地址 */
             receiptAddress,
             /** 备注 */
@@ -490,9 +492,28 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
      * @callback
      * @desc 赠品发生改变
      */
-    giftChange(giftId: string) {
+    giftChange(giftId: number[]) {
+        const { name, totalPrice } = giftId.reduce((pre, cur: number, index: number) => {
+            let { name: preName, totalPrice: preTotalPrice } = pre;
+            const target = this.giftList.find(item => String(item.value) === String(cur));
+            if (target) {
+                const { giftPrice, giftName } = target;
+                preName += `${index === 0 ? '' : '、'}${giftName}`;
+                preTotalPrice += Number(giftPrice);
+            }
+            
+            return {
+                name: preName, 
+                totalPrice: preTotalPrice
+            };
+        }, {
+            name: '',
+            totalPrice: 0
+        });
+
         this.validateForm.patchValue({
-            giftName: findValueName(this.giftList, giftId)
+            giftName: name,
+            giftTotalPrice: totalPrice
         });
     }
 
@@ -568,7 +589,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             usage, carTypeCode, purchasePrice,
             /** 最终报价 */
             commercialSumPremium, isDiscount, discount, compulsorySumPremium, taxActual, sumPremium, realSumPremium,
-            drivingPremium, allowancePremium, glassPremium, giftId,
+            drivingPremium, allowancePremium, glassPremium, giftId, giftTotalPrice, giftName,
              /** 险种 */
              companyCode,
             /** 时间信息 */
@@ -584,22 +605,24 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
 
         /** 赠品信息 */
         const giftInfo = {
-            giftId: 0,
+            giftId: '',
             giftName: '',
-            giftNumber: 0,
-            giftPrice: 0,
+            // giftNumber: 0,
+            // giftPrice: 0,
             giftTotalPrice: 0
         };
 
-        if (giftId) {
-            const targetGift: IGiftItem = this.giftList.find(gift => gift.id === giftId);
+        if (giftId.length > 0) {
+            // const targetGift: IGiftItem = this.giftList.find(gift => gift.id === giftId);
 
             Object.assign(giftInfo, {
-                giftId,
-                giftName: targetGift.name,
-                giftNumber: 1,
-                giftPrice: targetGift.giftPrice,
-                giftTotalPrice: targetGift.giftPrice,
+                giftId: giftId.reduce((pre, cur, index) => { 
+                    pre += `${index === 0 ? '' : '-'}${String(cur)}`; 
+                    return pre; }, ''),
+                giftName,
+                // giftNumber: 1,
+                // giftPrice: targetGift.giftPrice,
+                giftTotalPrice,
             });
         }
         
