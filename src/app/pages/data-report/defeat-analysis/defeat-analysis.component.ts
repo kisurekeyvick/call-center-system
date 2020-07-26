@@ -100,7 +100,19 @@ export class DefeatAnalysisReportComponent implements OnInit, OnDestroy {
             return item;
         });
 
-        this.tableList.head = source.map((sourceItem: ISource) => ({ userName: sourceItem.userName}));
+        this.tableList.head = source.map((sourceItem: ISource) => {
+            const { failReasonList = [] } = sourceItem;
+            const summary: number = failReasonList.reduce((pre, cur) => {
+                const { number } = cur;
+                pre += number;
+                return pre;
+            }, 0);
+
+            return { 
+                userName: sourceItem.userName,
+                userSummary: summary
+            };
+        });
     }
 
     /**

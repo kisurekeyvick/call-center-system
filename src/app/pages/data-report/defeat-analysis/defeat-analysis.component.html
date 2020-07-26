@@ -32,6 +32,14 @@
                             <td>{{ user.number }}</td>
                         </ng-container>
                     </tr>
+                    <tr>
+                        <td>
+                            战败汇总
+                        </td>
+                        <ng-container *ngFor="let th of tableList.head">
+                            <td class="userSummary-td"><span>{{ th.userSummary }}</span></td>
+                        </ng-container>
+                    </tr>
                 </tbody>
             </nz-table>
         </ng-container>

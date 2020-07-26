@@ -65,11 +65,25 @@ export class StatisticWorkReportComponent implements OnInit, OnDestroy {
      * @param source 
      */
     formatResponseData(source: ISource[]) {
+        /** 计算总客户数 */
+        let total: number = 0;
+        source.forEach((sourceItem: ISource) => {
+            const { customerStatisticsList } = sourceItem;
+            const curStatisticsNumber: number = customerStatisticsList.reduce((pre, cur) => {
+                const { number = 0 } = cur;
+                pre += number;
+                return pre;
+            }, 0);
+
+            total += curStatisticsNumber;
+        });
+
         this.tableList.body = this.appointmentLevelList.map((level: { name: string; value: string; }) => {
             const { value } = level;
             const item = {
                 customerLevel: value,
-                userInfo: []
+                userInfo: [],
+                proportion: ''
             };
 
             source.forEach((sourceItem: ISource) => {
@@ -78,8 +92,25 @@ export class StatisticWorkReportComponent implements OnInit, OnDestroy {
                 item.userInfo.push({ userName, number: target && target.number || 0 });
             });
 
+            /** 计算级别客户的占比 */
+            item.proportion = (() => {
+                if (total === 0) {
+                    return '0%';
+                }
+
+                let levelTotal = item.userInfo.reduce((pre, cur) => {
+                    const { number = 0 } = cur;
+                    pre += number;
+                    return pre;
+                }, 0);
+
+                return ((levelTotal/total) * 100).toFixed(2) + '%';
+            })();
+
             return item;
         });
+
+        console.log('this.tableList.body', this.tableList.body);
 
         this.tableList.head = source.map((sourceItem: ISource) => ({ userName: sourceItem.userName}));
     }

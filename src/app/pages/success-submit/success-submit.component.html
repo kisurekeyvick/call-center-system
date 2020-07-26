@@ -11,6 +11,9 @@
         <div class="search-list-box">
             <search-list [searchListLayout]="searchListLayout" [searchListModel]="searchListModel" [searchListItem]="searchListItem" (onSearch)="search()" (onReseat)="reseat()"></search-list>
         </div>
+        <div class="search-list-menu-group">
+            <button nz-button [nzType]="'primary'" (click)="export()"><i nz-icon nzType="download" nzTheme="outline"></i>导出</button>
+        </div>
         <div class="search-list-table">
             <ng-container *ngIf="!isLoading; else skeleton">
                 <nz-table #list [nzData]="successSubmitList" nzShowPagination="false" [nzScroll]="{ x: '1000px' }" [nzSize]="'middle'">

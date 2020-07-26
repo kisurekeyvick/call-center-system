@@ -38,4 +38,9 @@ export class SuccessSubmitService {
     queryGiftList(params: ICommon = {}): Observable<any> {
         return this.http.post(`api/gift/queryAll`, params);
     }
+
+    /** 列表数据导出 */
+    exportList(params: ICommon = {}): Observable<any> {
+        return this.http.post(`api/order/export`, params);
+    }
 }
