@@ -110,9 +110,19 @@ export class StatisticWorkReportComponent implements OnInit, OnDestroy {
             return item;
         });
 
-        console.log('this.tableList.body', this.tableList.body);
+        this.tableList.head = source.map((sourceItem: ISource) => {
+            const { customerStatisticsList = [] } = sourceItem;
+            const summary: number = customerStatisticsList.reduce((pre, cur) => {
+                const { number } = cur;
+                pre += number;
+                return pre;
+            }, 0);
 
-        this.tableList.head = source.map((sourceItem: ISource) => ({ userName: sourceItem.userName}));
+            return { 
+                userName: sourceItem.userName,
+                userSummary: summary
+            };
+        });
     }
 
     /**

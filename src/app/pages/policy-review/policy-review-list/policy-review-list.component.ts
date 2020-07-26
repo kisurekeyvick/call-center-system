@@ -15,6 +15,8 @@ import { catchError } from 'rxjs/operators';
 import { findValueName } from 'src/app/core/utils/function';
 import * as dayjs from 'dayjs';
 import { ApiService } from 'src/app/api/api.service';
+import { UtilsService } from 'src/app/core/utils/utils.service';
+import { AppService } from 'src/app/app.service';
 
 type ITableCfg = typeof tableConfig;
 type pageChangeType = 'pageIndex' | 'pageSize';
@@ -58,6 +60,8 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
     printList: IPolicyReviewItem[];
     /** 保费总额 */
     allPremium: number | string;
+    /** 是否展示下载按钮 */
+    showExportButton: boolean = false;
 
     constructor(
         private modalService: NzModalService,
@@ -66,7 +70,9 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
         private localCache: LocalStorageService,
         private policyReviewService: PolicyReviewService,
         private apiService: ApiService,
-        private el: ElementRef
+        private el: ElementRef,
+        private utilsService: UtilsService,
+        private appService: AppService,
     ) {
         this.searchListItem = this.rebuildNewSearchListItem([...searchListItem]);
         this.searchListModel = {...searchListModel};
@@ -79,12 +85,29 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
             pageIndex: 1
         });
         this.printList = [];
+        this.showExportButton = this.canShowExportButton();
+        
     }
 
     ngOnInit() {
         this.setSearchListModelValue();
         this.loadTenantList();
         this.search();
+    }
+
+    /**
+     * @func
+     * @desc 是否可以展示导出按钮
+     */
+    canShowExportButton(): boolean {
+        const cacheValue = this.localCache.get(LocalStorageItemName.USERPROFILE);
+        const userInfo: any = cacheValue && cacheValue.value || null;
+        if (userInfo) {
+            const { roleCode } = userInfo;
+            return !(this.appService.SALESMAN_ROLE_CODE === roleCode);
+        }
+
+        return false;
     }
 
     /**
@@ -260,6 +283,21 @@ export class PolicyReviewListComponent implements OnInit, OnDestroy {
      */
     audit(policyReviewItem: IPolicyReviewItem) {
 
+    }
+
+    /**
+     * @callback
+     * @desc 导出客户
+     */
+    exportCustomer() {
+        const params = {
+            httpMethod: 'POST',
+            httpUrl: 'api/customer/export',
+            fileName: '客户列表',
+            requestParams: this.formatSearchParams()
+        };
+
+        this.utilsService.downloadFile(params);
     }
 
     /**

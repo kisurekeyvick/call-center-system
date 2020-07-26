@@ -2,6 +2,15 @@
 
 .statistic-work-report {
     @include listLayout;
+
+    .userSummary-td {
+        span {
+            background-color: #79b5ec;
+            display: block;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+    }
 }
 
 :host ::ng-deep .statistic-work-report {
