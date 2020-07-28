@@ -275,9 +275,10 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             receiptDate, receiptAddress } = customer;
         !quoteInsurance && (quoteInsurance = {});
         const { isDiscount, commercialSumPremium, compulsorySumPremium, taxActual, discount,
-            sumPremium, realSumPremium, drivingPremium, allowancePremium, glassPremium, giftId, giftName, giftTotalPrice, companyCode } = quoteInsurance;
+            sumPremium, realSumPremium, drivingPremium, allowancePremium, glassPremium, giftName, giftTotalPrice, companyCode } = quoteInsurance;
         const roleInfo = this.localCache.get(LocalStorageItemName.USERPROFILE);
         const { name } = roleInfo && roleInfo['value'] || { name: '' };
+        const {  } = giftName;
         this.validateForm.patchValue({
             /** 客户信息 */
             /** 姓名 */
@@ -344,7 +345,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             /** 玻璃膜价格 */
             glassPremium,
             /** 赠品 */
-            giftId: giftId.split('-').map(i => Number(i)),
+            giftId: [], // giftId.split('-').map(i => Number(i)),
             giftTotalPrice,
 
             /** 时间信息 */
