@@ -28,8 +28,11 @@ export const kpiParams = [
         name: '单交强数', 
         code: 'onlyCompulsoryNumber',
     }, {
-        name: '成功率',
+        name: '新保成功率',
         code: 'rate',
+    }, {
+        name: '续保成功率',
+        code: 'renewalRate'
     }
 ];
 

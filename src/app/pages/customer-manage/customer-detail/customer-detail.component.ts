@@ -257,6 +257,8 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             sumPremium, realSumPremium, drivingPremium, allowancePremium, glassPremium, giftId, giftName, giftTotalPrice, companyCode } = quoteInsurance;
         const roleInfo = this.localCache.get(LocalStorageItemName.USERPROFILE);
         const { name } = roleInfo && roleInfo['value'] || { name: '' };
+        const { formatedGiftId, formatedGiftName } = this.formatGiftNameToFormGroup(giftName);
+
         this.validateForm.patchValue({
             /** 客户信息 */
             /** 姓名 */
@@ -321,7 +323,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             /** 玻璃膜价格 */
             glassPremium,
             /** 赠品 */
-            giftId: giftId.split('-').map(i => Number(i)),
+            giftId: formatedGiftId,
             giftTotalPrice,
 
             /** 时间信息 */
@@ -341,12 +343,29 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             sender: sender || name,
             /** 赠品名 */
             // giftName: findValueName(this.giftList, giftId),
-            giftName,
+            giftName: formatedGiftName,
             /** 地址 */
             receiptAddress,
             /** 备注 */
             receiptRemarks
         });
+    }
+
+    /**
+     * @func
+     * @desc 将获取出来的数据分割为id 和 name
+     * @param giftName 
+     */
+    formatGiftNameToFormGroup(outerGiftName: string = ''): { formatedGiftId: number[]; formatedGiftName: string;} {
+        const [name, idArr = ''] = outerGiftName.split('|');
+        const formatedGiftId = idArr.split('-').map(i => {
+            if (i === '') {
+                return undefined;
+            }
+
+            return Number(i);
+        }).filter(i =>i);
+        return { formatedGiftId, formatedGiftName: name };
     }
 
     /**
@@ -577,6 +596,21 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
 
     /**
      * @func
+     * @desc format请求的赠品
+     * @param giftId 
+     * @param giftName 
+     */
+    formatGiftNameToRequestParams(giftId: number[], giftName: string) {
+        const idStr: string = giftId.reduce((pre, cur, index) => { 
+            pre += `${index === 0 ? '' : '-'}${String(cur)}`; 
+            return pre; 
+        }, '');
+
+        return `${giftName}|${idStr}`;
+    }
+
+    /**
+     * @func
      * @desc format将要保存的参数
      */
     formatRequestParams() {
@@ -605,7 +639,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
 
         /** 赠品信息 */
         const giftInfo = {
-            giftId: '',
+            // giftId: '',
             giftName: '',
             // giftNumber: 0,
             // giftPrice: 0,
@@ -616,10 +650,10 @@ export class CustomerDetailComponent implements OnInit, OnDestroy {
             // const targetGift: IGiftItem = this.giftList.find(gift => gift.id === giftId);
 
             Object.assign(giftInfo, {
-                giftId: giftId.reduce((pre, cur, index) => { 
-                    pre += `${index === 0 ? '' : '-'}${String(cur)}`; 
-                    return pre; }, ''),
-                giftName,
+                // giftId: giftId.reduce((pre, cur, index) => { 
+                //     pre += `${index === 0 ? '' : '-'}${String(cur)}`; 
+                //     return pre; }, ''),
+                giftName: this.formatGiftNameToRequestParams(giftId, giftName),
                 // giftNumber: 1,
                 // giftPrice: targetGift.giftPrice,
                 giftTotalPrice,

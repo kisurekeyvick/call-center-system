@@ -19,6 +19,7 @@
                         <th>
                             客户等级
                         </th>
+                        <th>占比</th>
                         <ng-container *ngFor="let th of tableList.head">
                             <th>{{ th.userName }}</th>
                         </ng-container>
@@ -27,10 +28,19 @@
                 <tbody>
                     <tr *ngFor="let data of list.data">
                         <td>{{ data.customerLevel }}</td>
+                        <td>{{ data.proportion }}</td>
                         <ng-container *ngFor="let user of data?.userInfo">
                             <td>{{ user.number }}</td>
                         </ng-container>
                     </tr>
+                    <!-- <tr>
+                        <td>
+                            汇总
+                        </td>
+                        <ng-container *ngFor="let th of tableList.head">
+                            <td class="userSummary-td"><span>{{ th.userSummary }}</span></td>
+                        </ng-container>
+                    </tr> -->
                 </tbody>
             </nz-table>
         </ng-container>

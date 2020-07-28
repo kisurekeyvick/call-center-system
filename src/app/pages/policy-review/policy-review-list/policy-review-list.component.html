@@ -11,6 +11,7 @@
             <search-list [searchListLayout]="searchListLayout" [searchListModel]="searchListModel" [searchListItem]="searchListItem" (onSearch)="search()" (onReseat)="reseat()"></search-list>
         </div>
         <div class="search-list-menu-group">
+            <button nz-button [nzType]="'primary'" (click)="exportCustomer()" *ngIf="showExportButton"><i nz-icon nzType="download" nzTheme="outline"></i>导出</button>
             <button nz-button [nzType]="'primary'" (click)="print()" [disabled]="!canPrint"><i nz-icon nzType="printer" nzTheme="outline"></i>打印</button>
             <!-- <button nz-button [nzType]="'danger'" [disabled]="!canDeleteCustomer" (click)="deleteCustomer()"><i nz-icon nzType="delete" nzTheme="outline"></i>删除</button> -->
         </div>

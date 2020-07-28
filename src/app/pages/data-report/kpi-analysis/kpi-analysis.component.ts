@@ -31,6 +31,8 @@ export class KpiAnalysisReportComponent implements OnInit, OnDestroy {
     /** 是否存在数据 */
     exitData: boolean;
     tableData: ITableData;
+    /** 保费总额 */
+    allPremium: number | string;
 
     constructor(
         private dataReportService: DataReportService,
@@ -41,6 +43,7 @@ export class KpiAnalysisReportComponent implements OnInit, OnDestroy {
         this.searchListModel = {...searchListModel};
         this.searchListLayout = {...searchListLayout};
         this.exitData = false;
+        this.allPremium = 0;
     }
 
     ngOnInit() {
@@ -117,7 +120,23 @@ export class KpiAnalysisReportComponent implements OnInit, OnDestroy {
      */
     formatReportData(res: IChartData) {
         const { body, header } = res;
-        this.tableData.header = header;
+        this.tableData.header = header.map((item, index: number) => {
+            item.count = body.reduce((pre, cur) => {
+                const { columns } = cur;
+                const value = columns[index]['value'];
+                pre += value;
+                return pre;
+            }, 0);
+
+            return item;
+        });
+
+        this.allPremium = this.tableData.header.reduce((pre, cur) => {
+            const { count } = cur;
+            pre += count;
+            return pre;
+        }, 0);
+
         this.tableData.body = body;
     }
 

@@ -122,7 +122,8 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy, DoCheck {
             allowancePremium: [null],
             glassPremium: [null],
             /** 赠品 */
-            giftId: [null], 
+            giftId: [[]], 
+            giftTotalPrice: [],
             /** 时间信息 */
             compulsoryTime: [],
             commercialTime: [],
@@ -332,7 +333,8 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy, DoCheck {
             commercialSumPremium, compulsorySumPremium, receiptAddress, commercialEndTime, 
             commercialStartTime, compulsoryEndTime, compulsoryStartTime, customerRemark } = customerOrder;
         const { isDiscount, discount, taxActual, sumPremium, realSumPremium, drivingPremium, 
-            allowancePremium, glassPremium, giftId } = quoteInsurance;
+            allowancePremium, glassPremium, giftId, giftName } = quoteInsurance;
+        const { formatedGiftId, formatedGiftName } = this.formatGiftNameToFormGroup(giftName);
         this.validateForm.patchValue({
             /** 投保公司 */
             companyCode,
@@ -391,7 +393,7 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy, DoCheck {
             /** 玻璃膜价格 */
             glassPremium,
             /** 赠品 */
-            giftId,
+            giftId: formatedGiftId,
 
             /** 时间信息 */
             /** 交强险时间 */
@@ -408,7 +410,7 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy, DoCheck {
             /** 寄件人 */
             sender,
             /** 赠品名 */
-            giftName: findValueName(this.giftList, giftId),
+            giftName: formatedGiftName, //findValueName(this.giftList, giftId),
             /** 地址 */
             receiptAddress,
             /** 备注 */
@@ -416,6 +418,23 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy, DoCheck {
         });
 
         return Promise.resolve(true);
+    }
+
+    /**
+     * @func
+     * @desc 将获取出来的数据分割为id 和 name
+     * @param giftName 
+     */
+    formatGiftNameToFormGroup(outerGiftName: string = ''): { formatedGiftId: number[]; formatedGiftName: string;} {
+        const [name, idArr = ''] = outerGiftName.split('|');
+        const formatedGiftId = idArr.split('-').map(i => {
+            if (i === '') {
+                return undefined;
+            }
+
+            return Number(i);
+        }).filter(i =>i);
+        return { formatedGiftId, formatedGiftName: name };
     }
 
     /**
@@ -457,9 +476,28 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy, DoCheck {
      * @callback
      * @desc 赠品发生改变
      */
-    giftChange(giftId: string) {
+    giftChange(giftId: number[]) {
+        const { name, totalPrice } = giftId.reduce((pre, cur: number, index: number) => {
+            let { name: preName, totalPrice: preTotalPrice } = pre;
+            const target = this.giftList.find(item => String(item.value) === String(cur));
+            if (target) {
+                const { giftPrice, giftName } = target;
+                preName += `${index === 0 ? '' : '、'}${giftName}`;
+                preTotalPrice += Number(giftPrice);
+            }
+            
+            return {
+                name: preName, 
+                totalPrice: preTotalPrice
+            };
+        }, {
+            name: '',
+            totalPrice: 0
+        });
+
         this.validateForm.patchValue({
-            giftName: findValueName(this.giftList, giftId)
+            giftName: name,
+            giftTotalPrice: totalPrice
         });
     }
 
@@ -501,6 +539,21 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy, DoCheck {
 
     /**
      * @func
+     * @desc format请求的赠品
+     * @param giftId 
+     * @param giftName 
+     */
+    formatGiftNameToRequestParams(giftId: number[], giftName: string) {
+        const idStr: string = giftId.reduce((pre, cur, index) => { 
+            pre += `${index === 0 ? '' : '-'}${String(cur)}`; 
+            return pre; 
+        }, '');
+
+        return `${giftName}|${idStr}`;
+    }
+
+    /**
+     * @func
      * @desc format将要保存的参数
      */
     formatRequestParams() {
@@ -517,7 +570,7 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy, DoCheck {
             usage, carTypeCode, purchasePrice,
             /** 最终报价 */
             commercialSumPremium, isDiscount, discount, compulsorySumPremium, taxActual, sumPremium, realSumPremium,
-            drivingPremium, allowancePremium, glassPremium, giftId,
+            drivingPremium, allowancePremium, glassPremium, giftId, giftTotalPrice, giftName,
             /** 时间信息 */
             compulsoryTime, commercialTime,
             /** 保单派送信息 */
@@ -530,22 +583,22 @@ export class PolicyReviewDetailComponent implements OnInit, OnDestroy, DoCheck {
 
         /** 赠品信息 */
         const giftInfo = {
-            giftId: 0,
+            // giftId: 0,
             giftName: '',
-            giftNumber: 0,
-            giftPrice: 0,
+            // giftNumber: 0,
+            // giftPrice: 0,
             giftTotalPrice: 0
         };
 
         if (giftId) {
-            const targetGift: IGiftItem = this.giftList.find(gift => gift.id === giftId);
+            // const targetGift: IGiftItem = this.giftList.find(gift => gift.id === giftId);
 
             Object.assign(giftInfo, {
-                giftId,
-                giftName: targetGift.name,
-                giftNumber: 1,
-                giftPrice: targetGift.giftPrice,
-                giftTotalPrice: targetGift.giftPrice,
+                // giftId,
+                giftName: this.formatGiftNameToRequestParams(giftId, giftName), //targetGift.name,
+                // giftNumber: 1,
+                // giftPrice: targetGift.giftPrice,
+                giftTotalPrice
             });
         }
 

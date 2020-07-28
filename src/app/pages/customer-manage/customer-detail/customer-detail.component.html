@@ -326,7 +326,7 @@
                             <nz-form-item class="nzFormItem">
                                 <nz-form-label nz-col nzXs="8" nzFor="giftId" class="nzFormLabel">赠送礼品</nz-form-label>
                                 <nz-form-control nz-col nzXs="16" class="nzFormControl">
-                                    <nz-select nzShowSearch [nzSize]="'small'" nzAllowClear id="giftId" formControlName="giftId" (ngModelChange)="giftChange($event)">
+                                    <nz-select nzShowSearch nzMode="tags" [nzSize]="'small'" nzAllowClear id="giftId" formControlName="giftId" (ngModelChange)="giftChange($event)">
                                         <nz-option *ngFor="let option of giftList" [nzLabel]="option.name" [nzValue]="option.value"></nz-option>
                                     </nz-select>
                                 </nz-form-control>

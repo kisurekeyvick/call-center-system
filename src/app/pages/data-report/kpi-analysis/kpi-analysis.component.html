@@ -35,8 +35,17 @@
                             <td>{{ column.value }}</td>
                         </ng-container>
                     </tr>
+                    <tr *ngIf="tableData.header.length !== 0">
+                        <td>汇总</td>
+                        <ng-container *ngFor="let user of tableData.header">
+                            <td>{{ user.count }}</td>
+                        </ng-container>
+                    </tr>
                 </tbody>
             </nz-table>
+            <div class="allpremium" *ngIf="tableData.header.length !== 0">
+                <nz-tag [nzColor]="'blue'">汇总：{{ allPremium }}</nz-tag>
+            </div>
         </ng-container>
         <ng-template #skeleton>
             <nz-skeleton [nzActive]="true"></nz-skeleton>

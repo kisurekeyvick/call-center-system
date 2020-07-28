@@ -2,6 +2,11 @@
 
 .kpi-analysis-report {
     @include listLayout;
+
+    .allpremium {
+        text-align: right;
+        margin: 12px 0 0 0;
+    }
 }
 
 :host ::ng-deep .kpi-analysis-report {

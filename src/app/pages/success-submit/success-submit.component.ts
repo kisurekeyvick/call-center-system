@@ -14,6 +14,7 @@ import { catchError } from 'rxjs/operators';
 import { findValueName } from 'src/app/core/utils/function';
 import * as dayjs from 'dayjs';
 import { ApiService } from 'src/app/api/api.service';
+import { UtilsService } from 'src/app/core/utils/utils.service';
 
 type ITableCfg = typeof tableConfig;
 type pageChangeType = 'pageIndex' | 'pageSize';
@@ -55,7 +56,8 @@ export class SuccessSubmitComponent implements OnInit, OnDestroy {
         private router: Router,
         private localCache: LocalStorageService,
         private successSubmitService: SuccessSubmitService,
-        private apiService: ApiService
+        private apiService: ApiService,
+        private utilsService: UtilsService
     ) {
         this.searchListItem = [...searchListItem];
         this.searchListModel = {...searchListModel};
@@ -123,6 +125,21 @@ export class SuccessSubmitComponent implements OnInit, OnDestroy {
     reseat() {
         this.pageInfo.pageIndex = 1;
         this.searchListModel = {...searchListModel};
+    }
+
+    /**
+     * @callback
+     * @desc 打印
+     */
+    export() {
+        const params = {
+            httpMethod: 'POST',
+            httpUrl: 'api/order/export',
+            fileName: '成功保单列表',
+            requestParams: this.formatSearchParams()
+        };
+
+        this.utilsService.downloadFile(params);
     }
 
     /**

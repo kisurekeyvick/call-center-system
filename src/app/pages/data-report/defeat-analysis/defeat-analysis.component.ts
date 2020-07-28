@@ -84,11 +84,25 @@ export class DefeatAnalysisReportComponent implements OnInit, OnDestroy {
      * @param source 
      */
     formatResponseData(source: ISource[]) {
+        /** 计算总客户数 */
+        let total: number = 0;
+        source.forEach((sourceItem: ISource) => {
+            const { failReasonList = [] } = sourceItem;
+            const curStatisticsNumber: number = failReasonList.reduce((pre, cur) => {
+                const { number = 0 } = cur;
+                pre += number;
+                return pre;
+            }, 0);
+
+            total += curStatisticsNumber;
+        });
+
         this.tableList.body = this.defeatReasonList.map(defeat => {
             const { defeatReason } = defeat;
             const item = {
                 defeatReason,
-                userInfo: []
+                userInfo: [],
+                proportion: ''
             };
 
             source.forEach((sourceItem: ISource) => {
@@ -97,10 +111,37 @@ export class DefeatAnalysisReportComponent implements OnInit, OnDestroy {
                 item['userInfo'].push({ userName, number: target && target.number || 0 });
             });
 
+            /** 计算级别客户的占比 */
+            item.proportion = (() => {
+                if (total === 0) {
+                    return '0%';
+                }
+
+                let levelTotal = item.userInfo.reduce((pre, cur) => {
+                    const { number = 0 } = cur;
+                    pre += number;
+                    return pre;
+                }, 0);
+
+                return ((levelTotal/total) * 100).toFixed(2) + '%';
+            })();
+
             return item;
         });
 
-        this.tableList.head = source.map((sourceItem: ISource) => ({ userName: sourceItem.userName}));
+        this.tableList.head = source.map((sourceItem: ISource) => {
+            const { failReasonList = [] } = sourceItem;
+            const summary: number = failReasonList.reduce((pre, cur) => {
+                const { number } = cur;
+                pre += number;
+                return pre;
+            }, 0);
+
+            return { 
+                userName: sourceItem.userName,
+                userSummary: summary
+            };
+        });
     }
 
     /**

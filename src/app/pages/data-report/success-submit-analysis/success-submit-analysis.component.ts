@@ -93,7 +93,10 @@ export class SuccessSubmitAnalysisReportComponent implements OnInit, OnDestroy {
 
             if (!(res instanceof TypeError)) {
                 // this.buildEchartReport(res);
-                this.sourceList = res;
+                this.sourceList = res.map(item => {
+                    item.rate = Number(item.rate).toFixed(3);
+                    return item;
+                });
             }
         });
     }
