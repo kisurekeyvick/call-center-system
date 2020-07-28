@@ -43,6 +43,8 @@ export class SetOrderFinanceFormModalComponent implements OnInit, OnDestroy {
         });
     }
 
+    calculate() {}
+
     /**
      * @func
      * @desc 整理请求参数

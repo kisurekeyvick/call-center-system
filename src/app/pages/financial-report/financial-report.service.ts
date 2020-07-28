@@ -51,4 +51,9 @@ export class FinancialReportService {
     setOrderFinance(params: ICommon = {}): Observable<any> {
         return this.http.post(`api/finance/order-finance`, params);
     }
+
+    /** 险种查询 */
+    financeQuery(params: ICommon = {}): Observable<any> {
+        return this.http.post(`api/finance/query`, params);
+    }
 }
